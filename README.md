@@ -25,6 +25,7 @@ npm run preview
 - `npm run build` - cek TypeScript dan build produksi
 - `npm test` - unit test engine validasi, skor, dan insiden (Vitest)
 - `npm run lint` - Oxlint
+- `npm run test:e2e` - E2E Playwright
 - `npm run preview` - pratinjau hasil build
 
 ## Misi
@@ -54,6 +55,8 @@ npm run preview
 
 - Tokoh utama: **Iga**, teknisi jaringan.
 - Papan order menampilkan tiga pekerjaan; order terkunci sampai level sebelumnya lulus.
+- Papan order adalah navigasi level utama; dropdown level sudah dihapus.
+- Playwright menguji alur order, Escape modal, dan fallback WebGL di CI.
 - Setiap level dibuka lewat order customer dan dialog dua avatar.
 - Setelah misi, laporan customer dan tombol kembali ke kantor tersedia.
 - Profil menyimpan uang, XP, level, reputasi, hari, dan rekor bintang.
@@ -75,8 +78,9 @@ npm run preview
 - Kunci level ditegakkan di store, bukan hanya di tampilan.
 - Notifikasi changelog muncul saat versi berubah.
 - Service worker menampilkan tombol muat ulang saat update PWA tersedia.
-- Modal memiliki focus trap dan Escape; CI menjalankan test, lint, dan build.
-- Versi aplikasi saat ini: **0.3.4**.
+- Modal memiliki focus trap dan Escape; CI menjalankan test, lint, E2E, dan build.
+- Versi dan cache service worker disinkronkan dari package.json.
+- Versi aplikasi saat ini: **0.4.0**.
 
 ## Kantor 3D
 
@@ -121,6 +125,8 @@ untuk atribusi.
 React 19, TypeScript, Vite, React Flow (`@xyflow/react`), Three.js,
 React Three Fiber, Zustand, Zod, Vitest. Progres topologi disimpan di
 `localStorage`.
+
+
 
 
 

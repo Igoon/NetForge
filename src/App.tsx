@@ -12,27 +12,21 @@ import { TimerHud } from './components/TimerHud'
 import { TopologyCanvas } from './components/TopologyCanvas'
 import { UpdateNotice } from './components/UpdateNotice'
 import { LEVELS } from './data/levels'
-import {
-  isDevUnlockAll,
-  isLevelUnlocked,
-} from './data/profile'
 import { useGameStore } from './store/gameStore'
-import { useProfileStore } from './store/profileStore'
 
 const INTRO_KEY = 'netforge.intro.v1'
 
 function GameShell() {
   const levelId = useGameStore((state) => state.levelId)
+  const level = useGameStore((state) => state.level)
   const nodes = useGameStore((state) => state.nodes)
   const edges = useGameStore((state) => state.edges)
   const passed = useGameStore((state) => state.passed)
   const simulating = useGameStore((state) => state.simulating)
   const timerState = useGameStore((state) => state.timerState)
-  const selectLevel = useGameStore((state) => state.selectLevel)
+  const openOrderBoard = useGameStore((state) => state.openOrderBoard)
   const resetLevel = useGameStore((state) => state.resetLevel)
   const simulate = useGameStore((state) => state.simulate)
-  const profile = useProfileStore((state) => state.profile)
-  const devUnlock = isDevUnlockAll()
   const currentIndex = LEVELS.findIndex((level) => level.id === levelId)
 
   return (
@@ -56,22 +50,12 @@ function GameShell() {
             {String(currentIndex + 1).padStart(2, '0')} /{' '}
             {String(LEVELS.length).padStart(2, '0')}
           </span>
-          <select
-            className="level-select"
-            value={levelId}
-            onChange={(event) => selectLevel(event.target.value)}
-          >
-            {LEVELS.map((level) => {
-              const unlocked =
-                devUnlock || isLevelUnlocked(profile, level.id)
-              return (
-                <option key={level.id} value={level.id} disabled={!unlocked}>
-                  {level.name}
-                  {unlocked ? '' : ' - terkunci'}
-                </option>
-              )
-            })}
-          </select>
+          <span className="level-current">{level.name}</span>
+          {timerState === 'ready' ? (
+            <button className="topbar-order-button" onClick={openOrderBoard}>
+              Papan order
+            </button>
+          ) : null}
           <TimerHud />
         </div>
 

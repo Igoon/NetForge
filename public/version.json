@@ -1,11 +1,10 @@
 {
-  "version": "0.3.4",
-  "title": "Kantor siap kerja dan akses keyboard",
+  "version": "0.4.0",
+  "title": "Papan order sebagai navigasi utama",
   "highlights": [
-    "Panel kantor menggantikan panel misi saat menunggu order.",
-    "Tombol Sapa Iga, Rani, Darma, dan customer.",
-    "Modal memiliki focus trap dan tombol Escape.",
-    "Animasi 3D menghormati prefers-reduced-motion.",
-    "Konstanta skor dan payout disatukan."
+    "Dropdown level diganti papan order.",
+    "E2E Playwright berjalan di CI.",
+    "Versi dan cache PWA otomatis dari package.json.",
+    "Render 3D lebih hemat dan mendukung reduced motion."
   ]
 }

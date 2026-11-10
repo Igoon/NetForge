@@ -1,14 +1,13 @@
-export const APP_VERSION = '0.3.4'
+export const APP_VERSION = __APP_VERSION__
 export const VERSION_SEEN_KEY = 'netforge.seenVersion.v1'
 
 export const LATEST_UPDATE = {
   version: APP_VERSION,
-  title: 'Kantor siap kerja dan akses keyboard',
+  title: 'Papan order sebagai navigasi utama',
   items: [
-    'Panel kantor menggantikan panel misi saat menunggu order.',
-    'Tombol Sapa Iga, Rani, Darma, dan customer.',
-    'Modal memiliki focus trap dan tombol Escape.',
-    'Animasi 3D menghormati prefers-reduced-motion.',
-    'Konstanta skor dan payout disatukan.',
+    'Dropdown level diganti papan order.',
+    'E2E Playwright berjalan di CI.',
+    'Versi dan cache PWA otomatis dari package.json.',
+    'Render 3D lebih hemat dan mendukung reduced motion.',
   ],
 }

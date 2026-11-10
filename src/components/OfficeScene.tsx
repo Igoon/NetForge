@@ -435,6 +435,7 @@ const IGA: PersonAppearance = {
 }
 
 export function OfficeScene({ onOpenOrder }: OfficeSceneProps) {
+  const reduceMotion = useReducedMotion()
   const levelId = useGameStore((state) => state.levelId)
   const orderAccepted = useGameStore((state) => state.orderAccepted)
   const upgrades = useProfileStore((state) => state.profile.upgrades)
@@ -458,7 +459,8 @@ export function OfficeScene({ onOpenOrder }: OfficeSceneProps) {
     <div className="office-hub">
       <Canvas
         orthographic
-        dpr={[1, 1.5]}
+        frameloop={reduceMotion ? 'demand' : 'always'}
+        dpr={[1, 1.25]}
         camera={{ position: [9, 9, 9], zoom: 62, near: 0.1, far: 100 }}
         gl={{ antialias: true, alpha: false }}
         onCreated={({ camera }) => camera.lookAt(0, 0.6, 0)}
@@ -601,6 +603,7 @@ export function OfficeScene({ onOpenOrder }: OfficeSceneProps) {
     </div>
   )
 }
+
 
 
 
