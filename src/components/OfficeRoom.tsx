@@ -1,9 +1,13 @@
 import { useState } from 'react'
 import { CUSTOMER_ORDERS } from '../data/customers'
+import type { Profile } from '../data/profile'
 import {
   OFFICE_BRIEFINGS,
   OFFICE_NPCS,
   briefingNote,
+  npcLineFor,
+  officeTier,
+  storyBeatFor,
   type OfficeBriefing,
   type OfficeNpc,
 } from '../data/officeStory'
@@ -28,12 +32,12 @@ type Dialogue =
       kind: 'customer'
     }
 
-function npcDialogue(npc: OfficeNpc): Dialogue {
+function npcDialogue(npc: OfficeNpc, profile: Profile): Dialogue {
   return {
     kind: 'npc',
     name: npc.name,
     role: npc.role,
-    line: npc.line,
+    line: npcLineFor(npc.id, profile),
   }
 }
 
@@ -62,6 +66,8 @@ export function OfficeRoom({ onOpenOrder }: OfficeRoomProps) {
   const customer = order?.customer
   const npc = dialogue?.kind === 'npc' ? dialogue : null
   const note = briefingNote(briefing)
+  const story = storyBeatFor(profile)
+  const tier = officeTier(profile)
 
   const closeDialogue = () => {
     setDialogue(null)
@@ -91,10 +97,11 @@ export function OfficeRoom({ onOpenOrder }: OfficeRoomProps) {
   )
 
   return (
-    <div className="office-room">
+    <div className="office-room" data-tier={tier}>
       <OfficeRoomArt
         cableTray={profile.upgrades.cableTray}
         ups={profile.upgrades.ups}
+        tier={tier}
       />
 
       <div className="office-room-top">
@@ -103,11 +110,7 @@ export function OfficeRoom({ onOpenOrder }: OfficeRoomProps) {
             Kantor NetForge / shift {profile.day}
           </span>
           <strong>Ruang kerja Iga</strong>
-          <small>
-            {note
-              ? 'Briefing hari ini sudah dicatat.'
-              : 'Temui customer atau klik papan order.'}
-          </small>
+          <small>{story.title}</small>
         </div>
         <button className="office-room-board-button" onClick={onOpenOrder}>
           Papan order
@@ -118,7 +121,7 @@ export function OfficeRoom({ onOpenOrder }: OfficeRoomProps) {
         <button
           className={`office-actor office-actor-${npc.position}`}
           key={npc.id}
-          onClick={() => setDialogue(npcDialogue(npc))}
+          onClick={() => setDialogue(npcDialogue(npc, profile))}
           aria-label={`Sapa ${npc.name}`}
         >
           <PixelSprite
@@ -164,12 +167,9 @@ export function OfficeRoom({ onOpenOrder }: OfficeRoomProps) {
         <div className="office-room-footer">
           <div className="office-room-briefing">
             <span className="office-room-briefing-label">
-              {note ? 'Catatan briefing' : 'Belum ada briefing'}
+              {note ? 'Catatan briefing' : 'Jurnal shift'}
             </span>
-            <p>
-              {note ??
-                'Pelanggan menunggu di kantor. Bicaralah dulu untuk memahami masalahnya.'}
-            </p>
+            <p>{note ?? story.line}</p>
           </div>
           <div className="office-room-footer-actions">
             <button

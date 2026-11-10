@@ -85,3 +85,43 @@ test('kantor 2D memakai sprite pixel tanpa kanvas 3D', async ({ page }) => {
   await expect(page.locator('.office-room .pixel-sprite')).toHaveCount(4)
   await expect(page.locator('.office-room canvas')).toHaveCount(0)
 })
+
+test('jurnal kantor mengikuti progres misi', async ({ page }) => {
+  await page.evaluate(() => {
+    localStorage.setItem(
+      'netforge.profile.v1',
+      JSON.stringify({
+        money: 500,
+        xp: 300,
+        reputation: 35,
+        day: 4,
+        levels: {
+          'first-cable': {
+            bestScore: 95,
+            stars: 3,
+            completions: 1,
+          },
+          'tiny-switch': {
+            bestScore: 92,
+            stars: 3,
+            completions: 1,
+          },
+        },
+        upgrades: {
+          toolbox: false,
+          cableTray: true,
+          ups: false,
+        },
+      }),
+    )
+  })
+  await page.reload()
+
+  await expect(page.locator('.office-room-top small')).toHaveText(
+    'Kantor yang lebih tenang',
+  )
+  await expect(page.locator('.office-room-briefing p')).toContainText(
+    'Kantor Pak Hasan berhenti berteriak',
+  )
+  await expect(page.locator('.office-room')).toHaveAttribute('data-tier', '2')
+})

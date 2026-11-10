@@ -80,7 +80,7 @@ npm run preview
 - Service worker menampilkan tombol muat ulang saat update PWA tersedia.
 - Modal memiliki focus trap dan Escape; CI menjalankan test, lint, E2E, dan build.
 - Versi dan cache service worker disinkronkan dari package.json.
-- Versi aplikasi saat ini: **0.5.0**.
+- Versi aplikasi saat ini: **0.6.0**.
 
 ## Kantor 2D pixel art
 
@@ -88,6 +88,8 @@ npm run preview
 - Papan order, meja, rak server, tanaman, dan upgrade kantor tampil sebagai bagian dari scene.
 - Klik karakter untuk berdialog; customer memberi pilihan briefing sebelum berangkat.
 - Pilihan briefing dicatat dan ditampilkan di panel misi, order, dan laporan customer.
+- Jurnal shift dan dialog NPC berubah mengikuti misi terakhir yang selesai.
+- Kantor berevolusi dari bintang: foto klien, rak penghargaan, dan piala bertambah.
 - Customer berjalan masuk saat kantor siap dan kembali ke laporan setelah misi.
 - Animasi sprite, LED rak, dan walk-in dinonaktifkan saat prefers-reduced-motion.
 - Papan topologi misi tetap 2D agar IP, port, dan jalur mudah dibaca.

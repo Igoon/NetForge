@@ -1,6 +1,7 @@
 interface OfficeRoomArtProps {
   cableTray: boolean
   ups: boolean
+  tier: number
 }
 
 function Monitor({ x, y, accent }: { x: number; y: number; accent: string }) {
@@ -67,7 +68,11 @@ function Cat({ x, y }: { x: number; y: number }) {
   )
 }
 
-export function OfficeRoomArt({ cableTray, ups }: OfficeRoomArtProps) {
+export function OfficeRoomArt({
+  cableTray,
+  ups,
+  tier,
+}: OfficeRoomArtProps) {
   return (
     <svg
       className="office-room-art"
@@ -260,6 +265,45 @@ export function OfficeRoomArt({ cableTray, ups }: OfficeRoomArtProps) {
           <rect x="794" y="358" width="6" height="4" fill="#fbbf24" />
           <rect x="780" y="368" width="22" height="4" fill="#134e4a" />
         </>
+      ) : null}
+
+      {tier >= 1 ? (
+        <g>
+          <rect x="300" y="178" width="36" height="42" fill="#6c5a48" />
+          <rect x="305" y="183" width="26" height="32" fill="#f8f5ed" />
+          <rect x="309" y="188" width="18" height="12" fill="#b7791f" />
+          <rect x="311" y="203" width="14" height="3" fill="#8b96a3" />
+          <rect x="311" y="209" width="10" height="3" fill="#8b96a3" />
+          <rect x="344" y="178" width="36" height="42" fill="#6c5a48" />
+          <rect x="349" y="183" width="26" height="32" fill="#f8f5ed" />
+          <rect x="353" y="188" width="18" height="12" fill="#3d7ea6" />
+          <rect x="355" y="203" width="14" height="3" fill="#8b96a3" />
+          <rect x="355" y="209" width="10" height="3" fill="#8b96a3" />
+        </g>
+      ) : null}
+
+      {tier >= 2 ? (
+        <g>
+          <rect x="294" y="224" width="94" height="7" fill="#8e7355" />
+          <rect x="302" y="231" width="7" height="14" fill="#6c5a48" />
+          <rect x="373" y="231" width="7" height="14" fill="#6c5a48" />
+          <rect x="330" y="202" width="4" height="16" fill="#b7791f" />
+          <rect x="322" y="198" width="20" height="6" fill="#fbbf24" />
+          <rect x="326" y="194" width="12" height="4" fill="#fde68a" />
+          <rect x="336" y="204" width="10" height="2" fill="#fbbf24" />
+          <rect x="342" y="200" width="2" height="8" fill="#fbbf24" />
+        </g>
+      ) : null}
+
+      {tier >= 3 ? (
+        <g>
+          <rect x="468" y="58" width="22" height="10" fill="#b7791f" />
+          <rect x="472" y="54" width="14" height="6" fill="#fbbf24" />
+          <rect x="496" y="53" width="22" height="15" fill="#b7791f" />
+          <rect x="500" y="48" width="14" height="7" fill="#fde68a" />
+          <rect x="524" y="58" width="22" height="10" fill="#b7791f" />
+          <rect x="528" y="54" width="14" height="6" fill="#fbbf24" />
+        </g>
       ) : null}
 
       <Plant x={36} y={210} />
