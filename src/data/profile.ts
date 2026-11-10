@@ -1,5 +1,10 @@
 import { z } from 'zod'
 import { LEVELS } from './levels'
+import {
+  BASE_PAYOUT,
+  PAYOUT_PER_SCORE,
+  STAR_THRESHOLDS,
+} from './balance'
 
 export type UpgradeId = 'toolbox' | 'cableTray' | 'ups'
 
@@ -79,9 +84,9 @@ const profileSchema = z.object({
 })
 
 export function starsForScore(score: number): 0 | 1 | 2 | 3 {
-  if (score >= 90) return 3
-  if (score >= 70) return 2
-  if (score >= 50) return 1
+  if (score >= STAR_THRESHOLDS.three) return 3
+  if (score >= STAR_THRESHOLDS.two) return 2
+  if (score >= STAR_THRESHOLDS.one) return 1
   return 0
 }
 
@@ -140,7 +145,9 @@ export function recordMission(
 
   const previous = profile.levels[levelId]
   const replay = (previous?.completions ?? 0) > 0
-  const money = Math.round((120 + safeScore * 2) * (replay ? 0.4 : 1))
+  const money = Math.round(
+    (BASE_PAYOUT + safeScore * PAYOUT_PER_SCORE) * (replay ? 0.4 : 1),
+  )
   const xp = Math.round((25 + safeScore * 0.6) * (replay ? 0.5 : 1))
   const reputation = Math.round(
     ([0, 3, 6, 10][stars] ?? 0) * (replay ? 0.5 : 1),
@@ -227,3 +234,5 @@ export function saveProfile(profile: Profile): void {
     // Profil tetap hidup di memori jika penyimpanan diblokir.
   }
 }
+
+

@@ -2,6 +2,7 @@ import { Canvas, useFrame, useThree, type ThreeEvent } from '@react-three/fiber'
 import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 import { CUSTOMER_ORDERS, type CustomerProfile } from '../data/customers'
+import { useReducedMotion } from '../lib/useReducedMotion'
 import { useGameStore } from '../store/gameStore'
 import { useProfileStore } from '../store/profileStore'
 
@@ -43,9 +44,10 @@ function Led({
   phase: number
 }) {
   const materialRef = useRef<THREE.MeshStandardMaterial>(null)
+  const reduceMotion = useReducedMotion()
 
   useFrame(({ clock }) => {
-    if (!materialRef.current) return
+    if (reduceMotion || !materialRef.current) return
     materialRef.current.emissiveIntensity =
       0.7 + Math.sin(clock.getElapsedTime() * 2.4 + phase) * 0.55
   })
@@ -77,6 +79,7 @@ function LowPolyPerson({
 }: PersonProps) {
   const bodyRef = useRef<THREE.Group>(null)
   const [hovered, setHovered] = useState(false)
+  const reduceMotion = useReducedMotion()
 
   useEffect(() => {
     if (!hovered) return
@@ -87,7 +90,7 @@ function LowPolyPerson({
   }, [hovered])
 
   useFrame(({ clock }) => {
-    if (!bodyRef.current) return
+    if (reduceMotion || !bodyRef.current) return
     const time = clock.getElapsedTime()
     bodyRef.current.position.y = Math.sin(time * 1.45 + phase) * 0.012
     bodyRef.current.rotation.y = Math.sin(time * 0.55 + phase) * 0.035
@@ -181,9 +184,10 @@ function LowPolyPerson({
 
 function Cat({ position }: { position: [number, number, number] }) {
   const groupRef = useRef<THREE.Group>(null)
+  const reduceMotion = useReducedMotion()
 
   useFrame(({ clock }) => {
-    if (!groupRef.current) return
+    if (reduceMotion || !groupRef.current) return
     const time = clock.getElapsedTime()
     groupRef.current.position.y = Math.sin(time * 1.8) * 0.015
     groupRef.current.rotation.y = Math.sin(time * 0.7) * 0.14
@@ -280,9 +284,10 @@ function ServerRack({ position }: { position: [number, number, number] }) {
 
 function Plant({ position }: { position: [number, number, number] }) {
   const groupRef = useRef<THREE.Group>(null)
+  const reduceMotion = useReducedMotion()
 
   useFrame(({ clock }) => {
-    if (!groupRef.current) return
+    if (reduceMotion || !groupRef.current) return
     groupRef.current.rotation.z = Math.sin(clock.getElapsedTime() * 0.8) * 0.025
   })
 
@@ -380,9 +385,10 @@ function WalkingCustomer({
   onTalk: (target: TalkTarget) => void
 }) {
   const groupRef = useRef<THREE.Group>(null)
+  const reduceMotion = useReducedMotion()
 
   useFrame(({ clock }) => {
-    if (!groupRef.current) return
+    if (reduceMotion || !groupRef.current) return
     const progress = Math.min(1, Math.max(0, (clock.getElapsedTime() - 1.2) / 3))
     const eased = progress * progress * (3 - 2 * progress)
     groupRef.current.position.x = THREE.MathUtils.lerp(-4.1, -1.45, eased)
@@ -390,7 +396,10 @@ function WalkingCustomer({
   })
 
   return (
-    <group ref={groupRef} position={[-4.1, 0, 2.15]}>
+    <group
+      ref={groupRef}
+      position={reduceMotion ? [-1.45, 0, -1.35] : [-4.1, 0, 2.15]}
+    >
       <LowPolyPerson
         position={[0, 0, 0]}
         shirt={customer.shirt}
@@ -552,6 +561,24 @@ export function OfficeScene({ onOpenOrder }: OfficeSceneProps) {
         <small>Klik karakter untuk menyapa.</small>
       </div>
 
+      <div className="office-people" aria-label="Karakter kantor">
+        <button onClick={() => setSpeech(igaTalk)}>Sapa Iga</button>
+        <button onClick={() => setSpeech(raniTalk)}>Sapa Rani</button>
+        <button onClick={() => setSpeech(darmaTalk)}>Sapa Darma</button>
+        {customerOrder && !orderAccepted ? (
+          <button
+            onClick={() =>
+              setSpeech({
+                name: customerOrder.name,
+                line: customerOrder.line,
+              })
+            }
+          >
+            Sapa customer
+          </button>
+        ) : null}
+      </div>
+
       {speech ? (
         <div className="office-speech" role="status">
           <div>
@@ -574,6 +601,7 @@ export function OfficeScene({ onOpenOrder }: OfficeSceneProps) {
     </div>
   )
 }
+
 
 
 

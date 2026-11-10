@@ -1,3 +1,4 @@
+import { MAX_ORDER_PAYOUT } from '../data/balance'
 import { CUSTOMER_ORDERS } from '../data/customers'
 import { LEVELS } from '../data/levels'
 import {
@@ -5,6 +6,7 @@ import {
   isLevelUnlocked,
 } from '../data/profile'
 import { formatDuration } from '../lib/format'
+import { useDialogA11y } from '../lib/useDialogA11y'
 import { useGameStore } from '../store/gameStore'
 import { useProfileStore } from '../store/profileStore'
 import { CustomerAvatar } from './CustomerAvatar'
@@ -19,8 +21,10 @@ export function OrderBoardModal() {
   const selectLevel = useGameStore((state) => state.selectLevel)
   const profile = useProfileStore((state) => state.profile)
   const devUnlock = isDevUnlockAll()
+  const isOpen = timerState === 'ready' && !orderAccepted && orderBoardOpen
+  const dialogRef = useDialogA11y<HTMLElement>(isOpen, closeOrderBoard)
 
-  if (timerState !== 'ready' || orderAccepted || !orderBoardOpen) return null
+  if (!isOpen) return null
 
   const currentIndex = LEVELS.findIndex((level) => level.id === levelId)
   const candidateIndexes = [
@@ -51,6 +55,8 @@ export function OrderBoardModal() {
     <div className="order-board-overlay">
       <section
         className="order-board-modal"
+        ref={dialogRef}
+        tabIndex={-1}
         role="dialog"
         aria-modal="true"
         aria-labelledby="order-board-title"
@@ -106,7 +112,7 @@ export function OrderBoardModal() {
                 <p>{level.name}</p>
                 <div className="order-choice-meta">
                   <span>Target {formatDuration(level.parSeconds)}</span>
-                  <span>Hingga Rp320</span>
+                  <span>Hingga Rp{MAX_ORDER_PAYOUT}</span>
                 </div>
                 {!unlocked ? (
                   <small>Selesaikan level sebelumnya untuk membuka order ini.</small>
@@ -119,3 +125,4 @@ export function OrderBoardModal() {
     </div>
   )
 }
+

@@ -1,13 +1,14 @@
-export const APP_VERSION = '0.3.3'
+export const APP_VERSION = '0.3.4'
 export const VERSION_SEEN_KEY = 'netforge.seenVersion.v1'
 
 export const LATEST_UPDATE = {
   version: APP_VERSION,
-  title: 'Fallback WebGL dan pengamanan data graf',
+  title: 'Kantor siap kerja dan akses keyboard',
   items: [
-    'Kantor 2D tetap bisa dipakai jika WebGL tidak tersedia.',
-    'Error boundary mencegah layar kosong saat scene 3D gagal.',
-    'Data graf dari localStorage divalidasi dengan Zod.',
-    'Node/edge rusak dan edge tanpa tujuan otomatis dibuang.',
+    'Panel kantor menggantikan panel misi saat menunggu order.',
+    'Tombol Sapa Iga, Rani, Darma, dan customer.',
+    'Modal memiliki focus trap dan tombol Escape.',
+    'Animasi 3D menghormati prefers-reduced-motion.',
+    'Konstanta skor dan payout disatukan.',
   ],
 }

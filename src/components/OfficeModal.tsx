@@ -1,6 +1,7 @@
-import { useEffect } from 'react'
 import { SHOP_UPGRADES } from '../data/shop'
+import { TOTAL_STARS } from '../data/balance'
 import { totalStars, xpProgress } from '../data/profile'
+import { useDialogA11y } from '../lib/useDialogA11y'
 import { useProfileStore } from '../store/profileStore'
 import { CharacterAvatar } from './CharacterAvatar'
 
@@ -31,14 +32,7 @@ export function OfficeModal({ onClose }: OfficeModalProps) {
   const buyUpgrade = useProfileStore((state) => state.buyUpgrade)
   const xp = xpProgress(profile.xp)
   const stars = totalStars(profile)
-
-  useEffect(() => {
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose()
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [onClose])
+  const dialogRef = useDialogA11y<HTMLElement>(true, onClose)
 
   return (
     <div
@@ -50,6 +44,8 @@ export function OfficeModal({ onClose }: OfficeModalProps) {
     >
       <section
         className="office-modal"
+        ref={dialogRef}
+        tabIndex={-1}
         role="dialog"
         aria-modal="true"
         aria-labelledby="office-title"
@@ -76,7 +72,7 @@ export function OfficeModal({ onClose }: OfficeModalProps) {
               <strong>Rp {profile.money.toLocaleString('id-ID')}</strong>
             </div>
             <div className="office-meta">
-              Reputasi {profile.reputation}/100 · Bintang {stars}/15
+              Reputasi {profile.reputation}/100 · Bintang {stars}/{TOTAL_STARS}
             </div>
           </div>
 
@@ -142,3 +138,5 @@ export function OfficeModal({ onClose }: OfficeModalProps) {
     </div>
   )
 }
+
+

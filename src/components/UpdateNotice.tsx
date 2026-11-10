@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useDialogA11y } from '../lib/useDialogA11y'
 import {
   APP_VERSION,
   LATEST_UPDATE,
@@ -64,6 +65,7 @@ export function UpdateNotice() {
       // abaikan
     }
   }
+  const dialogRef = useDialogA11y<HTMLElement>(showNotes, closeNotes)
 
   return (
     <>
@@ -96,6 +98,8 @@ export function UpdateNotice() {
         >
           <section
             className="update-modal"
+            ref={dialogRef}
+            tabIndex={-1}
             role="dialog"
             aria-modal="true"
             aria-labelledby="update-title"
@@ -121,3 +125,4 @@ export function UpdateNotice() {
     </>
   )
 }
+

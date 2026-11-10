@@ -5,6 +5,7 @@ import { Inspector } from './components/Inspector'
 import { IntroScreen } from './components/IntroScreen'
 import { InventoryPanel } from './components/InventoryPanel'
 import { LevelPanel } from './components/LevelPanel'
+import { OfficeReadyPanel } from './components/OfficeReadyPanel'
 import { Palette } from './components/Palette'
 import { ProfilePanel } from './components/ProfilePanel'
 import { TimerHud } from './components/TimerHud'
@@ -91,8 +92,14 @@ function GameShell() {
 
       <main className="workspace">
         <aside className="left-column">
-          <LevelPanel />
-          <IncidentPanel />
+          {timerState === 'ready' ? (
+            <OfficeReadyPanel />
+          ) : (
+            <>
+              <LevelPanel />
+              <IncidentPanel />
+            </>
+          )}
         </aside>
 
         <section className="canvas-column">

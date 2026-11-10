@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { TOTAL_STARS } from '../data/balance'
 import { totalStars, xpProgress } from '../data/profile'
 import { useProfileStore } from '../store/profileStore'
 import { CharacterAvatar } from './CharacterAvatar'
@@ -38,7 +39,7 @@ export function ProfilePanel() {
           </div>
           <div>
             <span>Bintang</span>
-            <strong>{stars}/15</strong>
+            <strong>{stars}/{TOTAL_STARS}</strong>
           </div>
         </div>
 
@@ -59,3 +60,4 @@ export function ProfilePanel() {
     </>
   )
 }
+

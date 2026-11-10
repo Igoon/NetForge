@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { MAX_ORDER_PAYOUT } from '../data/balance'
 import {
   CUSTOMER_ORDERS,
   type CustomerOrder,
 } from '../data/customers'
 import { formatDuration } from '../lib/format'
+import { useDialogA11y } from '../lib/useDialogA11y'
 import { useGameStore } from '../store/gameStore'
 import { CharacterAvatar } from './CharacterAvatar'
 import { CustomerAvatar } from './CustomerAvatar'
@@ -34,13 +36,17 @@ export function CustomerOrderModal() {
   const closeOrder = useGameStore((state) => state.closeOrder)
   const [detailOpen, setDetailOpen] = useState(false)
   const order = CUSTOMER_ORDERS[level.id] ?? FALLBACK_ORDER
+  const isOpen = timerState === 'ready' && !orderAccepted && orderOpen
+  const dialogRef = useDialogA11y<HTMLElement>(isOpen, closeOrder)
 
-  if (timerState !== 'ready' || orderAccepted || !orderOpen) return null
+  if (!isOpen) return null
 
   return (
     <div className="loadout-overlay order-overlay">
       <section
         className="order-card"
+        ref={dialogRef}
+        tabIndex={-1}
         role="dialog"
         aria-modal="true"
         aria-labelledby="order-title"
@@ -97,7 +103,7 @@ export function CustomerOrderModal() {
           </div>
           <div>
             <span>Bayaran</span>
-            <strong>hingga Rp320</strong>
+            <strong>hingga Rp{MAX_ORDER_PAYOUT}</strong>
           </div>
         </div>
 
@@ -117,4 +123,7 @@ export function CustomerOrderModal() {
     </div>
   )
 }
+
+
+
 

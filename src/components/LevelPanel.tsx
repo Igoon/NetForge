@@ -1,4 +1,6 @@
 import { CUSTOMER_ORDERS } from '../data/customers'
+import { STAR_THRESHOLDS } from '../data/balance'
+import { starsForScore } from '../data/profile'
 import { LEVELS } from '../data/levels'
 import { CustomerAvatar } from './CustomerAvatar'
 import { useGameStore } from '../store/gameStore'
@@ -24,21 +26,13 @@ export function LevelPanel() {
   const activeIncidents = incidents.filter(
     (incident) => incident.status === 'active',
   ).length
-  const stars = !passed
-    ? 0
-    : score >= 90
-      ? 3
-      : score >= 70
-        ? 2
-        : score >= 50
-          ? 1
-          : 0
+  const stars = passed ? starsForScore(score) : 0
   const customerOrder = CUSTOMER_ORDERS[levelId]
   const customerReaction = !cleared
     ? 'Pekerjaan selesai, tetapi kualitasnya belum memenuhi ekspektasi. Coba lagi.'
-    : score >= 90
+    : score >= STAR_THRESHOLDS.three
       ? 'Customer sangat puas. Relasinya meningkat pesat.'
-      : score >= 70
+      : score >= STAR_THRESHOLDS.two
         ? 'Customer puas dengan hasil kerja Iga.'
         : 'Customer cukup puas, meski masih ada ruang perbaikan.'
 
@@ -207,4 +201,6 @@ export function LevelPanel() {
     </section>
   )
 }
+
+
 
