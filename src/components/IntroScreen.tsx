@@ -1,4 +1,6 @@
 import { DeviceGlyph } from './DeviceGlyph'
+import { APP_VERSION } from '../data/version'
+import { NetForgeWordmark } from './NetForgeWordmark'
 
 interface IntroScreenProps {
   onStart: () => void
@@ -27,11 +29,10 @@ export function IntroScreen({ onStart }: IntroScreenProps) {
       <section className="intro-stage">
         <div className="intro-heading">
           <span className="eyebrow">Shift pertama · 08:00</span>
-          <h1>Jaringan belum siap.</h1>
+          <NetForgeWordmark />
           <p>
-            Iga, teknisi baru di kantor ini. Kabel belum rapi, dan gangguan
-            sudah menunggu. Susun topologi, atur perangkat, lalu selamatkan
-            shift hari ini.
+            Jaringan belum siap. Iga, teknisi baru di kantor ini, harus
+            merapikan kabel dan menghadapi gangguan sebelum shift berakhir.
           </p>
         </div>
 
@@ -85,7 +86,7 @@ export function IntroScreen({ onStart }: IntroScreenProps) {
           <span>01 Bangun topologi</span>
           <span>02 Atur IP / VLAN</span>
           <span>03 Tangani gangguan</span>
-          <span className="intro-version">NetForge v0.1</span>
+          <span className="intro-version">NetForge v{APP_VERSION}</span>
         </div>
       </section>
     </main>

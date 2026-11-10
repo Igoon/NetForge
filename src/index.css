@@ -136,7 +136,109 @@ button:disabled {
 }
 
 .intro-heading {
-  max-width: 760px;
+  max-width: 960px;
+}
+
+.intro-wordmark-wrap {
+  position: relative;
+  margin-top: 8px;
+}
+
+.intro-wordmark {
+  margin: 0;
+  line-height: 0;
+}
+
+.wordmark-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.wordmark-letters text {
+  fill: var(--ink);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 112px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.wordmark-lost {
+  animation: wordmark-lost 1400ms 1000ms ease forwards;
+}
+
+.wordmark-dots {
+  animation: wordmark-dots 500ms 800ms ease forwards;
+}
+
+.wordmark-t {
+  transform-box: view-box;
+  transform-origin: center;
+  animation: wordmark-t 1800ms 1100ms cubic-bezier(0.65, 0, 0.2, 1) forwards;
+}
+
+.intro-version-balloon {
+  position: absolute;
+  right: 4%;
+  bottom: -10px;
+  z-index: 2;
+  padding: 6px 11px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: #fde68a;
+  box-shadow: 3px 3px 0 var(--ink);
+  color: var(--ink);
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  transform: rotate(-5deg);
+  animation: wordmark-balloon 460ms 3000ms ease forwards;
+}
+
+.intro-version-balloon::after {
+  content: '';
+  position: absolute;
+  left: 13px;
+  bottom: -8px;
+  width: 11px;
+  height: 11px;
+  border-right: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
+  background: #fde68a;
+  transform: rotate(45deg);
+}
+
+@keyframes wordmark-lost {
+  to {
+    opacity: 0;
+    transform: translateY(-9px) scale(0.92);
+  }
+}
+
+@keyframes wordmark-dots {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes wordmark-t {
+  to {
+    transform: translateX(-805px);
+  }
+}
+
+@keyframes wordmark-balloon {
+  from {
+    opacity: 0;
+    transform: rotate(-5deg) scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(-5deg) scale(1);
+  }
 }
 
 .intro-heading h1 {
@@ -144,6 +246,13 @@ button:disabled {
   font-size: clamp(38px, 5vw, 64px);
   line-height: 0.98;
   letter-spacing: -0.045em;
+}
+
+.intro-heading h1.intro-wordmark {
+  margin: 0;
+  font-size: 0;
+  line-height: 0;
+  letter-spacing: 0;
 }
 
 .intro-heading p {
@@ -2559,8 +2668,25 @@ button:disabled {
   .incident-card,
   .intro-panel,
   .intro-sfx,
-  .intro-token {
+  .intro-token,
+  .wordmark-lost,
+  .wordmark-dots,
+  .wordmark-t,
+  .intro-version-balloon {
     animation: none !important;
+  }
+
+  .wordmark-lost,
+  .wordmark-dots {
+    opacity: 0;
+  }
+
+  .wordmark-t {
+    transform: translateX(-805px);
+  }
+
+  .intro-version-balloon {
+    opacity: 1;
   }
 }
 

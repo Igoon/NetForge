@@ -1,10 +1,10 @@
 {
-  "version": "0.2.0",
-  "title": "Iga, kantor, dan progresi karier",
+  "version": "0.2.1",
+  "title": "Intro baru: NEVER FORGET menjadi NET FORGE",
   "highlights": [
-    "Profil Iga dengan uang, XP, reputasi, dan bintang.",
-    "Level terkunci sampai misi sebelumnya lulus.",
-    "Hadiah misi dan pencatatan skor terbaik.",
-    "Kantor dan toko upgrade perlengkapan."
+    "Animasi wordmark dengan huruf T berpindah ke depan.",
+    "Balon komik versi di akhir intro.",
+    "Kantor Iga, toko upgrade, dan progresi level.",
+    "Profil tervalidasi dengan backup data."
   ]
 }

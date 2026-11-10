@@ -70,7 +70,7 @@ npm run preview
 - Kunci level ditegakkan di store, bukan hanya di tampilan.
 - Notifikasi changelog muncul saat versi berubah.
 - Service worker menampilkan tombol muat ulang saat update PWA tersedia.
-- Versi aplikasi saat ini: **0.2.0**.
+- Versi aplikasi saat ini: **0.2.1**.
 
 ## Deploy GitHub Pages dan PWA
 
