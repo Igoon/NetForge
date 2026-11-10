@@ -58,7 +58,19 @@ npm run preview
 - Skor menentukan bintang: 3 bintang >=90, 2 bintang >=70, 1 bintang >=50.
 - Misi yang lulus memberi uang, XP, dan reputasi. Pengulangan tetap mengurangi hadiah.
 - Tombol level berikutnya hanya muncul jika misi sudah lulus.
+- Kantor Iga berisi tiga NPC dan toko upgrade: toolbox, cable tray, dan UPS.
+- Toolbox mempercepat restock; cable tray dan UPS mencegah insiden terkait.
 - Data profil disimpan terpisah di `localStorage`.
+
+## Keamanan dan update
+
+- Profil divalidasi dengan Zod, nilai di-clamp, dan data lama disimpan sebagai backup.
+- Bintang dan hadiah dihitung ulang dari skor; data bintang kiriman klien tidak dipercaya.
+- Pembelian upgrade memeriksa kepemilikan dan saldo uang.
+- Kunci level ditegakkan di store, bukan hanya di tampilan.
+- Notifikasi changelog muncul saat versi berubah.
+- Service worker menampilkan tombol muat ulang saat update PWA tersedia.
+- Versi aplikasi saat ini: **0.2.0**.
 
 ## Deploy GitHub Pages dan PWA
 

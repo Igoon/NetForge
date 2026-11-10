@@ -22,6 +22,7 @@ import {
   consumeItem,
   emptyInventory,
   RESTOCK_SECONDS,
+  TOOLBOX_RESTOCK_SECONDS,
   type Inventory,
   type InventoryItem,
 } from '../data/inventory'
@@ -30,7 +31,6 @@ import { LEVELS } from '../data/levels'
 import {
   isDevUnlockAll,
   isLevelUnlocked,
-  starsForScore,
   type MissionReward,
 } from '../data/profile'
 import { useProfileStore } from './profileStore'
@@ -490,10 +490,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
     let runSettled = state.runSettled
     let lastReward = state.lastReward
     if (passed && !state.runSettled) {
-      const stars = starsForScore(breakdown.total)
       const result = useProfileStore
         .getState()
-        .recordMission(level.id, breakdown.total, stars)
+        .recordMission(level.id, breakdown.total)
       cleared = result.cleared
       runSettled = true
       lastReward = result.reward
@@ -580,12 +579,16 @@ export const useGameStore = create<GameStore>((set, get) => ({
     for (const item of state.loadout) {
       inventory[item] = 1
     }
+    const upgrades = useProfileStore.getState().profile.upgrades
+    const preventions: IncidentType[] = []
+    if (upgrades.cableTray) preventions.push('cat')
+    if (upgrades.ups) preventions.push('blackout')
     set({
       inventory,
+      preventions,
       elapsed: 0,
       timerState: 'running',
       incidents: [],
-      preventions: [],
       triggeredCount: 0,
       nextIncidentAt: FIRST_INCIDENT_AT,
     })
@@ -596,9 +599,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const state = get()
     if (state.timerState === 'ready' || state.timerState === 'complete') return
     if (!state.loadout.includes(item)) return
+    const upgrades = useProfileStore.getState().profile.upgrades
+    const restockSeconds = upgrades.toolbox
+      ? TOOLBOX_RESTOCK_SECONDS
+      : RESTOCK_SECONDS
     set({
       inventory: { ...state.inventory, [item]: state.inventory[item] + 1 },
-      elapsed: state.elapsed + RESTOCK_SECONDS,
+      elapsed: state.elapsed + restockSeconds,
     })
     get().recalculateScore()
   },

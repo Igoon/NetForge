@@ -56,6 +56,7 @@ export const STARTING_INVENTORY: Inventory = {
 }
 
 export const RESTOCK_SECONDS = 15
+export const TOOLBOX_RESTOCK_SECONDS = 8
 
 export function emptyInventory(): Inventory {
   return {

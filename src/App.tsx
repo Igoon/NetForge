@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { ReactFlowProvider } from '@xyflow/react'
 import { IncidentPanel } from './components/IncidentPanel'
 import { Inspector } from './components/Inspector'
@@ -9,6 +9,7 @@ import { Palette } from './components/Palette'
 import { ProfilePanel } from './components/ProfilePanel'
 import { TimerHud } from './components/TimerHud'
 import { TopologyCanvas } from './components/TopologyCanvas'
+import { UpdateNotice } from './components/UpdateNotice'
 import { LEVELS } from './data/levels'
 import {
   isDevUnlockAll,
@@ -122,9 +123,10 @@ function GameShell() {
                 : 'Misi berjalan'}
           </span>
         </div>
-        <span className="status-hint">
-          NetForge v0.1 - prototipe simulasi jaringan
-        </span>
+        <div className="status-right">
+          <UpdateNotice />
+          <span className="status-hint">prototipe simulasi jaringan</span>
+        </div>
       </footer>
     </div>
   )
@@ -160,4 +162,3 @@ export default function App() {
     </ReactFlowProvider>
   )
 }
-

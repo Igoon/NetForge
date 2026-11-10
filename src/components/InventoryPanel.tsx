@@ -1,16 +1,23 @@
 import { useState } from 'react'
 import {
   INVENTORY_DEFS,
+  RESTOCK_SECONDS,
+  TOOLBOX_RESTOCK_SECONDS,
 } from '../data/inventory'
 import { isSoundEnabled, toggleSound } from '../lib/sound'
 import { useGameStore } from '../store/gameStore'
+import { useProfileStore } from '../store/profileStore'
 
 export function InventoryPanel() {
   const inventory = useGameStore((state) => state.inventory)
   const loadout = useGameStore((state) => state.loadout)
   const timerState = useGameStore((state) => state.timerState)
   const restockItem = useGameStore((state) => state.restockItem)
+  const upgrades = useProfileStore((state) => state.profile.upgrades)
   const [soundOn, setSoundOn] = useState(isSoundEnabled)
+  const restockSeconds = upgrades.toolbox
+    ? TOOLBOX_RESTOCK_SECONDS
+    : RESTOCK_SECONDS
 
   if (timerState === 'ready') return null
 
@@ -49,7 +56,7 @@ export function InventoryPanel() {
                 <small>
                   {count === 0
                     ? canRestock
-                      ? 'Kosong · restock +15s'
+                      ? `Kosong · restock +${restockSeconds}s`
                       : 'Habis'
                     : `${count} tersedia`}
                 </small>
@@ -62,7 +69,7 @@ export function InventoryPanel() {
               <button
                 className="inventory-card is-empty is-restock"
                 key={item}
-                title={`Restock ${definition.label} dengan biaya 15 detik`}
+                title={`Restock ${definition.label} dengan biaya ${restockSeconds} detik`}
                 onClick={() => restockItem(item)}
               >
                 {content}
@@ -83,7 +90,7 @@ export function InventoryPanel() {
       </div>
       <p className="inventory-hint">
         Gunakan barang agar pulih tanpa penalti waktu. Barang kosong bisa
-        di-restock dengan biaya 15 detik.
+        di-restock dengan biaya {restockSeconds} detik.
       </p>
     </section>
   )

@@ -1,13 +1,14 @@
-const CACHE_NAME = 'netforge-shell-v1'
+const CACHE_NAME = 'netforge-shell-v2'
 const scopeUrl = new URL('./', self.registration.scope).href
 const indexUrl = new URL('index.html', scopeUrl).href
 const manifestUrl = new URL('manifest.webmanifest', scopeUrl).href
+const versionUrl = new URL('version.json', scopeUrl).href
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches
       .open(CACHE_NAME)
-      .then((cache) => cache.addAll([scopeUrl, indexUrl, manifestUrl]))
+      .then((cache) => cache.addAll([scopeUrl, indexUrl, manifestUrl, versionUrl]))
       .catch(() => undefined)
       .then(() => self.skipWaiting()),
   )
