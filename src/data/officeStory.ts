@@ -156,6 +156,17 @@ export const OFFICE_STORY_BEATS: Record<string, OfficeStoryBeat> = {
       darma: 'Kerja rapi hari ini adalah iklan untuk besok. Jangan biarkan reputasi mengalahkan kebiasaan baik.',
     },
   },
+  'cafe-expansion': {
+    id: 'cafe-expansion',
+    title: 'Pelanggan tetap pertama',
+    line:
+      'Kafe Bu Sari kini punya dua lantai dan satu jaringan. Pelanggan pertama itu kembali menjadi pelanggan tetap.',
+    npcs: {
+      iga: 'Bu Sari percaya pada kita untuk kafe yang lebih besar. Kali ini tidak boleh ada kabel yang menggantung.',
+      rani: 'Bu Sari bilang kafe cabangnya akan dibuka bulan depan. Kita harus siap dengan order yang lebih sering.',
+      darma: 'Pelanggan yang kembali adalah tanda kerja kita diingat. Jaga kebiasaan rapi itu.',
+    },
+  },
 }
 
 export function storyBeatFor(profile: Profile): OfficeStoryBeat {

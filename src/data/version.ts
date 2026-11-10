@@ -3,11 +3,11 @@ export const VERSION_SEEN_KEY = 'netforge.seenVersion.v1'
 
 export const LATEST_UPDATE = {
   version: APP_VERSION,
-  title: 'Kantor yang tumbuh bersama cerita',
+  title: 'Panduan shift dan pelanggan tetap',
   items: [
-    'Jurnal shift berubah sesuai misi terakhir.',
-    'Dialog NPC mengikuti progres cerita.',
-    'Foto, rak, dan piala kantor bertambah dari bintang.',
-    'Test progres kantor ditambahkan.',
+    'Tutorial lima langkah untuk shift pertama.',
+    'Panduan bisa dibuka lagi dari kantor.',
+    'Bu Sari kembali dengan order Kafe Dua Lantai.',
+    'Level baru: dua switch, router, printer, dan DHCP.',
   ],
 }

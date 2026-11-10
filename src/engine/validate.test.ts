@@ -113,6 +113,24 @@ describe('validateLevel', () => {
     expect(validateLevel(level, nodes, edges).passed).toBe(true)
   })
 
+  it('memvalidasi jaringan dua lantai kafe', () => {
+    const level = LEVELS[5]
+    const nodes = configuredNodes(5, {
+      'pc-kasir': { dhcp: true },
+      'pc-dapur': { dhcp: true },
+      'printer-kasir': { dhcp: true },
+      'rt-1': { dhcp: true },
+    })
+    const edges = [
+      edge('e1', 'pc-kasir', 'sw-1'),
+      edge('e2', 'printer-kasir', 'sw-1'),
+      edge('e3', 'pc-dapur', 'sw-2'),
+      edge('e4', 'sw-1', 'sw-2'),
+      edge('e5', 'sw-2', 'rt-1'),
+    ]
+    expect(validateLevel(level, nodes, edges).passed).toBe(true)
+  })
+
   it('memisahkan VLAN tamu dan staf', () => {
     const level = LEVELS[4]
     const nodes = configuredNodes(4, {

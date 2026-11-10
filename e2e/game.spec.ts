@@ -2,9 +2,21 @@ import { expect, test } from '@playwright/test'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/?skipIntro=1')
-  await page.evaluate(() => localStorage.clear())
+  await page.evaluate(() => {
+    localStorage.clear()
+    localStorage.setItem('netforge.tutorial.v1', '1')
+  })
   await page.reload()
   await expect(page.locator('.office-ready-panel')).toBeVisible()
+})
+
+test('panduan shift pertama tampil untuk pemain baru', async ({ page }) => {
+  await page.evaluate(() => localStorage.removeItem('netforge.tutorial.v1'))
+  await page.reload()
+  await expect(page.locator('.tutorial-overlay')).toBeVisible()
+  await expect(page.locator('.tutorial-steps li')).toHaveCount(5)
+  await page.getByRole('button', { name: /Mengerti, mulai shift/ }).click()
+  await expect(page.locator('.tutorial-overlay')).toBeHidden()
 })
 
 test('order customer sampai laporan dan kembali ke kantor', async ({

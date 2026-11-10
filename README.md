@@ -35,6 +35,7 @@ npm run preview
 3. Dua Subnet - routing dan gateway.
 4. DHCP Kantor - konfigurasi DHCP.
 5. VLAN Tamu - segmentasi VLAN dan isolasi tamu.
+6. Kafe Dua Lantai - pelanggan tetap, dua switch, printer, dan DHCP.
 
 ## Skor dan insiden
 
@@ -80,13 +81,15 @@ npm run preview
 - Service worker menampilkan tombol muat ulang saat update PWA tersedia.
 - Modal memiliki focus trap dan Escape; CI menjalankan test, lint, E2E, dan build.
 - Versi dan cache service worker disinkronkan dari package.json.
-- Versi aplikasi saat ini: **0.6.0**.
+- Versi aplikasi saat ini: **0.7.0**.
 
 ## Kantor 2D pixel art
 
 - Kantor Iga tampil sebagai scene pixel art 2D dengan sprite Iga, Mbak Rani, Pak Darma, customer, dan kucing.
 - Papan order, meja, rak server, tanaman, dan upgrade kantor tampil sebagai bagian dari scene.
 - Klik karakter untuk berdialog; customer memberi pilihan briefing sebelum berangkat.
+- Panduan lima langkah muncul otomatis di shift pertama dan bisa dibuka lagi lewat tombol Panduan.
+- Bu Sari kembali sebagai pelanggan tetap pada level Kafe Dua Lantai.
 - Pilihan briefing dicatat dan ditampilkan di panel misi, order, dan laporan customer.
 - Jurnal shift dan dialog NPC berubah mengikuti misi terakhir yang selesai.
 - Kantor berevolusi dari bintang: foto klien, rak penghargaan, dan piala bertambah.

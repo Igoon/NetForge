@@ -197,6 +197,53 @@ const rawLevels: Level[] = [
       'Validasi memakai aturan VLAN: dua VLAN berbeda tidak boleh saling menjangkau.',
     ],
   },
+  {
+    id: 'cafe-expansion',
+    name: 'Kafe Dua Lantai',
+    tagline: 'Pelanggan lama, tantangan baru.',
+    brief:
+      'Bu Sari kembali. Kafenya sekarang punya dua lantai, satu printer kasir, dan tiga perangkat yang harus langsung mendapat alamat otomatis. Sambungkan kedua lantai lewat switch dan router.',
+    parSeconds: 300,
+    palette: [],
+    initialNodes: [
+      makeNode('pc-kasir', 'pc', 'PC Kasir', 40, 120),
+      makeNode('pc-dapur', 'pc', 'PC Dapur', 40, 420),
+      makeNode('printer-kasir', 'printer', 'Printer Kasir', 260, 270),
+      makeNode('sw-1', 'switch', 'Switch Lantai 1', 500, 130),
+      makeNode('sw-2', 'switch', 'Switch Lantai 2', 500, 410),
+      makeNode('rt-1', 'router', 'Router Kafe', 780, 270, {
+        ip: '192.168.50.1',
+        subnet: '255.255.255.0',
+      }),
+    ],
+    objectives: [
+      {
+        id: 'cafe-connected',
+        label: 'Semua perangkat kafe saling terhubung',
+        kind: 'all-connected',
+        nodes: [
+          'pc-kasir',
+          'pc-dapur',
+          'printer-kasir',
+          'sw-1',
+          'sw-2',
+          'rt-1',
+        ],
+      },
+      {
+        id: 'cafe-dhcp',
+        label: 'Tiga perangkat kafe mendapat DHCP dari router',
+        kind: 'dhcp',
+        clients: ['pc-kasir', 'pc-dapur', 'printer-kasir'],
+        providers: ['rt-1'],
+      },
+    ],
+    hints: [
+      'Hubungkan PC Kasir dan Printer ke Switch Lantai 1, lalu PC Dapur ke Switch Lantai 2.',
+      'Hubungkan kedua switch, lalu sambungkan Switch Lantai 2 ke Router Kafe.',
+      'Aktifkan DHCP pada router dan ketiga perangkat klien.',
+    ],
+  },
 ]
 
 export const LEVELS: Level[] = rawLevels.map((level) => {

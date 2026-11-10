@@ -1,10 +1,10 @@
 {
-  "version": "0.6.0",
-  "title": "Kantor yang tumbuh bersama cerita",
+  "version": "0.7.0",
+  "title": "Panduan shift dan pelanggan tetap",
   "highlights": [
-    "Jurnal shift berubah sesuai misi terakhir.",
-    "Dialog NPC mengikuti progres cerita.",
-    "Foto, rak, dan piala kantor bertambah dari bintang.",
-    "Test progres kantor ditambahkan."
+    "Tutorial lima langkah untuk shift pertama.",
+    "Panduan bisa dibuka lagi dari kantor.",
+    "Bu Sari kembali dengan order Kafe Dua Lantai.",
+    "Level baru: dua switch, router, printer, dan DHCP."
   ]
 }

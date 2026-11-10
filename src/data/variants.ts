@@ -136,6 +136,24 @@ export function getLevelVariant(levelId: string, seed: string): Level {
     ]
   }
 
+  if (level.id === 'cafe-expansion') {
+    const routerOctet = randomInt(rng, 40, 80)
+    const routerIp = `10.${routerOctet}.1.1`
+    const router = level.initialNodes.find((node) => node.id === 'rt-1')
+    if (router) {
+      router.data.config = {
+        ...router.data.config,
+        ip: routerIp,
+        subnet: '255.255.255.0',
+      }
+    }
+    level.hints = [
+      'Hubungkan PC Kasir dan Printer ke Switch Lantai 1, lalu PC Dapur ke Switch Lantai 2.',
+      `Hubungkan kedua switch, lalu sambungkan Switch Lantai 2 ke Router Kafe (${routerIp}).`,
+      'Aktifkan DHCP pada router dan ketiga perangkat klien.',
+    ]
+  }
+
   if (level.id === 'guest-vlan') {
     const vlanChoices = shuffled(rng, VLAN_POOL)
     const vlanA = vlanChoices[0]

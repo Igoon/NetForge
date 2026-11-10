@@ -92,4 +92,20 @@ export const CUSTOMER_ORDERS: Record<string, CustomerOrder> = {
       skin: '#d9a273',
     },
   },
+  'cafe-expansion': {
+    levelId: 'cafe-expansion',
+    orderTitle: 'Dua lantai, satu jaringan',
+    igaLine:
+      'Saya sambungkan kedua lantai lewat switch dan router, lalu biarkan DHCP mengurus alamat perangkat.',
+    customer: {
+      name: 'Bu Sari',
+      role: 'Pemilik kafe',
+      line: 'Kafe saya sekarang dua lantai. Printer kasir dan PC dapur harus langsung terhubung tanpa saya atur satu per satu.',
+      detail: 'Jangan biarkan kabel antar-lantai berantakan. Printer kasir harus bisa dijangkau dari kedua lantai.',
+      accent: '#b7791f',
+      hair: '#3c2a21',
+      shirt: '#b7791f',
+      skin: '#e8b98c',
+    },
+  },
 }

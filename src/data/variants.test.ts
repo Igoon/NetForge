@@ -43,7 +43,7 @@ describe('variasi level', () => {
       expect(variant.id).toBe(level.id)
       expect(variant.objectives.length).toBe(level.objectives.length)
     }
-    expect(LEVELS).toHaveLength(5)
+    expect(LEVELS).toHaveLength(6)
   })
 
   it('membuat seed dengan format yang bisa dibagikan', () => {

@@ -16,10 +16,13 @@ import { useGameStore } from '../store/gameStore'
 import { useProfileStore } from '../store/profileStore'
 import { OfficeRoomArt } from './OfficeRoomArt'
 import { PixelSprite } from './PixelSprite'
+import { TutorialCard } from './TutorialCard'
 
 interface OfficeRoomProps {
   onOpenOrder: () => void
 }
+
+const TUTORIAL_KEY = 'netforge.tutorial.v1'
 
 type Dialogue =
   | {
@@ -60,6 +63,14 @@ export function OfficeRoom({ onOpenOrder }: OfficeRoomProps) {
   const briefing = useGameStore((state) => state.officeBriefing)
   const setOfficeBriefing = useGameStore((state) => state.setOfficeBriefing)
   const profile = useProfileStore((state) => state.profile)
+  const [tutorialOpen, setTutorialOpen] = useState(() => {
+    if (Object.keys(profile.levels).length > 0) return false
+    try {
+      return localStorage.getItem(TUTORIAL_KEY) !== '1'
+    } catch {
+      return false
+    }
+  })
   const [dialogue, setDialogue] = useState<Dialogue | null>(null)
   const [customerReply, setCustomerReply] = useState<string | null>(null)
   const order = CUSTOMER_ORDERS[levelId]
@@ -72,6 +83,15 @@ export function OfficeRoom({ onOpenOrder }: OfficeRoomProps) {
   const closeDialogue = () => {
     setDialogue(null)
     setCustomerReply(null)
+  }
+
+  const closeTutorial = () => {
+    setTutorialOpen(false)
+    try {
+      localStorage.setItem(TUTORIAL_KEY, '1')
+    } catch {
+      // abaikan
+    }
   }
 
   const openCustomer = () => {
@@ -112,9 +132,17 @@ export function OfficeRoom({ onOpenOrder }: OfficeRoomProps) {
           <strong>Ruang kerja Iga</strong>
           <small>{story.title}</small>
         </div>
-        <button className="office-room-board-button" onClick={onOpenOrder}>
-          Papan order
-        </button>
+        <div className="office-room-top-actions">
+          <button
+            className="office-room-guide-button"
+            onClick={() => setTutorialOpen(true)}
+          >
+            Panduan
+          </button>
+          <button className="office-room-board-button" onClick={onOpenOrder}>
+            Papan order
+          </button>
+        </div>
       </div>
 
       {OFFICE_NPCS.map((npc) => (
@@ -192,6 +220,8 @@ export function OfficeRoom({ onOpenOrder }: OfficeRoomProps) {
           </div>
         </div>
       ) : null}
+
+      {tutorialOpen ? <TutorialCard onClose={closeTutorial} /> : null}
 
       {dialogue ? (
         <section
