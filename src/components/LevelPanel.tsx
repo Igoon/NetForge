@@ -1,4 +1,4 @@
-﻿import { CUSTOMER_ORDERS } from '../data/customers'
+import { CUSTOMER_ORDERS } from '../data/customers'
 import { LEVELS } from '../data/levels'
 import { CustomerAvatar } from './CustomerAvatar'
 import { useGameStore } from '../store/gameStore'

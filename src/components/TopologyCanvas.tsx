@@ -1,4 +1,4 @@
-﻿import { lazy, Suspense, useCallback, useEffect, useMemo, type DragEvent } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useMemo, type DragEvent } from 'react'
 import {
   Background,
   BackgroundVariant,

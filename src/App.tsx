@@ -1,4 +1,4 @@
-﻿import { useState } from 'react'
+import { useState } from 'react'
 import { ReactFlowProvider } from '@xyflow/react'
 import { IncidentPanel } from './components/IncidentPanel'
 import { Inspector } from './components/Inspector'

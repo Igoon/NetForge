@@ -1,13 +1,13 @@
-export const APP_VERSION = '0.3.1'
+export const APP_VERSION = '0.3.2'
 export const VERSION_SEEN_KEY = 'netforge.seenVersion.v1'
 
 export const LATEST_UPDATE = {
   version: APP_VERSION,
-  title: 'Papan order dan laporan customer',
+  title: 'Kantor isometrik yang hidup',
   items: [
-    'Papan order menampilkan tiga pekerjaan.',
-    'Order terkunci sampai level sebelumnya lulus.',
-    'Laporan customer muncul setelah misi.',
-    'Tombol kembali ke kantor dan lanjut order.',
+    'Iga, NPC, dan kucing memiliki animasi idle.',
+    'Klik karakter untuk membuka balon dialog.',
+    'Customer berjalan masuk menuju papan order.',
+    'Upgrade kantor tampil langsung di ruangan.',
   ],
 }

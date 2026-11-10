@@ -1,9 +1,17 @@
-﻿import { Canvas, useThree, type ThreeEvent } from '@react-three/fiber'
-import { useEffect, useState } from 'react'
+import { Canvas, useFrame, useThree, type ThreeEvent } from '@react-three/fiber'
+import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
+import { CUSTOMER_ORDERS, type CustomerProfile } from '../data/customers'
+import { useGameStore } from '../store/gameStore'
+import { useProfileStore } from '../store/profileStore'
 
 interface OfficeSceneProps {
   onOpenOrder: () => void
+}
+
+interface TalkTarget {
+  name: string
+  line: string
 }
 
 interface PersonProps {
@@ -12,6 +20,9 @@ interface PersonProps {
   hair: string
   skin: string
   headset?: boolean
+  phase?: number
+  talk?: TalkTarget
+  onTalk?: (target: TalkTarget) => void
 }
 
 interface PersonAppearance {
@@ -24,74 +35,162 @@ function FlatMaterial({ color }: { color: string }) {
   return <meshStandardMaterial color={color} flatShading roughness={0.92} />
 }
 
+function Led({
+  position,
+  phase,
+}: {
+  position: [number, number, number]
+  phase: number
+}) {
+  const materialRef = useRef<THREE.MeshStandardMaterial>(null)
+
+  useFrame(({ clock }) => {
+    if (!materialRef.current) return
+    materialRef.current.emissiveIntensity =
+      0.7 + Math.sin(clock.getElapsedTime() * 2.4 + phase) * 0.55
+  })
+
+  return (
+    <mesh position={position}>
+      <sphereGeometry args={[0.035, 6, 5]} />
+      <meshStandardMaterial
+        ref={materialRef}
+        color="#a3e635"
+        emissive="#a3e635"
+        emissiveIntensity={1}
+        flatShading
+        roughness={0.6}
+      />
+    </mesh>
+  )
+}
+
 function LowPolyPerson({
   position,
   shirt,
   hair,
   skin,
   headset = false,
+  phase = 0,
+  talk,
+  onTalk,
 }: PersonProps) {
+  const bodyRef = useRef<THREE.Group>(null)
+  const [hovered, setHovered] = useState(false)
+
+  useEffect(() => {
+    if (!hovered) return
+    document.body.style.cursor = 'pointer'
+    return () => {
+      document.body.style.cursor = ''
+    }
+  }, [hovered])
+
+  useFrame(({ clock }) => {
+    if (!bodyRef.current) return
+    const time = clock.getElapsedTime()
+    bodyRef.current.position.y = Math.sin(time * 1.45 + phase) * 0.012
+    bodyRef.current.rotation.y = Math.sin(time * 0.55 + phase) * 0.035
+  })
+
   return (
-    <group position={position}>
-      <mesh position={[0, 0.32, 0]} castShadow>
-        <cylinderGeometry args={[0.11, 0.13, 0.6, 7]} />
-        <FlatMaterial color="#2f3a48" />
+    <group
+      position={position}
+      onClick={(event: ThreeEvent<MouseEvent>) => {
+        if (!talk) return
+        event.stopPropagation()
+        onTalk?.(talk)
+      }}
+      onPointerOver={(event: ThreeEvent<PointerEvent>) => {
+        if (!talk) return
+        event.stopPropagation()
+        setHovered(true)
+      }}
+      onPointerOut={() => setHovered(false)}
+    >
+      <group ref={bodyRef}>
+        <mesh position={[0, 0.32, 0]} castShadow>
+          <cylinderGeometry args={[0.11, 0.13, 0.6, 7]} />
+          <FlatMaterial color="#2f3a48" />
+        </mesh>
+        <mesh position={[0.22, 0.32, 0]} castShadow>
+          <cylinderGeometry args={[0.11, 0.13, 0.6, 7]} />
+          <FlatMaterial color="#2f3a48" />
+        </mesh>
+        <mesh position={[0, 0.96, 0]} castShadow>
+          <cylinderGeometry args={[0.3, 0.38, 0.82, 8]} />
+          <FlatMaterial color={shirt} />
+        </mesh>
+        <mesh position={[-0.39, 1.02, 0]} rotation={[0, 0, -0.18]} castShadow>
+          <cylinderGeometry args={[0.075, 0.085, 0.62, 7]} />
+          <FlatMaterial color={shirt} />
+        </mesh>
+        <mesh position={[0.39, 1.02, 0]} rotation={[0, 0, 0.18]} castShadow>
+          <cylinderGeometry args={[0.075, 0.085, 0.62, 7]} />
+          <FlatMaterial color={shirt} />
+        </mesh>
+        <mesh position={[0, 1.62, 0]} castShadow>
+          <sphereGeometry args={[0.34, 12, 8]} />
+          <FlatMaterial color={skin} />
+        </mesh>
+        <mesh position={[0, 1.79, -0.02]} scale={[1.05, 0.65, 1.05]} castShadow>
+          <sphereGeometry args={[0.35, 12, 6, 0, Math.PI * 2, 0, Math.PI / 2]} />
+          <FlatMaterial color={hair} />
+        </mesh>
+        <mesh position={[-0.12, 1.63, 0.31]}>
+          <sphereGeometry args={[0.035, 6, 5]} />
+          <FlatMaterial color="#2b2f36" />
+        </mesh>
+        <mesh position={[0.12, 1.63, 0.31]}>
+          <sphereGeometry args={[0.035, 6, 5]} />
+          <FlatMaterial color="#2b2f36" />
+        </mesh>
+        {headset ? (
+          <>
+            <mesh position={[0, 1.83, 0]} rotation={[Math.PI / 2, 0, 0]}>
+              <torusGeometry args={[0.4, 0.025, 6, 18, Math.PI]} />
+              <FlatMaterial color="#1e2936" />
+            </mesh>
+            <mesh position={[-0.42, 1.66, 0]}>
+              <sphereGeometry args={[0.075, 6, 5]} />
+              <FlatMaterial color="#1e2936" />
+            </mesh>
+            <mesh position={[0.42, 1.66, 0]}>
+              <sphereGeometry args={[0.075, 6, 5]} />
+              <FlatMaterial color="#1e2936" />
+            </mesh>
+          </>
+        ) : null}
+      </group>
+      <mesh
+        visible={hovered}
+        position={[0, 0.025, 0]}
+        rotation={[-Math.PI / 2, 0, 0]}
+      >
+        <ringGeometry args={[0.44, 0.54, 18]} />
+        <meshBasicMaterial
+          color="#0f766e"
+          transparent
+          opacity={0.38}
+          depthWrite={false}
+        />
       </mesh>
-      <mesh position={[0.22, 0.32, 0]} castShadow>
-        <cylinderGeometry args={[0.11, 0.13, 0.6, 7]} />
-        <FlatMaterial color="#2f3a48" />
-      </mesh>
-      <mesh position={[0, 0.96, 0]} castShadow>
-        <cylinderGeometry args={[0.3, 0.38, 0.82, 8]} />
-        <FlatMaterial color={shirt} />
-      </mesh>
-      <mesh position={[-0.39, 1.02, 0]} rotation={[0, 0, -0.18]} castShadow>
-        <cylinderGeometry args={[0.075, 0.085, 0.62, 7]} />
-        <FlatMaterial color={shirt} />
-      </mesh>
-      <mesh position={[0.39, 1.02, 0]} rotation={[0, 0, 0.18]} castShadow>
-        <cylinderGeometry args={[0.075, 0.085, 0.62, 7]} />
-        <FlatMaterial color={shirt} />
-      </mesh>
-      <mesh position={[0, 1.62, 0]} castShadow>
-        <sphereGeometry args={[0.34, 12, 8]} />
-        <FlatMaterial color={skin} />
-      </mesh>
-      <mesh position={[0, 1.79, -0.02]} scale={[1.05, 0.65, 1.05]} castShadow>
-        <sphereGeometry args={[0.35, 12, 6, 0, Math.PI * 2, 0, Math.PI / 2]} />
-        <FlatMaterial color={hair} />
-      </mesh>
-      <mesh position={[-0.12, 1.63, 0.31]}>
-        <sphereGeometry args={[0.035, 6, 5]} />
-        <FlatMaterial color="#2b2f36" />
-      </mesh>
-      <mesh position={[0.12, 1.63, 0.31]}>
-        <sphereGeometry args={[0.035, 6, 5]} />
-        <FlatMaterial color="#2b2f36" />
-      </mesh>
-      {headset ? (
-        <>
-          <mesh position={[0, 1.83, 0]} rotation={[Math.PI / 2, 0, 0]}>
-            <torusGeometry args={[0.4, 0.025, 6, 18, Math.PI]} />
-            <FlatMaterial color="#1e2936" />
-          </mesh>
-          <mesh position={[-0.42, 1.66, 0]}>
-            <sphereGeometry args={[0.075, 6, 5]} />
-            <FlatMaterial color="#1e2936" />
-          </mesh>
-          <mesh position={[0.42, 1.66, 0]}>
-            <sphereGeometry args={[0.075, 6, 5]} />
-            <FlatMaterial color="#1e2936" />
-          </mesh>
-        </>
-      ) : null}
     </group>
   )
 }
 
 function Cat({ position }: { position: [number, number, number] }) {
+  const groupRef = useRef<THREE.Group>(null)
+
+  useFrame(({ clock }) => {
+    if (!groupRef.current) return
+    const time = clock.getElapsedTime()
+    groupRef.current.position.y = Math.sin(time * 1.8) * 0.015
+    groupRef.current.rotation.y = Math.sin(time * 0.7) * 0.14
+  })
+
   return (
-    <group position={position}>
+    <group ref={groupRef} position={position}>
       <mesh position={[0, 0.25, 0]} scale={[0.9, 0.7, 1.35]} castShadow>
         <sphereGeometry args={[0.24, 10, 7]} />
         <FlatMaterial color="#6b5b95" />
@@ -172,10 +271,7 @@ function ServerRack({ position }: { position: [number, number, number] }) {
             <boxGeometry args={[0.2, 0.04, 0.02]} />
             <FlatMaterial color="#7dd3fc" />
           </mesh>
-          <mesh position={[0.32, height, 0.4]}>
-            <sphereGeometry args={[0.035, 6, 5]} />
-            <FlatMaterial color="#a3e635" />
-          </mesh>
+          <Led position={[0.32, height, 0.4]} phase={height * 3} />
         </group>
       ))}
     </group>
@@ -183,8 +279,15 @@ function ServerRack({ position }: { position: [number, number, number] }) {
 }
 
 function Plant({ position }: { position: [number, number, number] }) {
+  const groupRef = useRef<THREE.Group>(null)
+
+  useFrame(({ clock }) => {
+    if (!groupRef.current) return
+    groupRef.current.rotation.z = Math.sin(clock.getElapsedTime() * 0.8) * 0.025
+  })
+
   return (
-    <group position={position}>
+    <group ref={groupRef} position={position}>
       <mesh position={[0, 0.25, 0]}>
         <cylinderGeometry args={[0.22, 0.17, 0.5, 8]} />
         <FlatMaterial color="#b7791f" />
@@ -269,6 +372,38 @@ function OrderBoard({
   )
 }
 
+function WalkingCustomer({
+  customer,
+  onTalk,
+}: {
+  customer: CustomerProfile
+  onTalk: (target: TalkTarget) => void
+}) {
+  const groupRef = useRef<THREE.Group>(null)
+
+  useFrame(({ clock }) => {
+    if (!groupRef.current) return
+    const progress = Math.min(1, Math.max(0, (clock.getElapsedTime() - 1.2) / 3))
+    const eased = progress * progress * (3 - 2 * progress)
+    groupRef.current.position.x = THREE.MathUtils.lerp(-4.1, -1.45, eased)
+    groupRef.current.position.z = THREE.MathUtils.lerp(2.15, -1.35, eased)
+  })
+
+  return (
+    <group ref={groupRef} position={[-4.1, 0, 2.15]}>
+      <LowPolyPerson
+        position={[0, 0, 0]}
+        shirt={customer.shirt}
+        hair={customer.hair}
+        skin={customer.skin}
+        phase={2.4}
+        talk={{ name: customer.name, line: customer.line }}
+        onTalk={onTalk}
+      />
+    </group>
+  )
+}
+
 function IsoCamera() {
   const { camera, size } = useThree()
 
@@ -291,6 +426,25 @@ const IGA: PersonAppearance = {
 }
 
 export function OfficeScene({ onOpenOrder }: OfficeSceneProps) {
+  const levelId = useGameStore((state) => state.levelId)
+  const orderAccepted = useGameStore((state) => state.orderAccepted)
+  const upgrades = useProfileStore((state) => state.profile.upgrades)
+  const [speech, setSpeech] = useState<TalkTarget | null>(null)
+  const customerOrder = CUSTOMER_ORDERS[levelId]?.customer
+
+  const igaTalk: TalkTarget = {
+    name: 'Iga',
+    line: 'Papan order ada di tengah ruangan. Aku siap berangkat.',
+  }
+  const raniTalk: TalkTarget = {
+    name: 'Mbak Rani',
+    line: 'Kabel cadangan ada di lemari. Jangan disambung dengan selotip, ya.',
+  }
+  const darmaTalk: TalkTarget = {
+    name: 'Pak Darma',
+    line: 'Periksa gateway dulu sebelum menyalahkan kabel.',
+  }
+
   return (
     <div className="office-hub">
       <Canvas
@@ -329,25 +483,61 @@ export function OfficeScene({ onOpenOrder }: OfficeSceneProps) {
         <Plant position={[4.7, 0, -2.9]} />
         <OrderBoard onOpenOrder={onOpenOrder} />
 
+        {upgrades.cableTray ? (
+          <group position={[0, 0.08, 2.7]}>
+            <mesh>
+              <boxGeometry args={[6.2, 0.12, 0.45]} />
+              <FlatMaterial color="#6c5a48" />
+            </mesh>
+            <mesh position={[-1.4, 0.09, 0]}>
+              <boxGeometry args={[1.4, 0.04, 0.18]} />
+              <FlatMaterial color="#0f766e" />
+            </mesh>
+            <mesh position={[1.6, 0.09, 0]}>
+              <boxGeometry args={[1.2, 0.04, 0.18]} />
+              <FlatMaterial color="#0f766e" />
+            </mesh>
+          </group>
+        ) : null}
+
+        {upgrades.ups ? (
+          <mesh position={[2.7, 0.3, -2.55]}>
+            <boxGeometry args={[0.8, 0.6, 0.5]} />
+            <FlatMaterial color="#0f766e" />
+          </mesh>
+        ) : null}
+
         <LowPolyPerson
           position={[0, 0, 0.7]}
           shirt={IGA.shirt}
           hair={IGA.hair}
           skin={IGA.skin}
           headset
+          phase={0.2}
+          talk={igaTalk}
+          onTalk={setSpeech}
         />
         <LowPolyPerson
           position={[-2.2, 0, 0.1]}
           shirt="#b7791f"
           hair="#3c2a21"
           skin="#e8b98c"
+          phase={1.4}
+          talk={raniTalk}
+          onTalk={setSpeech}
         />
         <LowPolyPerson
           position={[2.2, 0, 0.1]}
           shirt="#6b5b95"
           hair="#252525"
           skin="#d9a273"
+          phase={2.7}
+          talk={darmaTalk}
+          onTalk={setSpeech}
         />
+        {customerOrder && !orderAccepted ? (
+          <WalkingCustomer customer={customerOrder} onTalk={setSpeech} />
+        ) : null}
         <Cat position={[3.3, 0, 1.5]} />
 
         <mesh position={[-4.2, 0.5, 2.1]}>
@@ -359,7 +549,18 @@ export function OfficeScene({ onOpenOrder }: OfficeSceneProps) {
       <div className="office-hub-top">
         <span className="eyebrow">Kantor NetForge</span>
         <strong>Iga siap menerima order</strong>
+        <small>Klik karakter untuk menyapa.</small>
       </div>
+
+      {speech ? (
+        <div className="office-speech" role="status">
+          <div>
+            <span>{speech.name}</span>
+            <p>{speech.line}</p>
+          </div>
+          <button onClick={() => setSpeech(null)}>Tutup</button>
+        </div>
+      ) : null}
 
       <div className="office-hub-bottom">
         <div>
@@ -373,5 +574,10 @@ export function OfficeScene({ onOpenOrder }: OfficeSceneProps) {
     </div>
   )
 }
+
+
+
+
+
 
 

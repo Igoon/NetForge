@@ -1,10 +1,10 @@
 {
-  "version": "0.3.1",
-  "title": "Papan order dan laporan customer",
+  "version": "0.3.2",
+  "title": "Kantor isometrik yang hidup",
   "highlights": [
-    "Papan order menampilkan tiga pekerjaan.",
-    "Order terkunci sampai level sebelumnya lulus.",
-    "Laporan customer muncul setelah misi.",
-    "Tombol kembali ke kantor dan lanjut order."
+    "Iga, NPC, dan kucing memiliki animasi idle.",
+    "Klik karakter untuk membuka balon dialog.",
+    "Customer berjalan masuk menuju papan order.",
+    "Upgrade kantor tampil langsung di ruangan."
   ]
 }

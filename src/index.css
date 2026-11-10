@@ -1,4 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 :root {
   --bg: #eeece5;
@@ -1824,6 +1824,11 @@ button:disabled {
   font-size: 12px;
 }
 
+.office-hub-top small {
+  color: var(--faint);
+  font-size: 8.5px;
+}
+
 .office-hub-bottom {
   position: absolute;
   right: 16px;
@@ -1854,6 +1859,57 @@ button:disabled {
   color: var(--muted);
   font-size: 9.5px;
   line-height: 1.35;
+}
+
+.office-speech {
+  position: absolute;
+  left: 16px;
+  bottom: 84px;
+  z-index: 7;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: min(330px, calc(100% - 32px));
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--panel);
+  box-shadow: 0 8px 24px rgba(30, 41, 54, 0.14);
+}
+
+.office-speech > div {
+  flex: 1;
+}
+
+.office-speech span {
+  display: block;
+  color: var(--teal);
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.office-speech p {
+  margin: 2px 0 0;
+  color: var(--ink);
+  font-size: 10.5px;
+  line-height: 1.4;
+}
+
+.office-speech button {
+  flex: 0 0 auto;
+  padding: 3px 5px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--faint);
+  font-size: 8px;
+}
+
+.office-speech button:hover {
+  color: var(--ink);
 }
 
 .office-order-button {
@@ -3416,6 +3472,11 @@ button:disabled {
     width: 100%;
   }
 
+  .office-speech {
+    bottom: 132px;
+  }
+
+
   .loadout-head h2 {
     font-size: 20px;
   }
@@ -4004,6 +4065,8 @@ button:disabled {
   }
 
 }
+
+
 
 
 

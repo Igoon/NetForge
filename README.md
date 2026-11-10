@@ -73,12 +73,14 @@ npm run preview
 - Kunci level ditegakkan di store, bukan hanya di tampilan.
 - Notifikasi changelog muncul saat versi berubah.
 - Service worker menampilkan tombol muat ulang saat update PWA tersedia.
-- Versi aplikasi saat ini: **0.3.1**.
+- Versi aplikasi saat ini: **0.3.2**.
 
 ## Kantor 3D
 
 - Kantor Iga tampil sebagai diorama isometrik low-poly dengan kamera orthographic.
 - Model flat-shaded untuk Iga, dua rekan kerja, kucing, meja, dan rak server.
+- Animasi idle, kedip LED server, dan customer berjalan ke papan order.
+- Klik karakter untuk membuka balon dialog.
 - Papan order 3D membuka dialog customer sebelum loadout.
 - Papan topologi misi tetap 2D agar IP, port, dan jalur mudah dibaca.
 - Stack 3D: Three.js dan React Three Fiber, dimuat sebagai chunk terpisah.
@@ -114,6 +116,8 @@ untuk atribusi.
 React 19, TypeScript, Vite, React Flow (`@xyflow/react`), Three.js,
 React Three Fiber, Zustand, Zod, Vitest. Progres topologi disimpan di
 `localStorage`.
+
+
 
 
 

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'netforge-shell-v6'
+const CACHE_NAME = 'netforge-shell-v7'
 const scopeUrl = new URL('./', self.registration.scope).href
 const indexUrl = new URL('index.html', scopeUrl).href
 const manifestUrl = new URL('manifest.webmanifest', scopeUrl).href
