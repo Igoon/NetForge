@@ -75,6 +75,7 @@ interface GameStore {
   timerState: TimerState
   orderAccepted: boolean
   orderOpen: boolean
+  orderBoardOpen: boolean
   incidents: Incident[]
   preventions: IncidentType[]
   inventory: Inventory
@@ -103,6 +104,8 @@ interface GameStore {
   togglePause: () => void
   acceptOrder: () => void
   openOrder: () => void
+  openOrderBoard: () => void
+  closeOrderBoard: () => void
   closeOrder: () => void
   toggleLoadout: (item: InventoryItem) => void
   startMission: () => void
@@ -258,6 +261,7 @@ function freshLevelState(level: Level, nodes: DeviceNode[], edges: PacketEdge[])
     timerState: 'ready' as TimerState,
     orderAccepted: false,
     orderOpen: false,
+    orderBoardOpen: false,
     incidents: [] as Incident[],
     preventions: [] as IncidentType[],
     inventory: emptyInventory(),
@@ -305,6 +309,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   timerState: startupState.timerState,
   orderAccepted: startupState.orderAccepted,
   orderOpen: startupState.orderOpen,
+  orderBoardOpen: startupState.orderBoardOpen,
   incidents: startupState.incidents,
   preventions: startupState.preventions,
   inventory: startupState.inventory,
@@ -572,16 +577,24 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   acceptOrder: () => {
     if (get().timerState !== 'ready') return
-    set({ orderAccepted: true, orderOpen: false })
+    set({ orderAccepted: true, orderOpen: false, orderBoardOpen: false })
   },
 
   openOrder: () => {
     const state = get()
     if (state.timerState !== 'ready' || state.orderAccepted) return
-    set({ orderOpen: true })
+    set({ orderOpen: true, orderBoardOpen: false })
   },
 
   closeOrder: () => set({ orderOpen: false }),
+
+  openOrderBoard: () => {
+    const state = get()
+    if (state.timerState !== 'ready' || state.orderAccepted) return
+    set({ orderBoardOpen: true, orderOpen: false })
+  },
+
+  closeOrderBoard: () => set({ orderBoardOpen: false }),
 
   toggleLoadout: (item) => {
     const state = get()
@@ -740,5 +753,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
     }, 4500)
   },
 }))
+
 
 

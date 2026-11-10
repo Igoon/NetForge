@@ -1346,6 +1346,64 @@ button:disabled {
   line-height: 1.2;
 }
 
+.mission-report {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #d6e3bd;
+  border-radius: 8px;
+  background: var(--green-soft);
+}
+
+.mission-report.is-fail {
+  border-color: #ead8b7;
+  background: var(--amber-soft);
+}
+
+.mission-report-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.report-avatar {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+}
+
+.mission-report-head > div {
+  min-width: 0;
+}
+
+.mission-report-head strong {
+  display: block;
+  font-size: 11px;
+}
+
+.mission-report-head p {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 9.5px;
+  line-height: 1.4;
+}
+
+.return-office-button {
+  width: 100%;
+  margin-top: 9px;
+  padding: 7px 9px;
+  border: 1px solid #c8e0da;
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--teal);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.return-office-button:hover {
+  border-color: var(--teal);
+  background: var(--teal-soft);
+}
+
 .retry-button {
   width: 100%;
   margin-top: 9px;
@@ -1857,6 +1915,161 @@ button:disabled {
   border-radius: 14px;
   background: var(--panel);
   box-shadow: 0 14px 40px rgba(30, 41, 54, 0.12);
+}
+
+.order-board-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  overflow-y: auto;
+  background: rgba(251, 250, 246, 0.86);
+  backdrop-filter: blur(2px);
+}
+
+.order-board-modal {
+  width: min(900px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  box-shadow: 0 14px 40px rgba(30, 41, 54, 0.12);
+}
+
+.order-board-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 11px;
+  border-bottom: 1px solid var(--line);
+}
+
+.order-board-head h2 {
+  margin: 5px 0 0;
+  font-size: 24px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.order-board-note {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+
+.order-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 15px;
+}
+
+.order-choice {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--panel-soft);
+  text-align: left;
+  transition: border-color 140ms ease, background 140ms ease;
+}
+
+.order-choice:hover:not(:disabled) {
+  border-color: var(--teal);
+  background: var(--teal-soft);
+}
+
+.order-choice.is-current {
+  border-color: #9fc9c1;
+  box-shadow: inset 0 0 0 1px #9fc9c1;
+}
+
+.order-choice.is-locked {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.order-choice-top {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.order-choice-avatar {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+}
+
+.order-choice-top > div {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.order-choice-top strong {
+  font-size: 10.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.order-choice-top span {
+  color: var(--faint);
+  font-size: 8px;
+}
+
+.order-choice-top .order-choice-badge {
+  flex: 0 0 auto;
+  padding: 2px 4px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 6.5px;
+  text-transform: uppercase;
+}
+
+.order-choice-badge.is-current {
+  color: var(--teal);
+}
+
+.order-choice h3 {
+  margin: 9px 0 0;
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.order-choice > p {
+  margin: 3px 0 0;
+  color: var(--faint);
+  font-size: 9px;
+}
+
+.order-choice-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 9px;
+  margin-top: 9px;
+  color: var(--muted);
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 7.5px;
+}
+
+.order-choice > small {
+  display: block;
+  margin-top: 7px;
+  color: var(--faint);
+  font-size: 8.5px;
+  line-height: 1.35;
 }
 
 .order-top-actions {
@@ -3173,6 +3386,11 @@ button:disabled {
     grid-template-columns: 1fr;
   }
 
+  .order-choice-grid {
+    grid-template-columns: 1fr;
+  }
+
+
   .order-actions {
     flex-direction: column;
     align-items: stretch;
@@ -3786,4 +4004,6 @@ button:disabled {
   }
 
 }
+
+
 

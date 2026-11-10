@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useMemo, type DragEvent } from 'react'
+﻿import { lazy, Suspense, useCallback, useEffect, useMemo, type DragEvent } from 'react'
 import {
   Background,
   BackgroundVariant,
@@ -16,6 +16,7 @@ import { CustomerOrderModal } from './CustomerOrderModal'
 import { DeviceNodeCard } from './DeviceNode'
 import { ComicPopup } from './ComicPopup'
 import { LoadoutOverlay } from './LoadoutOverlay'
+import { OrderBoardModal } from './OrderBoardModal'
 import { PacketEdgeView } from './PacketEdge'
 
 const OfficeScene = lazy(() =>
@@ -31,7 +32,7 @@ export function TopologyCanvas() {
   const activeEdgeIds = useGameStore((state) => state.activeEdgeIds)
   const simulating = useGameStore((state) => state.simulating)
   const timerState = useGameStore((state) => state.timerState)
-  const openOrder = useGameStore((state) => state.openOrder)
+  const openOrderBoard = useGameStore((state) => state.openOrderBoard)
   const incidents = useGameStore((state) => state.incidents)
   const onNodesChange = useGameStore((state) => state.onNodesChange)
   const onEdgesChange = useGameStore((state) => state.onEdgesChange)
@@ -136,14 +137,16 @@ export function TopologyCanvas() {
         <Suspense
           fallback={<div className="office-loading">Menyiapkan kantor...</div>}
         >
-          <OfficeScene onOpenOrder={openOrder} />
+          <OfficeScene onOpenOrder={openOrderBoard} />
         </Suspense>
       ) : null}
 
+      <OrderBoardModal />
       <CustomerOrderModal />
       <LoadoutOverlay />
       <ComicPopup />
     </div>
   )
 }
+
 

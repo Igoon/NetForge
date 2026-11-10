@@ -53,7 +53,9 @@ npm run preview
 ## Karakter dan progresi
 
 - Tokoh utama: **Iga**, teknisi jaringan.
+- Papan order menampilkan tiga pekerjaan; order terkunci sampai level sebelumnya lulus.
 - Setiap level dibuka lewat order customer dan dialog dua avatar.
+- Setelah misi, laporan customer dan tombol kembali ke kantor tersedia.
 - Profil menyimpan uang, XP, level, reputasi, hari, dan rekor bintang.
 - Level terkunci sampai level sebelumnya memperoleh minimal 1 bintang.
 - Skor menentukan bintang: 3 bintang >=90, 2 bintang >=70, 1 bintang >=50.
@@ -71,7 +73,7 @@ npm run preview
 - Kunci level ditegakkan di store, bukan hanya di tampilan.
 - Notifikasi changelog muncul saat versi berubah.
 - Service worker menampilkan tombol muat ulang saat update PWA tersedia.
-- Versi aplikasi saat ini: **0.3.0**.
+- Versi aplikasi saat ini: **0.3.1**.
 
 ## Kantor 3D
 
@@ -112,5 +114,6 @@ untuk atribusi.
 React 19, TypeScript, Vite, React Flow (`@xyflow/react`), Three.js,
 React Three Fiber, Zustand, Zod, Vitest. Progres topologi disimpan di
 `localStorage`.
+
 
 

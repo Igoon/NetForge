@@ -1,4 +1,6 @@
+﻿import { CUSTOMER_ORDERS } from '../data/customers'
 import { LEVELS } from '../data/levels'
+import { CustomerAvatar } from './CustomerAvatar'
 import { useGameStore } from '../store/gameStore'
 
 export function LevelPanel() {
@@ -10,6 +12,7 @@ export function LevelPanel() {
   const breakdown = useGameStore((state) => state.breakdown)
   const passed = useGameStore((state) => state.passed)
   const cleared = useGameStore((state) => state.cleared)
+  const runSettled = useGameStore((state) => state.runSettled)
   const lastReward = useGameStore((state) => state.lastReward)
   const objectivesPassed = useGameStore((state) => state.objectivesPassed)
   const incidents = useGameStore((state) => state.incidents)
@@ -30,6 +33,15 @@ export function LevelPanel() {
         : score >= 50
           ? 1
           : 0
+  const customerOrder = CUSTOMER_ORDERS[levelId]
+  const customerReaction = !cleared
+    ? 'Pekerjaan selesai, tetapi kualitasnya belum memenuhi ekspektasi. Coba lagi.'
+    : score >= 90
+      ? 'Customer sangat puas. Relasinya meningkat pesat.'
+      : score >= 70
+        ? 'Customer puas dengan hasil kerja Iga.'
+        : 'Customer cukup puas, meski masih ada ruang perbaikan.'
+
 
   const missionMessage = simulating
     ? 'Paket sedang berjalan melalui topologi...'
@@ -123,6 +135,27 @@ export function LevelPanel() {
         </div>
       ) : null}
 
+      {runSettled && customerOrder ? (
+        <div
+          className={`mission-report${cleared ? ' is-success' : ' is-fail'}`}
+        >
+          <div className="mission-report-head">
+            <CustomerAvatar
+              customer={customerOrder.customer}
+              className="report-avatar"
+            />
+            <div>
+              <span className="eyebrow">Laporan ke customer</span>
+              <strong>{customerOrder.customer.name}</strong>
+              <p>{customerReaction}</p>
+            </div>
+          </div>
+          <button className="return-office-button" onClick={resetLevel}>
+            Kembali ke kantor
+          </button>
+        </div>
+      ) : null}
+
       {passed && !cleared ? (
         <button className="retry-button" onClick={resetLevel}>
           Ulangi misi
@@ -174,3 +207,4 @@ export function LevelPanel() {
     </section>
   )
 }
+
