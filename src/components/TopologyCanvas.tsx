@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useMemo, useState, type DragEvent } from 'react'
+import { useCallback, useEffect, useMemo, type DragEvent } from 'react'
 import {
   Background,
   BackgroundVariant,
@@ -10,21 +10,15 @@ import {
   type NodeTypes,
 } from '@xyflow/react'
 import { DEVICES } from '../data/devices'
-import { isWebGLAvailable } from '../lib/webgl'
 import { useGameStore } from '../store/gameStore'
 import type { DeviceType } from '../types'
 import { CustomerOrderModal } from './CustomerOrderModal'
 import { DeviceNodeCard } from './DeviceNode'
 import { ComicPopup } from './ComicPopup'
-import { ErrorBoundary } from './ErrorBoundary'
 import { LoadoutOverlay } from './LoadoutOverlay'
-import { OfficeFallback } from './OfficeFallback'
+import { OfficeRoom } from './OfficeRoom'
 import { OrderBoardModal } from './OrderBoardModal'
 import { PacketEdgeView } from './PacketEdge'
-
-const OfficeScene = lazy(() =>
-  import('./OfficeScene').then((module) => ({ default: module.OfficeScene })),
-)
 
 const nodeTypes = { device: DeviceNodeCard } as unknown as NodeTypes
 const edgeTypes = { packet: PacketEdgeView } as unknown as EdgeTypes
@@ -36,7 +30,6 @@ export function TopologyCanvas() {
   const simulating = useGameStore((state) => state.simulating)
   const timerState = useGameStore((state) => state.timerState)
   const openOrderBoard = useGameStore((state) => state.openOrderBoard)
-  const [webglAvailable] = useState(isWebGLAvailable)
   const incidents = useGameStore((state) => state.incidents)
   const onNodesChange = useGameStore((state) => state.onNodesChange)
   const onEdgesChange = useGameStore((state) => state.onEdgesChange)
@@ -138,22 +131,7 @@ export function TopologyCanvas() {
       </div>
 
       {timerState === 'ready' ? (
-        webglAvailable ? (
-          <ErrorBoundary
-            key={levelId}
-            fallback={<OfficeFallback onOpenOrder={openOrderBoard} />}
-          >
-            <Suspense
-              fallback={
-                <div className="office-loading">Menyiapkan kantor...</div>
-              }
-            >
-              <OfficeScene onOpenOrder={openOrderBoard} />
-            </Suspense>
-          </ErrorBoundary>
-        ) : (
-          <OfficeFallback onOpenOrder={openOrderBoard} />
-        )
+        <OfficeRoom key={levelId} onOpenOrder={openOrderBoard} />
       ) : null}
 
       <OrderBoardModal />

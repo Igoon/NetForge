@@ -2,6 +2,7 @@ import {
   INVENTORY_DEFS,
   INVENTORY_ORDER,
 } from '../data/inventory'
+import { briefingNote } from '../data/officeStory'
 import { useGameStore } from '../store/gameStore'
 
 export function LoadoutOverlay() {
@@ -13,6 +14,8 @@ export function LoadoutOverlay() {
   const toggleLoadout = useGameStore((state) => state.toggleLoadout)
   const startMission = useGameStore((state) => state.startMission)
   const rerollSeed = useGameStore((state) => state.rerollSeed)
+  const officeBriefing = useGameStore((state) => state.officeBriefing)
+  const note = briefingNote(officeBriefing)
 
   if (timerState !== 'ready' || !orderAccepted) return null
 
@@ -34,6 +37,7 @@ export function LoadoutOverlay() {
             Barang ini akan menemanimu selama misi. Timer baru berjalan setelah
             kamu menekan Mulai.
           </p>
+          {note ? <p className="loadout-briefing-note">{note}</p> : null}
         </div>
 
         <div className="loadout-options">

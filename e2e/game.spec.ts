@@ -1,4 +1,4 @@
-import { chromium, expect, test } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/?skipIntro=1')
@@ -60,12 +60,28 @@ test('modal order bisa ditutup dengan Escape', async ({ page }) => {
   await expect(page.locator('.order-board-overlay')).toBeHidden()
 })
 
-test('fallback 2D tampil saat WebGL dimatikan', async () => {
-  const fallbackBrowser = await chromium.launch({
-    args: ['--disable-webgl', '--disable-webgl2'],
-  })
-  const page = await fallbackBrowser.newPage()
-  await page.goto('http://127.0.0.1:4173/?skipIntro=1')
-  await expect(page.locator('.office-fallback')).toBeVisible()
-  await fallbackBrowser.close()
+test('dialog customer mencatat briefing sebelum berangkat', async ({ page }) => {
+  await expect(page.locator('.office-room')).toBeVisible()
+  await page.locator('.office-actor-customer').click()
+  await expect(page.locator('.office-dialogue')).toBeVisible()
+
+  await page
+    .locator('.office-dialogue')
+    .getByRole('button', { name: 'Dengarkan keluhan' })
+    .click()
+  await expect(page.locator('.office-briefing-note')).toContainText(
+    'dengarkan keluhan pelanggan',
+  )
+
+  await page
+    .locator('.office-dialogue')
+    .getByRole('button', { name: 'Buka papan order' })
+    .click()
+  await expect(page.locator('.order-board-overlay')).toBeVisible()
+})
+
+test('kantor 2D memakai sprite pixel tanpa kanvas 3D', async ({ page }) => {
+  await expect(page.locator('.office-room-art')).toBeVisible()
+  await expect(page.locator('.office-room .pixel-sprite')).toHaveCount(4)
+  await expect(page.locator('.office-room canvas')).toHaveCount(0)
 })

@@ -1,5 +1,6 @@
 import { MAX_ORDER_PAYOUT } from '../data/balance'
 import { CUSTOMER_ORDERS } from '../data/customers'
+import { briefingNote } from '../data/officeStory'
 import { formatDuration } from '../lib/format'
 import { useGameStore } from '../store/gameStore'
 import { useProfileStore } from '../store/profileStore'
@@ -9,7 +10,9 @@ export function OfficeReadyPanel() {
   const level = useGameStore((state) => state.level)
   const openOrderBoard = useGameStore((state) => state.openOrderBoard)
   const profile = useProfileStore((state) => state.profile)
+  const briefing = useGameStore((state) => state.officeBriefing)
   const order = CUSTOMER_ORDERS[level.id]
+  const note = briefingNote(briefing)
   const best = profile.levels[level.id]?.stars ?? 0
 
   return (
@@ -40,8 +43,15 @@ export function OfficeReadyPanel() {
       <div className="office-ready-order">
         <span className="eyebrow">Order berikutnya</span>
         <strong>{order?.orderTitle ?? level.name}</strong>
-        <p>{level.objectives.map((objective) => objective.label).join(' · ')}</p>
+        <p>{level.objectives.map((objective) => objective.label).join(' A� ')}</p>
       </div>
+
+      {note ? (
+        <div className="office-ready-briefing">
+          <span>Catatan briefing</span>
+          <p>{note}</p>
+        </div>
+      ) : null}
 
       <div className="office-ready-stats">
         <div>

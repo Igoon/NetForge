@@ -56,7 +56,7 @@ npm run preview
 - Tokoh utama: **Iga**, teknisi jaringan.
 - Papan order menampilkan tiga pekerjaan; order terkunci sampai level sebelumnya lulus.
 - Papan order adalah navigasi level utama; dropdown level sudah dihapus.
-- Playwright menguji alur order, Escape modal, dan fallback WebGL di CI.
+- Playwright menguji alur order, Escape modal, dialog customer, dan kantor 2D di CI.
 - Setiap level dibuka lewat order customer dan dialog dua avatar.
 - Setelah misi, laporan customer dan tombol kembali ke kantor tersedia.
 - Profil menyimpan uang, XP, level, reputasi, hari, dan rekor bintang.
@@ -72,7 +72,7 @@ npm run preview
 
 - Profil divalidasi dengan Zod, nilai di-clamp, dan data lama disimpan sebagai backup.
 - Graf tersimpan divalidasi dengan Zod; node/edge rusak dibuang.
-- Kantor memiliki fallback 2D dan error boundary jika WebGL gagal.
+- Kantor 2D tidak membutuhkan WebGL; topologi misi tetap memakai React Flow.
 - Bintang dan hadiah dihitung ulang dari skor; data bintang kiriman klien tidak dipercaya.
 - Pembelian upgrade memeriksa kepemilikan dan saldo uang.
 - Kunci level ditegakkan di store, bukan hanya di tampilan.
@@ -80,19 +80,18 @@ npm run preview
 - Service worker menampilkan tombol muat ulang saat update PWA tersedia.
 - Modal memiliki focus trap dan Escape; CI menjalankan test, lint, E2E, dan build.
 - Versi dan cache service worker disinkronkan dari package.json.
-- Versi aplikasi saat ini: **0.4.0**.
+- Versi aplikasi saat ini: **0.5.0**.
 
-## Kantor 3D
+## Kantor 2D pixel art
 
-- Kantor Iga tampil sebagai diorama isometrik low-poly dengan kamera orthographic.
-- Model flat-shaded untuk Iga, dua rekan kerja, kucing, meja, dan rak server.
-- Animasi idle, kedip LED server, dan customer berjalan ke papan order.
-- Klik karakter atau tombol Sapa untuk membuka dialog.
-- Saat ready, panel kiri menampilkan ringkasan kantor, bukan objective misi.
-- Animasi idle dinonaktifkan saat prefers-reduced-motion.
-- Papan order 3D membuka dialog customer sebelum loadout.
+- Kantor Iga tampil sebagai scene pixel art 2D dengan sprite Iga, Mbak Rani, Pak Darma, customer, dan kucing.
+- Papan order, meja, rak server, tanaman, dan upgrade kantor tampil sebagai bagian dari scene.
+- Klik karakter untuk berdialog; customer memberi pilihan briefing sebelum berangkat.
+- Pilihan briefing dicatat dan ditampilkan di panel misi, order, dan laporan customer.
+- Customer berjalan masuk saat kantor siap dan kembali ke laporan setelah misi.
+- Animasi sprite, LED rak, dan walk-in dinonaktifkan saat prefers-reduced-motion.
 - Papan topologi misi tetap 2D agar IP, port, dan jalur mudah dibaca.
-- Stack 3D: Three.js dan React Three Fiber, dimuat sebagai chunk terpisah.
+- Tidak ada dependensi Three.js; scene kantor dirender dengan SVG dan CSS.
 
 ## Deploy GitHub Pages dan PWA
 
@@ -122,9 +121,8 @@ untuk atribusi.
 
 ## Stack
 
-React 19, TypeScript, Vite, React Flow (`@xyflow/react`), Three.js,
-React Three Fiber, Zustand, Zod, Vitest. Progres topologi disimpan di
-`localStorage`.
+React 19, TypeScript, Vite, React Flow (`@xyflow/react`), Zustand, Zod,
+Vitest. Progres topologi disimpan di `localStorage`.
 
 
 

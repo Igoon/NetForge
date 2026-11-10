@@ -28,6 +28,7 @@ import {
 } from '../data/inventory'
 import { getLevelVariant, randomSeed } from '../data/variants'
 import { LEVELS } from '../data/levels'
+import type { OfficeBriefing } from '../data/officeStory'
 import { parseSavedGraph } from '../data/graphSchema'
 import {
   isDevUnlockAll,
@@ -77,6 +78,7 @@ interface GameStore {
   orderAccepted: boolean
   orderOpen: boolean
   orderBoardOpen: boolean
+  officeBriefing: OfficeBriefing | null
   incidents: Incident[]
   preventions: IncidentType[]
   inventory: Inventory
@@ -108,6 +110,7 @@ interface GameStore {
   openOrderBoard: () => void
   closeOrderBoard: () => void
   closeOrder: () => void
+  setOfficeBriefing: (briefing: OfficeBriefing) => void
   toggleLoadout: (item: InventoryItem) => void
   startMission: () => void
   restockItem: (item: InventoryItem) => void
@@ -258,6 +261,7 @@ function freshLevelState(level: Level, nodes: DeviceNode[], edges: PacketEdge[])
     orderAccepted: false,
     orderOpen: false,
     orderBoardOpen: false,
+    officeBriefing: null,
     incidents: [] as Incident[],
     preventions: [] as IncidentType[],
     inventory: emptyInventory(),
@@ -306,6 +310,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   orderAccepted: startupState.orderAccepted,
   orderOpen: startupState.orderOpen,
   orderBoardOpen: startupState.orderBoardOpen,
+  officeBriefing: startupState.officeBriefing,
   incidents: startupState.incidents,
   preventions: startupState.preventions,
   inventory: startupState.inventory,
@@ -583,6 +588,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
   },
 
   closeOrder: () => set({ orderOpen: false }),
+
+  setOfficeBriefing: (briefing) => set({ officeBriefing: briefing }),
 
   openOrderBoard: () => {
     const state = get()

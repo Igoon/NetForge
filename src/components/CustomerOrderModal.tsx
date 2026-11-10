@@ -5,6 +5,7 @@ import {
   type CustomerOrder,
 } from '../data/customers'
 import { formatDuration } from '../lib/format'
+import { briefingNote } from '../data/officeStory'
 import { useDialogA11y } from '../lib/useDialogA11y'
 import { useGameStore } from '../store/gameStore'
 import { CharacterAvatar } from './CharacterAvatar'
@@ -34,8 +35,10 @@ export function CustomerOrderModal() {
   const orderOpen = useGameStore((state) => state.orderOpen)
   const acceptOrder = useGameStore((state) => state.acceptOrder)
   const closeOrder = useGameStore((state) => state.closeOrder)
+  const briefing = useGameStore((state) => state.officeBriefing)
   const [detailOpen, setDetailOpen] = useState(false)
   const order = CUSTOMER_ORDERS[level.id] ?? FALLBACK_ORDER
+  const note = briefingNote(briefing)
   const isOpen = timerState === 'ready' && !orderAccepted && orderOpen
   const dialogRef = useDialogA11y<HTMLElement>(isOpen, closeOrder)
 
@@ -90,6 +93,12 @@ export function CustomerOrderModal() {
             <p>{order.igaLine}</p>
           </div>
         </div>
+
+        {note ? (
+          <p className="order-briefing-note">
+            <strong>Catatan briefing:</strong> {note}
+          </p>
+        ) : null}
 
         <div className="order-summary">
           <div className="order-summary-main">

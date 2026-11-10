@@ -1,10 +1,10 @@
 {
-  "version": "0.4.0",
-  "title": "Papan order sebagai navigasi utama",
+  "version": "0.5.0",
+  "title": "Kantor pixel art dan briefing cerita",
   "highlights": [
-    "Dropdown level diganti papan order.",
-    "E2E Playwright berjalan di CI.",
-    "Versi dan cache PWA otomatis dari package.json.",
-    "Render 3D lebih hemat dan mendukung reduced motion."
+    "Kantor 3D diganti scene pixel art 2D yang lebih ringan.",
+    "Customer dan NPC bisa diajak dialog setiap shift.",
+    "Pilihan briefing tercatat dan muncul di misi.",
+    "Dependensi Three.js dihapus dari bundle."
   ]
 }

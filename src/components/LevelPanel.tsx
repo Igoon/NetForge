@@ -1,5 +1,6 @@
 import { CUSTOMER_ORDERS } from '../data/customers'
 import { STAR_THRESHOLDS } from '../data/balance'
+import { briefingNote } from '../data/officeStory'
 import { starsForScore } from '../data/profile'
 import { LEVELS } from '../data/levels'
 import { CustomerAvatar } from './CustomerAvatar'
@@ -19,22 +20,30 @@ export function LevelPanel() {
   const objectivesPassed = useGameStore((state) => state.objectivesPassed)
   const incidents = useGameStore((state) => state.incidents)
   const simulating = useGameStore((state) => state.simulating)
+  const officeBriefing = useGameStore((state) => state.officeBriefing)
   const selectLevel = useGameStore((state) => state.selectLevel)
   const resetLevel = useGameStore((state) => state.resetLevel)
   const currentIndex = LEVELS.findIndex((item) => item.id === levelId)
+  const note = briefingNote(officeBriefing)
   const nextLevel = LEVELS[currentIndex + 1]
   const activeIncidents = incidents.filter(
     (incident) => incident.status === 'active',
   ).length
   const stars = passed ? starsForScore(score) : 0
   const customerOrder = CUSTOMER_ORDERS[levelId]
+  const briefingReaction =
+    officeBriefing === 'listen'
+      ? ' Customer merasa didengarkan sejak awal.'
+      : officeBriefing === 'inspect'
+        ? ' Perlengkapan yang diperiksa membuat pekerjaan lebih tenang.'
+        : ''
   const customerReaction = !cleared
     ? 'Pekerjaan selesai, tetapi kualitasnya belum memenuhi ekspektasi. Coba lagi.'
     : score >= STAR_THRESHOLDS.three
-      ? 'Customer sangat puas. Relasinya meningkat pesat.'
+      ? `Customer sangat puas. Relasinya meningkat pesat.${briefingReaction}`
       : score >= STAR_THRESHOLDS.two
-        ? 'Customer puas dengan hasil kerja Iga.'
-        : 'Customer cukup puas, meski masih ada ruang perbaikan.'
+        ? `Customer puas dengan hasil kerja Iga.${briefingReaction}`
+        : `Customer cukup puas, meski masih ada ruang perbaikan.${briefingReaction}`
 
 
   const missionMessage = simulating
@@ -62,6 +71,13 @@ export function LevelPanel() {
       </div>
 
       <p className="level-brief">{level.brief}</p>
+
+      {note ? (
+        <div className="level-briefing-note">
+          <span>Catatan briefing</span>
+          <p>{note}</p>
+        </div>
+      ) : null}
 
       <div className="score-block">
         <div className="score-copy">

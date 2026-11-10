@@ -3,11 +3,11 @@ export const VERSION_SEEN_KEY = 'netforge.seenVersion.v1'
 
 export const LATEST_UPDATE = {
   version: APP_VERSION,
-  title: 'Papan order sebagai navigasi utama',
+  title: 'Kantor pixel art dan briefing cerita',
   items: [
-    'Dropdown level diganti papan order.',
-    'E2E Playwright berjalan di CI.',
-    'Versi dan cache PWA otomatis dari package.json.',
-    'Render 3D lebih hemat dan mendukung reduced motion.',
+    'Kantor 3D diganti scene pixel art 2D yang lebih ringan.',
+    'Customer dan NPC bisa diajak dialog setiap shift.',
+    'Pilihan briefing tercatat dan muncul di misi.',
+    'Dependensi Three.js dihapus dari bundle.',
   ],
 }
