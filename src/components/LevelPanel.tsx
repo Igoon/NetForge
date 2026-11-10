@@ -1,0 +1,143 @@
+import { LEVELS } from '../data/levels'
+import { useGameStore } from '../store/gameStore'
+
+export function LevelPanel() {
+  const levelId = useGameStore((state) => state.levelId)
+  const level = useGameStore((state) => state.level)
+  const seed = useGameStore((state) => state.seed)
+  const checks = useGameStore((state) => state.checks)
+  const score = useGameStore((state) => state.score)
+  const breakdown = useGameStore((state) => state.breakdown)
+  const passed = useGameStore((state) => state.passed)
+  const objectivesPassed = useGameStore((state) => state.objectivesPassed)
+  const incidents = useGameStore((state) => state.incidents)
+  const simulating = useGameStore((state) => state.simulating)
+  const selectLevel = useGameStore((state) => state.selectLevel)
+  const currentIndex = LEVELS.findIndex((item) => item.id === levelId)
+  const nextLevel = LEVELS[currentIndex + 1]
+  const activeIncidents = incidents.filter(
+    (incident) => incident.status === 'active',
+  ).length
+  const stars = !passed
+    ? 0
+    : score >= 90
+      ? 3
+      : score >= 70
+        ? 2
+        : score >= 50
+          ? 1
+          : 0
+
+  const missionMessage = simulating
+    ? 'Paket sedang berjalan melalui topologi...'
+    : passed
+      ? 'Semua tujuan tercapai. Misi selesai!'
+      : objectivesPassed && activeIncidents > 0
+        ? 'Tujuan sudah tercapai. Tangani gangguan agar misi selesai.'
+        : activeIncidents > 0
+          ? 'Ada gangguan aktif. Selesaikan dulu agar skor tidak terus turun.'
+          : 'Selesaikan semua tujuan untuk menuntaskan misi.'
+
+  return (
+    <section className="panel level-panel">
+      <div className="panel-heading">
+        <span className="eyebrow">Misi aktif</span>
+        <h2>{level.name}</h2>
+        <p className="level-tagline">{level.tagline}</p>
+        <div className="level-meta">
+          <span className="seed-chip">seed {seed}</span>
+          <span className="variant-chip">kasus acak</span>
+        </div>
+      </div>
+
+      <p className="level-brief">{level.brief}</p>
+
+      <div className="score-block">
+        <div className="score-copy">
+          <strong>{score}</strong>
+          <span>skor</span>
+        </div>
+        <div className="score-side">
+          <div className="stars" aria-label={`Pencapaian ${stars} dari 3`}>
+            {[0, 1, 2].map((index) => (
+              <span
+                key={index}
+                className={`star${index < stars ? ' is-on' : ''}`}
+              />
+            ))}
+          </div>
+          <div className="progress-track">
+            <span style={{ width: `${score}%` }} />
+          </div>
+        </div>
+      </div>
+
+      <div className="score-breakdown">
+        <div>
+          <span>Misi</span>
+          <strong>{breakdown.mission}<small>/50</small></strong>
+        </div>
+        <div>
+          <span>Waktu</span>
+          <strong>{breakdown.time}<small>/20</small></strong>
+        </div>
+        <div>
+          <span>Insiden</span>
+          <strong>{breakdown.incidents}<small>/20</small></strong>
+        </div>
+        <div>
+          <span>Kerapian</span>
+          <strong>{breakdown.tidy}<small>/10</small></strong>
+        </div>
+      </div>
+
+      <div className={`mission-state${passed ? ' is-done' : ''}`}>
+        <span className="state-dot" />
+        {missionMessage}
+      </div>
+
+      {passed ? (
+        nextLevel ? (
+          <button
+            className="next-level"
+            onClick={() => selectLevel(nextLevel.id)}
+          >
+            <span>
+              <small>Misi berikutnya</small>
+              {nextLevel.name}
+            </span>
+            <span className="next-arrow">→</span>
+          </button>
+        ) : (
+          <div className="final-note">
+            Semua misi selesai. Topologi jaringanmu sudah cukup rapi.
+          </div>
+        )
+      ) : null}
+
+      <div className="objective-list">
+        {checks.map((check) => (
+          <div
+            key={check.id}
+            className={`objective${check.passed ? ' is-passed' : ''}`}
+          >
+            <span className="objective-mark">{check.passed ? '✓' : '·'}</span>
+            <div>
+              <strong>{check.label}</strong>
+              <small>{check.detail}</small>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="hint-block">
+        <span className="eyebrow">Petunjuk</span>
+        <ul>
+          {level.hints.map((hint) => (
+            <li key={hint}>{hint}</li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}
