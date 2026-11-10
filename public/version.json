@@ -1,10 +1,10 @@
 {
-  "version": "0.3.2",
-  "title": "Kantor isometrik yang hidup",
+  "version": "0.3.3",
+  "title": "Fallback WebGL dan pengamanan data graf",
   "highlights": [
-    "Iga, NPC, dan kucing memiliki animasi idle.",
-    "Klik karakter untuk membuka balon dialog.",
-    "Customer berjalan masuk menuju papan order.",
-    "Upgrade kantor tampil langsung di ruangan."
+    "Kantor 2D tetap bisa dipakai jika WebGL tidak tersedia.",
+    "Error boundary mencegah layar kosong saat scene 3D gagal.",
+    "Data graf dari localStorage divalidasi dengan Zod.",
+    "Node/edge rusak dan edge tanpa tujuan otomatis dibuang."
   ]
 }

@@ -1927,6 +1927,96 @@ button:disabled {
   background: var(--teal-dark);
 }
 
+.office-fallback {
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+
+.office-fallback-card {
+  width: min(520px, 100%);
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  box-shadow: 0 14px 40px rgba(30, 41, 54, 0.12);
+}
+
+.office-fallback-main {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-top: 10px;
+}
+
+.office-fallback-avatar {
+  width: 84px;
+  height: 84px;
+  flex: 0 0 auto;
+}
+
+.office-fallback-main h2 {
+  margin: 0;
+  font-size: 23px;
+}
+
+.office-fallback-main p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+.office-fallback-npcs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 14px;
+}
+
+.office-fallback-npcs span {
+  padding: 3px 6px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel-soft);
+  color: var(--faint);
+  font-size: 8.5px;
+}
+
+.office-fallback-order {
+  margin-top: 12px;
+  padding: 9px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-soft);
+}
+
+.office-fallback-order span {
+  display: block;
+  color: var(--faint);
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 7.5px;
+  text-transform: uppercase;
+}
+
+.office-fallback-order strong {
+  display: block;
+  margin-top: 3px;
+  font-size: 12px;
+}
+
+.office-fallback-order small {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.office-fallback .office-order-button {
+  width: 100%;
+  margin-top: 12px;
+}
+
 .office-loading {
   position: absolute;
   inset: 0;
@@ -4065,6 +4155,7 @@ button:disabled {
   }
 
 }
+
 
 
 

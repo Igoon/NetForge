@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useMemo, type DragEvent } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState, type DragEvent } from 'react'
 import {
   Background,
   BackgroundVariant,
@@ -10,12 +10,15 @@ import {
   type NodeTypes,
 } from '@xyflow/react'
 import { DEVICES } from '../data/devices'
+import { isWebGLAvailable } from '../lib/webgl'
 import { useGameStore } from '../store/gameStore'
 import type { DeviceType } from '../types'
 import { CustomerOrderModal } from './CustomerOrderModal'
 import { DeviceNodeCard } from './DeviceNode'
 import { ComicPopup } from './ComicPopup'
+import { ErrorBoundary } from './ErrorBoundary'
 import { LoadoutOverlay } from './LoadoutOverlay'
+import { OfficeFallback } from './OfficeFallback'
 import { OrderBoardModal } from './OrderBoardModal'
 import { PacketEdgeView } from './PacketEdge'
 
@@ -33,6 +36,7 @@ export function TopologyCanvas() {
   const simulating = useGameStore((state) => state.simulating)
   const timerState = useGameStore((state) => state.timerState)
   const openOrderBoard = useGameStore((state) => state.openOrderBoard)
+  const [webglAvailable] = useState(isWebGLAvailable)
   const incidents = useGameStore((state) => state.incidents)
   const onNodesChange = useGameStore((state) => state.onNodesChange)
   const onEdgesChange = useGameStore((state) => state.onEdgesChange)
@@ -134,11 +138,22 @@ export function TopologyCanvas() {
       </div>
 
       {timerState === 'ready' ? (
-        <Suspense
-          fallback={<div className="office-loading">Menyiapkan kantor...</div>}
-        >
-          <OfficeScene onOpenOrder={openOrderBoard} />
-        </Suspense>
+        webglAvailable ? (
+          <ErrorBoundary
+            key={levelId}
+            fallback={<OfficeFallback onOpenOrder={openOrderBoard} />}
+          >
+            <Suspense
+              fallback={
+                <div className="office-loading">Menyiapkan kantor...</div>
+              }
+            >
+              <OfficeScene onOpenOrder={openOrderBoard} />
+            </Suspense>
+          </ErrorBoundary>
+        ) : (
+          <OfficeFallback onOpenOrder={openOrderBoard} />
+        )
       ) : null}
 
       <OrderBoardModal />

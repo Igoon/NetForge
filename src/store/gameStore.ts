@@ -28,6 +28,7 @@ import {
 } from '../data/inventory'
 import { getLevelVariant, randomSeed } from '../data/variants'
 import { LEVELS } from '../data/levels'
+import { parseSavedGraph } from '../data/graphSchema'
 import {
   isDevUnlockAll,
   isLevelUnlocked,
@@ -131,16 +132,11 @@ function readSaved(levelId: string, seed: string): SavedGraph | null {
   try {
     const raw = localStorage.getItem(graphKey(levelId, seed))
     if (!raw) return null
-    const parsed = JSON.parse(raw) as Partial<SavedGraph>
-    if (!Array.isArray(parsed.nodes) || !Array.isArray(parsed.edges)) {
-      return null
-    }
+    const graph = parseSavedGraph(raw)
+    if (!graph) return null
     return {
-      nodes: cloneNodes(parsed.nodes),
-      edges: cloneEdges(parsed.edges).map((edge) => ({
-        ...edge,
-        data: { ...edge.data, active: false },
-      })),
+      nodes: cloneNodes(graph.nodes),
+      edges: cloneEdges(graph.edges),
     }
   } catch {
     return null

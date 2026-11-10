@@ -1,4 +1,4 @@
-﻿# NetForge
+# NetForge
 
 Laboratorium topologi jaringan interaktif. Susun perangkat, tarik kabel,
 konfigurasi IP/VLAN/DHCP, lalu jalankan simulasi untuk menyelesaikan misi.
@@ -68,12 +68,14 @@ npm run preview
 ## Keamanan dan update
 
 - Profil divalidasi dengan Zod, nilai di-clamp, dan data lama disimpan sebagai backup.
+- Graf tersimpan divalidasi dengan Zod; node/edge rusak dibuang.
+- Kantor memiliki fallback 2D dan error boundary jika WebGL gagal.
 - Bintang dan hadiah dihitung ulang dari skor; data bintang kiriman klien tidak dipercaya.
 - Pembelian upgrade memeriksa kepemilikan dan saldo uang.
 - Kunci level ditegakkan di store, bukan hanya di tampilan.
 - Notifikasi changelog muncul saat versi berubah.
 - Service worker menampilkan tombol muat ulang saat update PWA tersedia.
-- Versi aplikasi saat ini: **0.3.2**.
+- Versi aplikasi saat ini: **0.3.3**.
 
 ## Kantor 3D
 
@@ -116,6 +118,7 @@ untuk atribusi.
 React 19, TypeScript, Vite, React Flow (`@xyflow/react`), Three.js,
 React Three Fiber, Zustand, Zod, Vitest. Progres topologi disimpan di
 `localStorage`.
+
 
 
 
