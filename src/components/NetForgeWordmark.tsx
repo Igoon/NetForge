@@ -19,9 +19,14 @@ const forgeLetters = [
   { id: 'e3', char: 'E', x: 1000 },
 ]
 
-export function NetForgeWordmark() {
+export function NetForgeWordmark({
+  forceAnimation = false,
+}: {
+  forceAnimation?: boolean
+}) {
+  const wrapClass = `intro-wordmark-wrap${forceAnimation ? ' is-forced' : ''}`
   return (
-    <div className="intro-wordmark-wrap">
+    <div className={wrapClass}>
       <h1 className="intro-wordmark" aria-label="NetForge">
         <svg viewBox="0 0 1230 220" className="wordmark-svg" aria-hidden="true">
           <g className="wordmark-letters">
@@ -57,3 +62,4 @@ export function NetForgeWordmark() {
     </div>
   )
 }
+

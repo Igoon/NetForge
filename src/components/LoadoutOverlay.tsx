@@ -9,11 +9,12 @@ export function LoadoutOverlay() {
   const seed = useGameStore((state) => state.seed)
   const loadout = useGameStore((state) => state.loadout)
   const timerState = useGameStore((state) => state.timerState)
+  const orderAccepted = useGameStore((state) => state.orderAccepted)
   const toggleLoadout = useGameStore((state) => state.toggleLoadout)
   const startMission = useGameStore((state) => state.startMission)
   const rerollSeed = useGameStore((state) => state.rerollSeed)
 
-  if (timerState !== 'ready') return null
+  if (timerState !== 'ready' || !orderAccepted) return null
 
   return (
     <div className="loadout-overlay">

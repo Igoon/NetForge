@@ -1,4 +1,4 @@
-# NetForge
+﻿# NetForge
 
 Laboratorium topologi jaringan interaktif. Susun perangkat, tarik kabel,
 konfigurasi IP/VLAN/DHCP, lalu jalankan simulasi untuk menyelesaikan misi.
@@ -53,6 +53,7 @@ npm run preview
 ## Karakter dan progresi
 
 - Tokoh utama: **Iga**, teknisi jaringan.
+- Setiap level dibuka lewat order customer dan dialog dua avatar.
 - Profil menyimpan uang, XP, level, reputasi, hari, dan rekor bintang.
 - Level terkunci sampai level sebelumnya memperoleh minimal 1 bintang.
 - Skor menentukan bintang: 3 bintang >=90, 2 bintang >=70, 1 bintang >=50.
@@ -70,7 +71,7 @@ npm run preview
 - Kunci level ditegakkan di store, bukan hanya di tampilan.
 - Notifikasi changelog muncul saat versi berubah.
 - Service worker menampilkan tombol muat ulang saat update PWA tersedia.
-- Versi aplikasi saat ini: **0.2.1**.
+- Versi aplikasi saat ini: **0.2.2**.
 
 ## Deploy GitHub Pages dan PWA
 
@@ -102,3 +103,4 @@ untuk atribusi.
 
 React 19, TypeScript, Vite, React Flow (`@xyflow/react`), Zustand, Zod,
 Vitest. Progres topologi disimpan di `localStorage`.
+

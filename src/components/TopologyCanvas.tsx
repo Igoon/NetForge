@@ -12,6 +12,7 @@ import {
 import { DEVICES } from '../data/devices'
 import { useGameStore } from '../store/gameStore'
 import type { DeviceType } from '../types'
+import { CustomerOrderModal } from './CustomerOrderModal'
 import { DeviceNodeCard } from './DeviceNode'
 import { ComicPopup } from './ComicPopup'
 import { LoadoutOverlay } from './LoadoutOverlay'
@@ -125,8 +126,10 @@ export function TopologyCanvas() {
         Tarik dari port kanan ke port kiri · Klik perangkat untuk konfigurasi
       </div>
 
+      <CustomerOrderModal />
       <LoadoutOverlay />
       <ComicPopup />
     </div>
   )
 }
+

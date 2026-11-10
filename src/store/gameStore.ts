@@ -73,6 +73,7 @@ interface GameStore {
   lastReward: MissionReward | null
   elapsed: number
   timerState: TimerState
+  orderAccepted: boolean
   incidents: Incident[]
   preventions: IncidentType[]
   inventory: Inventory
@@ -99,6 +100,7 @@ interface GameStore {
   recalculateScore: () => void
   tick: () => void
   togglePause: () => void
+  acceptOrder: () => void
   toggleLoadout: (item: InventoryItem) => void
   startMission: () => void
   restockItem: (item: InventoryItem) => void
@@ -251,6 +253,7 @@ function freshLevelState(level: Level, nodes: DeviceNode[], edges: PacketEdge[])
     lastReward: null,
     elapsed: 0,
     timerState: 'ready' as TimerState,
+    orderAccepted: false,
     incidents: [] as Incident[],
     preventions: [] as IncidentType[],
     inventory: emptyInventory(),
@@ -296,6 +299,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   lastReward: startupState.lastReward,
   elapsed: startupState.elapsed,
   timerState: startupState.timerState,
+  orderAccepted: startupState.orderAccepted,
   incidents: startupState.incidents,
   preventions: startupState.preventions,
   inventory: startupState.inventory,
@@ -561,6 +565,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
     })
   },
 
+  acceptOrder: () => {
+    if (get().timerState !== 'ready') return
+    set({ orderAccepted: true })
+  },
+
   toggleLoadout: (item) => {
     const state = get()
     if (state.timerState !== 'ready') return
@@ -574,7 +583,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   startMission: () => {
     const state = get()
-    if (state.timerState !== 'ready' || state.loadout.length !== 2) return
+    if (
+      state.timerState !== 'ready' ||
+      !state.orderAccepted ||
+      state.loadout.length !== 2
+    ) {
+      return
+    }
     const inventory = emptyInventory()
     for (const item of state.loadout) {
       inventory[item] = 1
@@ -712,3 +727,4 @@ export const useGameStore = create<GameStore>((set, get) => ({
     }, 4500)
   },
 }))
+

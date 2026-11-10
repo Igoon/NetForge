@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { DeviceGlyph } from './DeviceGlyph'
 import { APP_VERSION } from '../data/version'
 import { NetForgeWordmark } from './NetForgeWordmark'
@@ -7,6 +8,13 @@ interface IntroScreenProps {
 }
 
 export function IntroScreen({ onStart }: IntroScreenProps) {
+  const [replayKey, setReplayKey] = useState(0)
+  const [forceAnimation, setForceAnimation] = useState(false)
+
+  const replayIntro = () => {
+    setForceAnimation(true)
+    setReplayKey((value) => value + 1)
+  }
   return (
     <main className="intro-screen">
       <div className="intro-topbar">
@@ -21,15 +29,20 @@ export function IntroScreen({ onStart }: IntroScreenProps) {
             <strong>NetForge</strong>
           </div>
         </div>
-        <button className="intro-skip" onClick={onStart}>
-          Lewati intro
-        </button>
+        <div className="intro-topbar-actions">
+          <button className="intro-replay" onClick={replayIntro}>
+            Putar ulang animasi
+          </button>
+          <button className="intro-skip" onClick={onStart}>
+            Lewati intro
+          </button>
+        </div>
       </div>
 
       <section className="intro-stage">
         <div className="intro-heading">
           <span className="eyebrow">Shift pertama · 08:00</span>
-          <NetForgeWordmark />
+          <NetForgeWordmark key={replayKey} forceAnimation={forceAnimation} />
           <p>
             Jaringan belum siap. Iga, teknisi baru di kantor ini, harus
             merapikan kabel dan menghadapi gangguan sebelum shift berakhir.
@@ -92,3 +105,4 @@ export function IntroScreen({ onStart }: IntroScreenProps) {
     </main>
   )
 }
+
