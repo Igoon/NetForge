@@ -6,10 +6,16 @@ import { IntroScreen } from './components/IntroScreen'
 import { InventoryPanel } from './components/InventoryPanel'
 import { LevelPanel } from './components/LevelPanel'
 import { Palette } from './components/Palette'
+import { ProfilePanel } from './components/ProfilePanel'
 import { TimerHud } from './components/TimerHud'
 import { TopologyCanvas } from './components/TopologyCanvas'
 import { LEVELS } from './data/levels'
+import {
+  isDevUnlockAll,
+  isLevelUnlocked,
+} from './data/profile'
 import { useGameStore } from './store/gameStore'
+import { useProfileStore } from './store/profileStore'
 
 const INTRO_KEY = 'netforge.intro.v1'
 
@@ -23,6 +29,8 @@ function GameShell() {
   const selectLevel = useGameStore((state) => state.selectLevel)
   const resetLevel = useGameStore((state) => state.resetLevel)
   const simulate = useGameStore((state) => state.simulate)
+  const profile = useProfileStore((state) => state.profile)
+  const devUnlock = isDevUnlockAll()
   const currentIndex = LEVELS.findIndex((level) => level.id === levelId)
 
   return (
@@ -51,11 +59,16 @@ function GameShell() {
             value={levelId}
             onChange={(event) => selectLevel(event.target.value)}
           >
-            {LEVELS.map((level) => (
-              <option key={level.id} value={level.id}>
-                {level.name}
-              </option>
-            ))}
+            {LEVELS.map((level) => {
+              const unlocked =
+                devUnlock || isLevelUnlocked(profile, level.id)
+              return (
+                <option key={level.id} value={level.id} disabled={!unlocked}>
+                  {level.name}
+                  {unlocked ? '' : ' - terkunci'}
+                </option>
+              )
+            })}
           </select>
           <TimerHud />
         </div>
@@ -86,6 +99,7 @@ function GameShell() {
         </section>
 
         <aside className="right-column">
+          <ProfilePanel />
           <InventoryPanel />
           <Palette />
           <Inspector />

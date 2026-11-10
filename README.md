@@ -50,6 +50,16 @@ npm run preview
 - Item kosong bisa di-restock dengan biaya 15 detik.
 - Efek dramatis: pop-up komik di tengah kanvas, balon percakapan, suara sintetis Web Audio, getaran kanvas, dan kedip blackout. Semua bisa dimatikan lewat SFX dan menghormati reduced motion.
 
+## Karakter dan progresi
+
+- Tokoh utama: **Iga**, teknisi jaringan.
+- Profil menyimpan uang, XP, level, reputasi, hari, dan rekor bintang.
+- Level terkunci sampai level sebelumnya memperoleh minimal 1 bintang.
+- Skor menentukan bintang: 3 bintang >=90, 2 bintang >=70, 1 bintang >=50.
+- Misi yang lulus memberi uang, XP, dan reputasi. Pengulangan tetap mengurangi hadiah.
+- Tombol level berikutnya hanya muncul jika misi sudah lulus.
+- Data profil disimpan terpisah di `localStorage`.
+
 ## Deploy GitHub Pages dan PWA
 
 Build memakai `base: './'`, jadi bisa dipasang di root maupun subpath GitHub Pages.

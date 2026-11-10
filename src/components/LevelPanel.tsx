@@ -9,10 +9,13 @@ export function LevelPanel() {
   const score = useGameStore((state) => state.score)
   const breakdown = useGameStore((state) => state.breakdown)
   const passed = useGameStore((state) => state.passed)
+  const cleared = useGameStore((state) => state.cleared)
+  const lastReward = useGameStore((state) => state.lastReward)
   const objectivesPassed = useGameStore((state) => state.objectivesPassed)
   const incidents = useGameStore((state) => state.incidents)
   const simulating = useGameStore((state) => state.simulating)
   const selectLevel = useGameStore((state) => state.selectLevel)
+  const resetLevel = useGameStore((state) => state.resetLevel)
   const currentIndex = LEVELS.findIndex((item) => item.id === levelId)
   const nextLevel = LEVELS[currentIndex + 1]
   const activeIncidents = incidents.filter(
@@ -30,13 +33,15 @@ export function LevelPanel() {
 
   const missionMessage = simulating
     ? 'Paket sedang berjalan melalui topologi...'
-    : passed
-      ? 'Semua tujuan tercapai. Misi selesai!'
-      : objectivesPassed && activeIncidents > 0
-        ? 'Tujuan sudah tercapai. Tangani gangguan agar misi selesai.'
-        : activeIncidents > 0
-          ? 'Ada gangguan aktif. Selesaikan dulu agar skor tidak terus turun.'
-          : 'Selesaikan semua tujuan untuk menuntaskan misi.'
+    : passed && !cleared
+      ? 'Misi selesai, tetapi skor belum mencapai 1 bintang. Ulangi untuk lulus.'
+      : passed
+        ? 'Semua tujuan tercapai. Misi selesai!'
+        : objectivesPassed && activeIncidents > 0
+          ? 'Tujuan sudah tercapai. Tangani gangguan agar misi selesai.'
+          : activeIncidents > 0
+            ? 'Ada gangguan aktif. Selesaikan dulu agar skor tidak terus turun.'
+            : 'Selesaikan semua tujuan untuk menuntaskan misi.'
 
   return (
     <section className="panel level-panel">
@@ -91,12 +96,40 @@ export function LevelPanel() {
         </div>
       </div>
 
-      <div className={`mission-state${passed ? ' is-done' : ''}`}>
+      <div className={`mission-state${cleared ? ' is-done' : ''}`}>
         <span className="state-dot" />
         {missionMessage}
       </div>
 
-      {passed ? (
+      {lastReward ? (
+        <div className="reward-box">
+          <span className="eyebrow">
+            {lastReward.replay ? 'Hadiah ulangan' : 'Hadiah shift'}
+          </span>
+          <div className="reward-grid">
+            <div>
+              <span>Uang</span>
+              <strong>+Rp {lastReward.money.toLocaleString('id-ID')}</strong>
+            </div>
+            <div>
+              <span>XP</span>
+              <strong>+{lastReward.xp}</strong>
+            </div>
+            <div>
+              <span>Reputasi</span>
+              <strong>+{lastReward.reputation}</strong>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {passed && !cleared ? (
+        <button className="retry-button" onClick={resetLevel}>
+          Ulangi misi
+        </button>
+      ) : null}
+
+      {cleared ? (
         nextLevel ? (
           <button
             className="next-level"

@@ -27,6 +27,13 @@ import {
 } from '../data/inventory'
 import { getLevelVariant, randomSeed } from '../data/variants'
 import { LEVELS } from '../data/levels'
+import {
+  isDevUnlockAll,
+  isLevelUnlocked,
+  starsForScore,
+  type MissionReward,
+} from '../data/profile'
+import { useProfileStore } from './profileStore'
 import { computeScore, type ScoreBreakdown } from '../engine/score'
 import { simulationEdgesFor, validateLevel } from '../engine/validate'
 import type {
@@ -61,6 +68,9 @@ interface GameStore {
   breakdown: ScoreBreakdown
   objectivesPassed: boolean
   passed: boolean
+  cleared: boolean
+  runSettled: boolean
+  lastReward: MissionReward | null
   elapsed: number
   timerState: TimerState
   incidents: Incident[]
@@ -236,6 +246,9 @@ function freshLevelState(level: Level, nodes: DeviceNode[], edges: PacketEdge[])
     breakdown,
     objectivesPassed: validation.passed,
     passed: false,
+    cleared: false,
+    runSettled: false,
+    lastReward: null,
     elapsed: 0,
     timerState: 'ready' as TimerState,
     incidents: [] as Incident[],
@@ -248,7 +261,14 @@ function freshLevelState(level: Level, nodes: DeviceNode[], edges: PacketEdge[])
 }
 
 const startupRunSeed = savedSeed() ?? randomSeed()
-const startupLevel = getLevelVariant(startupLevelId(), startupRunSeed)
+const savedStartupLevelId = startupLevelId()
+const startupProfile = useProfileStore.getState().profile
+const startupBaseLevelId =
+  isDevUnlockAll() ||
+  isLevelUnlocked(startupProfile, savedStartupLevelId)
+    ? savedStartupLevelId
+    : LEVELS[0].id
+const startupLevel = getLevelVariant(startupBaseLevelId, startupRunSeed)
 const startupSaved = readSaved(startupLevel.id, startupRunSeed)
 const startupNodes = (
   startupSaved ? startupSaved.nodes : cloneNodes(startupLevel.initialNodes)
@@ -271,6 +291,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
   breakdown: startupState.breakdown,
   objectivesPassed: startupState.objectivesPassed,
   passed: startupState.passed,
+  cleared: startupState.cleared,
+  runSettled: startupState.runSettled,
+  lastReward: startupState.lastReward,
   elapsed: startupState.elapsed,
   timerState: startupState.timerState,
   incidents: startupState.incidents,
@@ -283,6 +306,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
   activeEdgeIds: [],
 
   selectLevel: (levelId) => {
+    if (
+      !isDevUnlockAll() &&
+      !isLevelUnlocked(useProfileStore.getState().profile, levelId)
+    ) {
+      return
+    }
     const seed = randomSeed()
     const level = getLevelVariant(levelId, seed)
     const nodes = cloneNodes(level.initialNodes).map((node) => ({
@@ -457,10 +486,26 @@ export const useGameStore = create<GameStore>((set, get) => ({
       else if (timerState === 'complete') timerState = 'running'
     }
 
+    let cleared = state.cleared
+    let runSettled = state.runSettled
+    let lastReward = state.lastReward
+    if (passed && !state.runSettled) {
+      const stars = starsForScore(breakdown.total)
+      const result = useProfileStore
+        .getState()
+        .recordMission(level.id, breakdown.total, stars)
+      cleared = result.cleared
+      runSettled = true
+      lastReward = result.reward
+    }
+
     set({
       checks: validation.checks,
       objectivesPassed,
       passed,
+      cleared,
+      runSettled,
+      lastReward,
       score: breakdown.total,
       breakdown,
       timerState,
@@ -660,5 +705,3 @@ export const useGameStore = create<GameStore>((set, get) => ({
     }, 4500)
   },
 }))
-
-

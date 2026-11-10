@@ -29,8 +29,9 @@ export function IntroScreen({ onStart }: IntroScreenProps) {
           <span className="eyebrow">Shift pertama · 08:00</span>
           <h1>Jaringan belum siap.</h1>
           <p>
-            Kantor baru, kabel belum rapi, dan gangguan sudah menunggu. Susun
-            topologi, atur perangkat, lalu selamatkan shift hari ini.
+            Iga, teknisi baru di kantor ini. Kabel belum rapi, dan gangguan
+            sudah menunggu. Susun topologi, atur perangkat, lalu selamatkan
+            shift hari ini.
           </p>
         </div>
 
