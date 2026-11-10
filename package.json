@@ -1,8 +1,8 @@
-﻿{
+{
   "name": "net-forge-game",
   "private": true,
   "license": "Apache-2.0",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,9 +12,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-three/fiber": "^9.8.2",
     "@xyflow/react": "^12.12.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
+    "three": "^0.187.0",
     "zod": "^4.6.7",
     "zustand": "^5.1.0"
   },
@@ -22,6 +24,7 @@
     "@types/node": "^24.19.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.187.0",
     "@vitejs/plugin-react": "^6.1.2",
     "oxlint": "^1.90.0",
     "typescript": "~7.0.2",
@@ -29,4 +32,3 @@
     "vitest": "^5.1.0"
   }
 }
-

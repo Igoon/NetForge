@@ -1,10 +1,10 @@
 {
-  "version": "0.2.2",
-  "title": "Order customer dan intro yang bisa diputar ulang",
+  "version": "0.3.0",
+  "title": "Kantor isometrik 3D dan papan order",
   "highlights": [
-    "Setiap level dibuka lewat order dan dialog customer.",
-    "Dua avatar: customer dan Iga.",
-    "Tombol putar ulang animasi intro.",
-    "Detail order, target waktu, dan estimasi bayaran."
+    "Kantor Iga tampil sebagai ruangan isometrik low-poly.",
+    "Model 3D flat untuk Iga, dua rekan kerja, dan kucing.",
+    "Papan order 3D membuka dialog customer.",
+    "Misi jaringan tetap memakai papan 2D yang jelas."
   ]
 }

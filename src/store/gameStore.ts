@@ -1,4 +1,4 @@
-import {
+﻿import {
   addEdge,
   applyEdgeChanges,
   applyNodeChanges,
@@ -74,6 +74,7 @@ interface GameStore {
   elapsed: number
   timerState: TimerState
   orderAccepted: boolean
+  orderOpen: boolean
   incidents: Incident[]
   preventions: IncidentType[]
   inventory: Inventory
@@ -101,6 +102,8 @@ interface GameStore {
   tick: () => void
   togglePause: () => void
   acceptOrder: () => void
+  openOrder: () => void
+  closeOrder: () => void
   toggleLoadout: (item: InventoryItem) => void
   startMission: () => void
   restockItem: (item: InventoryItem) => void
@@ -254,6 +257,7 @@ function freshLevelState(level: Level, nodes: DeviceNode[], edges: PacketEdge[])
     elapsed: 0,
     timerState: 'ready' as TimerState,
     orderAccepted: false,
+    orderOpen: false,
     incidents: [] as Incident[],
     preventions: [] as IncidentType[],
     inventory: emptyInventory(),
@@ -300,6 +304,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   elapsed: startupState.elapsed,
   timerState: startupState.timerState,
   orderAccepted: startupState.orderAccepted,
+  orderOpen: startupState.orderOpen,
   incidents: startupState.incidents,
   preventions: startupState.preventions,
   inventory: startupState.inventory,
@@ -567,8 +572,16 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   acceptOrder: () => {
     if (get().timerState !== 'ready') return
-    set({ orderAccepted: true })
+    set({ orderAccepted: true, orderOpen: false })
   },
+
+  openOrder: () => {
+    const state = get()
+    if (state.timerState !== 'ready' || state.orderAccepted) return
+    set({ orderOpen: true })
+  },
+
+  closeOrder: () => set({ orderOpen: false }),
 
   toggleLoadout: (item) => {
     const state = get()
@@ -727,4 +740,5 @@ export const useGameStore = create<GameStore>((set, get) => ({
     }, 4500)
   },
 }))
+
 

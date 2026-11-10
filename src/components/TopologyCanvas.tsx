@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, type DragEvent } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useMemo, type DragEvent } from 'react'
 import {
   Background,
   BackgroundVariant,
@@ -18,6 +18,10 @@ import { ComicPopup } from './ComicPopup'
 import { LoadoutOverlay } from './LoadoutOverlay'
 import { PacketEdgeView } from './PacketEdge'
 
+const OfficeScene = lazy(() =>
+  import('./OfficeScene').then((module) => ({ default: module.OfficeScene })),
+)
+
 const nodeTypes = { device: DeviceNodeCard } as unknown as NodeTypes
 const edgeTypes = { packet: PacketEdgeView } as unknown as EdgeTypes
 
@@ -26,6 +30,8 @@ export function TopologyCanvas() {
   const edges = useGameStore((state) => state.edges)
   const activeEdgeIds = useGameStore((state) => state.activeEdgeIds)
   const simulating = useGameStore((state) => state.simulating)
+  const timerState = useGameStore((state) => state.timerState)
+  const openOrder = useGameStore((state) => state.openOrder)
   const incidents = useGameStore((state) => state.incidents)
   const onNodesChange = useGameStore((state) => state.onNodesChange)
   const onEdgesChange = useGameStore((state) => state.onEdgesChange)
@@ -125,6 +131,14 @@ export function TopologyCanvas() {
       <div className="canvas-tip">
         Tarik dari port kanan ke port kiri · Klik perangkat untuk konfigurasi
       </div>
+
+      {timerState === 'ready' ? (
+        <Suspense
+          fallback={<div className="office-loading">Menyiapkan kantor...</div>}
+        >
+          <OfficeScene onOpenOrder={openOrder} />
+        </Suspense>
+      ) : null}
 
       <CustomerOrderModal />
       <LoadoutOverlay />

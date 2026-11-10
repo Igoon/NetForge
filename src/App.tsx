@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { ReactFlowProvider } from '@xyflow/react'
 import { IncidentPanel } from './components/IncidentPanel'
 import { Inspector } from './components/Inspector'
@@ -101,9 +101,13 @@ function GameShell() {
 
         <aside className="right-column">
           <ProfilePanel />
-          <InventoryPanel />
-          <Palette />
-          <Inspector />
+          {timerState !== 'ready' ? (
+            <>
+              <InventoryPanel />
+              <Palette />
+              <Inspector />
+            </>
+          ) : null}
         </aside>
       </main>
 
@@ -152,6 +156,7 @@ export default function App() {
       // abaikan
     }
     setShowIntro(false)
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
   }
 
   if (showIntro) return <IntroScreen onStart={finishIntro} />
@@ -162,3 +167,4 @@ export default function App() {
     </ReactFlowProvider>
   )
 }
+

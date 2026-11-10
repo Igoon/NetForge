@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import {
   CUSTOMER_ORDERS,
   type CustomerOrder,
@@ -29,11 +29,13 @@ export function CustomerOrderModal() {
   const seed = useGameStore((state) => state.seed)
   const timerState = useGameStore((state) => state.timerState)
   const orderAccepted = useGameStore((state) => state.orderAccepted)
+  const orderOpen = useGameStore((state) => state.orderOpen)
   const acceptOrder = useGameStore((state) => state.acceptOrder)
+  const closeOrder = useGameStore((state) => state.closeOrder)
   const [detailOpen, setDetailOpen] = useState(false)
   const order = CUSTOMER_ORDERS[level.id] ?? FALLBACK_ORDER
 
-  if (timerState !== 'ready' || orderAccepted) return null
+  if (timerState !== 'ready' || orderAccepted || !orderOpen) return null
 
   return (
     <div className="loadout-overlay order-overlay">
@@ -45,7 +47,12 @@ export function CustomerOrderModal() {
       >
         <div className="order-topline">
           <span className="eyebrow">Order masuk · {level.name}</span>
-          <span className="seed-chip">seed {seed}</span>
+          <div className="order-top-actions">
+            <span className="seed-chip">seed {seed}</span>
+            <button className="order-close" onClick={closeOrder}>
+              Nanti
+            </button>
+          </div>
         </div>
 
         <div className="order-actors">
@@ -110,3 +117,4 @@ export function CustomerOrderModal() {
     </div>
   )
 }
+
