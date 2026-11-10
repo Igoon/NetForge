@@ -58,7 +58,7 @@ Workflow `.github/workflows/deploy.yml` akan menjalankan test, build, lalu deplo
 
 1. Push repo ke GitHub.
 2. Buka **Settings > Pages** dan pilih **GitHub Actions** sebagai source.
-3. Push ke `main`, lalu buka `https://username.github.io/nama-repo/`.
+3. Push ke `main`, lalu buka `https://igoon.github.io/NetForge/`.
 
 Repo private: GitHub Pages untuk repo private memerlukan paket GitHub Pro,
 Team, atau Enterprise. Akun GitHub Free harus memakai repo publik. Visibilitas
