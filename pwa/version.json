@@ -1,6 +1,14 @@
 {
-  "version": "0.36.0",
-  "build": "player-command-center-ux-redesign",
+  "version": "0.36.1",
+  "build": "iga-guided-tutorial-update-changelog",
   "updated": "2026-11-12",
-  "notes": "Grouped main menu, profile header, accessible dashboard tabs, mission CTA, mobile layout; backend unchanged"
+  "title": "Guided Gameplay & Iga Interactive Tutorial",
+  "changes": [
+    "Panduan interaktif Iga: penjelasan awal Guided Lab dan bantuan kontekstual untuk lima tahap.",
+    "Umpan balik kesalahan yang lebih jelas ketika tombol Periksa tahap digunakan.",
+    "Dialog Update menampilkan versi game aktif, versi terbaru, dan daftar perubahan.",
+    "Tombol Cek Update juga dapat digunakan untuk membaca informasi rilis terbaru.",
+    "Fungsi Guest Mode, Google Login, sinkronisasi progres, dan backend v0.35.2 tetap dipertahankan."
+  ],
+  "notes": "Frontend only; backend v0.35.2 compatible"
 }

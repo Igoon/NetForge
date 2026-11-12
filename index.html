@@ -3,7 +3,7 @@
 <html lang="id">
 <head>
 <meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>NET FORGE v0.36.0 — Created by I GO ON (Igoon)</title>
+<title>NET FORGE v0.36.1 — Created by I GO ON (Igoon)</title>
 <style>
 :root{--bg:#0b1220;--panel:#111c2e;--panel2:#17253a;--line:#2b3b54;--text:#e8f0fb;--muted:#9aacc5;--cyan:#4dd7e8;--green:#53d69a;--amber:#ffbf5e;--red:#ff6f78}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 0%,#1b3150 0,#0b1220 45%);color:var(--text);font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
@@ -817,10 +817,10 @@ body.motion-off .nf34-packet, body.motion-off .nf34-link-activity,body.motion-of
 @media(prefers-reduced-motion:reduce){.nf34-link-activity,.iga-dock .avatar.nf34-success,.iga-dock .avatar.nf34-warning{animation:none!important}}
 </style><style id="nf342-version-style">#nf342Version {position:fixed;bottom:8px;left:8px;z-index:1100;padding:5px 9px;background:#08192bdc;border:1px solid #286587;border-radius:8px;color:#b9eaff;font:11px system-ui,sans-serif;pointer-events:none}body:has(#nf342LogDrawer:not([hidden])) #nf342Version{opacity:.5}</style><script id="nf-release-metadata">
 /* Version source for public app UI; module and export schema versions remain independent. */
-window.NETFORGE_RELEASE = Object.freeze({ version: "0.36.0", label: "v0.36.0", release: "UI/UX Redesign — Player Command Center" });
+window.NETFORGE_RELEASE = Object.freeze({ version: "0.36.1", label: "v0.36.1", release: "Guided Gameplay & Transparent PWA Updates" });
 </script>
 <style id="nf344AudioGateStyle">
-/* v0.36.0 — user-gesture audio gate before cinematic intro */
+/* v0.36.1 — user-gesture audio gate before cinematic intro */
 #nf344AudioGate[hidden]{display:none!important}
 #nf344AudioGate{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;padding:18px;background:radial-gradient(circle at 50% 35%,#143a67 0,#071632 65%,#030b1f 100%);color:#eafaff;font:inherit}
 #nf344AudioGate .nf344-card{width:min(480px,100%);border:1.5px solid #1aa9e9;box-shadow:0 0 38px #00a6ff42;border-radius:18px;padding:26px;background:#071a35ee;text-align:center}
@@ -831,7 +831,7 @@ window.NETFORGE_RELEASE = Object.freeze({ version: "0.36.0", label: "v0.36.0", r
 #nf344AudioGate .nf344-status{font:12px/1.6 ui-monospace,monospace;color:#8edfec;min-height:24px;margin-top:10px}
 #nf344AudioGate button:focus-visible{outline:3px solid #f6e463;outline-offset:3px}
 </style><style id="nf346PublicStyle">
-/* v0.36.0 — Public Player / Guest access layer */
+/* v0.36.1 — Public Player / Guest access layer */
 #nf346MenuEntry {display:grid;gap:6px;margin:12px auto 8px;max-width:340px;padding:12px;border:1px solid #2d7fa7;border-radius:12px;background:#06284bd9;color:#e7faff;text-align:left}
 #nf346MenuEntry strong{color:#6de8ff;font-size:13px}
 #nf346MenuEntry p{font-size:11px;line-height:1.5;color:#bbd8ed;margin:0}
@@ -851,7 +851,7 @@ window.NETFORGE_RELEASE = Object.freeze({ version: "0.36.0", label: "v0.36.0", r
 </style></head>
 <body>
 <header class="topbar">
-<div class="brand"><div aria-label="NET FORGE network logo" class="logo"><svg aria-hidden="true" viewbox="0 0 48 48"><g fill="none" stroke="#a8f8ff" stroke-width="2.4"><path d="M10 13L24 7L38 15L35 34L19 41L7 28Z"></path><path d="M10 13L24 25L38 15M24 25L19 41M24 25L35 34"></path></g><g fill="#39eaff" stroke="#eaffff" stroke-width="1.4"><circle cx="10" cy="13" r="4"></circle><circle cx="24" cy="7" r="4"></circle><circle cx="38" cy="15" r="4"></circle><circle cx="35" cy="34" r="4"></circle><circle cx="19" cy="41" r="4"></circle><circle cx="7" cy="28" r="4"></circle><circle cx="24" cy="25" r="4.5"></circle></g></svg></div><div><b>NET FORGE</b><small data-nf-release-label>IGA'S NETWORK ADVENTURE · v0.36.0</small></div></div>
+<div class="brand"><div aria-label="NET FORGE network logo" class="logo"><svg aria-hidden="true" viewbox="0 0 48 48"><g fill="none" stroke="#a8f8ff" stroke-width="2.4"><path d="M10 13L24 7L38 15L35 34L19 41L7 28Z"></path><path d="M10 13L24 25L38 15M24 25L19 41M24 25L35 34"></path></g><g fill="#39eaff" stroke="#eaffff" stroke-width="1.4"><circle cx="10" cy="13" r="4"></circle><circle cx="24" cy="7" r="4"></circle><circle cx="38" cy="15" r="4"></circle><circle cx="35" cy="34" r="4"></circle><circle cx="19" cy="41" r="4"></circle><circle cx="7" cy="28" r="4"></circle><circle cx="24" cy="25" r="4.5"></circle></g></svg></div><div><b>NET FORGE</b><small data-nf-release-label>IGA'S NETWORK ADVENTURE · v0.36.1</small></div></div>
 <nav aria-label="Navigasi utama" class="topnav"><a class="active" href="#missionTitle">⚑ Misi</a><a href="#pveConfigPanel">♙ Lab</a><a href="#log">▤ Laporan</a><a href="#progressText">🏆 Pencapaian</a><a href="#settingsArea">⚙ Pengaturan</a></nav>
 <div class="topstats"><div class="stat xp-stat"><small>⭐ EXPERIENCE</small><strong id="xp">0 XP</strong></div><div class="stat level-stat"><small>LEVEL</small><strong>Lv. 1</strong></div><div class="stat budget-stat"><small>BUDGET</small><strong id="budget">$1,000</strong></div><div class="stat difficulty-stat"><small>MODE</small><strong id="difficultyLabel">EASY</strong></div></div>
 </header>
@@ -883,7 +883,7 @@ window.NETFORGE_RELEASE = Object.freeze({ version: "0.36.0", label: "v0.36.0", r
 </div>
 </section>
 </aside>
-<section class="workspace-shell"><div class="panel workspace-panel"><div class="panelhead"><h3>🏢 WORKSPACE · SIMULASI JARINGAN</h3><span class="eyebrow">INTERACTIVE NETWORK SIMULATION · v0.36.0</span></div><div class="stage" id="stage"><div class="stagebar"><div class="hint" id="modeHint">Pilih perangkat dari inventory untuk mulai.</div><div aria-label="Kontrol workspace" class="nf24-tools" role="group"><button id="nf24Arrange" title="Rapikan posisi perangkat" type="button">▦ Rapikan</button><button aria-pressed="false" id="nf24Focus" title="Fokus pada workspace" type="button">⛶ Fokus</button><button id="nf24Help" title="Panduan bermain" type="button">❔ Panduan</button></div><button aria-pressed="true" class="motion-toggle" id="motionToggle" type="button">✨ Animasi: Aktif</button></div><div class="room-dressing"><div class="ceiling-strip ceiling-a"></div><div class="ceiling-strip ceiling-b"></div><div class="floor-horizon"></div><div class="scene-marquee">NET <em>FORGE</em><span>NETWORK SIMULATION LAB</span></div><div class="mission-whiteboard"><div class="wb-caption">MISSION CONTROL</div><div class="wb-title">BUILD · CONNECT · TEST</div><div class="wb-list"><span>✓ Choose devices</span><span>✓ Connect Ethernet</span><span>✓ Configure IP</span><span>✓ Verify network</span></div></div><div class="scene-server scene-server-a"><span></span><span></span><span></span><span></span><span></span></div><div class="scene-server scene-server-b"><span></span><span></span><span></span></div><div class="scene-floor-glow"></div><div class="wall-light"></div><div class="wall-panel"></div><div class="server-cabinet"></div><div class="plant">🪴</div><div class="plant leftplant">🌿</div></div><div aria-live="polite" class="nf24-hud" id="nf24Hud"><span>⬡ 0 Perangkat</span><span>⛓ 0 Kabel</span><span>● Siap</span></div><div class="board" id="board"><svg class="wires" id="wires"></svg><div aria-hidden="true" class="board-legend"><span class="legend-live">● LIVE LINKS</span><span>DRAG DEVICES · DOUBLE CLICK TO CONFIGURE</span></div></div><div class="toast" id="toast"></div></div></div>
+<section class="workspace-shell"><div class="panel workspace-panel"><div class="panelhead"><h3>🏢 WORKSPACE · SIMULASI JARINGAN</h3><span class="eyebrow">INTERACTIVE NETWORK SIMULATION · v0.36.1</span></div><div class="stage" id="stage"><div class="stagebar"><div class="hint" id="modeHint">Pilih perangkat dari inventory untuk mulai.</div><div aria-label="Kontrol workspace" class="nf24-tools" role="group"><button id="nf24Arrange" title="Rapikan posisi perangkat" type="button">▦ Rapikan</button><button aria-pressed="false" id="nf24Focus" title="Fokus pada workspace" type="button">⛶ Fokus</button><button id="nf24Help" title="Panduan bermain" type="button">❔ Panduan</button></div><button aria-pressed="true" class="motion-toggle" id="motionToggle" type="button">✨ Animasi: Aktif</button></div><div class="room-dressing"><div class="ceiling-strip ceiling-a"></div><div class="ceiling-strip ceiling-b"></div><div class="floor-horizon"></div><div class="scene-marquee">NET <em>FORGE</em><span>NETWORK SIMULATION LAB</span></div><div class="mission-whiteboard"><div class="wb-caption">MISSION CONTROL</div><div class="wb-title">BUILD · CONNECT · TEST</div><div class="wb-list"><span>✓ Choose devices</span><span>✓ Connect Ethernet</span><span>✓ Configure IP</span><span>✓ Verify network</span></div></div><div class="scene-server scene-server-a"><span></span><span></span><span></span><span></span><span></span></div><div class="scene-server scene-server-b"><span></span><span></span><span></span></div><div class="scene-floor-glow"></div><div class="wall-light"></div><div class="wall-panel"></div><div class="server-cabinet"></div><div class="plant">🪴</div><div class="plant leftplant">🌿</div></div><div aria-live="polite" class="nf24-hud" id="nf24Hud"><span>⬡ 0 Perangkat</span><span>⛓ 0 Kabel</span><span>● Siap</span></div><div class="board" id="board"><svg class="wires" id="wires"></svg><div aria-hidden="true" class="board-legend"><span class="legend-live">● LIVE LINKS</span><span>DRAG DEVICES · DOUBLE CLICK TO CONFIGURE</span></div></div><div class="toast" id="toast"></div></div></div>
 <div class="command-dock" id="commandDock">
 <section class="dock-card iga-dock"><div class="dock-title"><span>🧑‍🔧 IGA · NETWORK GUIDE</span><span class="live-pill">● ONLINE</span></div><div id="igaDockPortrait"></div><div id="igaDockTalk"></div><button id="igaHintBtn" style="margin-top:7px;width:100%;font-weight:800;background:#064a74;color:#d5f9ff;border:1px solid #18b9e3;border-radius:8px;padding:6px;cursor:pointer" type="button">💡 Tanya Iga</button><div class="nf-polish-controls"><button aria-pressed="true" class="nf-fx-toggle" id="nfFxToggle" title="Aktifkan atau nonaktifkan efek visual" type="button">✦ FX Aktif</button></div></section>
 <section class="dock-card terminal-dock"><div class="dock-title"><span>⌁ TERMINAL JARINGAN</span><span class="dock-sub">PING · TRACEROUTE</span></div><div id="terminalDockContent"></div></section>
@@ -907,7 +907,7 @@ window.NETFORGE_RELEASE = Object.freeze({ version: "0.36.0", label: "v0.36.0", r
 <path d="M74 48Q85 57 94 48M111 46Q119 55 128 48" fill="none" stroke="#9c512e" stroke-width="4"></path>
 <path d="M150 30Q165 12 175 27" fill="none" stroke="#ffe57c" stroke-linecap="round" stroke-width="3"></path><text fill="#ffe57c" font-size="17" font-weight="900" x="151" y="22">Z</text><text fill="#ffe57c" font-size="12" font-weight="900" x="166" y="12">z</text>
 </svg></div><div class="chaos-copy" id="eventRightContent">Belum ada gangguan. Semoga semua pengunjung liar sedang sibuk di luar...</div><button class="warn chaos-trigger" id="chaosBtn">🐾 Acak kejadian</button></div></section></aside>
-</main><div class="statusbar" role="status"><span class="simstate"><i id="simLed"></i> Simulasi: <b id="simStatus">Online</b></span><span class="status-sep">|</span><span>◷ Waktu simulasi: <b id="simClock">00:00</b></span><span class="status-build">NET FORGE v0.36.0 · Interactive Network Simulation</span></div><footer class="footer"><span>NET FORGE · Learn networking by building, breaking &amp; fixing.</span><span>NET FORGE v0.36.0 · Interactive Command Center</span></footer>
+</main><div class="statusbar" role="status"><span class="simstate"><i id="simLed"></i> Simulasi: <b id="simStatus">Online</b></span><span class="status-sep">|</span><span>◷ Waktu simulasi: <b id="simClock">00:00</b></span><span class="status-build">NET FORGE v0.36.1 · Interactive Network Simulation</span></div><footer class="footer"><span>NET FORGE · Learn networking by building, breaking &amp; fixing.</span><span>NET FORGE v0.36.1 · Interactive Command Center</span></footer>
 <div class="modalback open" id="startModal"><div class="modal"><div class="eyebrow">NETWORKING FUNDAMENTALS · LEVEL 1</div><h2>Siap membangun jaringan pertamamu?</h2><p>Pilih tingkat kesulitan. Mulai dari jaringan kantor. Mulai dari satu PC dan router. Kuasai IP, subnet, gateway, DHCP, dan DNS sebelum masuk ke virtualisasi. Hati-hati, dunia Net Forge penuh kejutan!</p><div class="difficulty"><button class="active" data-diff="easy"><b>🟢 EASY</b><small>Budget longgar</small></button><button data-diff="normal"><b>🟠 NORMAL</b><small>Budget terbatas</small></button><button data-diff="hard"><b>🔴 HARDCORE</b><small>Minim bantuan</small></button></div><button class="primary" id="startBtn" style="width:100%">🚀 Start mission</button><p style="font-size:10px;margin-bottom:0">Prototype edukasi · Virtualisasi dan konektivitas disimulasikan secara lokal, bukan Proxmox sungguhan.</p></div></div>
 <div class="config-modal-back" id="deviceConfigModal">
 <div aria-labelledby="deviceConfigTitle" aria-modal="true" class="config-modal" role="dialog">
@@ -2263,7 +2263,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
       <div class="nf322-menu-logo">NET <em>FORGE</em></div>
       <p class="nf322-tagline">Build · Connect · Configure · Conquer</p>
       <p class="nf322-small">Network Adventure &amp; Simulation Game</p>
-      <div id="nf360MenuIdentity" class="nf360-menu-identity" role="status" aria-live="polite"><span class="nf360-identity-mark">◈</span><span id="nf360MenuIdentityText">Siap menjelajah jaringan sebagai tamu</span><span class="nf360-version">v0.36.0</span></div>
+      <div id="nf360MenuIdentity" class="nf360-menu-identity" role="status" aria-live="polite"><span class="nf360-identity-mark">◈</span><span id="nf360MenuIdentityText">Siap menjelajah jaringan sebagai tamu</span><span class="nf360-version">v0.36.1</span></div>
       <div class="nf322-menu-actions nf360-menu-actions">
         <div class="nf360-menu-primary"><button class="nf322-btn nf322-btn-primary nf322-btn-wide" id="nf322Continue" type="button">▶ Lanjut Bermain</button><button class="nf322-btn nf322-btn-wide" id="nf322Adventure" type="button">✦ Mulai Petualangan Baru</button></div>
         <div class="nf360-menu-secondary"><button class="nf322-btn" id="nf322Lab" type="button">🧪 Network Lab</button><button class="nf322-btn" id="nf351DashboardMenu" type="button">📊 Dashboard Pemain</button></div>
@@ -2278,14 +2278,14 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
       <p class="nf322-tagline" style="margin:0 0 25px">NET FORGE — Network Adventure &amp; Simulation Game</p>
       <dl><dt>Created by</dt><dd><strong>I GO ON (Igoon)</strong></dd>
       <dt>Game Title</dt><dd>NET FORGE</dd><dt>Network Guide</dt><dd>Iga</dd>
-      <dt>Version</dt><dd>v0.36.0 — UI/UX Redesign — Player Command Center</dd>
+      <dt>Version</dt><dd>v0.36.1 — UI/UX Redesign — Player Command Center</dd>
       <dt>Technology</dt><dd>HTML5 · CSS3 · JavaScript · SVG · WebGL2 · PHP API (opsional)</dd>
       <dt>Concept</dt><dd>Belajar membangun, menghubungkan, mengonfigurasi, dan memperbaiki jaringan komputer melalui misi dan laboratorium interaktif.</dd>
       <dt>Development Assistance</dt><dd>Pengembangan perangkat lunak dibantu teknologi AI.</dd>
       <dt>Copyright Notice</dt><dd>© 2026 I GO ON (Igoon). All rights reserved. Pernyataan ini mengikuti identitas pencipta yang diberikan; status hukum pemegang hak dan lisensi aset perlu dikonfirmasi sebelum distribusi publik.</dd></dl>
       <button id="nf322CreditsBack" type="button" class="nf322-btn nf322-btn-primary">← Kembali ke Menu</button>
     </section>
-    <p class="nf322-footer">NET FORGE v0.36.0 · © 2026 I GO ON (Igoon)</p>
+    <p class="nf322-footer">NET FORGE v0.36.1 · © 2026 I GO ON (Igoon)</p>
   </div>
 </div>
 <button id="nf322Home" class="nf322-return" type="button" hidden>⌂ Menu Utama</button>
@@ -2544,39 +2544,82 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </script>
 <script id="nf328-pwa-runtime">
 (()=>{'use strict';
-const secure=location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1';
-let deferredInstall=null,waiting=null,reg=null,reloaded=false;
-function setup(){
- const install=document.createElement('button');install.id='nf328Install';install.type='button';install.hidden=true;install.textContent='⬇ Instal NET FORGE';
- const update=document.createElement('button');update.id='nf328Update';update.type='button';update.hidden=true;update.textContent='🔄 Update tersedia — muat versi baru';
- const check=document.createElement('button');check.id='nf330CheckUpdate';check.type='button';check.hidden=true;check.textContent='⟳ Cek Update';
- const status=document.createElement('div');status.id='nf330PwaStatus';status.hidden=false;status.setAttribute('role','status');
- document.body.append(install,update,check,status);
- function say(v){status.textContent=v}
- if(!secure){say('Mode HTML lokal: instalasi PWA perlu HTTPS/localhost.');return;}
- if(!('serviceWorker' in navigator)){say('Service worker tidak tersedia; LAB tetap berjalan.');return;}
- say('Memeriksa status PWA…');check.hidden=false;
- window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;install.hidden=false;});
- window.addEventListener('appinstalled',()=>{deferredInstall=null;install.hidden=true;say('NET FORGE berhasil diinstal.')});
- install.addEventListener('click',async()=>{if(!deferredInstall)return;const prompt=deferredInstall;deferredInstall=null;install.hidden=true;await prompt.prompt();});
- function found(){if(reg?.waiting&&navigator.serviceWorker.controller){waiting=reg.waiting;update.hidden=false;say('Update siap. Simpan pekerjaan sebelum memuat versi baru.');}}
- function checkUpdate(){if(!navigator.onLine){say('Offline — versi lokal tersedia bila sudah pernah dimuat.');return}if(!reg)return;reg.update().then(()=>{found();if(!waiting)say('PWA NET FORGE v0.36.0 — tidak ada update yang menunggu.')}).catch(()=>say('Pemeriksaan update gagal. Anda tetap dapat bermain offline.'))}
- check.addEventListener('click',checkUpdate);
- update.addEventListener('click',()=>{
-    if(!waiting)return;
-    if(!window.confirm('Versi baru akan dimuat. Pastikan progres permainan telah tersimpan atau diekspor. Lanjutkan?'))return;
-    waiting.postMessage({type:'SKIP_WAITING'});
- });
- navigator.serviceWorker.addEventListener('controllerchange',()=>{if(reloaded)return;reloaded=true;location.reload();});
- navigator.serviceWorker.register('./sw.js',{scope:'./'}).then(r=>{
-    reg=r;found();say(navigator.onLine?'PWA siap — cek update tersedia.':'Mode offline — menggunakan cache game.');
-    reg.addEventListener('updatefound',()=>{const w=reg.installing;if(w)w.addEventListener('statechange',()=>{if(w.state==='installed')found()})});
-    document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkUpdate()});
-    window.addEventListener('online',()=>{say('Koneksi pulih.');checkUpdate()});
-    window.addEventListener('offline',()=>say('Offline — LAB lokal tetap tersedia.'));
- }).catch(err=>{say('PWA tidak terdaftar, game masih dapat berjalan.');console.warn('[NET FORGE PWA]',err)});
-}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
+ const current=window.NETFORGE_RELEASE?.version||'0.36.1';
+ const secure=location.protocol==='https:'||['localhost','127.0.0.1'].includes(location.hostname);
+ let deferredInstall=null,reg=null,waiting=null,reloaded=false,remote=null,checking=false;
+ const $=id=>document.getElementById(id);
+ const versionCompare=(a,b)=>{const aa=String(a||'0').split('.').map(Number),bb=String(b||'0').split('.').map(Number);for(let i=0;i<3;i++){if((aa[i]||0)!==(bb[i]||0))return (aa[i]||0)-(bb[i]||0)}return 0};
+ const releaseNotes=[
+ 'Panduan Iga interaktif: langkah awal, petunjuk kontekstual, dan penjelasan saat pemeriksaan gagal.',
+ 'Dialog pembaruan menampilkan versi terpasang, versi terbaru, dan daftar perubahan sebelum memperbarui.',
+ 'Panel update dapat dibuka kembali tanpa harus langsung memasang pembaruan.',
+ 'Guest Mode, Google Login, LAB, dan progres resmi tetap tersedia.'
+ ];
+ function setup(){
+  const install=document.createElement('button');install.id='nf328Install';install.type='button';install.hidden=true;install.textContent='⬇ Instal NET FORGE';
+  const update=document.createElement('button');update.id='nf328Update';update.type='button';update.hidden=true;update.textContent='🔄 Lihat Update';
+  const check=document.createElement('button');check.id='nf330CheckUpdate';check.type='button';check.textContent='⟳ Cek Update';check.hidden=false;
+  const status=document.createElement('div');status.id='nf330PwaStatus';status.setAttribute('role','status');
+  const modal=document.createElement('section');modal.id='nf361UpdateDialog';modal.hidden=true;modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');modal.setAttribute('aria-labelledby','nf361UpdateHeading');
+  modal.innerHTML=`<div class="nf361-update-card"><div class="nf361-update-top"><h2 id="nf361UpdateHeading">📦 Informasi Update NET FORGE</h2><button type="button" id="nf361UpdateClose" aria-label="Tutup informasi update">✕</button></div><div class="nf361-versions"><div><small>Versi yang sedang dimainkan</small><strong id="nf361Current"></strong></div><div><small>Versi terbaru tersedia</small><strong id="nf361Latest"></strong></div></div><p id="nf361UpdateState" role="status"></p><h3>Apa yang baru?</h3><ul id="nf361Changelog"></ul><div class="nf361-update-actions"><button type="button" id="nf361UpdateLater">Nanti saja</button><button type="button" id="nf361UpdateApply">Perbarui sekarang</button></div><p class="nf361-update-note">Simpan atau ekspor progres lokal sebelum pembaruan. Mode offline tetap tersedia.</p></div>`;
+  document.body.append(install,update,check,status,modal);
+  const say=t=>{status.textContent=t};
+  const setNotes=items=>{$('nf361Changelog').replaceChildren(...items.map(item=>{const li=document.createElement('li');li.textContent=String(item);return li}))};
+  function display(){
+   $('nf361Current').textContent='v'+current;
+   const v=remote?.version||current;$('nf361Latest').textContent='v'+v;
+   const newer=versionCompare(v,current)>0;
+   const state=waiting?'Pembaruan sudah diunduh dan siap diaktifkan.':newer?'Versi baru terdeteksi. Jika belum siap, Anda boleh memperbarui nanti.':v===current?'Game sudah menggunakan versi terbaru.':'Sedang memeriksa status pembaruan.';
+   $('nf361UpdateState').textContent=state;
+   setNotes(Array.isArray(remote?.changes)&&remote.changes.length?remote.changes:releaseNotes);
+   const apply=$('nf361UpdateApply');apply.hidden=!newer&&!waiting;apply.disabled=false;apply.textContent=waiting?'Aktifkan v'+v:newer?'Periksa & pasang v'+v:'Perbarui sekarang';
+   modal.hidden=false; $('nf361UpdateClose').focus();
+  }
+  function close(){modal.hidden=true;check.focus()}
+  $('nf361UpdateClose').onclick=close;$('nf361UpdateLater').onclick=close;
+  modal.addEventListener('click',e=>{if(e.target===modal)close()});modal.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+  async function metadata(){
+    if(!navigator.onLine)return null;
+    try{const r=await fetch('./version.json?check='+Date.now(),{cache:'no-store'});if(!r.ok)return null;const data=await r.json();if(!/^\d+\.\d+\.\d+$/.test(data.version))return null;remote=data;return data}catch{return null}
+  }
+  function found(){if(reg?.waiting&&navigator.serviceWorker.controller){waiting=reg.waiting;update.hidden=false;update.textContent='🔄 Update v'+(remote?.version||'baru')+' tersedia';say('Pembaruan siap. Lihat detail versi sebelum memasang.')}}
+  async function checkUpdate(show=false){
+    if(checking)return;checking=true;
+    try{
+      if(!navigator.onLine){say('Offline — game menggunakan versi tersimpan.');if(show)display();return}
+      await metadata();
+      if(reg)try{await reg.update()}catch{}
+      found();
+      const newer=versionCompare(remote?.version,current)>0;
+      if(newer){update.hidden=false;update.textContent='🔄 Apa yang baru di v'+remote.version; say('Update v'+remote.version+' tersedia. Klik untuk membaca perubahan.');}
+      else if(!waiting)say('NET FORGE v'+current+' — sudah versi terbaru.');
+      if(show)display();
+    }finally{checking=false}
+  }
+  check.onclick=()=>checkUpdate(true);
+  update.onclick=async()=>{await metadata();display()};
+  $('nf361UpdateApply').onclick=async()=>{
+    if(!window.confirm('Simpan atau ekspor progres terlebih dahulu. Aktifkan pembaruan sekarang?'))return;
+    if(reg&&!waiting){try{await reg.update()}catch{}found()}
+    if(waiting){waiting.postMessage({type:'SKIP_WAITING'});$('nf361UpdateState').textContent='Memasang pembaruan…';return}
+    $('nf361UpdateState').textContent='Versi baru terdeteksi, tetapi service worker belum siap. Muat ulang setelah deployment selesai.';
+  };
+  if(!secure){say('Mode HTML lokal — untuk update PWA diperlukan HTTPS atau localhost.');return}
+  if(!('serviceWorker' in navigator)){say('Service worker tidak tersedia. Gameplay tetap dapat digunakan.');return}
+  say('NET FORGE v'+current+' · cek update');
+  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;install.hidden=false});
+  window.addEventListener('appinstalled',()=>{deferredInstall=null;install.hidden=true;say('NET FORGE berhasil diinstal.')});
+  install.onclick=async()=>{if(!deferredInstall)return;let p=deferredInstall;deferredInstall=null;install.hidden=true;await p.prompt()};
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{if(reloaded)return;reloaded=true;location.reload()});
+  navigator.serviceWorker.register('./sw.js',{scope:'./'}).then(r=>{
+   reg=r;found();reg.addEventListener('updatefound',()=>{const w=reg.installing;w?.addEventListener('statechange',()=>{if(w.state==='installed')found()})});
+   document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkUpdate()});
+   window.addEventListener('online',()=>checkUpdate());
+   window.addEventListener('offline',()=>say('Offline — LAB lokal tetap tersedia.'));
+   checkUpdate();
+  }).catch(err=>{say('Registrasi PWA gagal; game masih dapat dimainkan.');console.warn('[NET FORGE PWA]',err)})
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
 })();
 </script>
 <script id="nf340ImmersiveScript">/* NET FORGE v0.34.2 — event-driven immersive packet visuals (non-authoritative layer) */
@@ -2634,38 +2677,11 @@ function init(){
  window.addEventListener('pagehide',cleanup);
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-})();</script><script id="nf343-version-check">
-(()=>{'use strict';
- const info=window.NETFORGE_RELEASE;
- if(!info)return;
- function start(){
-  const btn=document.getElementById('nf330CheckUpdate');
-  const status=document.getElementById('nf330PwaStatus');
-  if(!btn||!status)return;
-  btn.addEventListener('click',async()=>{
-   if(!navigator.onLine)return;
-   try {
-    const r=await fetch('./version.json?check='+Date.now(),{cache:'no-store'});
-    if(!r.ok)return;
-    const remote=await r.json();
-    if(!/^\d+\.\d+\.\d+$/.test(String(remote.version||'')))return;
-    const current=info.version.split('.').map(Number), latest=remote.version.split('.').map(Number);
-    const newer=latest.some((n,i)=>n>current[i]&&latest.slice(0,i).every((v,j)=>v===current[j]));
-    if(newer){
-     status.textContent='Versi '+remote.version+' tersedia di server. Simpan progres, lalu cek pembaruan PWA.';
-    } else if(remote.version!==info.version){
-     status.textContent='Server '+remote.version+' · game aktif '+info.version+'. Periksa deployment dan cache.';
-    }
-   }catch(_){/* Offline and restricted tailnets must not affect gameplay. */}
-  });
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
-})();
-</script>
+})();</script>
 
 <section id="nf344AudioGate" role="dialog" aria-modal="true" aria-labelledby="nf344AudioTitle" hidden>
  <div class="nf344-card">
-   <div style="font-weight:900;font-size:17px">⚡ NET FORGE <small style="font-weight:400;font-size:11px">v0.36.0</small></div>
+   <div style="font-weight:900;font-size:17px">⚡ NET FORGE <small style="font-weight:400;font-size:11px">v0.36.1</small></div>
    <h2 id="nf344AudioTitle">Siap Memulai Petualangan?</h2>
    <p>Browser dan PWA memerlukan satu klik sebelum dapat memutar suara. Aktifkan suara agar efek runtuhnya VER, perpindahan T, dan gameplay terdengar.</p>
    <button id="nf344SoundStart" type="button">🔊 Mulai Intro dengan Suara</button>
@@ -2697,7 +2713,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 <script id="nf346PublicScript">
-/* NET FORGE v0.36.0 — guest-first access; official results remain server-only. */
+/* NET FORGE v0.36.1 — guest-first access; official results remain server-only. */
 (()=>{'use strict';
 const VERSION='0.36.0';
 const K='netforge.guest.profile.v0346';
@@ -2880,7 +2896,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 <div id="nf351Overlay" hidden role="dialog" aria-modal="true" aria-labelledby="nf351Title">
  <div id="nf351Shell">
   <div id="nf351Top"><h2 id="nf351Title">📊 Dashboard Pemain</h2><button class="secondary" type="button" id="nf351Close" aria-label="Tutup dashboard">✕ Tutup</button></div>
-  <p id="nf351Intro">NET FORGE v0.36.0 · Statistik resmi dihitung di server. Guest Mode tetap bisa dimainkan tanpa login.</p>
+  <p id="nf351Intro">NET FORGE v0.36.1 · Statistik resmi dihitung di server. Guest Mode tetap bisa dimainkan tanpa login.</p>
   <div id="nf351Identity"><img id="nf352Avatar" alt="Avatar pemain Google" hidden><span id="nf352IdentityText">👤 Memeriksa status akun…</span></div>
   <div id="nf351Actions"><button id="nf351Reload" type="button">↻ Sinkronkan Progres</button><button class="secondary" id="nf351Account" type="button">⚙ Pengaturan Akun</button></div>
   <div id="nf351Status" role="status" aria-live="polite">Siap.</div>
@@ -2991,8 +3007,51 @@ const $=id=>document.getElementById(id);
 function showTab(name){const tabs=[...document.querySelectorAll('[data-nf360-tab]')];if(!tabs.some(t=>t.dataset.nf360Tab===name))return;for(const tab of tabs){const active=tab.dataset.nf360Tab===name;tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1;const pane=$('nf360Panel'+name[0].toUpperCase()+name.slice(1));if(pane)pane.hidden=!active;} }
 function updateIdentity(){const el=$('nf360MenuIdentityText');if(!el)return;const name=window.NetForgeGuest?.profile?.()?.name;const isSigned=Boolean(window.NetForgeAuth?.isSignedIn?.());el.textContent=isSigned?'Official Player · Google terhubung':name?'Guest Player · '+String(name).slice(0,60):'Guest Player · langsung bermain tanpa akun';}
 function play(){const dash=$('nf351Close');if(dash && !$('nf351Overlay')?.hidden)dash.click();const menu=$('nf322Menu');if(menu && !menu.hidden){const resume=$('nf322Continue');resume?.click()}else{const lab=$('nf322Lab');const opening=$('nf322Adventure');if(lab && !$('nf322Overlay')?.hidden)opening?.click();}}
-function boot(){for(const tab of document.querySelectorAll('[data-nf360-tab]')){tab.addEventListener('click',()=>showTab(tab.dataset.nf360Tab));tab.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const tabs=[...document.querySelectorAll('[data-nf360-tab]')];let i=tabs.indexOf(tab);i=e.key==='Home'?0:e.key==='End'?tabs.length-1:(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;showTab(tabs[i].dataset.nf360Tab);tabs[i].focus();});}showTab('overview');$('nf360PlayNext')?.addEventListener('click',play);updateIdentity();window.addEventListener('netforge:auth-change',updateIdentity);$('nf351DashboardMenu')?.addEventListener('click',()=>showTab('overview'));window.NetForgeUX={showTab,version:'0.36.0'};}
+function boot(){for(const tab of document.querySelectorAll('[data-nf360-tab]')){tab.addEventListener('click',()=>showTab(tab.dataset.nf360Tab));tab.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const tabs=[...document.querySelectorAll('[data-nf360-tab]')];let i=tabs.indexOf(tab);i=e.key==='Home'?0:e.key==='End'?tabs.length-1:(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;showTab(tabs[i].dataset.nf360Tab);tabs[i].focus();});}showTab('overview');$('nf360PlayNext')?.addEventListener('click',play);updateIdentity();window.addEventListener('netforge:auth-change',updateIdentity);$('nf351DashboardMenu')?.addEventListener('click',()=>showTab('overview'));window.NetForgeUX={showTab,version:'0.36.1'};}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+})();
+</script>
+
+<style id="nf361-styles">
+#nf361UpdateDialog[hidden],#nf361IgaBriefing[hidden]{display:none!important}
+#nf361UpdateDialog,#nf361IgaBriefing{position:fixed;inset:0;z-index:2147482800;display:grid;place-items:center;padding:16px;background:#020b1fdc;backdrop-filter:blur(8px)}
+.nf361-update-card,.nf361-iga-card{width:min(580px,100%);max-height:min(84vh,780px);overflow:auto;background:linear-gradient(155deg,#0d3154,#06162e);border:1px solid #27bae8;border-radius:18px;padding:23px;color:#e3f7ff;box-shadow:0 18px 50px #000b;font:14px/1.55 system-ui,sans-serif}
+.nf361-update-top{display:flex;align-items:start;justify-content:space-between;gap:12px}.nf361-update-top h2{font-size:21px;margin:0 0 15px;color:#75e5ff}.nf361-update-top button{background:#1a4164;color:white;border:1px solid #397caa;border-radius:8px;cursor:pointer;padding:4px 11px}
+.nf361-versions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}.nf361-versions>div{padding:11px;background:#071b36;border:1px solid #265780;border-radius:11px}.nf361-versions small{display:block;color:#9fc5db}.nf361-versions strong{display:block;font-size:23px;color:#83edff}
+.nf361-update-card h3{font-size:15px;color:#c9ecff;margin-bottom:7px}.nf361-update-card ul{padding-left:22px;margin:8px 0 20px}.nf361-update-card li{margin-bottom:8px}.nf361-update-card p{color:#b7d6e5}.nf361-update-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}.nf361-update-actions button,.nf361-iga-card button{background:#0b7ea9;border:1px solid #4acefa;color:white;border-radius:9px;padding:10px 13px;cursor:pointer;font-weight:700}.nf361-update-actions button:first-child{background:#1a3454}.nf361-update-note{font-size:11px;margin-bottom:0}
+#nf361IgaGuide{border:1px solid #277daf;border-radius:12px;margin:10px 0;padding:12px;background:#08223c;color:#cfe7f5;font:12px/1.55 system-ui}#nf361IgaGuide strong{color:#9ceaff;display:block;margin:0 0 5px;font-size:14px}#nf361IgaGuide p{margin:0 0 9px}#nf361IgaGuide .nf361-controls{display:flex;flex-wrap:wrap;gap:7px}#nf361IgaGuide button{padding:7px 9px;border:1px solid #30a7de;border-radius:8px;background:#104b76;color:white;font:700 11px system-ui;cursor:pointer}#nf361IgaGuide [data-kind=error]{color:#ffbdba}#nf361IgaGuide [data-kind=success]{color:#a3f3bf}
+.nf361-iga-card h2{font-size:23px;color:#81e5fb;margin:0 0 8px}.nf361-iga-card p{color:#cae2ee}.nf361-iga-card ol{padding-left:22px}.nf361-iga-card li{margin-bottom:8px}.nf361-iga-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:17px}.nf361-iga-card button.secondary{background:#1b3654}
+@media(max-width:570px){.nf361-update-card,.nf361-iga-card{padding:15px}.nf361-versions{grid-template-columns:1fr}}
+</style>
+<script id="nf361-guided-tutorial">
+(()=>{'use strict';
+ const KEY='netforge.iga.briefing.v0361';
+ function init(){
+  const coach=document.getElementById('nf27Coach');if(!coach)return;
+  const box=document.createElement('section');box.id='nf361IgaGuide';box.innerHTML=`<strong>💡 Iga · Bantuan Interaktif</strong><p id="nf361IgaContext">Mulai Guided Lab untuk melihat petunjuk langkah berikutnya.</p><div class="nf361-controls"><button type="button" id="nf361IgaExplain">Apa yang harus saya lakukan?</button><button type="button" id="nf361IgaBrief">Panduan awal</button></div><p id="nf361IgaDiagnostic" role="status" aria-live="polite"></p>`;
+  coach.append(box);
+  const modal=document.createElement('div');modal.id='nf361IgaBriefing';modal.hidden=true;modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');modal.setAttribute('aria-label','Petunjuk Guided Lab');
+  modal.innerHTML=`<div class="nf361-iga-card"><h2>🎓 Halo, aku Iga!</h2><p>Di Guided Lab, kita membangun jaringan secara bertahap. Tidak harus langsung sempurna — periksa setiap tahap dan perbaiki bila ada kesalahan.</p><ol><li>Tarik atau tambah <b>Router, Switch, dan dua PC</b> ke workspace.</li><li>Hubungkan perangkat dengan <b>kabel jaringan</b>.</li><li>Atur <b>alamat IP unik</b> dalam satu subnet.</li><li>Masukkan <b>gateway</b> setiap PC.</li><li>Jalankan <b>Ping</b> lalu klik <b>Periksa tahap</b>.</li></ol><p>Gunakan tombol <b>Petunjuk Iga</b> jika tersendat. Nilai resmi tetap harus diverifikasi oleh server.</p><div class="nf361-iga-actions"><button type="button" class="secondary" id="nf361IgaLater">Tutup</button><button type="button" id="nf361IgaStart">Mengerti, mulai!</button></div></div>`;
+  document.body.append(modal);
+  const $=id=>document.getElementById(id);let lastIndex=-1,shown=false;
+  const descriptions=[
+   ['Perangkat belum lengkap','Tambahkan 1 router, 1 switch, dan sekurang-kurangnya 2 PC melalui inventori.'],
+   ['Kabel belum terhubung','Pastikan router tersambung ke switch, dan setiap PC terhubung ke switch. Periksa kabel yang rusak.'],
+   ['Alamat IP belum sesuai','Set router ke 192.168.10.1/24, PC pertama 192.168.10.10/24, dan PC kedua 192.168.10.11/24.'],
+   ['Gateway/subnet belum sesuai','Atur gateway setiap PC menjadi 192.168.10.1, dan prefix subnet ke 24.'],
+   ['Ping belum berhasil','Buka Terminal Jaringan, pilih PC sebagai sumber dan router sebagai tujuan, jalankan PING hingga sukses.']
+  ];
+  function currentIndex(){const steps=[...coach.querySelectorAll('.nf27-step')];const active=steps.findIndex(el=>el.classList.contains('active'));return active<0?4:active}
+  function update(){if(coach.hidden)return;const i=currentIndex();if(i!==lastIndex){lastIndex=i;$('nf361IgaContext').textContent='Tahap '+(i+1)+'/5 · '+descriptions[i][0]+'. '+descriptions[i][1];$('nf361IgaDiagnostic').textContent='';}if(!shown){shown=true;try{if(!localStorage.getItem(KEY)){open();localStorage.setItem(KEY,'seen')}}catch{}}}
+  function open(){modal.hidden=false;$('nf361IgaStart').focus()}
+  function close(){modal.hidden=true;$('nf361IgaExplain').focus()}
+  $('nf361IgaBrief').onclick=open;$('nf361IgaLater').onclick=close;$('nf361IgaStart').onclick=close;modal.addEventListener('click',e=>{if(e.target===modal)close()});modal.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+  $('nf361IgaExplain').onclick=()=>{const i=currentIndex();const d=descriptions[i];$('nf361IgaDiagnostic').textContent=d[1];$('nf361IgaDiagnostic').dataset.kind='hint';if(typeof window.netforgeIgaSay==='function')window.netforgeIgaSay(d[1],'think')};
+  $('nf27Check')?.addEventListener('click',()=>{const msg=$('nf27Message')?.textContent||'';const error=msg.startsWith('Belum sesuai');$('nf361IgaDiagnostic').dataset.kind=error?'error':'success';$('nf361IgaDiagnostic').textContent=error?'Iga menjelaskan: '+msg:'✓ '+msg;setTimeout(update,0)});
+  const observer=new MutationObserver(update);observer.observe(coach,{subtree:true,attributes:true,attributeFilter:['hidden','class']});
+  window.addEventListener('netforge:auth-change',update);update();
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
 </body></html>
