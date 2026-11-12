@@ -1,11 +1,13 @@
-# NET FORGE v0.34.4 — PWA Audio Startup Fix
+# NET FORGE v0.34.5 — Verifikasi Akun Fix
 
-## Deploy GitHub Pages
-Upload files inside this folder to the repository root (case sensitive: `/NetForge/`). `index.html`, `sw.js`, `manifest.webmanifest`, `version.json` and the `icons/` directory must be together.
+Perbaikan: bagian Progres Resmi (Server) sebelumnya tidak muncul karena selector elemen tidak valid. Kini bagian ini ditambahkan ke Pengaturan.
 
-## How audio works
-The app displays an audio choice before starting the opening animation. Choose **Mulai Intro dengan Suara** to unlock Web Audio with a direct tap/click and start the intro. Or choose **Lanjut Tanpa Suara** for silent playback. The intro animation remains available in the menu for replay. The PWA cannot sound automatically before player interaction, regardless of browser configuration.
+## Pemakaian
+1. Unggah isi folder ini ke root repository GitHub Pages.
+2. Buka game, kemudian pilih Pengaturan (menu atas game).
+3. Scroll di dialog Pengaturan hingga **Progres Resmi (Server)**.
+4. Masukkan token **baru** secara manual; jangan unggah token ke repository.
+5. Tekan Verifikasi akun. Gunakan Tailnet aktif serta backend HTTPS.
 
-SFX volume is controlled using the Audio popover in the game. If still silent, check browser tab mute, system output volume, browser policy, and the displayed Web Audio status. After deploying, reload the PWA and use **Cek Update**. Existing locally saved game progress is not cleared by this update.
-
-Backend official-progress API remains separate and is not cached by the service worker. Do not commit player tokens to GitHub.
+## PWA
+Service worker memiliki cache versi nf-static-v0.34.5. Gunakan Cek Update untuk memuat versi terbaru. Cadangkan data lokal sebelum menghapus data situs.

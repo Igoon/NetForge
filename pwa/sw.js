@@ -1,5 +1,5 @@
-/* NET FORGE v0.34.4 — cache-safe GitHub Pages PWA. */
-const VERSION = 'nf-static-v0.34.4';
+/* NET FORGE v0.34.5 — cache-safe GitHub Pages PWA. */
+const VERSION = 'nf-static-v0.34.5';
 const APP_FILES = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(VERSION).then(cache => cache.addAll(APP_FILES)));
