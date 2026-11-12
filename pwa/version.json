@@ -1,6 +1,6 @@
 {
-  "version": "0.35.0",
-  "build": "google-login-server-sessions",
+  "version": "0.35.1",
+  "build": "player-dashboard-cloud-progress",
   "updated": "2026-11-12",
-  "notes": "Guest free; official login via verified Google Identity Services; rotating session and refresh"
+  "notes": "Google Official Player dashboard; server-verified XP, attempts and score; Guest mode remains offline"
 }
