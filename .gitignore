@@ -1,0 +1,8 @@
+backend/
+docs/
+server-reference/
+tests/
+dist/
+test-results/
+*.log
+DEPLOYMENT-NOTES.txt
