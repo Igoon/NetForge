@@ -1,1 +1,1 @@
-NET FORGE v0.35.2 GitHub Pages PWA. Deploy folder contents to GitHub Pages root.
+NET FORGE v0.36.0 GitHub Pages PWA. Deploy seluruh isi folder ini ke root repository NetForge.

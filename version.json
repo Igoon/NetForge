@@ -1,6 +1,6 @@
 {
-  "version": "0.35.2",
-  "build": "google-avatar-unique-lab-opt-in-leaderboard",
+  "version": "0.36.0",
+  "build": "player-command-center-ux-redesign",
   "updated": "2026-11-12",
-  "notes": "Google display name + avatar; unique-LAB XP; private-by-default leaderboard"
+  "notes": "Grouped main menu, profile header, accessible dashboard tabs, mission CTA, mobile layout; backend unchanged"
 }
