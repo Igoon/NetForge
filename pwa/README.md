@@ -1,24 +1,11 @@
-# NET FORGE v0.34.1 — Tailscale backend configuration
+# NET FORGE v0.34.4 — PWA Audio Startup Fix
 
-Frontend static PWA: upload contents of this folder to GitHub Pages.
+## Deploy GitHub Pages
+Upload files inside this folder to the repository root (case sensitive: `/NetForge/`). `index.html`, `sw.js`, `manifest.webmanifest`, `version.json` and the `icons/` directory must be together.
 
-Backend URL preset: `https://netforge-docker2.taild3997b.ts.net/api/v1` (candidate URL; not verified). The existing backend runs over HTTP at port 8085 on the tailnet. You must configure an HTTPS endpoint such as Tailscale Serve, then verify the URL before using the preset.
+## How audio works
+The app displays an audio choice before starting the opening animation. Choose **Mulai Intro dengan Suara** to unlock Web Audio with a direct tap/click and start the intro. Or choose **Lanjut Tanpa Suara** for silent playback. The intro animation remains available in the menu for replay. The PWA cannot sound automatically before player interaction, regardless of browser configuration.
 
-## Backend setup
+SFX volume is controlled using the Audio popover in the game. If still silent, check browser tab mute, system output volume, browser policy, and the displayed Web Audio status. After deploying, reload the PWA and use **Cek Update**. Existing locally saved game progress is not cleared by this update.
 
-1. On the host running the API, enable HTTPS with Tailscale Serve for the internal HTTP service listening on 127.0.0.1:8085 (or the actual interface/bind address). For current Tailscale versions use `tailscale serve --bg 8085` on the host (assuming the service is reachable locally on port 8085); check with `tailscale serve status`. This publishes HTTPS within your tailnet, not publicly. See https://tailscale.com/docs/reference/tailscale-cli/serve .
-2. Confirm the HTTPS URL `/api/v1/health` from a client device connected to the same Tailnet.
-3. Configure backend `NETFORGE_ORIGIN` to exactly `https://YOURNAME.github.io`, not the project path, when deploying at `https://YOURNAME.github.io/net-forge/`. Origin matching is scheme + hostname + port only.
-4. Keep `NETFORGE_ALLOW_HTTP=0`; ensure the PHP reverse proxy forwards `X-Forwarded-Proto: https` and that the backend trusts only your reverse proxy.
-5. Add your renewed token in **Pengaturan → Progres Resmi (Server)**. Do not commit token in GitHub or JavaScript.
-6. Test `Verifikasi akun`, `Lihat progres resmi`, and a Guided Lab submission. The API must be reachable from the player's device through Tailscale.
-
-## Security
-
-A token was disclosed during setup: revoke/rotate it before using this release. The token is intentionally NOT included anywhere in the distributable.
-
-Service worker only caches same-origin app shell and icons; never caches API calls. GitHub Pages cannot host PHP backend. PWA on GitHub Pages does not protect frontend source against copying.
-
-## Important
-
-This release changes only the backend URL preset and guidance; it does not bypass GitHub Pages mixed-content rules or Tailnet network restrictions. Server integration is untested without access to the user's Tailnet.
+Backend official-progress API remains separate and is not cached by the service worker. Do not commit player tokens to GitHub.

@@ -24,10 +24,11 @@ jobs:
       - name: Stage PWA files
         run: |
           mkdir -p dist
-          cp index.html manifest.webmanifest sw.js graphics-hybrid.js hybrid.css official-progress.js dist/
-          cp -R assets icons dist/
+          cp pwa/index.html pwa/manifest.webmanifest pwa/sw.js pwa/version.json dist/
+          cp -R pwa/icons dist/
           test -f dist/index.html
           test -f dist/sw.js
+          test -f dist/version.json
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
