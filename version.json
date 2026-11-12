@@ -1,6 +1,6 @@
 {
-  "version": "0.35.1",
-  "build": "player-dashboard-cloud-progress",
+  "version": "0.35.2",
+  "build": "google-avatar-unique-lab-opt-in-leaderboard",
   "updated": "2026-11-12",
-  "notes": "Google Official Player dashboard; server-verified XP, attempts and score; Guest mode remains offline"
+  "notes": "Google display name + avatar; unique-LAB XP; private-by-default leaderboard"
 }

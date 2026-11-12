@@ -1,3 +1,1 @@
-# NET FORGE v0.35.1 — Player Dashboard & Cloud Progress
-
-See docs/DEPLOY-0351.md. Frontend: pwa/. Backend: backend/. Guest mode stays offline; server progress is only for Google Official Players.
+NET FORGE v0.35.2 — Google avatar, unique LAB XP, opt-in leaderboard. See docs/DEPLOY-0352.md.

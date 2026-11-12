@@ -1,3 +1,1 @@
-# NET FORGE v0.35.1 PWA
-
-Upload all contents of this directory to repository root. See ../docs/DEPLOY-0351.md in the full package.
+NET FORGE v0.35.2 GitHub Pages PWA. Deploy folder contents to GitHub Pages root.
