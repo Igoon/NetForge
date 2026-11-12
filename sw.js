@@ -1,6 +1,6 @@
-/* NET FORGE v0.32.9 static PWA; never cache credentials or official progress API. */
-const VERSION='nf-static-v0.32.9';
-const APP_FILES=['./','./index.html','./manifest.webmanifest','./graphics-hybrid.js','./hybrid.css','./official-progress.js','./icons/icon-192.png','./icons/icon-512.png','./assets/iga-mascot.png'];
+/* NET FORGE v0.34.1 static PWA; never cache credentials or official progress API. */
+const VERSION='nf-static-v0.34.1';
+const APP_FILES=['./','./index.html','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png'];
 self.addEventListener('install',event=>{
  event.waitUntil(caches.open(VERSION).then(cache=>cache.addAll(APP_FILES)).then(()=>self.skipWaiting()));
 });
@@ -21,7 +21,7 @@ self.addEventListener('fetch',event=>{
  if(!url.pathname.startsWith(scope.pathname))return;
  // Only cache this known static application shell: no API responses, tokens, or user data.
  const isAppPath=url.pathname===scope.pathname||url.pathname===scope.pathname+'index.html';
- const isAsset=['manifest.webmanifest','graphics-hybrid.js','hybrid.css','official-progress.js','icons/icon-192.png','icons/icon-512.png','assets/iga-mascot.png'].some(path=>url.pathname===scope.pathname+path);
+ const isAsset=['manifest.webmanifest','icons/icon-192.png','icons/icon-512.png'].some(path=>url.pathname===scope.pathname+path);
  if(!isAppPath&&!isAsset)return;
  event.respondWith((async()=>{
   const cache=await caches.open(VERSION);

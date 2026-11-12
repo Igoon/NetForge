@@ -3,7 +3,7 @@
 <html lang="id">
 <head>
 <meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>NET FORGE v0.32.9 — Created by I GO ON (Igoon)</title>
+<title>NET FORGE v0.34.1 — Created by I GO ON (Igoon)</title>
 <style>
 :root{--bg:#0b1220;--panel:#111c2e;--panel2:#17253a;--line:#2b3b54;--text:#e8f0fb;--muted:#9aacc5;--cyan:#4dd7e8;--green:#53d69a;--amber:#ffbf5e;--red:#ff6f78}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 0%,#1b3150 0,#0b1220 45%);color:var(--text);font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
@@ -711,7 +711,7 @@ body.motion-off .dock-card,body.motion-off button,body.motion-off .node,body.mot
 #nf32Url,#nf32Token {display:block;width:100%;margin:7px 0 10px;background:#071629;border:1px solid #2e5879;border-radius:8px;color:#fff;padding:9px}
 @media(max-width:800px){.nf32-tools{width:100%;justify-content:flex-end}}
 </style><style id="nf322IntroCSS">
-/* NET FORGE v0.32.9 — Intro identity layer. App underneath remains unchanged. */
+/* NET FORGE v0.34.1 — Intro identity layer. App underneath remains unchanged. */
 #nf322Overlay[hidden],#nf322Credits[hidden]{display:none!important}
 #nf322Overlay{position:fixed;inset:0;z-index:9000;display:flex;justify-content:center;align-items:center;overflow:auto;background:radial-gradient(ellipse at 50% 60%,#07395c 0%,#061831 43%,#030a17 100%);color:#eefbff;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
 #nf322Overlay:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.23;background-image:linear-gradient(#43caff10 1px,transparent 1px),linear-gradient(90deg,#43caff10 1px,transparent 1px);background-size:36px 36px;transform:perspective(480px) rotateX(52deg) scale(2);transform-origin:bottom center}
@@ -766,7 +766,7 @@ body.motion-off .dock-card,body.motion-off button,body.motion-off .node,body.mot
 #nf322Intro .nf322-stage{min-height:250px}
 #nf322Initial,#nf322Final{white-space:nowrap}
 </style><style id="nf327-css">
-/* NET FORGE v0.32.9 — gameplay audio controls */
+/* NET FORGE v0.34.1 — gameplay audio controls */
 #nf327AudioControls{margin:14px 0;padding:15px;border-radius:14px;background:linear-gradient(130deg,#0e2a4a,#0a1931);border:1px solid #2688b9;color:#e7f9ff;font-family:inherit}
 #nf327AudioControls h3{font-size:16px;color:#e7f9ff;margin:0 0 5px}
 #nf327AudioControls p{font-size:11px;color:#afd2e7;line-height:1.5;margin:0 0 12px}
@@ -790,6 +790,31 @@ body.motion-off .dock-card,body.motion-off button,body.motion-off .node,body.mot
 #nf328Install,#nf328Update{position:fixed;right:14px;z-index:8900;max-width:min(340px,calc(100vw - 28px));padding:9px 14px;border:1px solid #48d6f8;border-radius:12px;background:#103b67;color:#eaffff;box-shadow:0 6px 28px #010b1dcc;font:600 12px system-ui;cursor:pointer}
 #nf328Install{bottom:14px}#nf328Update{bottom:62px;background:#174f3d;border-color:#49ddad}
 #nf328Install[hidden],#nf328Update[hidden]{display:none!important}
+</style><style>
+/* NET FORGE v0.34.1 — onboarding and PWA status */
+.nf330-audio-note {font:500 12px/1.5 system-ui,sans-serif;color:#a9e3f6;max-width:490px;margin:12px auto 0;text-align:center}
+#nf330PwaStatus {position:fixed;z-index:7500;left:12px;bottom:10px;padding:6px 10px;border-radius:9px;background:#091c32d9;border:1px solid #2f799c;color:#b4dbec;font:11px system-ui;pointer-events:none;max-width:270px}
+#nf330PwaStatus[hidden]{display:none!important}
+#nf330CheckUpdate {position:fixed;bottom:46px;left:12px;z-index:7501;padding:7px 10px;background:#153858;color:#d6f8ff;border:1px solid #3289b5;border-radius:9px;font:600 11px system-ui;cursor:pointer}
+#nf330CheckUpdate[hidden]{display:none!important}
+@media(max-width:600px){#nf330PwaStatus{bottom:5px;left:5px;font-size:10px}#nf330CheckUpdate{bottom:39px;left:5px}}
+</style><style id="nf340ImmersiveStyles">
+/* v0.34 — event-driven network visual feedback. All GPU/FX are optional. */
+#nf34Controls{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:10px;margin-top:8px;color:#aacbe4}
+#nf34Controls select,#nf34Controls button{background:#112f4d;color:#d8f7ff;border:1px solid #316f99;border-radius:8px;padding:6px 8px;font:inherit;cursor:pointer}
+#nf34Controls label{display:flex;align-items:center;gap:6px}
+#nf34Status{font-size:10px;min-height:16px;color:#86cfe5;line-height:1.4;flex-basis:100%}
+#nf34Status[data-state="success"]{color:#70e4ae}#nf34Status[data-state="fail"]{color:#ff9ba3}
+.nf34-packet{filter:drop-shadow(0 0 5px #35eaff);pointer-events:none}
+.nf34-path-highlight{stroke:#35eaff!important;stroke-width:6!important;filter:drop-shadow(0 0 7px #06f0ff)!important}
+.nf34-link-activity{animation:nf34LinkBlink .7s ease-in-out 2}
+@keyframes nf34LinkBlink{0%,100%{opacity:1}50%{opacity:.42}}
+.iga-dock .avatar.nf34-success{animation:nf34IgaHappy .5s ease-out 2!important}
+.iga-dock .avatar.nf34-warning{animation:nf34IgaWarning .23s ease-in-out 3!important}
+@keyframes nf34IgaHappy{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes nf34IgaWarning{0%,100%{transform:rotate(0)}25%{transform:rotate(-4deg)}75%{transform:rotate(4deg)}}
+body.motion-off .nf34-packet, body.motion-off .nf34-link-activity,body.motion-off .iga-dock .avatar{animation:none!important}
+@media(prefers-reduced-motion:reduce){.nf34-link-activity,.iga-dock .avatar.nf34-success,.iga-dock .avatar.nf34-warning{animation:none!important}}
 </style></head>
 <body>
 <header class="topbar">
@@ -1001,8 +1026,8 @@ function isPortUsed(nodeId,port){return links.some(l=>(l.a===nodeId&&l.portA===p
 function choosePort(n,port){if(!connectMode){selected=n.id;render();showPortDetails(n,port);return}if(isPortUsed(n.id,port)){toast(port+' sudah digunakan.');return}if(!pendingPort){pendingPort={nodeId:n.id,port};selected=n.id;render();toast('Port '+port+' dipilih. Pilih port perangkat tujuan.');return}if(pendingPort.nodeId===n.id){pendingPort={nodeId:n.id,port};render();toast('Port sumber diganti ke '+port+'.');return}const a=nodes.find(x=>x.id===pendingPort.nodeId);if(!a||!validLink(a.type,n.type)){toast('Kombinasi perangkat tidak valid untuk topologi ini.');return}if(links.some(l=>(l.a===a.id&&l.b===n.id)||(l.a===n.id&&l.b===a.id))){toast('Perangkat sudah terhubung.');return}const portA=pendingPort.port,portB=port;links.push({a:a.id,b:n.id,portA,portB,broken:false});nfGameplaySound('cable');log('Kabel '+portA+' ('+defs[a.type].name+') ↔ '+portB+' ('+defs[n.type].name+') tersambung.');pendingPort=null;selected=null;render();say('Port tersambung! Link aktif. Sekarang uji koneksi dengan PING.','success');}
 function populatePingSelects(){const src=$('#pingSource'),dst=$('#pingTarget');if(!src||!dst)return;const oldS=src.value,oldD=dst.value;src.innerHTML='<option value="">Pilih workstation</option>'+nodes.filter(n=>n.type==='pc').map(n=>`<option value="${n.id}">${(n.config&&n.config.name)||'PC-'+n.id} · ${n.config&&n.config.ip||'Belum ada IP'}</option>`).join('');dst.innerHTML='<option value="router">Router / Gateway</option>'+nodes.filter(n=>n.type==='pc'||n.type==='server').map(n=>`<option value="${n.id}">${(n.config&&n.config.name)||defs[n.type].name+' '+n.id} · ${n.config&&n.config.ip||'Belum ada IP'}</option>`).join('');if([...src.options].some(o=>o.value===oldS))src.value=oldS;if([...dst.options].some(o=>o.value===oldD))dst.value=oldD;}
 function pathBetween(sourceId,targetId){const queue=[[sourceId,[sourceId]]],seen=new Set([sourceId]);while(queue.length){const [id,path]=queue.shift();if(id===targetId)return path;for(const l of links){if(l.broken)continue;const next=l.a===id?l.b:l.b===id?l.a:null;if(next&&!seen.has(next)){seen.add(next);queue.push([next,[...path,next]])}}}return null;}
-function runNetworkTest(trace=false){populatePingSelects();const source=nodes.find(n=>n.id===Number($('#pingSource').value)),targetValue=$('#pingTarget').value,target=targetValue==='router'?nodes.find(n=>n.type==='router'):nodes.find(n=>n.id===Number(targetValue));const out=$('#pingResult');if(!source||!target){out.className='ping-result fail';out.textContent='Pilih workstation sumber dan perangkat tujuan.';return}const srcIP=source.config&&source.config.ip,dstIP=target.config&&target.config.ip;if(powerOut){return showTestFail(out,'FAIL: listrik padam. Perangkat tidak memiliki daya.')}if(source.broken||target.broken||!srcIP||!dstIP||srcIP==='DHCP'||dstIP==='DHCP'){return showTestFail(out,'FAIL: IP belum dikonfigurasi atau perangkat mengalami gangguan.')}if(srcIP===dstIP){return showTestFail(out,'FAIL: alamat IP sumber dan tujuan sama (IP conflict).')}if(!sameSubnet(srcIP,dstIP,Number(source.config.prefix||24))&&target.type!=='router'){return showTestFail(out,'FAIL: host berbeda subnet. Routing antar-subnet belum tersedia di lab ini.')}const path=pathBetween(source.id,target.id);if(!path)return showTestFail(out,'Request timed out. Tidak ada jalur Layer 2 yang aktif menuju tujuan.');const dup=nodes.some(n=>n.id!==source.id&&n.id!==target.id&&n.config&&n.config.ip===dstIP);if(dup)return showTestFail(out,'FAIL: terdeteksi IP conflict pada alamat tujuan.');const latency=(1.2+path.length*0.7+(Math.random()*1.8)).toFixed(1);const hops=path.map(id=>{const n=nodes.find(x=>x.id===id);return (n.config&&n.config.name)||defs[n.type].name+'-'+id});const lines=trace?['TRACEROUTE '+dstIP,' '+hops.map((h,i)=>(i+1)+'  '+h).join('\n ')]:['PING '+dstIP+' dari '+srcIP,'64 bytes · time='+latency+' ms · TTL=64','4 packets transmitted, 4 received, 0% packet loss'];nfGameplaySound('ping-success');out.className='ping-result ok';out.textContent=lines.join('\n');arpCache.set(dstIP,{mac:macAddress(target),seenBy:source.id,state:'REACHABLE'});arpCache.set(srcIP,{mac:macAddress(source),seenBy:target.id,state:'REACHABLE'});lastPing={source:source.id,target:target.id,ok:true};nf24ShowPath(source.id,target.id);if(selected===source.id||selected===target.id)updateInspector();log((trace?'Traceroute':'Ping')+' '+srcIP+' → '+dstIP+' berhasil · '+latency+' ms');say(trace?'Jalur paket berhasil dilacak. Perhatikan setiap perangkat yang dilewati.':'Reply diterima! Koneksi sumber dan tujuan berjalan dengan baik.','success');}
-function showTestFail(out,msg){nfGameplaySound('ping-fail');out.className='ping-result fail';out.textContent=msg;lastPing={ok:false};nf24ShowPath(null,null);log(msg);say('Ping gagal. Periksa kabel, alamat IP, subnet, dan kondisi perangkat.','fail');}
+function runNetworkTest(trace=false){populatePingSelects();const source=nodes.find(n=>n.id===Number($('#pingSource').value)),targetValue=$('#pingTarget').value,target=targetValue==='router'?nodes.find(n=>n.type==='router'):nodes.find(n=>n.id===Number(targetValue));const out=$('#pingResult');if(!source||!target){out.className='ping-result fail';out.textContent='Pilih workstation sumber dan perangkat tujuan.';return}const srcIP=source.config&&source.config.ip,dstIP=target.config&&target.config.ip;if(powerOut){return showTestFail(out,'FAIL: listrik padam. Perangkat tidak memiliki daya.')}if(source.broken||target.broken||!srcIP||!dstIP||srcIP==='DHCP'||dstIP==='DHCP'){return showTestFail(out,'FAIL: IP belum dikonfigurasi atau perangkat mengalami gangguan.')}if(srcIP===dstIP){return showTestFail(out,'FAIL: alamat IP sumber dan tujuan sama (IP conflict).')}if(!sameSubnet(srcIP,dstIP,Number(source.config.prefix||24))&&target.type!=='router'){return showTestFail(out,'FAIL: host berbeda subnet. Routing antar-subnet belum tersedia di lab ini.')}const path=pathBetween(source.id,target.id);if(!path)return showTestFail(out,'Request timed out. Tidak ada jalur Layer 2 yang aktif menuju tujuan.');const dup=nodes.some(n=>n.id!==source.id&&n.id!==target.id&&n.config&&n.config.ip===dstIP);if(dup)return showTestFail(out,'FAIL: terdeteksi IP conflict pada alamat tujuan.');const latency=(1.2+path.length*0.7+(Math.random()*1.8)).toFixed(1);const hops=path.map(id=>{const n=nodes.find(x=>x.id===id);return (n.config&&n.config.name)||defs[n.type].name+'-'+id});const lines=trace?['TRACEROUTE '+dstIP,' '+hops.map((h,i)=>(i+1)+'  '+h).join('\n ')]:['PING '+dstIP+' dari '+srcIP,'64 bytes · time='+latency+' ms · TTL=64','4 packets transmitted, 4 received, 0% packet loss'];nfGameplaySound('ping-success');out.className='ping-result ok';out.textContent=lines.join('\n');arpCache.set(dstIP,{mac:macAddress(target),seenBy:source.id,state:'REACHABLE'});arpCache.set(srcIP,{mac:macAddress(source),seenBy:target.id,state:'REACHABLE'});lastPing={source:source.id,target:target.id,ok:true};nf24ShowPath(source.id,target.id);window.dispatchEvent(new CustomEvent('netforge:network-test',{detail:{ok:true,trace:!!trace,source:source.id,target:target.id,hops:path.slice(),latency:Number(latency)}}));if(selected===source.id||selected===target.id)updateInspector();log((trace?'Traceroute':'Ping')+' '+srcIP+' → '+dstIP+' berhasil · '+latency+' ms');say(trace?'Jalur paket berhasil dilacak. Perhatikan setiap perangkat yang dilewati.':'Reply diterima! Koneksi sumber dan tujuan berjalan dengan baik.','success');}
+function showTestFail(out,msg){nfGameplaySound('ping-fail');out.className='ping-result fail';out.textContent=msg;lastPing={ok:false};nf24ShowPath(null,null);window.dispatchEvent(new CustomEvent('netforge:network-test',{detail:{ok:false,message:msg}}));log(msg);say('Ping gagal. Periksa kabel, alamat IP, subnet, dan kondisi perangkat.','fail');}
 function drawLinks(){
  svg.innerHTML='';let w=board.clientWidth,h=board.clientHeight;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
  const ns='http://www.w3.org/2000/svg';
@@ -1012,11 +1037,11 @@ function drawLinks(){
   // Kabel melengkung ringan agar terasa seperti jalur fisik di ruang server.
   let bend=Math.max(24,Math.min(76,Math.abs(x2-x1)*.16));let cy=(y1+y2)/2-bend;
   let d=`M ${x1} ${y1} Q ${(x1+x2)/2} ${cy} ${x2} ${y2}`;
-  let path=document.createElementNS(ns,'path');path.setAttribute('d',d);path.setAttribute('class','wire'+(l.broken||powerOut?' down':''));path.setAttribute('fill','none');svg.appendChild(path);
+  let path=document.createElementNS(ns,'path');path.setAttribute('d',d);path.setAttribute('class','wire'+(l.broken||powerOut?' down':''));path.setAttribute('data-a',String(l.a));path.setAttribute('data-b',String(l.b));path.setAttribute('fill','none');svg.appendChild(path);
   // Titik port pada kedua ujung kabel.
   [ [x1,y1],[x2,y2] ].forEach(([x,y])=>{let port=document.createElementNS(ns,'circle');port.setAttribute('cx',x);port.setAttribute('cy',y);port.setAttribute('r','5');port.setAttribute('class','wire-port'+(l.broken||powerOut?' down':''));svg.appendChild(port)});
   // Paket data bergerak hanya pada link yang aktif dan saat listrik tersedia.
-  if(!l.broken&&!powerOut){let packet=document.createElementNS(ns,'circle');packet.setAttribute('r','3.5');packet.setAttribute('class','data-packet');let motion=document.createElementNS(ns,'animateMotion');motion.setAttribute('dur',`${1.7+(i%3)*.35}s`);motion.setAttribute('repeatCount','indefinite');motion.setAttribute('path',d);packet.appendChild(motion);svg.appendChild(packet)}
+  /* v0.34: no misleading perpetual traffic; packet FX is event-driven. */
   let hit=document.createElementNS(ns,'path');hit.setAttribute('d',d);hit.setAttribute('class','wire-hit');hit.setAttribute('fill','none');hit.style.pointerEvents='stroke';hit.addEventListener('click',()=>{if(l.broken){l.broken=false;let target=nodes.find(n=>n.id===l.b);if(target)target.broken=false;log('Kabel diperbaiki. Link kembali aktif.');toast('Kabel berhasil diperbaiki!');say('Nice! Koneksi sudah pulih.');render()}else toast('Kabel sehat. Tidak perlu diperbaiki.')});svg.appendChild(hit);
  });
 }
@@ -1992,7 +2017,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  function beep(){try{const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)return;ctx=ctx||new Audio();if(ctx.state==='suspended')ctx.resume();const o=ctx.createOscillator(),g=ctx.createGain();o.type='sine';o.frequency.setValueAtTime(660,ctx.currentTime);o.frequency.exponentialRampToValueAtTime(880,ctx.currentTime+.09);g.gain.setValueAtTime(.0001,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.045,ctx.currentTime+.01);g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.11);o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+.12)}catch{}}
  $('nf30TestSound').addEventListener('click',()=>window.NetForgeAudio?.preview());
  // A low-volume sound only for game button clicks, not during timers or automatic updates.
- // v0.32.9: Click sounds routed through unified Audio Manager; legacy handler disabled.
+ // v0.34.1: Click sounds routed through unified Audio Manager; legacy handler disabled.
  $('nf30SaveProfile').addEventListener('click',()=>{data.name=$('nf30Name').value.trim().slice(0,40)||'Network Explorer';data.role=$('nf30Role').value;store();setStatus('Profil disimpan pada browser ini.')});
  $('nf30SavePrefs').addEventListener('click',()=>{data.motion=$('nf30Motion').checked;data.sound=$('nf30Sound').checked;data.compact=$('nf30Compact').checked;store();apply();setStatus('Preferensi diterapkan dan disimpan.')});
  // Synchronize pre-existing animation toggle, which belongs to the original engine.
@@ -2156,7 +2181,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  const settings=$('nf30Overlay .nf30-body'); if(!settings)return;
  const section=document.createElement('section');section.className='nf30-card';
  section.innerHTML=`<h3>🛡️ Progres Resmi (Server)</h3>
-  <p class="nf30-help">LAB tetap offline. Nilai resmi hanya berasal dari verifikasi server. Token tidak disimpan dalam backup atau localStorage.</p>
+  <p class="nf30-help">LAB tetap offline. Nilai resmi hanya berasal dari verifikasi server. Token tidak dimasukkan dalam file game, backup, atau localStorage. Backend Tailscale memerlukan HTTPS dan perangkat pemain harus memiliki akses Tailnet. Token dimasukkan sendiri oleh pemain, bukan dibagikan di kode.</p>
   <label for="nf32Url">URL API resmi (HTTPS)</label><input id="nf32Url" type="url" placeholder="https://game.example.edu/api/v1" autocomplete="url"/>
   <label for="nf32Token">Token pemain (tersimpan hanya selama tab ini aktif)</label><input id="nf32Token" type="password" placeholder="nf_..." autocomplete="off"/>
   <div class="nf32-actions"><button type="button" class="nf30-btn" id="nf32Connect">🔐 Verifikasi akun</button>
@@ -2166,13 +2191,15 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   <pre id="nf32OfficialStatus" role="status" aria-live="polite">Belum terhubung. Gunakan mode LAB lokal tanpa server kapan pun.</pre>`;
  settings.appendChild(section);
  const status=$('nf32OfficialStatus'),url=$('nf32Url'),token=$('nf32Token');
- try{url.value=localStorage.getItem('netforge.server.url.v032')||'';}catch{}
+ const defaultBackend='https://netforge-docker2.taild3997b.ts.net/api/v1';
+ try{url.value=localStorage.getItem('netforge.server.url.v032')||defaultBackend;}catch{url.value=defaultBackend;}
+ const previous=url.value.trim();if(previous==='http://netforge-docker2.taild3997b.ts.net:8085/api/v1'){url.value=defaultBackend;}
  try{token.value=sessionStorage.getItem('netforge.server.token.v032')||'';}catch{}
  const show=v=>{status.textContent=typeof v==='string'?v:JSON.stringify(v,null,2)};
- function cfg(){let base=url.value.trim().replace(/\/+$/,'');const localHttp=/^http:\/\/(?:localhost|127\.0\.0\.1)(?::\d+)?\/api\/v1$/.test(base)||/^http:\/\/(?:(?:10|192\.168)\.\d{1,3}\.\d{1,3}|172\.(?:1[6-9]|2\d|3[0-1])\.\d{1,3}\.\d{1,3})(?::\d+)?\/api\/v1$/.test(base)||/^http:\/\/100\.(?:6[4-9]|[7-9]\d|1[01]\d|12[0-7])\.\d{1,3}\.\d{1,3}(?::\d+)?\/api\/v1$/.test(base)||/^http:\/\/[a-z0-9.-]+\.ts\.net(?::\d+)?\/api\/v1$/i.test(base);if(!/^https:\/\//.test(base)&&!localHttp)throw Error('Gunakan HTTPS atau HTTP untuk localhost/jaringan lokal.');if(!base.endsWith('/api/v1'))throw Error('URL harus berakhir /api/v1');const t=token.value.trim();if(!/^nf_[0-9a-f]{64}$/.test(t))throw Error('Token pemain tidak valid');try{localStorage.setItem('netforge.server.url.v032',base);sessionStorage.setItem('netforge.server.token.v032',t);}catch{}return {base,t};}
+ function cfg(){let base=url.value.trim().replace(/\/+$/,'');if(!/^https:\/\//.test(base)&&!/^http:\/\/localhost(?::\d+)?\/api\/v1$/.test(base)&&!/^http:\/\/127\.0\.0\.1(?::\d+)?\/api\/v1$/.test(base))throw Error('Gunakan HTTPS atau localhost untuk development.');if(!base.endsWith('/api/v1'))throw Error('URL harus berakhir /api/v1');const t=token.value.trim();if(!/^nf_[0-9a-f]{64}$/.test(t))throw Error('Token pemain tidak valid');try{localStorage.setItem('netforge.server.url.v032',base);sessionStorage.setItem('netforge.server.token.v032',t);}catch{}return {base,t};}
  async function api(path,body){const {base,t}=cfg();const ctrl=new AbortController();const timeout=setTimeout(()=>ctrl.abort(),10000);
   try{const res=await fetch(base+path,{method:body?'POST':'GET',headers:{'Authorization':'Bearer '+t,...(body?{'Content-Type':'application/json'}:{})},body:body?JSON.stringify(body):undefined,signal:ctrl.signal,cache:'no-store'});const data=await res.json();if(!res.ok)throw Error(data.error||'HTTP '+res.status);return data;}finally{clearTimeout(timeout)} }
- async function perform(action){try{show('Menghubungi server…');show(await action())}catch(e){show('Tidak dapat terhubung: '+e.message+'\nMode LAB lokal tetap tersedia.') }}
+ async function perform(action){try{show('Menghubungi server…');show(await action())}catch(e){show('Tidak dapat terhubung: '+e.message+'\nPastikan: HTTPS Tailscale Serve aktif, perangkat bergabung ke Tailnet, DNS dapat diakses, dan NETFORGE_ORIGIN/CORS cocok dengan alamat GitHub Pages.\nMode LAB lokal tetap tersedia.') }}
  $('nf32Connect').onclick=()=>perform(()=>api('/me'));
  $('nf32Progress').onclick=()=>perform(()=>api('/progress'));
  $('nf32Submit').onclick=()=>perform(async()=>{
@@ -2195,6 +2222,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
       <div class="nf322-stage" id="nf322Stage"><div id="nf322Initial" class="nf322-wordline" aria-label="NEVER FORGET"></div><div id="nf322Final" class="nf322-wordline" aria-label="NET FORGE"></div></div>
       <p class="nf322-tagline">Build · Connect · Configure · Conquer</p>
       <p class="nf322-small">Sebuah petualangan membangun dan memahami jaringan komputer.</p>
+      <p class="nf330-audio-note" id="nf330AudioNote">🔇 Intro otomatis tanpa suara sampai Anda mengaktifkan audio.</p>
       <button id="nf326IntroAudio" class="nf322-btn nf322-btn-quiet" type="button" style="font-size:12px;margin-top:12px">🔇 Aktifkan SFX (putar intro)</button>
     </section>
     <section id="nf322Menu" hidden aria-label="Menu Utama NET FORGE">
@@ -2208,6 +2236,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
         <button class="nf322-btn" id="nf322Settings" type="button">⚙ Pengaturan</button>
         <button class="nf322-btn" id="nf322CreditsBtn" type="button">ⓘ Credits &amp; About</button>
         <button class="nf322-btn nf322-btn-quiet nf322-btn-wide" id="nf322Replay" type="button">↺ Putar Ulang Intro</button>
+<button class="nf322-btn nf322-btn-quiet nf322-btn-wide" id="nf330ListenReplay" type="button">🔊 Aktifkan Audio &amp; Tonton Intro</button>
       </div>
       <label class="nf322-check"><input type="checkbox" id="nf326FullIntro" checked> Animasi lengkap saat startup</label>
       <label class="nf322-check"><input type="checkbox" id="nf326Sound"> 🔊 Aktifkan SFX intro (opsional)</label>
@@ -2218,14 +2247,14 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
       <p class="nf322-tagline" style="margin:0 0 25px">NET FORGE — Network Adventure &amp; Simulation Game</p>
       <dl><dt>Created by</dt><dd><strong>I GO ON (Igoon)</strong></dd>
       <dt>Game Title</dt><dd>NET FORGE</dd><dt>Network Guide</dt><dd>Iga</dd>
-      <dt>Version</dt><dd>v0.32.9 — Cinematic Timing &amp; Optional SFX</dd>
+      <dt>Version</dt><dd>v0.34.1 — Cinematic Timing &amp; Optional SFX</dd>
       <dt>Technology</dt><dd>HTML5 · CSS3 · JavaScript · SVG · WebGL2 · PHP API (opsional)</dd>
       <dt>Concept</dt><dd>Belajar membangun, menghubungkan, mengonfigurasi, dan memperbaiki jaringan komputer melalui misi dan laboratorium interaktif.</dd>
       <dt>Development Assistance</dt><dd>Pengembangan perangkat lunak dibantu teknologi AI.</dd>
       <dt>Copyright Notice</dt><dd>© 2026 I GO ON (Igoon). All rights reserved. Pernyataan ini mengikuti identitas pencipta yang diberikan; status hukum pemegang hak dan lisensi aset perlu dikonfirmasi sebelum distribusi publik.</dd></dl>
       <button id="nf322CreditsBack" type="button" class="nf322-btn nf322-btn-primary">← Kembali ke Menu</button>
     </section>
-    <p class="nf322-footer">NET FORGE v0.32.9 · © 2026 I GO ON (Igoon)</p>
+    <p class="nf322-footer">NET FORGE v0.34.1 · © 2026 I GO ON (Igoon)</p>
   </div>
 </div>
 <button id="nf322Home" class="nf322-return" type="button" hidden>⌂ Menu Utama</button>
@@ -2347,6 +2376,16 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   };
   requestAnimationFrame(()=>requestAnimationFrame(launch));
  }
+ $('nf330ListenReplay').addEventListener('click',async()=>{
+   const ok=await window.NetForgeAudio?.enable?.(true);
+   updateAudioUI();
+   if(ok) startIntro(true);
+   else { const note=$('nf330AudioNote'); if(note)note.textContent='Audio tidak tersedia atau diblokir. Periksa pengaturan suara browser.'; startIntro(true); }
+ });
+ document.addEventListener('netforge:audio-updated',()=>{
+   const note=$('nf330AudioNote');
+   if(note)note.textContent=window.NetForgeAudio?.config?.().enabled?'🔊 SFX aktif. Intro akan berbunyi jika browser mengizinkan audio.':'🔇 Intro otomatis tanpa suara sampai Anda mengaktifkan audio.';
+ });
  $('nf322Remember').addEventListener('change',e=>setPref(e.target.checked));
  $('nf326FullIntro').addEventListener('change',e=>putBool(keyMotion,e.target.checked));
  $('nf326Sound').addEventListener('change',async e=>{
@@ -2396,7 +2435,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   </section>
 </div>
 <script id="nf327-audio">
-/* NET FORGE v0.32.9 — Audio manager. No external assets or streaming. */
+/* NET FORGE v0.34.1 — Audio manager. No external assets or streaming. */
 (()=>{'use strict';
 const KEY='netforge.game.audio.v0327';
 const el=id=>document.getElementById(id);
@@ -2446,6 +2485,7 @@ async function enable(next){
   cfg.enabled=!!next;
   // Create/resume AudioContext as part of direct user-initiated gesture.
   const ok=cfg.enabled?await unlock():true;
+  if(cfg.enabled&&!ok){cfg.enabled=false;}
   syncAudio();
   return ok;
 }
@@ -2475,27 +2515,93 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 <script id="nf328-pwa-runtime">
 (()=>{'use strict';
 const secure=location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1';
-let deferredInstall=null, waiting=null;
+let deferredInstall=null,waiting=null,reg=null,reloaded=false;
 function setup(){
  const install=document.createElement('button');install.id='nf328Install';install.type='button';install.hidden=true;install.textContent='⬇ Instal NET FORGE';
  const update=document.createElement('button');update.id='nf328Update';update.type='button';update.hidden=true;update.textContent='🔄 Update tersedia — muat versi baru';
- document.body.append(install,update);
- if(!secure || !('serviceWorker' in navigator))return;
+ const check=document.createElement('button');check.id='nf330CheckUpdate';check.type='button';check.hidden=true;check.textContent='⟳ Cek Update';
+ const status=document.createElement('div');status.id='nf330PwaStatus';status.hidden=false;status.setAttribute('role','status');
+ document.body.append(install,update,check,status);
+ function say(v){status.textContent=v}
+ if(!secure){say('Mode HTML lokal: instalasi PWA perlu HTTPS/localhost.');return;}
+ if(!('serviceWorker' in navigator)){say('Service worker tidak tersedia; LAB tetap berjalan.');return;}
+ say('Memeriksa status PWA…');check.hidden=false;
  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;install.hidden=false;});
- window.addEventListener('appinstalled',()=>{deferredInstall=null;install.hidden=true});
+ window.addEventListener('appinstalled',()=>{deferredInstall=null;install.hidden=true;say('NET FORGE berhasil diinstal.')});
  install.addEventListener('click',async()=>{if(!deferredInstall)return;const prompt=deferredInstall;deferredInstall=null;install.hidden=true;await prompt.prompt();});
- // Updates are never forced during an active mission; user chooses when to reload.
- update.addEventListener('click',()=>{if(waiting)waiting.postMessage({type:'SKIP_WAITING'});});
- let reloaded=false;
+ function found(){if(reg?.waiting&&navigator.serviceWorker.controller){waiting=reg.waiting;update.hidden=false;say('Update siap. Simpan pekerjaan sebelum memuat versi baru.');}}
+ function checkUpdate(){if(!navigator.onLine){say('Offline — versi lokal tersedia bila sudah pernah dimuat.');return}if(!reg)return;reg.update().then(()=>{found();if(!waiting)say('PWA NET FORGE v0.34.1 — tidak ada update yang menunggu.')}).catch(()=>say('Pemeriksaan update gagal. Anda tetap dapat bermain offline.'))}
+ check.addEventListener('click',checkUpdate);
+ update.addEventListener('click',()=>{
+    if(!waiting)return;
+    if(!window.confirm('Versi baru akan dimuat. Pastikan progres permainan telah tersimpan atau diekspor. Lanjutkan?'))return;
+    waiting.postMessage({type:'SKIP_WAITING'});
+ });
  navigator.serviceWorker.addEventListener('controllerchange',()=>{if(reloaded)return;reloaded=true;location.reload();});
- navigator.serviceWorker.register('./sw.js',{scope:'./'}).then(reg=>{
-  const found=()=>{if(reg.waiting&&navigator.serviceWorker.controller){waiting=reg.waiting;update.hidden=false;}};
-  found();reg.addEventListener('updatefound',()=>{const worker=reg.installing;if(!worker)return;worker.addEventListener('statechange',()=>{if(worker.state==='installed')found()})});
-  // Poll occasionally when page visible; network errors do not interrupt LAB.
-  document.addEventListener('visibilitychange',()=>{if(!document.hidden)reg.update().catch(()=>{})});
- }).catch(err=>console.warn('[NET FORGE PWA] Service worker unavailable:',err));
+ navigator.serviceWorker.register('./sw.js',{scope:'./'}).then(r=>{
+    reg=r;found();say(navigator.onLine?'PWA siap — cek update tersedia.':'Mode offline — menggunakan cache game.');
+    reg.addEventListener('updatefound',()=>{const w=reg.installing;if(w)w.addEventListener('statechange',()=>{if(w.state==='installed')found()})});
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkUpdate()});
+    window.addEventListener('online',()=>{say('Koneksi pulih.');checkUpdate()});
+    window.addEventListener('offline',()=>say('Offline — LAB lokal tetap tersedia.'));
+ }).catch(err=>{say('PWA tidak terdaftar, game masih dapat berjalan.');console.warn('[NET FORGE PWA]',err)});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
 })();
 </script>
-</body></html>
+<script id="nf340ImmersiveScript">/* NET FORGE v0.34.1 — event-driven immersive packet visuals (non-authoritative layer) */
+(()=>{'use strict';
+const KEY='netforge.immersive.v034';
+let pref='standard', timer=null, active=[];
+try{let saved=localStorage.getItem(KEY);if(['off','lite','standard'].includes(saved))pref=saved;}catch(e){}
+const $=s=>document.querySelector(s);
+const motionAllowed=()=>pref!=='off'&&!document.body.classList.contains('motion-off')&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const NS='http://www.w3.org/2000/svg';
+function status(msg,kind=''){const el=$('#nf34Status');if(!el)return;el.textContent=msg;el.dataset.state=kind;}
+function cleanup(){if(timer){clearTimeout(timer);timer=null;}for(const x of active){try{x.remove()}catch(e){}}active=[];document.querySelectorAll('#wires .nf34-path-highlight').forEach(p=>p.classList.remove('nf34-path-highlight'));}
+function init(){
+ const host=$('.terminal-dock');const svg=$('#wires');if(!host||!svg)return;
+ const bar=document.createElement('div');bar.id='nf34Controls';
+ bar.innerHTML='<label>🎨 Animasi paket <select id="nf34Preset" aria-label="Kualitas animasi paket"><option value="off">Mati</option><option value="lite">Ringan</option><option value="standard">Standar</option></select></label><button id="nf34Replay" type="button" title="Putar ulang jalur ping terakhir">↻ Ulangi aliran paket</button><span id="nf34Status" role="status" aria-live="polite">Efek paket mengikuti hasil ping/traceroute.</span>';
+ host.appendChild(bar);const select=$('#nf34Preset');select.value=pref;
+ select.addEventListener('change',()=>{pref=select.value;try{localStorage.setItem(KEY,pref)}catch(e){}cleanup();status(pref==='off'?'Efek paket dinonaktifkan.':`Efek paket: ${pref==='lite'?'ringan':'standar'}.`)});
+ let last=null;
+ function spark(hops,reverse=false,delay=0,duration=2100){
+  if(!Array.isArray(hops)||hops.length<2)return;
+  const segments=[];
+  for(let i=0;i<hops.length-1;i++){
+   const from=String(hops[i]),to=String(hops[i+1]);
+   const edge=Array.from(svg.querySelectorAll('path.wire')).find(e=> (e.dataset.a===from&&e.dataset.b===to)||(e.dataset.a===to&&e.dataset.b===from));
+   if(!edge||edge.classList.contains('down'))return;
+   const len=edge.getTotalLength();if(!Number.isFinite(len)||len<=0)return;
+   let forward=edge.dataset.a===from;
+   const steps=14;
+   for(let k=0;k<=steps;k++){
+    const u=k/steps;const p=edge.getPointAtLength((forward?u:1-u)*len);
+    if(!p||!Number.isFinite(p.x)||!Number.isFinite(p.y))return;
+    if(i!==0&&k===0)continue;
+    segments.push([p.x,p.y]);
+   }
+   edge.classList.add('nf34-path-highlight');
+  }
+  if(!segments.length)return;
+  const path='M '+segments.map(p=>p.map(v=>v.toFixed(1)).join(' ')).join(' L ');
+  const circle=document.createElementNS(NS,'circle');circle.setAttribute('r',pref==='lite'?'4':'5');circle.setAttribute('fill',reverse?'#baffc8':'#42eaff');circle.setAttribute('stroke','#ffffff');circle.setAttribute('stroke-width','1');circle.setAttribute('class','nf34-packet');
+  const animate=document.createElementNS(NS,'animateMotion');animate.setAttribute('dur',duration+'ms');animate.setAttribute('repeatCount','1');animate.setAttribute('fill','freeze');animate.setAttribute('path',path);animate.setAttribute('begin','indefinite');circle.appendChild(animate);svg.appendChild(circle);active.push(circle);
+  window.setTimeout(()=>{if(circle.isConnected){try{animate.beginElement()}catch(e){circle.remove();}}},delay);
+ }
+ function play(details){cleanup();if(!details||!details.ok){status('Ping gagal — periksa jalur dan konfigurasi.','fail');return;}last={...details,hops:[...details.hops]};status(`Jalur terverifikasi: ${details.hops.length} perangkat · ${details.latency} ms`,'success');
+  if(!motionAllowed())return;
+  spark(details.hops,false,0,1900);
+  if(pref==='standard'){spark([...details.hops].reverse(),true,1950,1900)}
+  timer=setTimeout(cleanup,pref==='standard'?4100:2100);
+ }
+ window.addEventListener('netforge:network-test',e=>{
+  play(e.detail);const avatar=$('.iga-dock .avatar');if(avatar){avatar.classList.remove('nf34-success','nf34-warning');void avatar.offsetWidth;avatar.classList.add(e.detail?.ok?'nf34-success':'nf34-warning');setTimeout(()=>avatar.classList.remove('nf34-success','nf34-warning'),1800);}
+ });
+ $('#nf34Replay').addEventListener('click',()=>{if(last){play(last)}else status('Lakukan ping berhasil terlebih dahulu.')});
+ const observer=new MutationObserver(()=>{if(active.length&&svg.querySelectorAll('.nf34-packet').length===0){active=[];if(timer){clearTimeout(timer);timer=null;}}});observer.observe(svg,{childList:true});
+ window.addEventListener('pagehide',cleanup);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();</script></body></html>
