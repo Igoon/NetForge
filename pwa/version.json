@@ -1,14 +1,14 @@
 {
-  "version": "0.36.6",
-  "build": "stability-pwa-quality-assurance",
+  "version": "0.36.7",
+  "build": "pwa-update-recovery",
   "updated": "2026-11-12",
-  "title": "Stability & PWA Quality Assurance",
+  "title": "Reliable PWA Update & Safe Recovery",
   "changes": [
-    "Pusat Diagnostik untuk memeriksa versi aktif, versi terbaru, PWA, penyimpanan, Google Profile, audio, dan API.",
-    "Perbaikan LAB Resume: tombol membaca autosave terbaru saat diklik dan tidak mengunci snapshot lama.",
-    "Laporan diagnostik dapat disalin tanpa menyertakan token autentikasi.",
-    "Pengecekan autosave tidak mengubah data Misi, skor resmi, atau progres server.",
-    "Mekanisme persetujuan update dan avatar/inisial Google tetap dipertahankan."
+    "Memperbaiki tombol update yang terlalu cepat menyatakan berkas belum siap sebelum Service Worker selesai dipasang.",
+    "Tombol update menunggu status installed/waiting hingga 12 detik dan memberi status unduhan yang lebih jelas.",
+    "Menambahkan Pulihkan pembaruan untuk melepas Service Worker macet dan membersihkan hanya cache aplikasi (bukan data pemain).",
+    "Tetap membedakan versi yang sedang berjalan dan versi terbaru dari version.json.",
+    "Mempertahankan Google Login, avatar, SFX, Guided Lab, dan penyimpanan lokal tanpa perubahan backend."
   ],
-  "notes": "Frontend only. Requires one-time refresh from v0.36.2 for consent-gated navigation on future releases."
+  "notes": "Update recovery is explicit and does not delete localStorage or IndexedDB. If an older PWA is stuck, update the GitHub Pages files and use safe recovery from v0.36.7."
 }
