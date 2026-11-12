@@ -1,15 +1,15 @@
 {
-  "version": "0.36.3",
-  "build": "consent-gated-update-and-keyboard-comfort",
+  "version": "0.36.4",
+  "build": "workspace-history-pan-zoom-google-identity",
   "updated": "2026-11-12",
-  "title": "Reliable Updates & Workspace Shortcuts",
+  "title": "Advanced Workspace Controls & Google Player Identity",
   "changes": [
-    "Versi yang sedang dimainkan kini dibaca dari HTML aktif, tidak mengikuti version.json di server.",
-    "Halaman PWA menggunakan cache-first; update tidak mengganti game sebelum pemain menyetujui aktivasi.",
-    "Dialog update membedakan versi aktif, versi terbaru, dan kondisi offline/tidak diketahui.",
-    "Changelog versi terbaru hanya tampil bila rilis server lebih tinggi.",
-    "Pintasan keyboard workspace dan panduan pintasan ditambahkan tanpa mengubah simulasi.",
-    "Guest Mode, login Google, nilai LAB resmi, dan backend v0.35.2 tetap kompatibel."
+    "Undo dan Redo untuk perubahan topologi, posisi perangkat, koneksi kabel, dan konfigurasi IP; riwayat maksimal 40 langkah per sesi.",
+    "Zoom 60–180%, mode Pan, dan Fit Workspace agar simulasi lebih nyaman di desktop dan layar sentuh.",
+    "Nama dan avatar Official Player dari identitas Google yang sudah diverifikasi server kini terlihat di header game dan menu utama.",
+    "Avatar fallback inisial apabila akun Google tidak memberikan foto atau gambar gagal dimuat.",
+    "Versi aktif dan metadata rilis tetap terpisah; daftar perubahan muncul melalui Cek Update.",
+    "Guest Mode, penilaian resmi backend, dan progres Google Login tetap dipertahankan."
   ],
   "notes": "Frontend only. Requires one-time refresh from v0.36.2 for consent-gated navigation on future releases."
 }

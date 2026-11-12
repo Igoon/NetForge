@@ -1,1 +1,3 @@
-NET FORGE v0.36.3 — upload all files to GitHub Pages. Current version is compiled in HTML; latest uses version.json. Update activation requires consent after migration from older service worker.
+# NET FORGE PWA v0.36.4
+
+Deploy files in this folder to GitHub Pages root. Keep `index.html`, `sw.js`, `version.json` together.
