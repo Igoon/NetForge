@@ -1,3 +1,1 @@
-# NET FORGE PWA v0.36.4
-
-Deploy files in this folder to GitHub Pages root. Keep `index.html`, `sw.js`, `version.json` together.
+NET FORGE v0.36.5 — upload contents of this folder to GitHub Pages. Local Recovery Center; backend unchanged.

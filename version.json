@@ -1,15 +1,15 @@
 {
-  "version": "0.36.4",
-  "build": "workspace-history-pan-zoom-google-identity",
+  "version": "0.36.5",
+  "build": "session-recovery-local-backup",
   "updated": "2026-11-12",
-  "title": "Advanced Workspace Controls & Google Player Identity",
+  "title": "Auto-save & Session Recovery",
   "changes": [
-    "Undo dan Redo untuk perubahan topologi, posisi perangkat, koneksi kabel, dan konfigurasi IP; riwayat maksimal 40 langkah per sesi.",
-    "Zoom 60–180%, mode Pan, dan Fit Workspace agar simulasi lebih nyaman di desktop dan layar sentuh.",
-    "Nama dan avatar Official Player dari identitas Google yang sudah diverifikasi server kini terlihat di header game dan menu utama.",
-    "Avatar fallback inisial apabila akun Google tidak memberikan foto atau gambar gagal dimuat.",
-    "Versi aktif dan metadata rilis tetap terpisah; daftar perubahan muncul melalui Cek Update.",
-    "Guest Mode, penilaian resmi backend, dan progres Google Login tetap dipertahankan."
+    "Recovery Center: lihat waktu penyimpanan Misi dan LAB serta pulihkan pekerjaan lokal.",
+    "Simpan Sekarang dan simpan otomatis saat tab/PWA masuk background.",
+    "Cadangan sebelumnya dibuat secara berkala sebelum data topologi ditimpa.",
+    "Ekspor cadangan topologi lokal ke JSON tanpa token Google atau rahasia autentikasi.",
+    "Pulihkan cadangan Misi/LAB yang tersedia; nilai resmi tetap berasal dari backend.",
+    "Info Cek Update membedakan versi sedang dimainkan dengan versi terbaru."
   ],
   "notes": "Frontend only. Requires one-time refresh from v0.36.2 for consent-gated navigation on future releases."
 }
