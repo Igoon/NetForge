@@ -1,4 +1,6 @@
 {
-  "version": "0.34.5",
-  "release": "Official Progress Settings Visibility Fix"
+  "version": "0.34.6",
+  "build": "public-player-guest",
+  "updated": "2026-11-12",
+  "notes": "Guest Mode default; official session optional; PWA static assets only"
 }
