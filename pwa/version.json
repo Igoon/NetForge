@@ -1,14 +1,15 @@
 {
-  "version": "0.36.1",
-  "build": "iga-guided-tutorial-update-changelog",
+  "version": "0.36.2",
+  "build": "responsive-workspace-mobile-comfort",
   "updated": "2026-11-12",
-  "title": "Guided Gameplay & Iga Interactive Tutorial",
+  "title": "Responsive Workspace & Game Comfort",
   "changes": [
-    "Panduan interaktif Iga: penjelasan awal Guided Lab dan bantuan kontekstual untuk lima tahap.",
-    "Umpan balik kesalahan yang lebih jelas ketika tombol Periksa tahap digunakan.",
-    "Dialog Update menampilkan versi game aktif, versi terbaru, dan daftar perubahan.",
-    "Tombol Cek Update juga dapat digunakan untuk membaca informasi rilis terbaru.",
-    "Fungsi Guest Mode, Google Login, sinkronisasi progres, dan backend v0.35.2 tetap dipertahankan."
+    "Navigasi layar kecil dengan tiga pilihan: Workspace, Perangkat, dan Misi & Iga.",
+    "Workspace simulasi menjadi fokus utama di layar tablet/ponsel tanpa menyembunyikan fungsi perangkat.",
+    "Ukuran tombol, petunjuk sentuh, panel LAB, dan dashboard disesuaikan agar lebih mudah digunakan.",
+    "Dukungan focus keyboard dan preferensi pengurangan animasi ditingkatkan.",
+    "Dialog Cek Update tetap menampilkan versi terbaru dan daftar perubahan dari version.json.",
+    "Guest Mode, Login Google, progres resmi, dan backend v0.35.2 tidak berubah."
   ],
   "notes": "Frontend only; backend v0.35.2 compatible"
 }
