@@ -1,15 +1,15 @@
 {
-  "version": "0.36.2",
-  "build": "responsive-workspace-mobile-comfort",
+  "version": "0.36.3",
+  "build": "consent-gated-update-and-keyboard-comfort",
   "updated": "2026-11-12",
-  "title": "Responsive Workspace & Game Comfort",
+  "title": "Reliable Updates & Workspace Shortcuts",
   "changes": [
-    "Navigasi layar kecil dengan tiga pilihan: Workspace, Perangkat, dan Misi & Iga.",
-    "Workspace simulasi menjadi fokus utama di layar tablet/ponsel tanpa menyembunyikan fungsi perangkat.",
-    "Ukuran tombol, petunjuk sentuh, panel LAB, dan dashboard disesuaikan agar lebih mudah digunakan.",
-    "Dukungan focus keyboard dan preferensi pengurangan animasi ditingkatkan.",
-    "Dialog Cek Update tetap menampilkan versi terbaru dan daftar perubahan dari version.json.",
-    "Guest Mode, Login Google, progres resmi, dan backend v0.35.2 tidak berubah."
+    "Versi yang sedang dimainkan kini dibaca dari HTML aktif, tidak mengikuti version.json di server.",
+    "Halaman PWA menggunakan cache-first; update tidak mengganti game sebelum pemain menyetujui aktivasi.",
+    "Dialog update membedakan versi aktif, versi terbaru, dan kondisi offline/tidak diketahui.",
+    "Changelog versi terbaru hanya tampil bila rilis server lebih tinggi.",
+    "Pintasan keyboard workspace dan panduan pintasan ditambahkan tanpa mengubah simulasi.",
+    "Guest Mode, login Google, nilai LAB resmi, dan backend v0.35.2 tetap kompatibel."
   ],
-  "notes": "Frontend only; backend v0.35.2 compatible"
+  "notes": "Frontend only. Requires one-time refresh from v0.36.2 for consent-gated navigation on future releases."
 }

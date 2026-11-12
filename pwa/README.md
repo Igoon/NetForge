@@ -1,1 +1,1 @@
-NET FORGE v0.36.2 — PWA. Upload this directory contents to GitHub Pages. Includes version.json changelog and responsive workspace dock. Backend unchanged.
+NET FORGE v0.36.3 — upload all files to GitHub Pages. Current version is compiled in HTML; latest uses version.json. Update activation requires consent after migration from older service worker.
