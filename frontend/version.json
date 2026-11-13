@@ -1,12 +1,12 @@
 {
-  "version": "0.40.25",
-  "build": "viewport-interaction-regression",
+  "version": "0.40.26",
+  "build": "mission-interaction-regression",
   "updated": "2026-11-13",
-  "title": "Pan, Drag, Zoom and Cable Regression Fix",
+  "title": "Mission and Workspace Regression Suite",
   "changes": [
-    "Pointer capture disatukan pada canvas untuk drag perangkat setelah Zoom dan Pan.",
-    "Pengujian regresi membuktikan pergeseran nyata perangkat dan viewport, keselarasan kabel, serta Undo/Redo.",
-    "Tidak mengubah backend, progres per misi, ataupun tata letak konfigurasi."
+    "Pengujian otomatis terpadu untuk misi, koneksi, terminal, dan transformasi workspace.",
+    "Prompt Kosongkan Canvas menyebut nama misi aktif dan mendukung Undo.",
+    "Klik yang terblokir setelah Pan tidak terbawa ke misi berikutnya; fokus keyboard modal dipulihkan."
   ],
   "notes": "Frontend visual and UI fix; XP and backend unchanged.",
   "releasedAt": "2026-11-13"

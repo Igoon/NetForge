@@ -1,5 +1,5 @@
-NET FORGE v0.40.25 — Unified Canvas Interaction Regression Fix
+NET FORGE v0.40.26 — Mission & Workspace Regression Suite
 
-Fokus: pointer capture saat drag setelah zoom/pan, konsistensi kabel, status tombol Pan, dan test regressions. Tidak ada pembaruan backend.
-
-Deploy seluruh isi zip di root GitHub Pages, lalu periksa recovery.html.
+Perbaikan: prompt reset mengikuti misi aktif, fokus modal konfigurasi, reset Pan dan status klik setelah perpindahan misi.
+Pengujian otomatis tersedia di paket lengkap: tests/regression.py.
+Frontend only. Untuk deployment: unggah isi ZIP GitHub Pages ke root repository.
