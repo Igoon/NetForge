@@ -24,9 +24,10 @@ jobs:
       - name: Stage PWA files
         run: |
           mkdir -p dist
-          cp pwa/index.html pwa/manifest.webmanifest pwa/sw.js pwa/version.json dist/
+          cp pwa/index.html pwa/recovery.html pwa/manifest.webmanifest pwa/sw.js pwa/version.json dist/
           cp -R pwa/icons dist/
           test -f dist/index.html
+          test -f dist/recovery.html
           test -f dist/sw.js
           test -f dist/version.json
 

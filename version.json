@@ -1,13 +1,13 @@
 {
-  "version": "0.37.4",
-  "build": "unified-mission-navigation-v0374",
+  "version": "0.37.5",
+  "build": "pwa-version-sync-recovery-v0375",
   "updated": "2026-11-13",
-  "title": "Unified Mission Navigation Fix",
+  "title": "PWA Version Sync & Independent Recovery",
   "changes": [
-    "Menyatukan tombol Petualangan Baru dengan Mission Control, tanpa memunculkan modal lama secara tidak sengaja.",
-    "Kembali dari Smart Home menampilkan pemilihan misi tanpa membuka dialog petualangan Network Basics.",
-    "Pilihan Network Basics secara eksplisit membuka briefing petualangan dasar; Free Lab tetap terpisah.",
-    "Mempertahankan panel Smart Home adaptif, Google Login, autosave, dan sistem update PWA."
+    "Memperbaiki bug versi internal v0.37.4 yang masih bernilai 0.37.3 dan membuat update tampak selalu tersedia.",
+    "Menyediakan recovery.html independen untuk memeriksa versi file server, Service Worker, dan keadaan cache PWA.",
+    "Pemulihan aman melepaskan Service Worker dan menghapus hanya cache nf-static- setelah persetujuan pemain.",
+    "Mempertahankan Mission Control, Smart Home Hybrid, Google Login, autosave, dan backend v0.35.2."
   ],
-  "notes": "Hotfix navigasi frontend saja; backend v0.35.2 tetap kompatibel."
+  "notes": "Update frontend; tidak menghapus localStorage, IndexedDB, atau nilai server. Gunakan recovery.html bila updater lama macet."
 }
