@@ -1,5 +1,5 @@
-NET FORGE v0.40.24 — Shared Viewport Cable Alignment Hotfix
+NET FORGE v0.40.25 — Unified Canvas Interaction Regression Fix
 
-Perangkat, koneksi SVG, serta animasi paket memakai satu layer viewport, sehingga Zoom/Pan tidak menggeser kabel relatif terhadap perangkat. Backend tidak berubah.
+Fokus: pointer capture saat drag setelah zoom/pan, konsistensi kabel, status tombol Pan, dan test regressions. Tidak ada pembaruan backend.
 
-Unggah seluruh isi ZIP ke root GitHub Pages. Gunakan recovery.html bila aplikasi ter-cache.
+Deploy seluruh isi zip di root GitHub Pages, lalu periksa recovery.html.

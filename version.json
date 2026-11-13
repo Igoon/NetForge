@@ -1,13 +1,12 @@
 {
-  "version": "0.40.24",
-  "build": "shared-viewport-cable-alignment",
+  "version": "0.40.25",
+  "build": "viewport-interaction-regression",
   "updated": "2026-11-13",
-  "title": "Unified Viewport Fix for Cables, Nodes and Packet Flow",
+  "title": "Pan, Drag, Zoom and Cable Regression Fix",
   "changes": [
-    "Kabel, node, dan paket menggunakan satu layer transformasi saat Zoom dan Pan.",
-    "Drag perangkat mempertahankan endpoint kabel setelah zoom dan pan.",
-    "Animasi Ping/streaming/CCTV mengikuti viewport yang sama.",
-    "History misi dan data tersimpan tidak diubah."
+    "Pointer capture disatukan pada canvas untuk drag perangkat setelah Zoom dan Pan.",
+    "Pengujian regresi membuktikan pergeseran nyata perangkat dan viewport, keselarasan kabel, serta Undo/Redo.",
+    "Tidak mengubah backend, progres per misi, ataupun tata letak konfigurasi."
   ],
   "notes": "Frontend visual and UI fix; XP and backend unchanged.",
   "releasedAt": "2026-11-13"
