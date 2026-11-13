@@ -1,14 +1,14 @@
 {
-  "version": "0.37.9",
-  "build": "network-link-cable-diagnostics-v0379",
+  "version": "0.38.0",
+  "build": "unified-drag-drop-builder-v0380",
   "updated": "2026-11-13",
-  "title": "Network Link & Cable Diagnostics",
+  "title": "Unified Drag-and-Drop Network Builder",
   "changes": [
-    "Simulasi negosiasi Ethernet 100 Mbps / 1 Gbps berdasarkan kedua port dan kondisi kabel.",
-    "Cable Tester, kondisi terminasi, panjang kabel, kategori kabel, dan tombol gangguan/perbaikan.",
-    "Hasil link fisik memengaruhi skor uplink, streaming Smart TV kabel, dan kapasitas perekaman NVR kabel.",
-    "Analisis headroom nominal untuk dua Smart TV 4K dan empat kamera IP.",
-    "Tetap mempertahankan Mission Control, Smart Home Floor Plan, heatmap Wi-Fi, Google Login, dan pemulihan PWA."
+    "Inventori Smart Home memungkinkan memasang router/AP, PoE switch, Smart TV, IP Camera, IoT dan NVR ke denah.",
+    "Guided Mode menyediakan topologi awal; Challenge Mode memulai workspace kosong.",
+    "Pemain dapat menghubungkan dan memutuskan perangkat memakai Ethernet, PoE atau Wi-Fi melalui alat kerja.",
+    "Validasi Smart Home memeriksa perangkat dan jalur yang benar-benar dibangun sebelum memberi skor lokal.",
+    "Posisi PoE switch dan topologi Builder tersimpan lokal; Mission Control, Google Login dan Recovery PWA dipertahankan."
   ],
-  "notes": "Simulasi berbasis aturan edukasi. Bukan pengujian kabel fisik atau bandwidth nyata. Skor N01 tersimpan lokal dan bukan XP resmi server."
+  "notes": "Model edukasi, bukan emulasi protokol jaringan. Koneksi dipakai sebagai prasyarat evaluasi layanan. Skor Smart Home tetap lokal, bukan XP resmi."
 }

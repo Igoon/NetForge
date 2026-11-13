@@ -1,3 +1,3 @@
-# NET FORGE v0.37.9 — Full Package
+# NET FORGE v0.38.0
 
-Frontend: folder `pwa/`, unggah isinya ke GitHub Pages. Backend: folder `backend/` tidak berubah. Misi N01 menambahkan diagnostik fisik kabel dan negosiasi Ethernet.
+Frontend PWA: `pwa/` deploy ke GitHub Pages. Backend: `backend/` tetap sesuai versi lama. Smart Home Builder berjalan lokal.

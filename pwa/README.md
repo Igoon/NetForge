@@ -1,7 +1,7 @@
-# NET FORGE v0.37.9 — GitHub Pages
+# NET FORGE v0.38.0 — Unified Drag-and-Drop Builder
 
-Upload **isi folder ini** ke root repository `igoon/NetForge`. Pastikan index.html, sw.js, version.json, dan recovery.html semua terganti.
+Unggah **isi folder** ke root GitHub Pages NetForge. Pada Mission Control pilih Smart Home Hybrid lalu Guided atau Challenge.
 
-Smart Home Hybrid > Konfigurasi Jaringan > Network Link & Cable Diagnostics. Coba tombol Cable Tester, suntik gangguan, perbaiki kabel, lalu Jalankan Pengujian.
+Di Challenge, pasang perangkat dari inventori di panel Smart Home; pilih Hubungkan dan media, kemudian klik dua perangkat. Gerakkan perangkat dalam mode Pilih/Geser. Klik Periksa Topologi dan Jalankan Pengujian. Posisi dan koneksi disimpan lokal.
 
-Versi backend tidak berubah dari v0.35.2. Skor misi N01 tetap lokal, bukan nilai resmi.
+Konfigurasi TV/kamera/NVR melalui dropdown lama masih menentukan pilihan media, sehingga sambungan manual harus sesuai. Skor N01 bukan XP resmi; backend tidak berubah.
