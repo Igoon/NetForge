@@ -1,14 +1,15 @@
 {
-  "version": "0.39.1",
-  "build": "shared-network-graph-v0391",
+  "version": "0.39.2",
+  "build": "visual-port-connection-v0392",
   "updated": "2026-11-13",
-  "title": "Shared Network Graph & Port Audit",
+  "title": "Visual Port Connection Builder",
   "changes": [
-    "Model graf bersama netforge.graph.v1 untuk membaca topologi Network Basics dan Smart Home.",
-    "Audit struktur perangkat, koneksi, media, port dan konflik penggunaan port dalam satu dialog.",
-    "Sambungan baru Smart Home divalidasi terhadap kemampuan perangkat dan kapasitas port.",
-    "Port Ethernet Smart Home dipilih otomatis; data topologi lama tetap dibaca tanpa migrasi wajib.",
-    "Mission Control, mode Guided/Challenge, Google Login, progres dan updater PWA dipertahankan."
+    "Hubungkan perangkat Smart Home melalui dialog pemilihan port fisik pada kedua perangkat.",
+    "Port yang terpakai dan port yang tidak cocok dengan media ditandai dengan indikator visual.",
+    "Port PoE hanya dapat dipilih pada port switch yang mendukung PoE.",
+    "Pilihan port pengguna kini divalidasi dan disimpan sebagai bagian dari koneksi topologi.",
+    "Mentor Iga menjelaskan mengapa sambungan tidak dapat dibuat; Guided Mode dan data lama dipertahankan.",
+    "Mission Control, profil Google, progres lokal dan mekanisme update PWA tetap tersedia."
   ],
-  "notes": "Fondasi model data bersama; engine simulasi fisik/protokol Network Basics dan Smart Home masih terpisah. Skor Smart Home masih lokal."
+  "notes": "Pemilihan port fisik tersedia pada Smart Home; Network Basics mempertahankan editor lama. LED merepresentasikan status alokasi port simulasi, bukan arus lalu lintas aktual. Skor Smart Home masih lokal."
 }
