@@ -1,14 +1,14 @@
 {
-  "version": "0.40.19",
-  "build": "contextual-device-actions",
+  "version": "0.40.20",
+  "build": "3d-device-visual-and-recovery",
   "updated": "2026-11-13",
-  "title": "Workspace Simplification & Contextual Actions",
+  "title": "3D Device Visual Pack & PWA Recovery Hotfix",
   "changes": [
-    "Toolbar Tool/Media dihilangkan dari workspace tetapi binding internal dipertahankan.",
-    "Klik device menampilkan action bar kontekstual: Hubungkan, Putuskan, Konfigurasi, Hapus, Audit.",
-    "Mini menu media Ethernet, PoE, Wi-Fi; target dipilih pada canvas tanpa pergantian workspace.",
-    "Klik dua kali tetap membuka modal konfigurasi, serta dukungan klik kanan pada perangkat.",
-    "Data misi, backend, dan progres lama dipertahankan."
+    "12 model perangkat SVG bergaya 3D berbeda di Unified Canvas; layar dan LED mengikuti status link.",
+    "Modal konfigurasi, aksi kontekstual dan log aktivitas dari v0.40.19 dipertahankan.",
+    "Tautan Pemulihan PWA selalu tersedia ketika versi server tidak dapat ditemukan.",
+    "Halaman Recovery menyediakan reset cache manual tanpa menghapus Local Storage atau IndexedDB.",
+    "Perbaikan tidak mengubah API maupun backend."
   ],
   "notes": "Frontend visual and UI fix; XP and backend unchanged.",
   "releasedAt": "2026-11-13"

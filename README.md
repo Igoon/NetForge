@@ -1,5 +1,10 @@
-NET FORGE v0.40.19 — Workspace Simplification & Contextual Actions
+NET FORGE v0.40.20 — 3D Device Art & PWA Recovery Hotfix
 
-Satu toolbar permanen Tool / Media telah disembunyikan dari area kerja. Pilih perangkat sekali untuk menampilkan aksi kontekstual; klik Hubungkan kemudian pilih Ethernet/PoE/Wi-Fi dan klik perangkat tujuan. Klik dua kali perangkat untuk membuka modal konfigurasi. Klik kanan perangkat untuk akses aksi cepat. Log Aktivitas, Iga, dan Terminal tetap tersedia. Fitur 3D penuh belum diterapkan pada rilis ini.
+- Device Unified Canvas menggunakan 12 gambar SVG pseudo-3D berbeda: Router, Switch, AP, Desktop PC, Laptop, Tablet, Smartphone, Server, TV, Camera, IoT, NVR.
+- LED dan layar mengikuti status koneksi graf; tampilan 3D bergaya ilustrasi, bukan engine 3D WebGL.
+- Menu aksi kontekstual, modal konfigurasi, Log Aktivitas, dan animasi paket sebelumnya tetap digunakan.
+- Dialog update menampilkan akses Pemulihan PWA walaupun versi server tak terbaca.
+- Halaman recovery menyediakan reset cache manual setelah upload deployment; Local Storage dan IndexedDB tidak dihapus.
 
-Deployment: upload seluruh isi folder GitHub Pages ke root GitHub repository. Backend tidak berubah.
+PENTING: Jika versi server tidak ditemukan, periksa deployment GitHub Pages lebih dulu. Reset cache tidak dapat menciptakan file yang belum diunggah. Unggah SEMUA isi ZIP ini ke ROOT repository, bukan folder tambahan.
+Backend tidak berubah.
