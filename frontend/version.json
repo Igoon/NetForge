@@ -1,13 +1,14 @@
 {
-  "version": "0.40.18",
-  "build": "ui-dock-consolidation-compact-tools-packet-pulse",
+  "version": "0.40.19",
+  "build": "contextual-device-actions",
   "updated": "2026-11-13",
-  "title": "Workspace Cleanup & Packet Pulse",
+  "title": "Workspace Simplification & Contextual Actions",
   "changes": [
-    "Panel Konfigurasi Perangkat permanen pada command dock benar-benar dihapus; konfigurasi lewat modal klik dua kali.",
-    "Log Aktivitas ditampilkan kembali pada command dock sebagai panel ketiga.",
-    "Alat Network Basics diganti dengan toolbar tipis tanpa panel berjudul; tombol lama tetap berfungsi.",
-    "Paket data visual bergerak mengikuti jalur ping sukses pada Unified Canvas; menghormati prefers-reduced-motion."
+    "Toolbar Tool/Media dihilangkan dari workspace tetapi binding internal dipertahankan.",
+    "Klik device menampilkan action bar kontekstual: Hubungkan, Putuskan, Konfigurasi, Hapus, Audit.",
+    "Mini menu media Ethernet, PoE, Wi-Fi; target dipilih pada canvas tanpa pergantian workspace.",
+    "Klik dua kali tetap membuka modal konfigurasi, serta dukungan klik kanan pada perangkat.",
+    "Data misi, backend, dan progres lama dipertahankan."
   ],
   "notes": "Frontend visual and UI fix; XP and backend unchanged.",
   "releasedAt": "2026-11-13"

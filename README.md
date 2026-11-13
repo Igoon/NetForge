@@ -1,10 +1,5 @@
-# NET FORGE v0.40.18 — Workspace Cleanup & Packet Pulse
+NET FORGE v0.40.19 — Workspace Simplification & Contextual Actions
 
-Frontend-only update. Replace all files in the GitHub Pages root with the contents of this package. No backend update required.
+Satu toolbar permanen Tool / Media telah disembunyikan dari area kerja. Pilih perangkat sekali untuk menampilkan aksi kontekstual; klik Hubungkan kemudian pilih Ethernet/PoE/Wi-Fi dan klik perangkat tujuan. Klik dua kali perangkat untuk membuka modal konfigurasi. Klik kanan perangkat untuk akses aksi cepat. Log Aktivitas, Iga, dan Terminal tetap tersedia. Fitur 3D penuh belum diterapkan pada rilis ini.
 
-- Permanently remove the duplicate **Konfigurasi Perangkat** dock shown beneath the workspace. The existing Unified Canvas device config modal still opens on double click.
-- Restore **Log Aktivitas** as the third visible command dock panel next to Iga and Terminal. Same original log DOM, without duplicate forms.
-- Replace bulky **Alat Network Basics** panel with compact tools bar. Retain Tool/Media and existing buttons.
-- On successful Unified Canvas Ping, show a short data-packet pulse along the simulated path. Does not affect scoring. Reduced-motion respected.
-
-Do not overwrite production .env or SQLite. Deployment and installed-PWA runtime have not been verified.
+Deployment: upload seluruh isi folder GitHub Pages ke root GitHub repository. Backend tidak berubah.
