@@ -1,15 +1,14 @@
 {
-  "version": "0.39.0",
-  "build": "universal-network-workspace-v0390",
+  "version": "0.39.1",
+  "build": "shared-network-graph-v0391",
   "updated": "2026-11-13",
-  "title": "Universal Network Workspace",
+  "title": "Shared Network Graph & Port Audit",
   "changes": [
-    "Inventori Smart Home digabung ke satu panel kiri; daftar perangkat kedua di workspace dihilangkan.",
-    "Denah Rumah dan Topologi Logis membaca node serta koneksi yang sama dari Smart Home Builder.",
-    "Topologi Logis interaktif: pilih perangkat, hubungkan/putuskan melalui alat Builder, dan tarik perangkat dari inventori.",
-    "Device Inspector kontekstual menampilkan informasi perangkat dan pintasan ke konfigurasi.",
-    "Network Basics dan Free Lab tetap memakai engine lama pada workspace yang sama; progres dan backend tidak dimigrasikan.",
-    "Metadata rilis, Service Worker dan pemulihan PWA diperbarui ke v0.39.0."
+    "Model graf bersama netforge.graph.v1 untuk membaca topologi Network Basics dan Smart Home.",
+    "Audit struktur perangkat, koneksi, media, port dan konflik penggunaan port dalam satu dialog.",
+    "Sambungan baru Smart Home divalidasi terhadap kemampuan perangkat dan kapasitas port.",
+    "Port Ethernet Smart Home dipilih otomatis; data topologi lama tetap dibaca tanpa migrasi wajib.",
+    "Mission Control, mode Guided/Challenge, Google Login, progres dan updater PWA dipertahankan."
   ],
-  "notes": "Transisi UI terpadu: satu workspace shell dan panel inventori adaptif. Engine Network Basics dan Smart Home belum dilebur menjadi satu model protokol. Skor Smart Home masih lokal."
+  "notes": "Fondasi model data bersama; engine simulasi fisik/protokol Network Basics dan Smart Home masih terpisah. Skor Smart Home masih lokal."
 }
