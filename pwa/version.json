@@ -1,14 +1,14 @@
 {
-  "version": "0.37.8",
-  "build": "wireless-coverage-performance-v0378",
+  "version": "0.37.9",
+  "build": "network-link-cable-diagnostics-v0379",
   "updated": "2026-11-13",
-  "title": "Wireless Coverage & Performance",
+  "title": "Network Link & Cable Diagnostics",
   "changes": [
-    "Heatmap cakupan Wi-Fi 5 GHz pada denah Smart Home yang mengikuti posisi access point.",
-    "Perkiraan sinyal dan throughput terpisah untuk Smart TV, IP Camera Wi-Fi, sensor IoT, dan NVR Wi-Fi.",
-    "Interferensi lingkungan rendah/sedang/tinggi; opsi channel 2,4 GHz dan 5 GHz untuk pembelajaran.",
-    "Validator lokal N01 sekarang mempertimbangkan cakupan perangkat Wi-Fi selain TV; Ethernet tetap mengikuti link dan PoE.",
-    "Mempertahankan Google Login, Mission Control, autosave, dan pembaruan PWA."
+    "Simulasi negosiasi Ethernet 100 Mbps / 1 Gbps berdasarkan kedua port dan kondisi kabel.",
+    "Cable Tester, kondisi terminasi, panjang kabel, kategori kabel, dan tombol gangguan/perbaikan.",
+    "Hasil link fisik memengaruhi skor uplink, streaming Smart TV kabel, dan kapasitas perekaman NVR kabel.",
+    "Analisis headroom nominal untuk dua Smart TV 4K dan empat kamera IP.",
+    "Tetap mempertahankan Mission Control, Smart Home Floor Plan, heatmap Wi-Fi, Google Login, dan pemulihan PWA."
   ],
-  "notes": "Model RF dan throughput bersifat ilustrasi deterministik, bukan pengukuran. Channel disimpan tetapi interferensi belum dimodelkan per channel. Penilaian Smart Home tetap lokal."
+  "notes": "Simulasi berbasis aturan edukasi. Bukan pengujian kabel fisik atau bandwidth nyata. Skor N01 tersimpan lokal dan bukan XP resmi server."
 }

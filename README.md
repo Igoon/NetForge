@@ -1,3 +1,3 @@
-NET FORGE v0.37.8 — Wireless Coverage & Performance
+# NET FORGE v0.37.9 — Full Package
 
-Deploy frontend from pwa/. Backend reference unchanged; no database migrations.
+Frontend: folder `pwa/`, unggah isinya ke GitHub Pages. Backend: folder `backend/` tidak berubah. Misi N01 menambahkan diagnostik fisik kabel dan negosiasi Ethernet.
