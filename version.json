@@ -1,13 +1,13 @@
 {
-  "version": "0.40.23",
-  "build": "unified-workspace-controls-and-terminal-hotfix",
+  "version": "0.40.24",
+  "build": "shared-viewport-cable-alignment",
   "updated": "2026-11-13",
-  "title": "Unified Canvas Controls, Terminal and Update Diagnostic Fix",
+  "title": "Unified Viewport Fix for Cables, Nodes and Packet Flow",
   "changes": [
-    "Undo/Redo bekerja pada Unified Canvas yang aktif, dengan history terpisah per misi.",
-    "Zoom, Fit dan Pan bekerja pada node dan kabel Unified Canvas.",
-    "Terminal Ping dan Traceroute membaca topologi misi aktif, bukan engine klasik.",
-    "Bantuan pemulihan PWA menunjukkan langkah ketika berkas server tidak dapat diverifikasi."
+    "Kabel, node, dan paket menggunakan satu layer transformasi saat Zoom dan Pan.",
+    "Drag perangkat mempertahankan endpoint kabel setelah zoom dan pan.",
+    "Animasi Ping/streaming/CCTV mengikuti viewport yang sama.",
+    "History misi dan data tersimpan tidak diubah."
   ],
   "notes": "Frontend visual and UI fix; XP and backend unchanged.",
   "releasedAt": "2026-11-13"

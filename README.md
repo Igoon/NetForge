@@ -1,8 +1,5 @@
-NET FORGE v0.40.23 — Unified Canvas Stabilization
+NET FORGE v0.40.24 — Shared Viewport Cable Alignment Hotfix
 
-- Unified Undo/Redo, Zoom +/−, Fit, Pan.
-- Terminal Jaringan melakukan Ping / Traceroute simulasi pada topologi Unified Canvas yang aktif.
-- Tiap misi memiliki history dan penyimpanan independen.
-- Backend tidak berubah.
-- Deployment: unggah isi ZIP ke root GitHub Pages; periksa recovery.html.
-- Catatan: skor/terminal merupakan simulasi edukasi; hasil server tidak otomatis menjadi XP resmi.
+Perangkat, koneksi SVG, serta animasi paket memakai satu layer viewport, sehingga Zoom/Pan tidak menggeser kabel relatif terhadap perangkat. Backend tidak berubah.
+
+Unggah seluruh isi ZIP ke root GitHub Pages. Gunakan recovery.html bila aplikasi ter-cache.
