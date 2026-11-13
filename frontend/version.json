@@ -1,13 +1,13 @@
 {
-  "version": "0.40.8",
-  "build": "mission-progress-dashboard-v0408",
+  "version": "0.40.9",
+  "build": "learning-path-achievements-v0409",
   "updated": "2026-11-13",
-  "title": "Unified Mission Progress Dashboard",
+  "title": "Mission Learning Path & Educational Achievements",
   "changes": [
-    "Dashboard per misi membedakan skor lokal, hasil server, dan antrean sinkronisasi.",
-    "Riwayat server hanya dimuat atas permintaan, serta dihapus dari tampilan saat akun berubah.",
-    "Tombol kirim ulang antrean memakai perlindungan akun dan attemptId v0.40.7.",
-    "Tidak ada perubahan pada aturan XP resmi dan leaderboard."
+    "Learning Path mengikuti skor dan status kelulusan latihan lokal Network Basics, Smart Home, dan Office Starter.",
+    "Lima badge edukatif diperoleh otomatis dari progres tanpa memberikan XP resmi.",
+    "Tombol Mulai Misi membuka profil terkait pada Unified Canvas tanpa menghapus topologi.",
+    "Hasil server ditampilkan terpisah dan dibersihkan saat identitas akun berubah."
   ],
-  "notes": "Frontend dapat diperbarui tanpa deploy backend baru jika backend v0.40.7 sudah aktif."
+  "notes": "Perubahan frontend saja jika backend v0.40.7 atau lebih baru sudah aktif."
 }
