@@ -1,13 +1,14 @@
 {
-  "version": "0.39.5",
-  "build": "interactive-device-configuration-v0395",
+  "version": "0.39.6",
+  "build": "network-traffic-packet-visualization-v0396",
   "updated": "2026-11-13",
-  "title": "Interactive Device Configuration & PWA Recovery",
+  "title": "Network Traffic & Packet Visualization",
   "changes": [
-    "Konfigurasi perangkat langsung melalui Device Inspector: DHCP router, media Smart TV/CCTV/NVR, anggaran PoE dan uplink switch.",
-    "Menambahkan profil IPv4 otomatis/statis untuk Smart TV, IP Camera, IoT Sensor, dan NVR dengan validasi subnet /24, gateway, dan IP duplikat.",
-    "Integrasi pemeriksaan IP ke evaluasi lokal Smart Home Hybrid, termasuk kemungkinan IP statis saat DHCP dimatikan.",
-    "Mempertahankan inventori universal, pemilihan port, Google Login, dan halaman recovery PWA independen."
+    "Animasi paket Smart Home mengikuti graf dan port sambungan yang benar-benar dibangun pemain.",
+    "Uji streaming Smart TV, rekaman kamera ke NVR, ping IoT, serta diagnostik TV dan NVR.",
+    "Mendeteksi jalur terputus dan sebagian kegagalan layanan/IP serta menyediakan arahan Iga.",
+    "Kecepatan animasi 0,5×, 1×, dan 2×; log trafik dan tombol hentikan.",
+    "Mempertahankan Google Login, Device Inspector, Recovery PWA, dan Mission Control."
   ],
-  "notes": "Model edukasi IPv4 sederhana (/24); bukan konfigurasi jaringan fisik. Progres resmi server belum mencakup misi Smart Home."
+  "notes": "Hanya simulasi edukatif lokal. Tidak mengubah XP atau backend."
 }
