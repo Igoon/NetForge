@@ -1,9 +1,9 @@
-NET FORGE v0.37.7 — Smart Home Interactive Floor Plan
+NET FORGE v0.37.8 — Wireless Coverage & Performance
 
-PWA GitHub Pages: unggah isi folder ini ke root repository NetForge.
+Unggah isi folder ini ke root repository GitHub Pages NetForge.
 
-Pada Mission Control pilih Smart Home Hybrid lalu tab Denah Rumah / Topologi Logis. Geser posisi AP dan Smart TV untuk memperbarui jarak dan hambatan Wi-Fi; jalankan pengujian N01. Posisi disimpan terpisah di browser.
+Mission Control → Smart Home Hybrid → Denah Rumah. Geser perangkat untuk melihat heatmap 5 GHz, estimasi sinyal dan throughput. Ganti tingkat interferensi untuk membandingkan kondisi. Klik Jalankan Pengujian untuk skor latihan lokal.
 
-Tidak diperlukan perubahan backend jika memakai v0.35.2. Semua skor N01 masih lokal.
+Model radio adalah estimasi pembelajaran, bukan alat ukur. Pilihan channel belum memengaruhi interferensi terukur per channel. Tidak perlu perubahan backend v0.35.2.
 
-Untuk PWA lama yang macet, buka recovery.html setelah deployment selesai. Jangan hapus Local Storage.
+Jika updater lama macet, gunakan recovery.html. Jangan hapus Local Storage.

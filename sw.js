@@ -1,5 +1,5 @@
-/* NET FORGE v0.37.7 — Mission Adaptive Workspace; consent-gated cache-first shell. */
-const VERSION='nf-static-v0.37.7';
+/* NET FORGE v0.37.8 — Mission Adaptive Workspace; consent-gated cache-first shell. */
+const VERSION='nf-static-v0.37.8';
 const APP_FILES=['./','./index.html','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png'];
 self.addEventListener('install',event=>{
  event.waitUntil(caches.open(VERSION).then(cache=>cache.addAll(APP_FILES)));

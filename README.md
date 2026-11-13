@@ -1,5 +1,3 @@
-NET FORGE v0.37.7 — Smart Home Interactive Floor Plan
+NET FORGE v0.37.8 — Wireless Coverage & Performance
 
-Frontend: folder pwa/; backend: referensi lama, tidak berubah dari v0.35.2.
-Unggah isi pwa/ ke root GitHub Pages.
-Tidak perlu upgrade database.
+Deploy frontend from pwa/. Backend reference unchanged; no database migrations.

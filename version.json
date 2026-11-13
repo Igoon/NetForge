@@ -1,14 +1,14 @@
 {
-  "version": "0.37.7",
-  "build": "smart-home-interactive-floor-plan-v0377",
+  "version": "0.37.8",
+  "build": "wireless-coverage-performance-v0378",
   "updated": "2026-11-13",
-  "title": "Smart Home Interactive Floor Plan",
+  "title": "Wireless Coverage & Performance",
   "changes": [
-    "Menambahkan denah rumah interaktif dan kartu Router/AP, Smart TV, kamera, IoT, dan NVR yang dapat dipindahkan.",
-    "Perpindahan AP atau Smart TV memperbarui jarak dan jumlah dinding dalam simulasi Wi-Fi N01.",
-    "Menambahkan pergantian Denah Rumah / Topologi Logis tanpa mengubah misi atau konfigurasi yang tersimpan.",
-    "Menyimpan posisi perangkat secara lokal dan mendukung mouse, sentuhan, serta keyboard.",
-    "Mempertahankan Mission Control terpadu, Google Login, backend, dan pemulihan PWA."
+    "Heatmap cakupan Wi-Fi 5 GHz pada denah Smart Home yang mengikuti posisi access point.",
+    "Perkiraan sinyal dan throughput terpisah untuk Smart TV, IP Camera Wi-Fi, sensor IoT, dan NVR Wi-Fi.",
+    "Interferensi lingkungan rendah/sedang/tinggi; opsi channel 2,4 GHz dan 5 GHz untuk pembelajaran.",
+    "Validator lokal N01 sekarang mempertimbangkan cakupan perangkat Wi-Fi selain TV; Ethernet tetap mengikuti link dan PoE.",
+    "Mempertahankan Google Login, Mission Control, autosave, dan pembaruan PWA."
   ],
-  "notes": "Penilaian N01 tetap lokal. Model denah bersifat edukasi dan belum mencakup simulasi RF atau semua perangkat secara fisik."
+  "notes": "Model RF dan throughput bersifat ilustrasi deterministik, bukan pengukuran. Channel disimpan tetapi interferensi belum dimodelkan per channel. Penilaian Smart Home tetap lokal."
 }
