@@ -1,10 +1,7 @@
-NET FORGE v0.40.20 — 3D Device Art & PWA Recovery Hotfix
+NET FORGE v0.40.21
 
-- Device Unified Canvas menggunakan 12 gambar SVG pseudo-3D berbeda: Router, Switch, AP, Desktop PC, Laptop, Tablet, Smartphone, Server, TV, Camera, IoT, NVR.
-- LED dan layar mengikuti status koneksi graf; tampilan 3D bergaya ilustrasi, bukan engine 3D WebGL.
-- Menu aksi kontekstual, modal konfigurasi, Log Aktivitas, dan animasi paket sebelumnya tetap digunakan.
-- Dialog update menampilkan akses Pemulihan PWA walaupun versi server tak terbaca.
-- Halaman recovery menyediakan reset cache manual setelah upload deployment; Local Storage dan IndexedDB tidak dihapus.
+Perbaikan: Perangkat Server tidak lagi disembunyikan pada inventori Network Basics; tombol lanjut misi pada kelulusan Unified Canvas; simulasi aliran data ping, streaming, CCTV.
 
-PENTING: Jika versi server tidak ditemukan, periksa deployment GitHub Pages lebih dulu. Reset cache tidak dapat menciptakan file yang belum diunggah. Unggah SEMUA isi ZIP ini ke ROOT repository, bukan folder tambahan.
-Backend tidak berubah.
+Frontend-only: backend/XP resmi tidak diubah. Simulasi trafik bersifat edukatif.
+
+Deploy: unggah semua isi ZIP GitHub Pages ke root repository, bukan folder pembungkus. Pastikan index.html sw.js version.json sepakat 0.40.21.

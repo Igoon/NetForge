@@ -1,14 +1,14 @@
 {
-  "version": "0.40.20",
-  "build": "3d-device-visual-and-recovery",
+  "version": "0.40.21",
+  "build": "mission-progression-server-inventory-and-traffic",
   "updated": "2026-11-13",
-  "title": "3D Device Visual Pack & PWA Recovery Hotfix",
+  "title": "Mission Advancement, Server Inventory & Smart Traffic Animation",
   "changes": [
-    "12 model perangkat SVG bergaya 3D berbeda di Unified Canvas; layar dan LED mengikuti status link.",
-    "Modal konfigurasi, aksi kontekstual dan log aktivitas dari v0.40.19 dipertahankan.",
-    "Tautan Pemulihan PWA selalu tersedia ketika versi server tidak dapat ditemukan.",
-    "Halaman Recovery menyediakan reset cache manual tanpa menghapus Local Storage atau IndexedDB.",
-    "Perbaikan tidak mengubah API maupun backend."
+    "Server tersedia di seluruh profil inventori Unified Canvas tanpa filter keras.",
+    "Tombol Lanjut Misi otomatis muncul saat seluruh objektif misi terpenuhi.",
+    "Alur misi Network Basics → Smart Home Hybrid → Office Starter → Free Lab.",
+    "Animasi Ping, Streaming, dan Rekaman CCTV mengikuti lintasan sambungan aktif.",
+    "Backend dan XP resmi tidak diubah."
   ],
   "notes": "Frontend visual and UI fix; XP and backend unchanged.",
   "releasedAt": "2026-11-13"
