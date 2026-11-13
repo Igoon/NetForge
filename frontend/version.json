@@ -1,14 +1,13 @@
 {
-  "version": "0.40.11",
-  "build": "unified-mission-auto-objectives-wiring-fix-v04011",
+  "version": "0.40.12",
+  "build": "workspace-cable-toolbar-visibility-hotfix-v04012",
   "updated": "2026-11-13",
-  "title": "Unified Mission & Cable Stability Hotfix",
+  "title": "Network Basics Cable Toolbar Visibility Hotfix",
   "changes": [
-    "Unified Canvas otomatis mengupdate objective dan progress ketika perangkat atau kabel berubah.",
-    "Desktop PC kini dihitung sebagai Workstation untuk Network Basics; koneksi langsung Router–PC didukung.",
-    "Tombol Hubungkan kabel dan Uji jaringan di toolbar klasik diarahkan ke Unified Canvas saat mode tersebut aktif.",
-    "Pemilihan misi dari Mission Control tetap memakai satu graf, dan sidebar mission mengikuti evaluator Unified.",
-    "Tidak mengubah backend, akun Google atau XP resmi."
+    "Memindahkan alat sambungan kabel ke atas Unified Canvas agar Router dan Desktop PC tetap terlihat.",
+    "Menghapus scroll paksa menuju panel Alat Free Lab ketika klik Hubungkan Kabel.",
+    "Judul toolbar mengikuti misi aktif: Network Basics, Smart Home, Office Starter, atau Free Lab.",
+    "Mempertahankan topologi dan penyimpanan lokal, tanpa perubahan backend."
   ],
-  "notes": "Hotfix frontend v0.40.10; backend v0.40.7+ tidak perlu diperbarui."
+  "notes": "Frontend-only hotfix untuk v0.40.11."
 }
