@@ -1,13 +1,13 @@
 {
-  "version": "0.39.4",
-  "build": "recovery-sw-bypass-v0394",
+  "version": "0.39.5",
+  "build": "interactive-device-configuration-v0395",
   "updated": "2026-11-13",
-  "title": "PWA Recovery Verification & Device Inspector",
+  "title": "Interactive Device Configuration & PWA Recovery",
   "changes": [
-    "Memperbaiki pemeriksaan versi: halaman recovery tidak lagi menyimpulkan file server tidak konsisten saat masih dikendalikan Service Worker lama.",
-    "Menambahkan langkah aman lepas Service Worker dan muat ulang halaman recovery sebelum membaca index.html tanpa cache PWA.",
-    "Memisahkan status cache aplikasi lama dari status sebenarnya file rilis di GitHub Pages.",
-    "Mempertahankan Device Inspector v0.39.3, Google Login, progres lokal, dan data Smart Home Hybrid."
+    "Konfigurasi perangkat langsung melalui Device Inspector: DHCP router, media Smart TV/CCTV/NVR, anggaran PoE dan uplink switch.",
+    "Menambahkan profil IPv4 otomatis/statis untuk Smart TV, IP Camera, IoT Sensor, dan NVR dengan validasi subnet /24, gateway, dan IP duplikat.",
+    "Integrasi pemeriksaan IP ke evaluasi lokal Smart Home Hybrid, termasuk kemungkinan IP statis saat DHCP dimatikan.",
+    "Mempertahankan inventori universal, pemilihan port, Google Login, dan halaman recovery PWA independen."
   ],
-  "notes": "Recovery tidak menghapus Local Storage, IndexedDB, atau data akun. Pada pemeriksaan yang masih dikontrol SW, lepas registrasi terlebih dahulu."
+  "notes": "Model edukasi IPv4 sederhana (/24); bukan konfigurasi jaringan fisik. Progres resmi server belum mencakup misi Smart Home."
 }

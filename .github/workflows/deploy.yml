@@ -24,12 +24,15 @@ jobs:
       - name: Select newest PWA source
         id: source
         run: |
-          root_ver=$(node -p "require('./version.json').version")
-          pwa_ver=$(node -p "require('./pwa/version.json').version")
-          newest=$(printf '%s\n%s\n' "$root_ver" "$pwa_ver" | sort -V | tail -n1)
-          if [ "$newest" = "$pwa_ver" ]; then src=pwa; else src=.; fi
+          newest=$(for src in . pwa frontend; do
+            if [ -f "$src/version.json" ]; then
+              ver=$(node -p "require('./$src/version.json').version")
+              echo "$ver $src"
+            fi
+          done | sort -V | tail -n1)
+          src=$(echo "$newest" | awk '{print $2}')
           echo "src=$src" >> "$GITHUB_OUTPUT"
-          echo "Using $src (root=$root_ver pwa=$pwa_ver)"
+          echo "Using $src ($newest)"
 
       - name: Stage PWA files
         run: |
