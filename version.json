@@ -1,13 +1,13 @@
 {
-  "version": "0.40.1",
-  "build": "unified-diagnostics-v0401",
+  "version": "0.40.2",
+  "build": "unified-mission-validator-v0402",
   "updated": "2026-11-13",
-  "title": "Unified Device Configuration & Connectivity Tests",
+  "title": "Unified Mission Validator",
   "changes": [
-    "Free Lab Terpadu: Device Inspector mendukung DHCP/statis, subnet mask, gateway dan layanan DHCP router.",
-    "Ping graf lokal dan pemeriksaan jalur antar-perangkat dengan hasil serta petunjuk Iga.",
-    "Audit mendeteksi duplikasi alamat IPv4 efektif termasuk simulasi DHCP.",
-    "Mempertahankan satu inventori universal, canvas, penyimpanan lokal, editor lama dan updater v0.40.0."
+    "Free Lab Terpadu kini dapat dinilai menggunakan tiga profil pada graf dan inventori yang sama: Network Basics, Smart Home dan Office Starter.",
+    "Checklist penilaian menunjukkan kondisi koneksi, PoE, dan pemeriksaan IPv4 yang gagal beserta panduan Iga.",
+    "Skor edukatif lokal terpisah dari XP resmi serta hasil misi lama; tidak menimpa data pemain.",
+    "Mempertahankan pembaruan PWA berbasis persetujuan dan halaman recovery."
   ],
-  "notes": "Simulasi ping pada graf lokal dan satu subnet, bukan ICMP nyata. Evaluator misi Network Basics dan Smart Home belum disatukan sepenuhnya."
+  "notes": "Tahap transisi: validasi lintas skenario telah memakai Free Lab terpadu, namun evaluator dan XP resmi Mission Control lama belum diganti."
 }
