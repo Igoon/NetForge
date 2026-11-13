@@ -1,4 +1,4 @@
-# NET FORGE v0.40.9 — Learning Path & Achievements
+# NET FORGE v0.40.10 — Learning Path & Achievements
 
 - Menampilkan jalur 3 misi utama: Network Fundamentals, Smart Home Hybrid, Office Starter.
 - Rekomendasi misi berikutnya mengikuti kelulusan lokal, tanpa mengunci misi lain.

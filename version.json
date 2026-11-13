@@ -1,13 +1,14 @@
 {
-  "version": "0.40.9",
-  "build": "learning-path-achievements-v0409",
+  "version": "0.40.10",
+  "build": "unified-canvas-device-delete-hotfix-v04010",
   "updated": "2026-11-13",
-  "title": "Mission Learning Path & Educational Achievements",
+  "title": "Unified Canvas Device Delete Hotfix",
   "changes": [
-    "Learning Path mengikuti skor dan status kelulusan latihan lokal Network Basics, Smart Home, dan Office Starter.",
-    "Lima badge edukatif diperoleh otomatis dari progres tanpa memberikan XP resmi.",
-    "Tombol Mulai Misi membuka profil terkait pada Unified Canvas tanpa menghapus topologi.",
-    "Hasil server ditampilkan terpisah dan dibersihkan saat identitas akun berubah."
+    "Hapus perangkat terpilih dengan tombol pada toolbar Unified Canvas atau Device Inspector.",
+    "Tombol Hapus perangkat terpilih pada panel klasik sekarang bekerja saat Unified Canvas aktif.",
+    "Tombol Delete/Backspace di keyboard menghapus node terpilih, kecuali saat mengedit input.",
+    "Penghapusan node juga membersihkan seluruh sambungannya tanpa menghapus node lain atau progres misi.",
+    "Memilih tool Hapus tidak lagi menghilangkan pemilihan perangkat."
   ],
-  "notes": "Perubahan frontend saja jika backend v0.40.7 atau lebih baru sudah aktif."
+  "notes": "Hotfix frontend v0.40.10; backend v0.40.7+ tidak perlu diperbarui."
 }
