@@ -1,15 +1,9 @@
-# NET FORGE v0.37.6 — Single Mission Entry Fix
+NET FORGE v0.37.7 — Smart Home Interactive Floor Plan
 
-Perbaikan menu utama: dua tombol yang sama-sama membuka Mission Control disatukan menjadi satu tombol **Pilih Misi / Petualangan Baru**.
+PWA GitHub Pages: unggah isi folder ini ke root repository NetForge.
 
-## Menu
-- **Lanjut Bermain**: melanjutkan sesi/progres lokal yang tersedia.
-- **Pilih Misi / Petualangan Baru**: membuka Mission Control sekali.
-- **Network Lab**: akses percobaan jaringan bebas (fitur lama tetap dipertahankan).
+Pada Mission Control pilih Smart Home Hybrid lalu tab Denah Rumah / Topologi Logis. Geser posisi AP dan Smart TV untuk memperbarui jarak dan hambatan Wi-Fi; jalankan pengujian N01. Posisi disimpan terpisah di browser.
 
-Dalam Mission Control, pilih Network Basics, Smart Home Hybrid, atau Free Network Lab. Smart Home tetap menggunakan workspace adaptif.
+Tidak diperlukan perubahan backend jika memakai v0.35.2. Semua skor N01 masih lokal.
 
-## Deployment
-Unggah seluruh isi ZIP ini ke root repository `igoon/NetForge`, termasuk `index.html`, `sw.js`, `version.json`, dan `recovery.html`.
-
-Jika PWA terinstal masih menyajikan UI lama, gunakan halaman `https://igoon.github.io/NetForge/recovery.html` setelah GitHub Pages selesai deployment. Jangan hapus site data, localStorage atau IndexedDB. Backend tetap v0.35.2.
+Untuk PWA lama yang macet, buka recovery.html setelah deployment selesai. Jangan hapus Local Storage.

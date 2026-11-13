@@ -1,14 +1,14 @@
 {
-  "version": "0.37.6",
-  "build": "unified-single-mission-entry-v0376",
+  "version": "0.37.7",
+  "build": "smart-home-interactive-floor-plan-v0377",
   "updated": "2026-11-13",
-  "title": "Single Mission Entry & Navigation Consistency",
+  "title": "Smart Home Interactive Floor Plan",
   "changes": [
-    "Menghapus tombol Mission Control duplikat; hanya satu tombol Pilih Misi / Petualangan Baru di menu utama.",
-    "Network Basics, Smart Home Hybrid, dan Free Network Lab tetap dipilih melalui Mission Control yang sama.",
-    "Menambahkan pengaman agar inisialisasi Mission Control tidak membuat komponen ganda.",
-    "Menjaga pemisahan versi terpasang dan versi server serta halaman recovery.html dari v0.37.5.",
-    "Tidak mengubah Google Login, data progres, backend, dan aturan penilaian LAB."
+    "Menambahkan denah rumah interaktif dan kartu Router/AP, Smart TV, kamera, IoT, dan NVR yang dapat dipindahkan.",
+    "Perpindahan AP atau Smart TV memperbarui jarak dan jumlah dinding dalam simulasi Wi-Fi N01.",
+    "Menambahkan pergantian Denah Rumah / Topologi Logis tanpa mengubah misi atau konfigurasi yang tersimpan.",
+    "Menyimpan posisi perangkat secara lokal dan mendukung mouse, sentuhan, serta keyboard.",
+    "Mempertahankan Mission Control terpadu, Google Login, backend, dan pemulihan PWA."
   ],
-  "notes": "Frontend only. Jangan hapus localStorage. Jika PWA lama macet, gunakan recovery.html setelah deployment selesai."
+  "notes": "Penilaian N01 tetap lokal. Model denah bersifat edukasi dan belum mencakup simulasi RF atau semua perangkat secara fisik."
 }

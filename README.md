@@ -1,3 +1,5 @@
-# NET FORGE v0.37.6 — Unified Mission Navigation
+NET FORGE v0.37.7 — Smart Home Interactive Floor Plan
 
-Frontend hotfix; backend tidak berubah dari v0.35.2. Lihat pwa/README.md.
+Frontend: folder pwa/; backend: referensi lama, tidak berubah dari v0.35.2.
+Unggah isi pwa/ ke root GitHub Pages.
+Tidak perlu upgrade database.
