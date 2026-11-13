@@ -1,14 +1,15 @@
 {
-  "version": "0.38.0",
-  "build": "unified-drag-drop-builder-v0380",
+  "version": "0.39.0",
+  "build": "universal-network-workspace-v0390",
   "updated": "2026-11-13",
-  "title": "Unified Drag-and-Drop Network Builder",
+  "title": "Universal Network Workspace",
   "changes": [
-    "Inventori Smart Home memungkinkan memasang router/AP, PoE switch, Smart TV, IP Camera, IoT dan NVR ke denah.",
-    "Guided Mode menyediakan topologi awal; Challenge Mode memulai workspace kosong.",
-    "Pemain dapat menghubungkan dan memutuskan perangkat memakai Ethernet, PoE atau Wi-Fi melalui alat kerja.",
-    "Validasi Smart Home memeriksa perangkat dan jalur yang benar-benar dibangun sebelum memberi skor lokal.",
-    "Posisi PoE switch dan topologi Builder tersimpan lokal; Mission Control, Google Login dan Recovery PWA dipertahankan."
+    "Inventori Smart Home digabung ke satu panel kiri; daftar perangkat kedua di workspace dihilangkan.",
+    "Denah Rumah dan Topologi Logis membaca node serta koneksi yang sama dari Smart Home Builder.",
+    "Topologi Logis interaktif: pilih perangkat, hubungkan/putuskan melalui alat Builder, dan tarik perangkat dari inventori.",
+    "Device Inspector kontekstual menampilkan informasi perangkat dan pintasan ke konfigurasi.",
+    "Network Basics dan Free Lab tetap memakai engine lama pada workspace yang sama; progres dan backend tidak dimigrasikan.",
+    "Metadata rilis, Service Worker dan pemulihan PWA diperbarui ke v0.39.0."
   ],
-  "notes": "Model edukasi, bukan emulasi protokol jaringan. Koneksi dipakai sebagai prasyarat evaluasi layanan. Skor Smart Home tetap lokal, bukan XP resmi."
+  "notes": "Transisi UI terpadu: satu workspace shell dan panel inventori adaptif. Engine Network Basics dan Smart Home belum dilebur menjadi satu model protokol. Skor Smart Home masih lokal."
 }

@@ -1,3 +1,2 @@
-# NET FORGE v0.38.0
-
-Frontend PWA: `pwa/` deploy ke GitHub Pages. Backend: `backend/` tetap sesuai versi lama. Smart Home Builder berjalan lokal.
+NET FORGE v0.39.0 — Universal Network Workspace
+Frontend in pwa/; backend/ unchanged from v0.38.0. See pwa/docs/RELEASE-NOTES-0390.md
