@@ -1,14 +1,13 @@
 {
-  "version": "0.40.0",
-  "build": "true-universal-inventory-v0400",
+  "version": "0.40.1",
+  "build": "unified-diagnostics-v0401",
   "updated": "2026-11-13",
-  "title": "True Universal Device Inventory & Unified Canvas",
+  "title": "Unified Device Configuration & Connectivity Tests",
   "changes": [
-    "Satu katalog Device Inventory pada Network Basics, Smart Home Hybrid, dan Free Lab Terpadu.",
-    "Mode Free Lab Terpadu menempatkan router, switch, PC, server, AP, laptop, smartphone, TV, kamera, IoT, dan NVR pada satu canvas.",
-    "Drag/drop dan klik tambah, geser perangkat, buat/putus sambungan Ethernet, PoE, Wi-Fi dan validasi port.",
-    "Device Inspector nama dan IPv4 dasar, audit konflik IP dan koneksi, autosave lokal tanpa menghapus progres misi.",
-    "Perbaikan pemilihan Free Lab dari Mission Control, mempertahankan updater PWA serta simulator misi lama."
+    "Free Lab Terpadu: Device Inspector mendukung DHCP/statis, subnet mask, gateway dan layanan DHCP router.",
+    "Ping graf lokal dan pemeriksaan jalur antar-perangkat dengan hasil serta petunjuk Iga.",
+    "Audit mendeteksi duplikasi alamat IPv4 efektif termasuk simulasi DHCP.",
+    "Mempertahankan satu inventori universal, canvas, penyimpanan lokal, editor lama dan updater v0.40.0."
   ],
-  "notes": "Free Lab Terpadu memakai engine graf edukatif baru. Evaluator Network Basics dan Smart Home tetap khusus misi; belum ada penilaian gabungan lintas misi."
+  "notes": "Simulasi ping pada graf lokal dan satu subnet, bukan ICMP nyata. Evaluator misi Network Basics dan Smart Home belum disatukan sepenuhnya."
 }

@@ -1,5 +1,5 @@
-# NET FORGE v0.40.0 — True Universal Device Inventory & Unified Canvas
+# NET FORGE v0.40.1 — Unified Device Configuration & Connectivity Tests
 
-Unggah isi folder ini ke root GitHub Pages. Satu katalog perangkat muncul pada semua mode. Mode Free Lab Terpadu mendukung mixed devices pada satu canvas dengan autosave lokal. Simulasi Mission Basics dan Smart Home tetap menggunakan engine lama; jangan menganggap kompatibilitas penuh protokol/penilaian misi lintas-mode sudah ada.
+Deploy seluruh isi ZIP GitHub Pages ke root repository. Pada Free Lab Terpadu, pilih node untuk menyimpan mode DHCP/Static, IPv4, subnet dan gateway. Uji Ping / Jalur membaca graf dan IPv4 simulasi; tidak mengirim ICMP nyata dan belum mengganti evaluator misi lama.
 
-Pulihkan PWA melalui recovery.html jika cache lama mengganggu.
+PWA lama dapat diperbarui melalui recovery.html. Jangan menghapus Local Storage pemain.
