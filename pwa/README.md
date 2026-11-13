@@ -1,11 +1,11 @@
-# NET FORGE v0.37.2 — GitHub Pages
+# NET FORGE v0.37.3 — Mission Workspace Integration Fix
 
-Unggah isi folder ini ke root branch GitHub Pages. Jangan unggah backend ke repository Pages.
+Hotfix penting: perbaikan kesalahan `MutationObserver.observe` yang sebelumnya menghentikan inisialisasi Mission Control. Akibat bug tersebut, Smart Home Hybrid terbuka sebagai dialog fullscreen meskipun seharusnya tampil di workspace adaptif.
 
-## Pembaruan
-- Buka **Mission Control** dari menu utama.
-- Pilih Network Basics, Smart Home Hybrid, atau Free Network Lab.
-- Smart Home berjalan dalam workspace utama; shortcut inventori mengarahkan ke konfigurasinya.
-- Panel virtualisasi disembunyikan kecuali skenario Proxmox aktif.
-- Nilai N01 lokal, bukan nilai resmi backend.
-- Lakukan update PWA melalui Cek Update; versi aktif dan versi server tetap terpisah.
+Perubahan:
+- Memperbaiki `attributeFilter` agar hanya dipakai ketika `attributes: true`.
+- Smart Home Hybrid berada di workspace bersama panel inventori sesuai misi, bukan modal terpisah.
+- Menyembunyikan fitur virtualisasi yang tidak relevan.
+- Sinkronisasi versi di HTML, version.json dan Service Worker.
+
+Batasan: Smart Home masih berupa topologi dan konfigurasi interaktif, belum denah rumah bebas drag-and-drop; skor masih simulasi lokal. Backend v0.35.2 tidak berubah.

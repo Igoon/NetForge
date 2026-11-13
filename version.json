@@ -1,15 +1,13 @@
 {
-  "version": "0.37.2",
+  "version": "0.37.3",
   "build": "unified-mission-control-adaptive-workspace",
   "updated": "2026-11-13",
-  "title": "Unified Mission Control & Adaptive Workspace",
+  "title": "Mission Workspace Integration Fix",
   "changes": [
-    "Mission Control menggabungkan Network Basics, Smart Home Hybrid N01, dan Free Network Lab dalam satu pemilih misi.",
-    "Smart Home Hybrid dibuka dalam area workspace utama, bukan lagi sebagai dialog terpisah.",
-    "Inventori, alat kerja, dan opsi peningkatan infrastruktur mengikuti mode Smart Home atau topologi dasar.",
-    "Panel LAB Virtualisasi/Proxmox disembunyikan ketika skenario tidak memerlukannya.",
-    "Seluruh identitas tombol, login Google, autosave, hasil LAB, dan mekanisme cek update tetap dipertahankan.",
-    "Skor N01 tetap lokal; tidak otomatis dihitung sebagai XP resmi server."
+    "Memperbaiki inisialisasi Mission Control yang berhenti karena opsi MutationObserver tidak valid.",
+    "Smart Home Hybrid kini terpasang di workspace utama saat dipilih dari Mission Control.",
+    "Panel inventori, alat kerja, dan infrastruktur mengikuti misi Smart Home; fitur virtualisasi tidak ditampilkan.",
+    "Mempertahankan Google Login, penyimpanan lokal, dan mekanisme PWA."
   ],
   "notes": "Pembaruan UI frontend; backend v0.35.2 tetap kompatibel. Belum ada simulator Wi-Fi/fiber atau editor drag-drop Smart Home baru."
 }
