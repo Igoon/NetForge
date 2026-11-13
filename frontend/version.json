@@ -1,13 +1,13 @@
 {
-  "version": "0.40.5",
-  "build": "unified-server-validated-v0405",
+  "version": "0.40.8",
+  "build": "mission-progress-dashboard-v0408",
   "updated": "2026-11-13",
-  "title": "Server-Validated Unified Mission Results",
+  "title": "Unified Mission Progress Dashboard",
   "changes": [
-    "Validasi topologi terpadu pada backend PHP untuk tiga profil misi.",
-    "Riwayat server per akun, idempotensi attemptId, pembatasan percobaan.",
-    "Tidak memberikan XP resmi dari payload browser yang dapat dimanipulasi.",
-    "Paket PWA serta backend referensi diperbarui bersama."
+    "Dashboard per misi membedakan skor lokal, hasil server, dan antrean sinkronisasi.",
+    "Riwayat server hanya dimuat atas permintaan, serta dihapus dari tampilan saat akun berubah.",
+    "Tombol kirim ulang antrean memakai perlindungan akun dan attemptId v0.40.7.",
+    "Tidak ada perubahan pada aturan XP resmi dan leaderboard."
   ],
-  "notes": "Upload backend baru diperlukan; endpoint tidak tersedia pada backend v0.40.4."
+  "notes": "Frontend dapat diperbarui tanpa deploy backend baru jika backend v0.40.7 sudah aktif."
 }
