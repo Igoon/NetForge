@@ -1,14 +1,15 @@
 {
-  "version": "0.37.1",
-  "build": "smart-home-hybrid-release-hotfix",
+  "version": "0.37.2",
+  "build": "unified-mission-control-adaptive-workspace",
   "updated": "2026-11-13",
-  "title": "Smart Home Hybrid — Release Consistency Fix",
+  "title": "Unified Mission Control & Adaptive Workspace",
   "changes": [
-    "Perbaikan label rilis pada header identitas aplikasi dan Credits: sekarang sesuai dengan Smart Home Hybrid.",
-    "Nomor versi HTML, PWA cache, dan metadata server diselaraskan menjadi v0.37.1.",
-    "Dialog Cek Update tetap membedakan versi yang sedang berjalan dari versi terbaru di server.",
-    "Misi N01 Smart Home Hybrid, Simulasi Gangguan, Google Login, autosave, dan LAB sebelumnya dipertahankan.",
-    "Skor N01 tetap bersifat lokal, tidak otomatis menambah XP resmi di server."
+    "Mission Control menggabungkan Network Basics, Smart Home Hybrid N01, dan Free Network Lab dalam satu pemilih misi.",
+    "Smart Home Hybrid dibuka dalam area workspace utama, bukan lagi sebagai dialog terpisah.",
+    "Inventori, alat kerja, dan opsi peningkatan infrastruktur mengikuti mode Smart Home atau topologi dasar.",
+    "Panel LAB Virtualisasi/Proxmox disembunyikan ketika skenario tidak memerlukannya.",
+    "Seluruh identitas tombol, login Google, autosave, hasil LAB, dan mekanisme cek update tetap dipertahankan.",
+    "Skor N01 tetap lokal; tidak otomatis dihitung sebagai XP resmi server."
   ],
-  "notes": "Hotfix metadata dan rilis saja; tidak ada perubahan skema database atau endpoint backend. Setelah deploy, lakukan pembaruan PWA seperti biasa."
+  "notes": "Pembaruan UI frontend; backend v0.35.2 tetap kompatibel. Belum ada simulator Wi-Fi/fiber atau editor drag-drop Smart Home baru."
 }
