@@ -1,18 +1,16 @@
-# NET FORGE v0.36.7 — PWA Update Recovery
+# NET FORGE v0.37.1 — Smart Home Hybrid Release Hotfix
 
-## Changes
-- Waits for the pending Service Worker installation before treating an update as unavailable.
-- Shows a deliberate **Pulihkan pembaruan** option when the worker stays stuck.
-- Recovery unregisters only NET FORGE scope service worker and removes only `nf-static-*` app-shell cache entries; player progress in localStorage/IndexedDB is untouched.
-- Version shown in game comes from running HTML, latest release information from `version.json`.
-- No changes to backend authentication or LAB scoring.
+## Perbaikan
+- Nama rilis pada konstanta `window.NETFORGE_RELEASE` dan **Credits** sekarang sesuai: **Smart Home Hybrid — Release Consistency Fix**.
+- Nomor versi aplikasi pada `index.html`, metadata `version.json`, cache Service Worker (`sw.js`) adalah **v0.37.1**.
+- Mode N01 Smart Home Hybrid, Google Login, Guided Lab, fitur pemulihan, dan sistem update dipertahankan.
+- Tidak diperlukan migrasi database atau deploy backend baru bila sudah memakai backend v0.35.2.
 
-## Deployment
-Upload the full **GitHub Pages** package to the repository root (including `index.html`, `sw.js`, `version.json`). If an old installed PWA still can't update, use browser DevTools > Application > Service Workers > Unregister, followed by a reload. Do **not** choose Clear storage/Delete site data unless you have backed up local progress.
+## Perhatian saat update
+- PWA yang menjalankan versi lama mungkin tetap menampilkan v0.37.0 sebelum Service Worker baru selesai diaktifkan.
+- Buka **Cek Update**, lihat perbandingan versi, lakukan update, dan buka kembali aplikasi.
+- Jika updater lama macet, cadangkan progres lalu ikuti pemulihan Service Worker dan cache aplikasi **tanpa menghapus Local Storage**.
 
-## Manual test
-1. Deploy v0.36.6 to a staging path and open it. Install as PWA.
-2. Deploy v0.36.7 on the same path. Keep old PWA open.
-3. Click Cek Update. Confirm running version is old, latest version is new.
-4. Click Unduh dan siapkan update, wait until SW is installed. Verify activation/reload.
-5. With installation deliberately blocked, verify Pulihkan pembaruan appears and doesn't erase player progress.
+## Pengujian
+- Lakukan tes `version.json`, `sw.js`, halaman Credits, tombol misi N01, dialog update, serta Google Login pada domain deploy.
+- Pengujian sintaks kode **bukan** pengganti pengujian PWA install/update di browser nyata.

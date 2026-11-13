@@ -1,14 +1,14 @@
 {
-  "version": "0.36.7",
-  "build": "pwa-update-recovery",
-  "updated": "2026-11-12",
-  "title": "Reliable PWA Update & Safe Recovery",
+  "version": "0.37.1",
+  "build": "smart-home-hybrid-release-hotfix",
+  "updated": "2026-11-13",
+  "title": "Smart Home Hybrid — Release Consistency Fix",
   "changes": [
-    "Memperbaiki tombol update yang terlalu cepat menyatakan berkas belum siap sebelum Service Worker selesai dipasang.",
-    "Tombol update menunggu status installed/waiting hingga 12 detik dan memberi status unduhan yang lebih jelas.",
-    "Menambahkan Pulihkan pembaruan untuk melepas Service Worker macet dan membersihkan hanya cache aplikasi (bukan data pemain).",
-    "Tetap membedakan versi yang sedang berjalan dan versi terbaru dari version.json.",
-    "Mempertahankan Google Login, avatar, SFX, Guided Lab, dan penyimpanan lokal tanpa perubahan backend."
+    "Perbaikan label rilis pada header identitas aplikasi dan Credits: sekarang sesuai dengan Smart Home Hybrid.",
+    "Nomor versi HTML, PWA cache, dan metadata server diselaraskan menjadi v0.37.1.",
+    "Dialog Cek Update tetap membedakan versi yang sedang berjalan dari versi terbaru di server.",
+    "Misi N01 Smart Home Hybrid, Simulasi Gangguan, Google Login, autosave, dan LAB sebelumnya dipertahankan.",
+    "Skor N01 tetap bersifat lokal, tidak otomatis menambah XP resmi di server."
   ],
-  "notes": "Update recovery is explicit and does not delete localStorage or IndexedDB. If an older PWA is stuck, update the GitHub Pages files and use safe recovery from v0.36.7."
+  "notes": "Hotfix metadata dan rilis saja; tidak ada perubahan skema database atau endpoint backend. Setelah deploy, lakukan pembaruan PWA seperti biasa."
 }

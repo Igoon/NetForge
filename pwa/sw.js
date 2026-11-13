@@ -1,5 +1,5 @@
-/* NET FORGE v0.36.7 — consent-gated updates: cache-first app shell, network-only release metadata. */
-const VERSION='nf-static-v0.36.7';
+/* NET FORGE v0.37.1 — consent-gated updates: cache-first app shell, network-only release metadata. */
+const VERSION='nf-static-v0.37.1';
 const APP_FILES=['./','./index.html','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png'];
 self.addEventListener('install',event=>{
  event.waitUntil(caches.open(VERSION).then(cache=>cache.addAll(APP_FILES)));
