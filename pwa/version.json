@@ -1,15 +1,14 @@
 {
-  "version": "0.40.13",
-  "build": "dynamic-wired-wireless-client-v04013",
+  "version": "0.40.14",
+  "build": "device-inspector-configuration-hotfix-v04014",
   "updated": "2026-11-13",
-  "title": "Dynamic Wired & Wireless Client Connectivity",
+  "title": "Device Inspector Configuration Hotfix",
   "changes": [
-    "Network Basics menerima Desktop PC, Laptop, Tablet, dan Smartphone sebagai klien.",
-    "Mendukung Ethernet atau Wi-Fi berdasarkan kemampuan perangkat; Desktop PC memakai adaptor Wi-Fi opsional.",
-    "Device Inspector menyediakan SSID, password simulasi, band, dan status radio Router/AP.",
-    "Validator misi dan ping langsung memeriksa jalur Wi-Fi aktif; SSID atau password tidak cocok membuat misi gagal.",
-    "Mempertahankan Unified Canvas, toolbar dekat canvas, dan topologi lokal lama."
+    "Panel konfigurasi perangkat muncul langsung saat perangkat dipilih pada Unified Canvas.",
+    "Tombol Konfigurasi Terpilih di toolbar dan tombol Tutup pada panel konfigurasi.",
+    "Pengaturan IPv4, DHCP, Wi-Fi SSID/password/band dapat diakses tanpa berpindah panel atau kehilangan node.",
+    "Koneksi kabel tetap menggunakan canvas yang sama; backend tidak diubah."
   ],
-  "notes": "Dynamic Wired & Wireless Client Connectivity: Desktop PC, Laptop, Tablet, Smartphone, Wi-Fi adapter, SSID/security/band, live mission connectivity.",
+  "notes": "Frontend-only hotfix.",
   "releasedAt": "2026-11-13"
 }

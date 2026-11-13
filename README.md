@@ -1,9 +1,12 @@
-# NET FORGE v0.40.13 — Dynamic Wired & Wireless Clients
+# NET FORGE v0.40.14 — Device Inspector Configuration Hotfix
 
-Rilis frontend berbasis v0.40.12. Device Inventory sekarang mendukung Desktop PC, Laptop, Tablet dan Smartphone pada Network Basics, serta koneksi Ethernet/Wi-Fi sesuai kemampuan perangkat. Desktop PC perlu mengaktifkan adaptor Wi-Fi melalui Device Inspector. Wireless memeriksa SSID, password simulasi, band dan status radio Router/AP. Perubahan konfigurasi membatalkan jalur wireless yang tidak cocok sampai diperbaiki.
+Memperbaiki konfigurasi perangkat yang sulit/tidak terlihat pada Unified Canvas.
 
-Instalasi: unggah semua berkas dari ZIP GitHub Pages ke root repository. Periksa recovery.html setelah deploy. Data topologi tersimpan dengan key lama agar tidak hilang.
+## Cara menggunakan
+1. Masuk ke Network Basics atau Free Lab Terpadu.
+2. Tambahkan Router, PC, Laptop, Tablet, atau Smartphone.
+3. Pilih Tool **Pilih / Geser** dan klik perangkat pada canvas; panel konfigurasi tampil di kanan (di bawah pada layar kecil).
+4. Atur IPv4 (DHCP/Statis), subnet, gateway, atau Wi-Fi dan tekan tombol **Simpan** masing-masing.
+5. Tekan **✕ Tutup** untuk kembali ke workspace. Tombol **Konfigurasi Terpilih** di toolbar membuka ulang panel.
 
-**Batasan:** validator terpadu dan ping masih edukatif lokal; endpoint penilaian server versi lama masih membatasi tipe PC dan aturan IPv4 sehingga belum menerima otomatis hasil wireless/multiclient ini. XP resmi tidak berubah. Wi-Fi password simulasi tersimpan di browser; JANGAN memakai password asli.
-
-Backend merupakan referensi yang tidak berubah dari versi terdahulu.
+Tidak perlu upgrade backend. Topologi lokal lama tetap dipertahankan. Tidak ada XP resmi baru.
