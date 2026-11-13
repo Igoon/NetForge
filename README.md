@@ -1,6 +1,5 @@
-NET FORGE v0.39.6 — Network Traffic & Packet Visualization
+# NET FORGE v0.40.0 — True Universal Device Inventory & Unified Canvas
 
-Deploy seluruh isi folder ini ke root repository GitHub Pages.
-Fitur baru: Mission Control > Smart Home Hybrid > Network Traffic & Packet Visualization.
-Model paket membaca graf Builder lokal; bukan packet capture atau skor resmi.
-Backend v0.35.2 tetap kompatibel. Jangan hapus localStorage saat memperbarui PWA.
+Unggah isi folder ini ke root GitHub Pages. Satu katalog perangkat muncul pada semua mode. Mode Free Lab Terpadu mendukung mixed devices pada satu canvas dengan autosave lokal. Simulasi Mission Basics dan Smart Home tetap menggunakan engine lama; jangan menganggap kompatibilitas penuh protokol/penilaian misi lintas-mode sudah ada.
+
+Pulihkan PWA melalui recovery.html jika cache lama mengganggu.
