@@ -1,5 +1,4 @@
-NET FORGE v0.40.26 — Mission & Workspace Regression Suite
+# NET FORGE v0.40.27
 
-Perbaikan: prompt reset mengikuti misi aktif, fokus modal konfigurasi, reset Pan dan status klik setelah perpindahan misi.
-Pengujian otomatis tersedia di paket lengkap: tests/regression.py.
-Frontend only. Untuk deployment: unggah isi ZIP GitHub Pages ke root repository.
+Network Diagnostics & Mission Reliability. Jalankan Diagnostik dari panel Alat Diagnostik.
+Frontend saja; backend tidak diubah.

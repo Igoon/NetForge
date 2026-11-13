@@ -1,12 +1,12 @@
 {
-  "version": "0.40.26",
-  "build": "mission-interaction-regression",
+  "version": "0.40.27",
+  "build": "network-diagnostics-reliability",
   "updated": "2026-11-13",
-  "title": "Mission and Workspace Regression Suite",
+  "title": "Network Diagnostics & Mission Reliability",
   "changes": [
-    "Pengujian otomatis terpadu untuk misi, koneksi, terminal, dan transformasi workspace.",
-    "Prompt Kosongkan Canvas menyebut nama misi aktif dan mendukung Undo.",
-    "Klik yang terblokir setelah Pan tidak terbawa ke misi berikutnya; fokus keyboard modal dipulihkan."
+    "Diagnostik link dan IPv4 per misi termasuk alasan Wi-Fi tidak aktif",
+    "Validator Smart Home dan Office mengecek link aktif bukan hanya kabel terdaftar",
+    "Ping memeriksa konflik alamat IPv4 dengan seluruh perangkat dalam topologi"
   ],
   "notes": "Frontend visual and UI fix; XP and backend unchanged.",
   "releasedAt": "2026-11-13"
