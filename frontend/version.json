@@ -1,13 +1,14 @@
 {
-  "version": "0.40.2",
-  "build": "unified-mission-validator-v0402",
+  "version": "0.40.3",
+  "build": "mission-control-unified-canvas-v0403",
   "updated": "2026-11-13",
-  "title": "Unified Mission Validator",
+  "title": "Mission Control → Unified Canvas",
   "changes": [
-    "Free Lab Terpadu kini dapat dinilai menggunakan tiga profil pada graf dan inventori yang sama: Network Basics, Smart Home dan Office Starter.",
-    "Checklist penilaian menunjukkan kondisi koneksi, PoE, dan pemeriksaan IPv4 yang gagal beserta panduan Iga.",
-    "Skor edukatif lokal terpisah dari XP resmi serta hasil misi lama; tidak menimpa data pemain.",
-    "Mempertahankan pembaruan PWA berbasis persetujuan dan halaman recovery."
+    "Mission Control membuka Network Basics, Smart Home, Office Starter, dan Free Lab pada canvas terpadu yang sama.",
+    "Inventori universal difilter menurut profil misi; data topologi tetap sama ketika pemain berpindah misi.",
+    "Evaluasi langsung menggunakan Unified Mission Validator dan tetap menghasilkan skor edukatif lokal, bukan XP resmi.",
+    "Simulator lama tetap dapat diakses lewat pilihan Mode Klasik untuk kompatibilitas.",
+    "Perbaikan PWA recovery dan update dengan persetujuan pemain dipertahankan."
   ],
-  "notes": "Tahap transisi: validasi lintas skenario telah memakai Free Lab terpadu, namun evaluator dan XP resmi Mission Control lama belum diganti."
+  "notes": "Misi baru menggunakan graf universal dan validator lokal. Engine dan penilaian resmi misi klasik belum diganti."
 }

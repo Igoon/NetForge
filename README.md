@@ -1,10 +1,13 @@
-# NET FORGE v0.40.2 — Unified Mission Validator
+# NET FORGE v0.40.3 — Mission Control → Unified Canvas
 
 ## Instalasi
-Ekstrak ZIP GitHub Pages dan unggah **seluruh isi** ke root repository. Update PWA melalui halaman recovery.html jika cache lama tertahan; jangan hapus Local Storage pemain.
+Unggah semua isi ZIP GitHub Pages ke root repository, kemudian periksa `version.json`, `index.html`, dan `sw.js` melalui recovery.html. Tidak perlu menghapus localStorage pemain.
 
-## Fitur
-Masuk ke **Free Lab Terpadu** → tambahkan perangkat dari inventori universal → hubungkan → bagian **Unified Mission Validator** → pilih profil Network Basics, Smart Home, atau Office Starter → Jalankan Evaluasi. Masing-masing menggunakan **graf Free Lab yang sama**. Hasil adalah penilaian lokal dan tidak menggantikan XP resmi maupun evaluator misi lama.
+## Yang berubah
+- Mission Control: pilih Network Basics, Smart Home Hybrid, Office Starter, atau Free Lab. Semuanya membuka canvas dan inventori **yang sama**.
+- Inventori memfilter kategori perangkat per profil misi, tanpa menghapus perangkat/topologi yang sudah disimpan.
+- Tombol Evaluasi Misi menjalankan validator lokal sesuai profil.
+- Mode Klasik tetap tersedia untuk simulator/penilaian lama.
 
 ## Batasan
-Protokol jaringan adalah simulasi edukatif, bukan emulasi nyata. Mesin misi lama tetap berjalan. Data Free Lab disimpan di browser (key: `netforge.universal.free.v1`).
+Skor Unified Mission Validator hanya edukatif/lokal; tidak mengubah skor atau XP resmi. Browser terinstal dan siklus PWA update perlu diverifikasi setelah deployment.
