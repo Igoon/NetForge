@@ -1,4 +1,4 @@
 {
-  "version": "0.40.29",
-  "release": "Routing satu router multi-interface, traceroute dan tabel routing"
+  "version": "0.40.30",
+  "release": "Static routing multi-router, route metrics, routing table and link failure"
 }
