@@ -1,5 +1,9 @@
-# NET FORGE v0.39.2 — Visual Port Connection Builder
+# NET FORGE v0.39.4 — Device Inspector & Live Port Status
 
-Frontend PWA ada di folder `pwa/`, backend PHP/Docker kompatibel dari v0.35.2 ada di folder `backend/`. Perbaikan v0.39.2 hanya pada frontend; backend tidak perlu deployment ulang.
+Frontend-only update based on v0.39.2. New Smart Home Device Inspector shows occupied/available ports, Wi-Fi associations, port peers, PoE-capable ports, audit issues, and shortcuts to configuration and port audit. Green indicators mean topology allocation, not real measured link traffic. Backend unchanged; do not overwrite existing database or .env.
 
-Baru: dialog pemilihan port dua perangkat Smart Home saat alat Hubungkan digunakan; indikator port terpakai, port tidak kompatibel, validasi PoE, dan pesan Iga. Penyimpanan data topologi lama dipertahankan.
+Deploy contents of this folder into the root of igoon/NetForge on GitHub Pages. Verify index.html, sw.js, version.json, and recovery.html uploaded together.
+
+
+## Catatan penting versi 0.39.4
+Halaman recovery.html v0.39.4 memisahkan pembacaan versi server dan cache Service Worker. Jika halaman masih controlled, klik **Lepas Service Worker & Periksa Server**, lalu bandingkan ketiga versi sebelum melakukan pemulihan. Tidak menghapus Local Storage.

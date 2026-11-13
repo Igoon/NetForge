@@ -1,15 +1,13 @@
 {
-  "version": "0.39.2",
-  "build": "visual-port-connection-v0392",
+  "version": "0.39.4",
+  "build": "recovery-sw-bypass-v0394",
   "updated": "2026-11-13",
-  "title": "Visual Port Connection Builder",
+  "title": "PWA Recovery Verification & Device Inspector",
   "changes": [
-    "Hubungkan perangkat Smart Home melalui dialog pemilihan port fisik pada kedua perangkat.",
-    "Port yang terpakai dan port yang tidak cocok dengan media ditandai dengan indikator visual.",
-    "Port PoE hanya dapat dipilih pada port switch yang mendukung PoE.",
-    "Pilihan port pengguna kini divalidasi dan disimpan sebagai bagian dari koneksi topologi.",
-    "Mentor Iga menjelaskan mengapa sambungan tidak dapat dibuat; Guided Mode dan data lama dipertahankan.",
-    "Mission Control, profil Google, progres lokal dan mekanisme update PWA tetap tersedia."
+    "Memperbaiki pemeriksaan versi: halaman recovery tidak lagi menyimpulkan file server tidak konsisten saat masih dikendalikan Service Worker lama.",
+    "Menambahkan langkah aman lepas Service Worker dan muat ulang halaman recovery sebelum membaca index.html tanpa cache PWA.",
+    "Memisahkan status cache aplikasi lama dari status sebenarnya file rilis di GitHub Pages.",
+    "Mempertahankan Device Inspector v0.39.3, Google Login, progres lokal, dan data Smart Home Hybrid."
   ],
-  "notes": "Pemilihan port fisik tersedia pada Smart Home; Network Basics mempertahankan editor lama. LED merepresentasikan status alokasi port simulasi, bukan arus lalu lintas aktual. Skor Smart Home masih lokal."
+  "notes": "Recovery tidak menghapus Local Storage, IndexedDB, atau data akun. Pada pemeriksaan yang masih dikontrol SW, lepas registrasi terlebih dahulu."
 }

@@ -21,11 +21,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Select newest PWA source
+        id: source
+        run: |
+          root_ver=$(node -p "require('./version.json').version")
+          pwa_ver=$(node -p "require('./pwa/version.json').version")
+          newest=$(printf '%s\n%s\n' "$root_ver" "$pwa_ver" | sort -V | tail -n1)
+          if [ "$newest" = "$pwa_ver" ]; then src=pwa; else src=.; fi
+          echo "src=$src" >> "$GITHUB_OUTPUT"
+          echo "Using $src (root=$root_ver pwa=$pwa_ver)"
+
       - name: Stage PWA files
         run: |
+          SRC="${{ steps.source.outputs.src }}"
           mkdir -p dist
-          cp pwa/index.html pwa/recovery.html pwa/manifest.webmanifest pwa/sw.js pwa/version.json dist/
-          cp -R pwa/icons dist/
+          cp "$SRC/index.html" "$SRC/recovery.html" "$SRC/manifest.webmanifest" "$SRC/sw.js" "$SRC/version.json" dist/
+          cp -R "$SRC/icons" dist/
           test -f dist/index.html
           test -f dist/recovery.html
           test -f dist/sw.js

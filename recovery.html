@@ -1,31 +1,40 @@
 <!doctype html>
 <html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>NET FORGE — Pemulihan PWA</title><style>
-:root{color-scheme:dark;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif}*{box-sizing:border-box}body{margin:0;padding:22px;background:linear-gradient(160deg,#031125,#0b2440);color:#e1f6ff;min-height:100vh}.wrap{max-width:740px;margin:22px auto;border:1px solid #2f7796;background:#0b1d33;border-radius:19px;padding:24px;box-shadow:0 15px 55px #0007}h1{margin:0 0 8px;font-size:clamp(21px,4vw,31px)}p{color:#b3d2e4;line-height:1.6}.status{border:1px solid #2c627e;background:#102b43;padding:14px;border-radius:12px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.7}button,a.action{display:inline-block;margin:12px 8px 0 0;border:1px solid #44c7f0;border-radius:10px;padding:11px 16px;background:#067daf;color:white;font-weight:bold;cursor:pointer;text-decoration:none}button.secondary{background:#102e49}button:disabled{opacity:.45;cursor:wait}small{color:#95bdd2}code{font-size:.9em;color:#a2eaff}strong{color:#8cf3ff} .warn{border-left:3px solid #f5bc61;padding-left:12px}</style></head><body><main class="wrap"><h1>🛠️ NET FORGE — Pemulihan PWA</h1><p>Halaman khusus jika <b>Cek Update</b> atau <b>Pulihkan pembaruan</b> di dalam game gagal. Halaman ini tidak di-cache oleh Service Worker NET FORGE.</p><p class="warn">Tindakan pemulihan hanya menghapus cache berkas aplikasi <code>nf-static-*</code> dan melepas Service Worker pada scope game. <strong>Local Storage, IndexedDB, profil, dan progres pemain tidak dihapus.</strong> Tetap ekspor cadangan jika tersedia sebelum memperbaiki.</p><div id="status" class="status" role="status">Memeriksa berkas rilis di GitHub Pages…</div><button id="probe">Periksa ulang</button><button id="fix" disabled>Pulihkan dan muat rilis terbaru</button><a class="action" href="./">Kembali ke NET FORGE</a><p><small>Jika file server belum tersedia, unggah terlebih dahulu seluruh isi ZIP ke root repository GitHub Pages, lalu kembali ke halaman ini. Jangan gunakan Clear Site Data.</small></p></main>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif}*{box-sizing:border-box}body{margin:0;padding:22px;background:linear-gradient(160deg,#031125,#0b2440);color:#e1f6ff;min-height:100vh}.wrap{max-width:740px;margin:22px auto;border:1px solid #2f7796;background:#0b1d33;border-radius:19px;padding:24px;box-shadow:0 15px 55px #0007}h1{margin:0 0 8px;font-size:clamp(21px,4vw,31px)}p{color:#b3d2e4;line-height:1.6}.status{border:1px solid #2c627e;background:#102b43;padding:14px;border-radius:12px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.7}button,a.action{display:inline-block;margin:12px 8px 0 0;border:1px solid #44c7f0;border-radius:10px;padding:11px 16px;background:#067daf;color:white;font-weight:bold;cursor:pointer;text-decoration:none}button.secondary{background:#102e49}button:disabled{opacity:.45;cursor:wait}small{color:#95bdd2}code{font-size:.9em;color:#a2eaff}strong{color:#8cf3ff} .warn{border-left:3px solid #f5bc61;padding-left:12px}</style></head><body><main class="wrap"><h1>🛠️ NET FORGE — Pemulihan PWA</h1><p>Halaman khusus jika <b>Cek Update</b> atau <b>Pulihkan pembaruan</b> di dalam game gagal. Jika masih dikendalikan Service Worker lama, klik tombol lepas Service Worker terlebih dahulu agar pemeriksaan berkas tidak membaca cache.</p><p class="warn">Tindakan pemulihan hanya menghapus cache berkas aplikasi <code>nf-static-*</code> dan melepas Service Worker pada scope game. <strong>Local Storage, IndexedDB, profil, dan progres pemain tidak dihapus.</strong> Tetap ekspor cadangan jika tersedia sebelum memperbaiki.</p><div id="status" class="status" role="status">Memeriksa berkas rilis di GitHub Pages…</div><button id="probe">Periksa ulang</button><button id="fix" disabled>Pulihkan dan muat rilis terbaru</button><a class="action" href="./">Kembali ke NET FORGE</a><p><small>Jika file server belum tersedia, unggah terlebih dahulu seluruh isi ZIP ke root repository GitHub Pages, lalu kembali ke halaman ini. Jangan gunakan Clear Site Data.</small></p></main>
 <script>
 (()=>{'use strict';
-const s=document.getElementById('status'),probe=document.getElementById('probe'),fix=document.getElementById('fix');let ready=false;
-const originRoot=new URL('./',location.href);
+const s=document.getElementById('status'),probe=document.getElementById('probe'),fix=document.getElementById('fix');
+const originRoot=new URL('./',location.href);let ready=false,serverVersion=null;
+let detach=document.getElementById('detachSW');if(!detach){detach=document.createElement('button');detach.id='detachSW';detach.textContent='Lepas Service Worker & Periksa Server';detach.className='secondary';probe.parentNode.insertBefore(detach,fix);}
 function say(v){s.textContent=v}
-async function get(path){const u=new URL(path,originRoot);u.searchParams.set('nf_recovery_check',Date.now().toString());let r=await fetch(u,{cache:'no-store',redirect:'follow'});if(!r.ok)throw Error(path+' HTTP '+r.status);return r.text()}
-async function inspect(){fix.disabled=true;ready=false;say('Memeriksa file rilis terbaru…');let lines=[];
+function controllerActive(){return ('serviceWorker'in navigator)&&!!navigator.serviceWorker.controller}
+async function get(path){const u=new URL(path,originRoot);u.searchParams.set('nf_recovery_check',Date.now().toString());const r=await fetch(u,{cache:'no-store',redirect:'follow'});if(!r.ok)throw Error(path+' HTTP '+r.status);return r.text()}
+async function inspect(){fix.disabled=true;ready=false;
+ if(controllerActive()){
+  detach.hidden=false;
+  say('⚠️ Halaman ini masih DIKENDALIKAN Service Worker NET FORGE.\n\nPada mode cache-first, permintaan index.html dapat dikembalikan dari cache walau cache:no-store. Karena itu hasil perbandingan versi sebelumnya mungkin keliru.\n\nKlik "Lepas Service Worker & Periksa Server" untuk memuat halaman ini tanpa controller dan menguji file yang benar-benar disajikan GitHub Pages. Progres lokal tidak dihapus.');return;
+ }
+ detach.hidden=true;say('Memeriksa berkas rilis langsung dari server…');let lines=[];
  try{
- const json=JSON.parse(await get('version.json'));lines.push('Versi di version.json: v'+(json.version||'?'));
- const source=await get('index.html');const m=source.match(/NETFORGE_RELEASE\s*=\s*Object\.freeze\(\{\s*version:\s*["']([0-9.]+)["']/);
- const installedVersion=m?m[1]:null;lines.push('Versi internal index.html server: '+(installedVersion?'v'+installedVersion:'TIDAK TERBACA'));
- const worker=await get('sw.js');const mw=worker.match(/nf-static-v([0-9.]+)/);const workerVersion=mw?mw[1]:null;lines.push('Versi sw.js server: '+(workerVersion?'v'+workerVersion:'TIDAK TERBACA'));
- let current='Tidak tersedia';try{const c=navigator.serviceWorker?.controller;current=c?c.scriptURL:'Tidak ada controller'}catch{}
- lines.push('Controller saat ini: '+current);
- if(!installedVersion||!workerVersion||installedVersion!==json.version||workerVersion!==json.version){lines.push('\n⚠️ FILE SERVER BELUM KONSISTEN. Unggah ulang index.html, sw.js, dan version.json dari paket yang sama.');}
- else {lines.push('\n✅ Ketiga berkas server konsisten. Pemulihan aman dapat dicoba.');ready=true;fix.disabled=false;}
- }catch(e){lines.push('❌ Tidak dapat memeriksa file server: '+(e?.message||e));lines.push('Periksa koneksi dan proses deployment GitHub Pages.');}
- say(lines.join('\n'));}
- async function recover(){if(!ready)return;if(!confirm('Hanya cache aplikasi NET FORGE dan registrasi Service Worker pada scope game yang akan dibersihkan. Progres lokal tidak dihapus. Lanjutkan?'))return;fix.disabled=true;probe.disabled=true;
- try{
- say('Melepas Service Worker NET FORGE…');
- if('serviceWorker'in navigator){const registrations=await navigator.serviceWorker.getRegistrations();for(const reg of registrations){if(reg.scope===originRoot.href){const ok=await reg.unregister();if(!ok)throw Error('Tidak dapat unregister Service Worker.');}}}
- say('Menghapus hanya cache berkas aplikasi NET FORGE…');
- if('caches'in window){const keys=await caches.keys();for(const key of keys){if(key.startsWith('nf-static-'))await caches.delete(key)}}
- say('Pemulihan selesai. Membuka index.html versi terbaru…');const go=new URL('index.html',originRoot);go.searchParams.set('nf_recovered',Date.now().toString());location.replace(go.href);
- }catch(e){say('Pemulihan gagal: '+(e?.message||e)+'\nCoba ulang dan kirimkan pesan ini untuk diagnosis.');probe.disabled=false;fix.disabled=false;}}
- probe.onclick=inspect;fix.onclick=recover;inspect();})();
+  const j=JSON.parse(await get('version.json'));serverVersion=String(j.version||'');lines.push('Versi version.json server: v'+(serverVersion||'?'));
+  const index=await get('index.html');const m=index.match(/NETFORGE_RELEASE\s*=\s*Object\.freeze\(\{\s*version:\s*["']([0-9.]+)["']/);
+  const iv=m?m[1]:null;lines.push('Versi internal index.html server: '+(iv?'v'+iv:'TIDAK TERBACA'));
+  const worker=await get('sw.js');const mw=worker.match(/nf-static-v([0-9.]+)/);const wv=mw?mw[1]:null;lines.push('Versi sw.js server: '+(wv?'v'+wv:'TIDAK TERBACA'));
+  lines.push('Controller Service Worker: Tidak aktif pada halaman pemulihan');
+  if(!iv||!wv||!serverVersion||iv!==serverVersion||wv!==serverVersion){lines.push('\n⚠️ Versi di SERVER masih tidak konsisten setelah bypass Service Worker. Pastikan index.html, sw.js dan version.json dari ZIP yang sama sudah di-deploy ke root repository.');}
+  else {lines.push('\n✅ Ketiga berkas server konsisten. Pemulihan cache/registrasi dapat dilakukan.');ready=true;fix.disabled=false;}
+ }catch(e){lines.push('❌ Pemeriksaan langsung gagal: '+(e?.message||e));}
+ say(lines.join('\n'));
+}
+async function unregister(){if(!('serviceWorker'in navigator))return;const regs=await navigator.serviceWorker.getRegistrations();for(const reg of regs){if(reg.scope===originRoot.href){await reg.unregister()}}}
+async function detachSW(){detach.disabled=true;probe.disabled=true;fix.disabled=true;
+ try{say('Melepas Service Worker lama tanpa menghapus data game…');await unregister();
+  const u=new URL('recovery.html',originRoot);u.searchParams.set('nf_sw_detached',Date.now().toString());location.replace(u.href);
+ }catch(e){say('Gagal melepas Service Worker: '+(e?.message||e));detach.disabled=false;probe.disabled=false;}}
+async function recover(){if(!ready)return;if(!confirm('Hapus HANYA cache berkas NET FORGE dan registrasi Service Worker? Local Storage dan progres tetap disimpan.'))return;fix.disabled=true;probe.disabled=true;
+ try{await unregister();if('caches'in window){for(const key of await caches.keys()){if(key.startsWith('nf-static-'))await caches.delete(key)}}
+  say('Cache aplikasi dibersihkan. Membuka rilis server v'+serverVersion+'…');const u=new URL('index.html',originRoot);u.searchParams.set('nf_recovered',Date.now().toString());location.replace(u.href);
+ }catch(e){say('Pemulihan gagal: '+(e?.message||e));probe.disabled=false;fix.disabled=false;}}
+probe.onclick=inspect;fix.onclick=recover;detach.onclick=detachSW;inspect();
+})();
 </script></body></html>
