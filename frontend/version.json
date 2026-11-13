@@ -1,14 +1,13 @@
 {
-  "version": "0.40.22",
-  "build": "mission-isolated-workspaces-and-progression",
+  "version": "0.40.23",
+  "build": "unified-workspace-controls-and-terminal-hotfix",
   "updated": "2026-11-13",
-  "title": "Per-Mission Workspace Save & Safe Mission Advancement",
+  "title": "Unified Canvas Controls, Terminal and Update Diagnostic Fix",
   "changes": [
-    "Workspace setiap misi dipisahkan; misi baru dimulai kosong kecuali memiliki progres tersimpan.",
-    "Saat kembali ke misi lama, perangkat dan kabelnya otomatis dipulihkan.",
-    "Free Lab juga menggunakan workspace terpisah.",
-    "Topologi bersama dari v0.40.21 dimigrasikan ke Network Basics tanpa menghapus backup lama.",
-    "Animasi trafik dihentikan saat berpindah misi; konfigurasi dan penilaian lokal tetap tersedia."
+    "Undo/Redo bekerja pada Unified Canvas yang aktif, dengan history terpisah per misi.",
+    "Zoom, Fit dan Pan bekerja pada node dan kabel Unified Canvas.",
+    "Terminal Ping dan Traceroute membaca topologi misi aktif, bukan engine klasik.",
+    "Bantuan pemulihan PWA menunjukkan langkah ketika berkas server tidak dapat diverifikasi."
   ],
   "notes": "Frontend visual and UI fix; XP and backend unchanged.",
   "releasedAt": "2026-11-13"

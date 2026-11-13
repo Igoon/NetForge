@@ -1,7 +1,8 @@
-NET FORGE v0.40.22 — Mission-Isolated Workspace
+NET FORGE v0.40.23 — Unified Canvas Stabilization
 
-Perubahan: setiap profil Network Basics, Smart Home, Office Starter, dan Free Lab menyimpan topologi terpisah. Beralih ke misi baru membuka workspace kosong; kembali ke misi sebelumnya memulihkan topologi lama. Topologi legacy dari v0.40.21 dipertahankan sebagai backup dan dimigrasikan ke Basics sekali saja.
-
-Cara deploy: unggah semua isi folder ini ke root GitHub Pages. Backend tidak berubah.
-
-Uji: selesaikan Basics, Lanjut ke Smart Home (harus kosong), tambahkan TV, kembali ke Basics (Router/PC tetap ada), kembali lagi ke Smart Home (TV tetap ada).
+- Unified Undo/Redo, Zoom +/−, Fit, Pan.
+- Terminal Jaringan melakukan Ping / Traceroute simulasi pada topologi Unified Canvas yang aktif.
+- Tiap misi memiliki history dan penyimpanan independen.
+- Backend tidak berubah.
+- Deployment: unggah isi ZIP ke root GitHub Pages; periksa recovery.html.
+- Catatan: skor/terminal merupakan simulasi edukasi; hasil server tidak otomatis menjadi XP resmi.
