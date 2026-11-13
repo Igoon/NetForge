@@ -1,14 +1,13 @@
 {
-  "version": "0.40.4",
-  "build": "local-mission-progress-v0404",
+  "version": "0.40.5",
+  "build": "unified-server-validated-v0405",
   "updated": "2026-11-13",
-  "title": "Unified Mission Progress — Local Ledger",
+  "title": "Server-Validated Unified Mission Results",
   "changes": [
-    "Riwayat evaluasi tersimpan lokal untuk Network Basics, Smart Home Hybrid, dan Office Starter.",
-    "Skor terbaik dan status pernah lulus dipertahankan; evaluasi ulang tidak menambah penghargaan baru.",
-    "Perubahan profil hanya menampilkan preview; hanya tombol Evaluasi Misi yang mencatat percobaan.",
-    "Ekspor JSON dan hapus catatan khusus Unified Mission tanpa menghapus topologi atau progres lama.",
-    "XP resmi dan leaderboard server tidak dimodifikasi; kompatibilitas PWA v0.39.4 tetap dipertahankan."
+    "Validasi topologi terpadu pada backend PHP untuk tiga profil misi.",
+    "Riwayat server per akun, idempotensi attemptId, pembatasan percobaan.",
+    "Tidak memberikan XP resmi dari payload browser yang dapat dimanipulasi.",
+    "Paket PWA serta backend referensi diperbarui bersama."
   ],
-  "notes": "Hasil evaluasi lokal dapat dimodifikasi di browser. Belum ada submit resmi atau jaminan anti-kecurangan backend."
+  "notes": "Upload backend baru diperlukan; endpoint tidak tersedia pada backend v0.40.4."
 }

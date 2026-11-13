@@ -1,10 +1,7 @@
-# NET FORGE v0.40.4 — Unified Mission Progress
+# NET FORGE v0.40.5 — Server-Validated Unified Mission Results
 
-Unggah semua berkas dalam ZIP GitHub Pages ke root repository. Periksa nomor versi via recovery.html.
+Upload isi ZIP GitHub Pages ke root repo. **Perlu deploy backend PHP baru** dari FULL-PACKAGE/server-reference/backend agar endpoint `/api/v1/unified-missions` aktif.
 
-## Fitur
-- Evaluasi misi Unified Canvas mencatat jumlah percobaan, skor terbaik, pernah lulus, dan waktu pertama lulus dalam localStorage.
-- Perubahan profil tidak mencatat percobaan. Tombol evaluasi yang mencatatnya.
-- Ekspor JSON dan reset hanya catatan lokal Unified Mission.
-- Skor dan XP resmi server TIDAK diubah. Browser-local data tidak dapat dianggap sebagai bukti resmi atau aman dari manipulasi.
-- Tidak mengubah topologi, Google Login, atau backend.
+Pemain yang login Google dapat menekan **Kirim Evaluasi ke Server** pada panel Unified Mission. Backend menghitung ulang hasil dari topology yang dikirim, memberi idempotensi per attemptId, dan menyimpan skor terbaik per akun. Tidak ada XP resmi tambahan: topologi dikirim dari browser dan dapat dipalsukan, sehingga hasil hanya `server-validated educational`. Penilaian Guided Lab lama tidak berubah.
+
+Perhatian: URL backend Tailscale Serve hanya dapat diakses dari perangkat yang memiliki akses Tailnet. Jangan mengunggah isi `server-reference` ke GitHub Pages.
