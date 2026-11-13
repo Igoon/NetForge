@@ -1,8 +1,4 @@
 {
-  "version": "0.40.28",
-  "changes": [
-    "Paket instalasi PWA v0.40.28 dengan dukungan offline.",
-    "Validasi subnet dua arah, gateway, konflik IPv4 dan DHCP."
-  ],
-  "date": "2026-11-13"
+  "version": "0.40.29",
+  "release": "Routing satu router multi-interface, traceroute dan tabel routing"
 }
