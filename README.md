@@ -1,3 +1,8 @@
-NET FORGE v0.40.16 — Modal Device Configuration & Activity Log
+# NET FORGE v0.40.17 — Visual Canvas & Single Configuration Modal
 
-Klik sekali untuk memilih perangkat; klik dua kali dalam mode Pilih/Geser untuk membuka satu modal konfigurasi. Tombol Buka Konfigurasi tetap disediakan untuk akses keyboard/touch. Panel di bawah canvas sekarang menjadi Log Aktivitas; Ping ada di bagian diagnostik yang dapat dibuka. Tidak ada perubahan backend.
+- All Unified Canvas devices render with light 2.5D appearance, LED/link status, and screen glow driven by active links.
+- Ethernet: blue; PoE: gold; Wi-Fi: green; inactive/misconfigured: red dashed. Toggle animations near the canvas; off by default and respects reduced motion.
+- Smart Home's original configuration panel (`nf390Inspector`, including `nf395-config`) is moved, not copied, into a modal shown on double-click. Its former location now hosts an activity log.
+- Unified Canvas continues to use its existing single modal and activity log.
+- No backend update required.
+- Smoke-test double click on Smart Home physical and logical nodes, wired/wireless connections, and PWA update on GitHub Pages before production use.

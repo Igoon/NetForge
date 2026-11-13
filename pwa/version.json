@@ -1,14 +1,15 @@
 {
-  "version": "0.40.16",
-  "build": "modal-device-inspector-activity-log-v04016",
+  "version": "0.40.17",
+  "build": "2-5d-visual-canvas-single-inspector-v04017",
   "updated": "2026-11-13",
-  "title": "Modal Device Configuration & Activity Log",
+  "title": "2.5D Workspace Visual & Single Configuration Modal",
   "changes": [
-    "Klik sekali memilih perangkat; klik dua kali membuka satu modal konfigurasi.",
-    "Panel di bawah canvas digunakan untuk Log Aktivitas sesi tanpa menyimpan password/token.",
-    "Alat Ping/Uji Jalur tetap tersedia dalam bagian diagnostik yang dapat dibuka.",
-    "Inventori dan koneksi Ethernet/Wi-Fi dari versi sebelumnya dipertahankan."
+    "Perangkat Unified Canvas tampil semi-2.5D dengan LED dan layar mengikuti status koneksi aktif.",
+    "Ethernet biru, PoE kuning, Wi-Fi hijau, koneksi gagal merah; animasi aliran data dapat diaktifkan manual.",
+    "Panel Konfigurasi Perangkat Smart Home lama dipindahkan ke modal asli (tidak digandakan).",
+    "Bagian bawah Smart Home diganti Log Aktivitas; Unified Canvas tetap memakai modal konfigurasi dan Log Aktivitas.",
+    "Animasi default nonaktif, mendukung preferensi reduced motion; tidak mengubah evaluator atau backend."
   ],
-  "notes": "Frontend-only bugfix. XP dan backend tidak berubah.",
+  "notes": "Frontend visual and UI fix; XP and backend unchanged.",
   "releasedAt": "2026-11-13"
 }
