@@ -1,13 +1,15 @@
 {
-  "version": "0.40.12",
-  "build": "workspace-cable-toolbar-visibility-hotfix-v04012",
+  "version": "0.40.13",
+  "build": "dynamic-wired-wireless-client-v04013",
   "updated": "2026-11-13",
-  "title": "Network Basics Cable Toolbar Visibility Hotfix",
+  "title": "Dynamic Wired & Wireless Client Connectivity",
   "changes": [
-    "Memindahkan alat sambungan kabel ke atas Unified Canvas agar Router dan Desktop PC tetap terlihat.",
-    "Menghapus scroll paksa menuju panel Alat Free Lab ketika klik Hubungkan Kabel.",
-    "Judul toolbar mengikuti misi aktif: Network Basics, Smart Home, Office Starter, atau Free Lab.",
-    "Mempertahankan topologi dan penyimpanan lokal, tanpa perubahan backend."
+    "Network Basics menerima Desktop PC, Laptop, Tablet, dan Smartphone sebagai klien.",
+    "Mendukung Ethernet atau Wi-Fi berdasarkan kemampuan perangkat; Desktop PC memakai adaptor Wi-Fi opsional.",
+    "Device Inspector menyediakan SSID, password simulasi, band, dan status radio Router/AP.",
+    "Validator misi dan ping langsung memeriksa jalur Wi-Fi aktif; SSID atau password tidak cocok membuat misi gagal.",
+    "Mempertahankan Unified Canvas, toolbar dekat canvas, dan topologi lokal lama."
   ],
-  "notes": "Frontend-only hotfix untuk v0.40.11."
+  "notes": "Dynamic Wired & Wireless Client Connectivity: Desktop PC, Laptop, Tablet, Smartphone, Wi-Fi adapter, SSID/security/band, live mission connectivity.",
+  "releasedAt": "2026-11-13"
 }
