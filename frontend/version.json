@@ -1,13 +1,13 @@
 {
-  "version": "0.40.15",
-  "build": "unified-client-inventory-single-inspector-v04015",
+  "version": "0.40.16",
+  "build": "modal-device-inspector-activity-log-v04016",
   "updated": "2026-11-13",
-  "title": "Unified Client Inventory & Single Inspector Fix",
+  "title": "Modal Device Configuration & Activity Log",
   "changes": [
-    "Laptop, Tablet, Smartphone, dan Desktop PC tampil serta dapat dipasang pada Network Basics Unified Canvas.",
-    "Urutan inventori menampilkan perangkat klien lebih awal; filter yang tersisa dari misi sebelumnya direset.",
-    "Hanya satu Device Inspector yang sudah ada dipindahkan ke sisi canvas, bukan diduplikasi.",
-    "Konfigurasi, koneksi Ethernet/Wi-Fi, dan data topologi lama dipertahankan."
+    "Klik sekali memilih perangkat; klik dua kali membuka satu modal konfigurasi.",
+    "Panel di bawah canvas digunakan untuk Log Aktivitas sesi tanpa menyimpan password/token.",
+    "Alat Ping/Uji Jalur tetap tersedia dalam bagian diagnostik yang dapat dibuka.",
+    "Inventori dan koneksi Ethernet/Wi-Fi dari versi sebelumnya dipertahankan."
   ],
   "notes": "Frontend-only bugfix. XP dan backend tidak berubah.",
   "releasedAt": "2026-11-13"
