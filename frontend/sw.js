@@ -1,38 +1,35 @@
-/* NET FORGE v0.40.27 — Mission Adaptive Workspace; consent-gated cache-first shell. */
-const VERSION='nf-static-v0.40.27';
-const APP_FILES=['./','./index.html','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png'];
-self.addEventListener('install',event=>{
- event.waitUntil(caches.open(VERSION).then(cache=>cache.addAll(APP_FILES)));
- // No skipWaiting here: activation requires explicit consent via message.
+/* NET FORGE v0.40.28 — PWA offline app shell */
+const CACHE_NAME='netforge-app-v0.40.28';
+const ASSETS=['./','./index.html','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png'];
+self.addEventListener('install', event=>{
+ event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(ASSETS)));
+ // Defer activation if an older app is running until player confirms update.
 });
 self.addEventListener('activate',event=>{
  event.waitUntil((async()=>{
   const keys=await caches.keys();
-  for(const key of keys)if(key.startsWith('nf-static-')&&key!==VERSION)await caches.delete(key);
+  await Promise.all(keys.filter(key=>key.startsWith('netforge-app-')&&key!==CACHE_NAME).map(key=>caches.delete(key)));
   await self.clients.claim();
  })());
 });
-self.addEventListener('message',event=>{
- if(event.data?.type==='SKIP_WAITING')self.skipWaiting();
-});
+self.addEventListener('message',event=>{if(event.data?.type==='SKIP_WAITING')self.skipWaiting()});
 self.addEventListener('fetch',event=>{
- const req=event.request;if(req.method!=='GET')return;
- const url=new URL(req.url),base=new URL(self.registration.scope);
- if(url.origin!==base.origin||!url.pathname.startsWith(base.pathname))return;
- // version.json is deliberately not intercepted: it reports LATEST server release.
- if(url.pathname===base.pathname+'version.json')return;
- const home=url.pathname===base.pathname||url.pathname===base.pathname+'index.html';
- const asset=['manifest.webmanifest','icons/icon-192.png','icons/icon-512.png'].some(n=>url.pathname===base.pathname+n);
- if(!home&&!asset)return;
+ if(event.request.method!=='GET')return;
+ const url=new URL(event.request.url);
+ if(url.origin!==self.location.origin)return;
+ // Update metadata and repair UI always use network, bypass PWA cache.
+ if(url.pathname.endsWith('/version.json')||url.pathname.endsWith('/recovery.html'))return;
+ if(event.request.mode==='navigate'){
+  event.respondWith((async()=>{
+   const cache=await caches.open(CACHE_NAME);
+   const cached=await cache.match('./index.html');
+   if(cached)return cached;
+   try{return await fetch(event.request)}catch{return Response.error()}
+  })());return;
+ }
  event.respondWith((async()=>{
-  const cache=await caches.open(VERSION);
-  if(home){
-   // Installed shell stays stable even when a newer index.html is deployed.
-   const saved=await cache.match('./index.html');
-   if(saved)return saved;
-   try{const response=await fetch(req);if(response.ok){await cache.put('./index.html',response.clone());return response}}catch{}
-   return Response.error();
-  }
-  return await cache.match(req)||fetch(req);
+  const cached=await caches.match(event.request);
+  if(cached)return cached;
+  try{return await fetch(event.request)}catch{return Response.error()}
  })());
 });

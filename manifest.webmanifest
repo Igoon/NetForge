@@ -1,19 +1,15 @@
 {
   "id": "./",
-  "name": "NET FORGE — Network Adventure",
+  "name": "NET FORGE — Network Simulation Adventure",
   "short_name": "NET FORGE",
-  "description": "NET FORGE — Network Adventure (Guest Mode, Official Progress optional). Created by I GO ON (Igoon).",
+  "description": "Simulasi jaringan dan misi pembelajaran interaktif, dapat diakses offline.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#08182e",
-  "theme_color": "#0b1c36",
+  "background_color": "#0b1220",
+  "theme_color": "#0b1220",
   "lang": "id",
   "orientation": "any",
-  "categories": [
-    "education",
-    "games"
-  ],
   "icons": [
     {
       "src": "./icons/icon-192.png",

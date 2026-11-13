@@ -1,13 +1,8 @@
 {
-  "version": "0.40.27",
-  "build": "network-diagnostics-reliability",
-  "updated": "2026-11-13",
-  "title": "Network Diagnostics & Mission Reliability",
+  "version": "0.40.28",
   "changes": [
-    "Diagnostik link dan IPv4 per misi termasuk alasan Wi-Fi tidak aktif",
-    "Validator Smart Home dan Office mengecek link aktif bukan hanya kabel terdaftar",
-    "Ping memeriksa konflik alamat IPv4 dengan seluruh perangkat dalam topologi"
+    "Paket instalasi PWA v0.40.28 dengan dukungan offline.",
+    "Validasi subnet dua arah, gateway, konflik IPv4 dan DHCP."
   ],
-  "notes": "Frontend visual and UI fix; XP and backend unchanged.",
-  "releasedAt": "2026-11-13"
+  "date": "2026-11-13"
 }
