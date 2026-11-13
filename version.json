@@ -1,13 +1,14 @@
 {
-  "version": "0.37.5",
-  "build": "pwa-version-sync-recovery-v0375",
+  "version": "0.37.6",
+  "build": "unified-single-mission-entry-v0376",
   "updated": "2026-11-13",
-  "title": "PWA Version Sync & Independent Recovery",
+  "title": "Single Mission Entry & Navigation Consistency",
   "changes": [
-    "Memperbaiki bug versi internal v0.37.4 yang masih bernilai 0.37.3 dan membuat update tampak selalu tersedia.",
-    "Menyediakan recovery.html independen untuk memeriksa versi file server, Service Worker, dan keadaan cache PWA.",
-    "Pemulihan aman melepaskan Service Worker dan menghapus hanya cache nf-static- setelah persetujuan pemain.",
-    "Mempertahankan Mission Control, Smart Home Hybrid, Google Login, autosave, dan backend v0.35.2."
+    "Menghapus tombol Mission Control duplikat; hanya satu tombol Pilih Misi / Petualangan Baru di menu utama.",
+    "Network Basics, Smart Home Hybrid, dan Free Network Lab tetap dipilih melalui Mission Control yang sama.",
+    "Menambahkan pengaman agar inisialisasi Mission Control tidak membuat komponen ganda.",
+    "Menjaga pemisahan versi terpasang dan versi server serta halaman recovery.html dari v0.37.5.",
+    "Tidak mengubah Google Login, data progres, backend, dan aturan penilaian LAB."
   ],
-  "notes": "Update frontend; tidak menghapus localStorage, IndexedDB, atau nilai server. Gunakan recovery.html bila updater lama macet."
+  "notes": "Frontend only. Jangan hapus localStorage. Jika PWA lama macet, gunakan recovery.html setelah deployment selesai."
 }
