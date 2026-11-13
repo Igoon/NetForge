@@ -1,7 +1,7 @@
-NET FORGE v0.40.21
+NET FORGE v0.40.22 — Mission-Isolated Workspace
 
-Perbaikan: Perangkat Server tidak lagi disembunyikan pada inventori Network Basics; tombol lanjut misi pada kelulusan Unified Canvas; simulasi aliran data ping, streaming, CCTV.
+Perubahan: setiap profil Network Basics, Smart Home, Office Starter, dan Free Lab menyimpan topologi terpisah. Beralih ke misi baru membuka workspace kosong; kembali ke misi sebelumnya memulihkan topologi lama. Topologi legacy dari v0.40.21 dipertahankan sebagai backup dan dimigrasikan ke Basics sekali saja.
 
-Frontend-only: backend/XP resmi tidak diubah. Simulasi trafik bersifat edukatif.
+Cara deploy: unggah semua isi folder ini ke root GitHub Pages. Backend tidak berubah.
 
-Deploy: unggah semua isi ZIP GitHub Pages ke root repository, bukan folder pembungkus. Pastikan index.html sw.js version.json sepakat 0.40.21.
+Uji: selesaikan Basics, Lanjut ke Smart Home (harus kosong), tambahkan TV, kembali ke Basics (Router/PC tetap ada), kembali lagi ke Smart Home (TV tetap ada).
