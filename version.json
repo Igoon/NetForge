@@ -1,14 +1,14 @@
 {
-  "version": "0.40.3",
-  "build": "mission-control-unified-canvas-v0403",
+  "version": "0.40.4",
+  "build": "local-mission-progress-v0404",
   "updated": "2026-11-13",
-  "title": "Mission Control → Unified Canvas",
+  "title": "Unified Mission Progress — Local Ledger",
   "changes": [
-    "Mission Control membuka Network Basics, Smart Home, Office Starter, dan Free Lab pada canvas terpadu yang sama.",
-    "Inventori universal difilter menurut profil misi; data topologi tetap sama ketika pemain berpindah misi.",
-    "Evaluasi langsung menggunakan Unified Mission Validator dan tetap menghasilkan skor edukatif lokal, bukan XP resmi.",
-    "Simulator lama tetap dapat diakses lewat pilihan Mode Klasik untuk kompatibilitas.",
-    "Perbaikan PWA recovery dan update dengan persetujuan pemain dipertahankan."
+    "Riwayat evaluasi tersimpan lokal untuk Network Basics, Smart Home Hybrid, dan Office Starter.",
+    "Skor terbaik dan status pernah lulus dipertahankan; evaluasi ulang tidak menambah penghargaan baru.",
+    "Perubahan profil hanya menampilkan preview; hanya tombol Evaluasi Misi yang mencatat percobaan.",
+    "Ekspor JSON dan hapus catatan khusus Unified Mission tanpa menghapus topologi atau progres lama.",
+    "XP resmi dan leaderboard server tidak dimodifikasi; kompatibilitas PWA v0.39.4 tetap dipertahankan."
   ],
-  "notes": "Misi baru menggunakan graf universal dan validator lokal. Engine dan penilaian resmi misi klasik belum diganti."
+  "notes": "Hasil evaluasi lokal dapat dimodifikasi di browser. Belum ada submit resmi atau jaminan anti-kecurangan backend."
 }
