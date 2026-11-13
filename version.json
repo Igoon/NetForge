@@ -1,13 +1,13 @@
 {
-  "version": "0.37.3",
-  "build": "unified-mission-control-adaptive-workspace",
+  "version": "0.37.4",
+  "build": "unified-mission-navigation-v0374",
   "updated": "2026-11-13",
-  "title": "Mission Workspace Integration Fix",
+  "title": "Unified Mission Navigation Fix",
   "changes": [
-    "Memperbaiki inisialisasi Mission Control yang berhenti karena opsi MutationObserver tidak valid.",
-    "Smart Home Hybrid kini terpasang di workspace utama saat dipilih dari Mission Control.",
-    "Panel inventori, alat kerja, dan infrastruktur mengikuti misi Smart Home; fitur virtualisasi tidak ditampilkan.",
-    "Mempertahankan Google Login, penyimpanan lokal, dan mekanisme PWA."
+    "Menyatukan tombol Petualangan Baru dengan Mission Control, tanpa memunculkan modal lama secara tidak sengaja.",
+    "Kembali dari Smart Home menampilkan pemilihan misi tanpa membuka dialog petualangan Network Basics.",
+    "Pilihan Network Basics secara eksplisit membuka briefing petualangan dasar; Free Lab tetap terpisah.",
+    "Mempertahankan panel Smart Home adaptif, Google Login, autosave, dan sistem update PWA."
   ],
-  "notes": "Pembaruan UI frontend; backend v0.35.2 tetap kompatibel. Belum ada simulator Wi-Fi/fiber atau editor drag-drop Smart Home baru."
+  "notes": "Hotfix navigasi frontend saja; backend v0.35.2 tetap kompatibel."
 }
