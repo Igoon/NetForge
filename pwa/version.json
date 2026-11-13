@@ -1,14 +1,14 @@
 {
-  "version": "0.40.14",
-  "build": "device-inspector-configuration-hotfix-v04014",
+  "version": "0.40.15",
+  "build": "unified-client-inventory-single-inspector-v04015",
   "updated": "2026-11-13",
-  "title": "Device Inspector Configuration Hotfix",
+  "title": "Unified Client Inventory & Single Inspector Fix",
   "changes": [
-    "Panel konfigurasi perangkat muncul langsung saat perangkat dipilih pada Unified Canvas.",
-    "Tombol Konfigurasi Terpilih di toolbar dan tombol Tutup pada panel konfigurasi.",
-    "Pengaturan IPv4, DHCP, Wi-Fi SSID/password/band dapat diakses tanpa berpindah panel atau kehilangan node.",
-    "Koneksi kabel tetap menggunakan canvas yang sama; backend tidak diubah."
+    "Laptop, Tablet, Smartphone, dan Desktop PC tampil serta dapat dipasang pada Network Basics Unified Canvas.",
+    "Urutan inventori menampilkan perangkat klien lebih awal; filter yang tersisa dari misi sebelumnya direset.",
+    "Hanya satu Device Inspector yang sudah ada dipindahkan ke sisi canvas, bukan diduplikasi.",
+    "Konfigurasi, koneksi Ethernet/Wi-Fi, dan data topologi lama dipertahankan."
   ],
-  "notes": "Frontend-only hotfix.",
+  "notes": "Frontend-only bugfix. XP dan backend tidak berubah.",
   "releasedAt": "2026-11-13"
 }
