@@ -1,8 +1,10 @@
-# NET FORGE v0.40.17 — Visual Canvas & Single Configuration Modal
+# NET FORGE v0.40.18 — Workspace Cleanup & Packet Pulse
 
-- All Unified Canvas devices render with light 2.5D appearance, LED/link status, and screen glow driven by active links.
-- Ethernet: blue; PoE: gold; Wi-Fi: green; inactive/misconfigured: red dashed. Toggle animations near the canvas; off by default and respects reduced motion.
-- Smart Home's original configuration panel (`nf390Inspector`, including `nf395-config`) is moved, not copied, into a modal shown on double-click. Its former location now hosts an activity log.
-- Unified Canvas continues to use its existing single modal and activity log.
-- No backend update required.
-- Smoke-test double click on Smart Home physical and logical nodes, wired/wireless connections, and PWA update on GitHub Pages before production use.
+Frontend-only update. Replace all files in the GitHub Pages root with the contents of this package. No backend update required.
+
+- Permanently remove the duplicate **Konfigurasi Perangkat** dock shown beneath the workspace. The existing Unified Canvas device config modal still opens on double click.
+- Restore **Log Aktivitas** as the third visible command dock panel next to Iga and Terminal. Same original log DOM, without duplicate forms.
+- Replace bulky **Alat Network Basics** panel with compact tools bar. Retain Tool/Media and existing buttons.
+- On successful Unified Canvas Ping, show a short data-packet pulse along the simulated path. Does not affect scoring. Reduced-motion respected.
+
+Do not overwrite production .env or SQLite. Deployment and installed-PWA runtime have not been verified.
