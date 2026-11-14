@@ -1,4 +1,12 @@
 {
-  "version": "0.40.30",
-  "release": "Static routing multi-router, route metrics, routing table and link failure"
+  "version": "0.40.31",
+  "build": "unified-client-inventory-single-inspector",
+  "title": "Unified Client Inventory & Single Inspector Fix",
+  "changes": [
+    "Inventori perangkat universal tidak lagi menyembunyikan perangkat yang didukung; perangkat rekomendasi diurutkan lebih dulu.",
+    "Satu inspector perangkat untuk konfigurasi, status port, dan audit koneksi.",
+    "Metadata versi klien diselaraskan ke v0.40.31."
+  ],
+  "notes": "Frontend-only; API, backend, dan XP resmi tidak berubah.",
+  "releasedAt": "2026-11-15"
 }
