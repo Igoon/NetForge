@@ -1,12 +1,13 @@
 {
-  "name": "NET FORGE — Network Adventure",
+  "id": "./",
+  "name": "NET FORGE · Network Adventure",
   "short_name": "NET FORGE",
+  "description": "Belajar jaringan komputer melalui misi, laboratorium, dan simulasi interaktif.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#061525",
-  "theme_color": "#082541",
-  "description": "Game simulasi jaringan komputer interaktif",
+  "background_color": "#061529",
+  "theme_color": "#0b1c36",
   "icons": [
     {
       "src": "icons/icon-192.png",

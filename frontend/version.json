@@ -1,13 +1,12 @@
 {
-  "version": "0.40.33",
-  "build": "network-diagnostics-guidance-port-visualization",
-  "title": "Network Diagnostics Guidance & Port Visualization",
+  "version": "0.40.34",
+  "build": "integrated-iga-mission-guide",
+  "title": "Integrated Iga Mission Guide",
   "changes": [
-    "Diagnostik jaringan menampilkan panduan penyebab kegagalan dan langkah perbaikan.",
-    "Indikator port per perangkat: Ethernet, Fiber/SFP, PoE, dan port yang sedang digunakan.",
-    "Animasi jalur paket untuk Ping dan Traceroute mengikuti topologi aktif.",
-    "Output diagnostik dibatasi tinggi dan dapat di-scroll tanpa memperluas workspace.",
-    "Metadata versi klien diselaraskan ke v0.40.33."
+    "Iga dipindahkan ke panel misi sebagai pendamping; coach overlay dan dock terpisah disembunyikan.",
+    "Tombol Jelaskan misi, Petunjuk, dan Tunjukkan mengikuti objective yang belum selesai.",
+    "Panduan kontekstual untuk perangkat, kabel, DHCP, IP/gateway, pengujian, dan RAM.",
+    "Metadata versi klien diselaraskan ke v0.40.34."
   ],
   "notes": "Frontend-only; API, backend, dan XP resmi tidak berubah.",
   "releasedAt": "2026-11-15"
