@@ -1,12 +1,10 @@
 {
-  "version": "0.40.34",
-  "build": "integrated-iga-mission-guide",
-  "title": "Integrated Iga Mission Guide",
+  "version": "0.40.35",
+  "build": "creator-attribution-update",
+  "title": "Creator Attribution Update",
   "changes": [
-    "Iga dipindahkan ke panel misi sebagai pendamping; coach overlay dan dock terpisah disembunyikan.",
-    "Tombol Jelaskan misi, Petunjuk, dan Tunjukkan mengikuti objective yang belum selesai.",
-    "Panduan kontekstual untuk perangkat, kabel, DHCP, IP/gateway, pengujian, dan RAM.",
-    "Metadata versi klien diselaraskan ke v0.40.34."
+    "Menambahkan atribusi Rr. Yuliana R. pada intro, Credits, copyright, dan footer.",
+    "Metadata versi klien diselaraskan ke v0.40.35."
   ],
   "notes": "Frontend-only; API, backend, dan XP resmi tidak berubah.",
   "releasedAt": "2026-11-15"
