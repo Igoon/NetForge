@@ -1,11 +1,13 @@
 {
-  "version": "0.40.32",
-  "build": "mission-first-sidebar-scrollable-diagnostics",
-  "title": "Mission-First Sidebar & Scrollable Network Diagnostics",
+  "version": "0.40.33",
+  "build": "network-diagnostics-guidance-port-visualization",
+  "title": "Network Diagnostics Guidance & Port Visualization",
   "changes": [
-    "Sidebar dirapikan menjadi mission-first; kontrol infrastruktur lama disembunyikan dari sidebar.",
-    "Hasil diagnostik jaringan kini dapat di-scroll dengan tinggi terbatas dan teks panjang tidak meluber.",
-    "Metadata versi klien diselaraskan ke v0.40.32."
+    "Diagnostik jaringan menampilkan panduan penyebab kegagalan dan langkah perbaikan.",
+    "Indikator port per perangkat: Ethernet, Fiber/SFP, PoE, dan port yang sedang digunakan.",
+    "Animasi jalur paket untuk Ping dan Traceroute mengikuti topologi aktif.",
+    "Output diagnostik dibatasi tinggi dan dapat di-scroll tanpa memperluas workspace.",
+    "Metadata versi klien diselaraskan ke v0.40.33."
   ],
   "notes": "Frontend-only; API, backend, dan XP resmi tidak berubah.",
   "releasedAt": "2026-11-15"
