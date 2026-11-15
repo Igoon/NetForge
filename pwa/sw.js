@@ -1,5 +1,5 @@
-/* NET FORGE v0.40.57 — controlled updates, cache-safe recovery */
-const RELEASE='0.40.57';
+/* NET FORGE v0.40.58 — controlled updates, cache-safe recovery */
+const RELEASE='0.40.58';
 const CACHE='netforge-pwa-v'+RELEASE;
 const ASSETS=['./index.html','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png','./recovery.html','./version.json'];
 self.addEventListener('install',event=>{
