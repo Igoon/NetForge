@@ -1,5 +1,5 @@
-/* NET FORGE v0.40.41: explicit consent, safe cache lifecycle */
-const CACHE = 'netforge-pwa-v0.40.41';
+/* NET FORGE v0.40.42: explicit consent, safe cache lifecycle */
+const CACHE = 'netforge-pwa-v0.40.42';
 const ASSETS = ['./index.html','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png','./recovery.html'];
 self.addEventListener('install', event => {
   // Stage shell before showing a ready-to-activate notification.

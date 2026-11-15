@@ -1,13 +1,13 @@
 {
-  "version": "0.40.41",
+  "version": "0.40.42",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Reliable PWA Update & Recovery",
+  "title": "Iga Visual Tutorial and Compact Intro Credits",
   "changes": [
-    "Tidak reload otomatis ketika Service Worker pertama kali mengambil kendali.",
-    "Perbarui sekarang hanya mengaktifkan versi setelah persetujuan pemain.",
-    "Pemulihan aman memverifikasi kesesuaian version.json dan index.html sebelum membersihkan cache PWA.",
-    "Pemulihan mempertahankan progres lokal dan tidak menghapus localStorage/IndexedDB.",
-    "Menjaga Iga Adaptive Mission Guide v0.40.40."
+    "Kredit intro ringkas: © 2026 Created by I Go On (Igoon) & Rr. Yuliana R.",
+    "Iga dapat menyorot objective, inventori, workspace, serta terminal berdasarkan kebutuhan misi.",
+    "Panduan visual memiliki tombol berikutnya, selesai dan Escape untuk menutup.",
+    "Mekanisme pemulihan PWA dan persetujuan update tetap dipertahankan.",
+    "Lisensi Apache-2.0 dan repository resmi tetap tersedia."
   ]
 }
