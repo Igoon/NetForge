@@ -1,12 +1,12 @@
 {
-  "version": "0.40.60",
+  "version": "0.40.61",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Advanced Troubleshooting Missions",
+  "title": "Protocol Lab - DHCP DORA, VLAN & Routing Diagnostics",
   "changes": [
-    "Lima skenario: Link Down, IP Conflict, DHCP address failure, Gateway mismatch, dan VLAN configuration mismatch.",
-    "Petunjuk bertingkat Iga dengan pemeriksaan topologi nyata dan bukti Ping setelah perubahan.",
-    "Riwayat asesmen tersimpan lokal dan terpisah dari XP.",
-    "Update PWA berpersetujuan, Cloud Save, lisensi Apache 2.0 tetap dipertahankan."
+    "Protocol Lab: ilustrasi empat tahap DHCP DORA berdasarkan konfigurasi router dan klien.",
+    "Pemeriksaan VLAN/link dan daftar route langsung/static dari topologi Network Lab.",
+    "Pemisahan jelas antara validasi konfigurasi edukatif dan paket protokol nyata.",
+    "PWA berpersetujuan, Recovery Center, fitur misi, dan Cloud Save dipertahankan."
   ]
 }
