@@ -1,14 +1,14 @@
 {
-  "version": "0.40.68",
+  "version": "0.40.69",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Workspace Reliability & Cable Anchors",
+  "title": "ARP & Switch MAC Learning Lab",
   "changes": [
-    "Posisi kabel diperbarui setiap zoom, pan, perubahan graph, dan pergantian misi.",
-    "Mode Pan tidak lagi mengambil alih pointerdown pada perangkat atau port.",
-    "Indikator zoom/pan ringkas ditambahkan ke toolbar workspace.",
-    "Label versi workspace diperoleh dari metadata rilis, bukan nomor hard-coded lama.",
-    "Progres lokal, Google Login dan Cloud Save tidak dimigrasikan atau dihapus.",
-    "Pengujian end-to-end browser dan deployment tetap diperlukan."
+    "Frame Lab baru pada menu Pencapaian dekat Protocol Lab; simulasi ARP Request/Reply berdasarkan konfigurasi dan kabel LAB.",
+    "Switch mempelajari MAC sumber berdasarkan port masuk untuk setiap frame ARP edukatif.",
+    "ARP cache dan MAC table bersifat memori sesi simulasi; otomatis reset ketika konfigurasi LAB berubah saat dibaca ulang.",
+    "IP beda subnet, link down, VLAN berbeda, atau router sebagai penghalang akan menghasilkan langkah diagnosis.",
+    "MAC address sintetis dan ARP/MAC learning bersifat edukatif; belum menjalankan packet forwarding sebenarnya atau 802.1Q trunk.",
+    "PWA, Google Login, Cloud Save dan seluruh data progres sebelumnya tidak dimigrasikan atau dihapus."
   ]
 }
