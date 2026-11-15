@@ -1,12 +1,12 @@
 {
-  "version": "0.40.58",
+  "version": "0.40.59",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Practical Skill Assessment",
+  "title": "Practical Troubleshooting Challenge",
   "changes": [
-    "Asesmen praktik membaca topologi aktual Network Lab: perangkat, koneksi, konfigurasi IP dan gateway.",
-    "Bukti Ping antardua PC wajib berhasil pada topologi yang sama dan sesi asesmen aktif.",
-    "Skor 0-5 dan riwayat percobaan disimpan lokal tanpa mengubah XP atau progres misi.",
-    "Proteksi update PWA dan fitur Cloud Save tetap dipertahankan."
+    "Challenge Lab dengan kabel rusak dan alamat IP PC-02 berbeda subnet.",
+    "Penilaian lima kriteria dari kondisi topologi dan bukti Ping setelah perbaikan.",
+    "Hasil challenge tersimpan lokal terpisah dari XP dan progres misi.",
+    "Proteksi update PWA dan fitur Cloud Save dipertahankan."
   ]
 }
