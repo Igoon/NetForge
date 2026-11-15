@@ -1,13 +1,12 @@
 {
-  "version": "0.40.70",
+  "version": "0.40.71",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Interactive Packet Flow Visualization",
+  "title": "Intro Version Label Fix",
   "changes": [
-    "Visualisasi ARP Request dan Reply pada workspace Network Lab melalui kabel dan perangkat yang aktif.",
-    "Animasi mengikuti posisi perangkat saat zoom, pan, dan perpindahan perangkat; berhenti jika topologi berubah.",
-    "Indikator Ethernet header, tahapan hop, tombol berhenti, dan progress animasi.",
-    "Validasi subnet, VLAN dan kabel sebelum visualisasi; tanpa membuat paket jaringan fisik.",
-    "Frame Lab dan seluruh progres, Google Login, Cloud Save tetap dipertahankan."
+    "Perbaikan badge versi yang tertinggal v0.40.38 pada dialog pembuka audio intro.",
+    "Badge versi pada menu awal dan workspace mengambil nilai dari NETFORGE_RELEASE.",
+    "Selaraskan HTML, metadata PWA, service worker dan halaman pemulihan pada v0.40.71.",
+    "Fitur game, Google Login, Cloud Save dan progres lokal dipertahankan tanpa migrasi."
   ]
 }
