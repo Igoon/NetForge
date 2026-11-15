@@ -1,15 +1,14 @@
 {
-  "version": "0.40.38",
+  "version": "0.40.39",
   "license": "Apache-2.0",
-  "build": "apache-2-license-official-repository",
-  "title": "Apache 2.0 License & Official Repository",
+  "releaseDate": "2026-11-15",
+  "title": "Consent-based PWA Updates",
   "changes": [
-    "Teks creator splash dihapus dari cinematic intro; atribusi tetap di halaman legal dan NOTICE.",
-    "Panel legal diperbarui ke Apache License 2.0 dengan tautan repository resmi GitHub.",
-    "Hak cipta dan atribusi dipertahankan di informasi legal serta NOTICE.",
-    "Judul Network Traffic Analyzer dipulihkan dari regresi teks rilis.",
-    "Metadata versi klien diselaraskan ke v0.40.38."
-  ],
-  "notes": "Frontend-only; API, backend, dan XP resmi tidak berubah.",
-  "releasedAt": "2026-11-15"
+    "Notifikasi update sebelum aktivasi; tombol Lihat Update dan Nanti.",
+    "Tidak ada aktivasi service worker otomatis: perubahan hanya berlaku setelah persetujuan.",
+    "Versi aktif diselaraskan dengan nomor rilis HTML.",
+    "Tombol Cek Update membandingkan version.json terbaru dan versi yang sedang berjalan.",
+    "Mode cache-first mencegah shell aplikasi terganti diam-diam selama sesi aktif.",
+    "Riwayat/topologi lokal tidak dihapus oleh proses pembaruan."
+  ]
 }
