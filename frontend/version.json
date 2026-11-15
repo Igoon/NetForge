@@ -1,12 +1,12 @@
 {
-  "version": "0.40.59",
+  "version": "0.40.60",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Practical Troubleshooting Challenge",
+  "title": "Advanced Troubleshooting Missions",
   "changes": [
-    "Challenge Lab dengan kabel rusak dan alamat IP PC-02 berbeda subnet.",
-    "Penilaian lima kriteria dari kondisi topologi dan bukti Ping setelah perbaikan.",
-    "Hasil challenge tersimpan lokal terpisah dari XP dan progres misi.",
-    "Proteksi update PWA dan fitur Cloud Save dipertahankan."
+    "Lima skenario: Link Down, IP Conflict, DHCP address failure, Gateway mismatch, dan VLAN configuration mismatch.",
+    "Petunjuk bertingkat Iga dengan pemeriksaan topologi nyata dan bukti Ping setelah perubahan.",
+    "Riwayat asesmen tersimpan lokal dan terpisah dari XP.",
+    "Update PWA berpersetujuan, Cloud Save, lisensi Apache 2.0 tetap dipertahankan."
   ]
 }
