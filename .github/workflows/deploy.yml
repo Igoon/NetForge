@@ -40,10 +40,13 @@ jobs:
           mkdir -p dist
           cp "$SRC/index.html" "$SRC/recovery.html" "$SRC/manifest.webmanifest" "$SRC/sw.js" "$SRC/version.json" dist/
           cp -R "$SRC/icons" dist/
+          cp LICENSE NOTICE dist/
           test -f dist/index.html
           test -f dist/recovery.html
           test -f dist/sw.js
           test -f dist/version.json
+          test -f dist/LICENSE
+          test -f dist/NOTICE
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

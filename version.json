@@ -1,5 +1,6 @@
 {
   "version": "0.40.37",
+  "license": "Apache-2.0",
   "build": "intro-licensing-focus-first-workspace",
   "title": "Intro Licensing & Focus-first Workspace",
   "changes": [
