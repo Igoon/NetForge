@@ -1,12 +1,12 @@
 {
-  "version": "0.40.51",
+  "version": "0.40.52",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Admin Feedback Center & Moderation Dashboard",
+  "title": "Player Profile & Progress Sync",
   "changes": [
-    "Admin Feedback Center muncul setelah izin backend terverifikasi.",
-    "Filter dan pagination laporan bug dengan perubahan status dan catatan admin.",
-    "Moderasi rating melalui API backend; statistik murni dari database.",
-    "Paket backend Laravel dipisahkan dari publikasi GitHub Pages."
+    "Sinkronisasi manual progres misi, riwayat Guided Lab dan profil melalui akun resmi.",
+    "Pratinjau dan cadangan lokal sebelum memulihkan progres dari server.",
+    "Revisi optimistis untuk mendeteksi konflik penyimpanan antarperangkat.",
+    "Backend Laravel contoh dipisahkan dari frontend PWA."
   ]
 }
