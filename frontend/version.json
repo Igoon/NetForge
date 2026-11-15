@@ -1,12 +1,12 @@
 {
-  "version": "0.40.56",
+  "version": "0.40.57",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Player Career & Learning Journey",
+  "title": "Skill Assessment & Career Challenges",
   "changes": [
-    "Career Journey empat jenjang dari Network Rookie hingga Network Engineer berdasarkan XP tersimpan.",
-    "Peta kompetensi indikatif berdasarkan Guided Lab dan progres misi, bukan sertifikasi.",
-    "Iga merekomendasikan aktivitas latihan berikutnya pada panel Pencapaian.",
-    "Validasi versi PWA tiga lapis dan Cloud Save tetap dipertahankan."
+    "Dua asesmen kasus: Network Fundamentals dan Troubleshooting & Routing, masing-masing enam soal.",
+    "Skor dan umpan balik Iga berdasarkan jawaban; riwayat tersimpan secara lokal tanpa mengubah XP.",
+    "Status kelulusan ditampilkan di Career Journey sebagai bukti latihan terpisah dari jenjang XP.",
+    "Proteksi pembaruan PWA dan Cloud Save tetap dipertahankan."
   ]
 }
