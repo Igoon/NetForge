@@ -1,13 +1,13 @@
 {
-  "version": "0.40.43",
+  "version": "0.40.44",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Iga Smart Port Guidance & Adaptive Diagnostics",
+  "title": "Interactive Physical Port Connection",
   "changes": [
-    "Panduan Port Iga menyorot perangkat secara bergantian sesuai objective.",
-    "Klik label port pada workspace untuk membaca jenis, status, dan kecocokan media.",
-    "Iga memberi petunjuk yang berbeda pada Easy, Normal, dan Hardcore.",
-    "Kegagalan Ping/Traceroute menghasilkan arahan diagnosis yang lebih spesifik.",
-    "Mekanisme persetujuan update dan Recovery Center tetap dipertahankan."
+    "Port fisik diambil langsung dari katalog perangkat agar muncul pada workspace.",
+    "Klik dua port untuk menghubungkan perangkat dengan pilihan kabel yang kompatibel.",
+    "Port terpakai, RJ45, PoE, dan Fiber/SFP mendapatkan validasi dan penjelasan.",
+    "Mode Easy tetap mendukung koneksi otomatis melalui aksi Hubungkan biasa.",
+    "Mekanisme persetujuan update dan Recovery Center dipertahankan."
   ]
 }
