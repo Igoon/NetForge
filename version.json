@@ -1,13 +1,13 @@
 {
-  "version": "0.40.63",
+  "version": "0.40.64",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Verified Google Identity & Account Sessions",
+  "title": "Post-intro Google Login & Profile Navigation Fix",
   "changes": [
-    "Google Login baru dinyatakan berhasil setelah server /me memverifikasi identitas.",
-    "Refresh session memverifikasi identitas sebelum menyimpan token baru.",
-    "Sesi kedaluwarsa tidak ditampilkan sebagai login aktif.",
-    "Tombol Cloud Save muncul setelah login, tanpa sinkronisasi otomatis.",
-    "Mekanisme persetujuan update dan mode tamu dipertahankan."
+    "Mengembalikan navigasi Pengaturan yang hilang dan memulihkan tombol Kelola Profil dari intro.",
+    "Menyediakan tombol Masuk dengan Google langsung pada menu setelah intro.",
+    "Status Official Player hanya muncul setelah verifikasi sesi /me.",
+    "Informasi dependensi backend Google Login lebih jelas; Guest Mode tetap tersedia.",
+    "Update PWA dan data progres lokal dipertahankan."
   ]
 }
