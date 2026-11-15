@@ -1,13 +1,13 @@
 {
-  "version": "0.40.46",
+  "version": "0.40.47",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Interactive Cable Inspection & Troubleshooting",
+  "title": "Two-way Packet Flow & Link Failure Diagnostics",
   "changes": [
-    "Klik kabel untuk membuka pemeriksaan media, port, status link, dan kecepatan negosiasi.",
-    "Uji link fisik dengan animasi paket singkat; hasil dibedakan dari Ping IPv4.",
-    "Nonaktifkan/aktifkan link untuk uji gangguan dan hapus kabel dengan dukungan undo/redo.",
-    "Iga menjelaskan kesalahan media, PoE, wireless, serta langkah diagnostik.",
-    "Mekanisme update PWA atas persetujuan pemain dan Recovery Center dipertahankan."
+    "Animasi paket permintaan dan balasan dua arah pada jalur Ping yang tersedia.",
+    "Traceroute memvisualisasikan hop secara berurutan.",
+    "Link bermasalah yang diketahui ditandai merah tanpa mengasumsikan lokasi kegagalan IP.",
+    "Iga memberikan saran sesuai kegagalan subnet, gateway, route, VLAN, DHCP, dan link.",
+    "Kredit intro, lisensi Apache 2.0, dan update PWA dengan persetujuan tetap dipertahankan."
   ]
 }
