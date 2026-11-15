@@ -1,12 +1,12 @@
 {
-  "version": "0.40.55",
+  "version": "0.40.56",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Verified PWA Release & Cloud Save Safety",
+  "title": "Player Career & Learning Journey",
   "changes": [
-    "Pemeriksaan kesesuaian HTML, version.json, dan Service Worker sebelum update diizinkan.",
-    "Mencegah aktivasi worker jika versi paket server tidak cocok atau deployment belum selesai.",
-    "Pemeriksaan update memberikan diagnosis jelas ketika server belum konsisten.",
-    "Recovery Center dan Cloud Save lokal tetap dipertahankan tanpa pembersihan data pemain."
+    "Career Journey empat jenjang dari Network Rookie hingga Network Engineer berdasarkan XP tersimpan.",
+    "Peta kompetensi indikatif berdasarkan Guided Lab dan progres misi, bukan sertifikasi.",
+    "Iga merekomendasikan aktivitas latihan berikutnya pada panel Pencapaian.",
+    "Validasi versi PWA tiga lapis dan Cloud Save tetap dipertahankan."
   ]
 }
