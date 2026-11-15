@@ -1,38 +1,44 @@
-/* NET FORGE v0.40.52: explicit consent, safe cache lifecycle */
-const CACHE = 'netforge-pwa-v0.40.52';
-const ASSETS = ['./index.html','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png','./recovery.html'];
-self.addEventListener('install', event => {
-  // Stage shell before showing a ready-to-activate notification.
-  // No skipWaiting here: user explicitly approves activation via message.
-  event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)));
+/* NET FORGE v0.40.54 — controlled updates, cache-safe recovery */
+const RELEASE='0.40.54';
+const CACHE='netforge-pwa-v'+RELEASE;
+const ASSETS=['./index.html','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png','./recovery.html'];
+self.addEventListener('install',event=>{
+ event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)));
+ // Explicit approval only. No skipWaiting in install.
 });
-self.addEventListener('message', event => {
-  if(event.data?.type === 'SKIP_WAITING')self.skipWaiting();
+self.addEventListener('message',event=>{
+ if(event.data?.type==='GET_VERSION'){
+  event.ports?.[0]?.postMessage({version:RELEASE,cache:CACHE});
+ } else if(event.data?.type==='SKIP_WAITING'){
+  event.waitUntil(self.skipWaiting());
+ }
 });
-self.addEventListener('activate', event => {
-  event.waitUntil((async()=>{
-    await self.clients.claim();
-    // Old caches are removed only after the new shell successfully precaches.
-    const keys=await caches.keys();
-    await Promise.all(keys.filter(key=>key.startsWith('netforge-pwa-')&&key!==CACHE).map(key=>caches.delete(key)));
+self.addEventListener('activate',event=>{
+ event.waitUntil((async()=>{
+  const keys=await caches.keys();
+  await Promise.all(keys.filter(key=>key.startsWith('netforge-pwa-')&&key!==CACHE).map(key=>caches.delete(key)));
+  await self.clients.claim();
+ })());
+});
+self.addEventListener('fetch',event=>{
+ const request=event.request;
+ if(request.method!=='GET')return;
+ const url=new URL(request.url);
+ if(url.origin!==self.location.origin)return;
+ if(url.pathname.endsWith('/version.json')||url.pathname.endsWith('/recovery.html')){
+  event.respondWith(fetch(request,{cache:'no-store'}).catch(()=>new Response('Offline - internet required',{status:503})));
+  return;
+ }
+ if(request.mode==='navigate'){
+  event.respondWith((async()=>{
+   // Recovery-triggered navigation must avoid stale shell if still controlled.
+   if(url.searchParams.has('recover')){
+    try{return await fetch(request,{cache:'reload'})}catch{}
+   }
+   const cache=await caches.open(CACHE);
+   return (await cache.match('./index.html'))||fetch(request);
   })());
-});
-self.addEventListener('fetch', event => {
-  const req=event.request;
-  if(req.method!=='GET')return;
-  const url=new URL(req.url);
-  if(url.origin!==self.location.origin)return;
-  // Never serve release metadata or recovery UI from application cache.
-  if(url.pathname.endsWith('/version.json')||url.pathname.endsWith('/recovery.html')){
-    event.respondWith(fetch(req,{'cache': 'no-store'}).catch(()=>new Response('Offline: pemulihan memerlukan koneksi',{'status': 503})));
-    return;
-  }
-  if(req.mode==='navigate'){
-    event.respondWith(caches.open(CACHE).then(async cache=>{
-      const shell=await cache.match('./index.html');
-      return shell || fetch(req);
-    }));
-    return;
-  }
-  event.respondWith(caches.match(req).then(hit=>hit||fetch(req)));
+  return;
+ }
+ event.respondWith(caches.match(request).then(hit=>hit||fetch(request)));
 });

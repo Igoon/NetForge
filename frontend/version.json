@@ -1,12 +1,13 @@
 {
-  "version": "0.40.52",
+  "version": "0.40.54",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Player Profile & Progress Sync",
+  "title": "PWA Update Reliability & Recovery",
   "changes": [
-    "Sinkronisasi manual progres misi, riwayat Guided Lab dan profil melalui akun resmi.",
-    "Pratinjau dan cadangan lokal sebelum memulihkan progres dari server.",
-    "Revisi optimistis untuk mendeteksi konflik penyimpanan antarperangkat.",
-    "Backend Laravel contoh dipisahkan dari frontend PWA."
+    "Perbaikan versi internal HTML yang sebelumnya tertinggal di v0.40.52.",
+    "Satu nomor versi konsisten pada HTML, version.json, Service Worker, dan manifest rilis.",
+    "Aktivasi Service Worker hanya setelah versi paket terverifikasi dan pemain menyetujui.",
+    "Pemulihan aman memeriksa berkas server sebelum membersihkan cache khusus NET FORGE.",
+    "Cloud Save, Iga, rating, dan misi tetap dipertahankan."
   ]
 }
