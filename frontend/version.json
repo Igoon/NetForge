@@ -1,13 +1,14 @@
 {
-  "version": "0.40.66",
+  "version": "0.40.67",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Player Account Two-Column Layout & Session Diagnostics",
+  "title": "Google Session Verification & Cloud Save Stability",
   "changes": [
-    "Profil & Pengaturan: Guest Mode dan Akun Google sekarang sejajar dalam dua kolom pada desktop.",
-    "Tampilan responsif: kedua kartu otomatis bertumpuk pada layar <=790px tanpa horizontal overflow.",
-    "Tombol Google Login, diagnostik, logout, dan simpan nama tetap menggunakan handler sebelumnya.",
-    "Sesi Google masih bergantung pada konfigurasi serta deployment backend Laravel HTTPS.",
-    "Pemeriksaan PWA update dan penyimpanan progres tetap dipertahankan."
+    "Cloud Save tidak lagi membuang hasil perbandingan hanya karena status panel akun dirender ulang.",
+    "Logout meminta backend mencabut access token dan refresh token; status ketidakpastian server diperjelas.",
+    "Logout tab lain dideteksi melalui browser storage event; sesi perlu diverifikasi ulang.",
+    "Tombol Verifikasi Sesi di Server memeriksa endpoint /me dan kesesuaian ID peserta.",
+    "API peserta menerima token Laravel Sanctum saat sesi Google valid.",
+    "Google OAuth production dan sinkronisasi multi-device tetap memerlukan pengujian backend HTTPS."
   ]
 }
