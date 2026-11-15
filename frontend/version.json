@@ -1,13 +1,13 @@
 {
-  "version": "0.40.47",
+  "version": "0.40.48",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Two-way Packet Flow & Link Failure Diagnostics",
+  "title": "Player Ratings & Feedback",
   "changes": [
-    "Animasi paket permintaan dan balasan dua arah pada jalur Ping yang tersedia.",
-    "Traceroute memvisualisasikan hop secara berurutan.",
-    "Link bermasalah yang diketahui ditandai merah tanpa mengasumsikan lokasi kegagalan IP.",
-    "Iga memberikan saran sesuai kegagalan subnet, gateway, route, VLAN, DHCP, dan link.",
-    "Kredit intro, lisensi Apache 2.0, dan update PWA dengan persetujuan tetap dipertahankan."
+    "Rating 1-5 bintang dan komentar opsional dengan penyimpanan browser lokal.",
+    "Kategori pengalaman, pembelajaran, tampilan, misi, dan stabilitas.",
+    "Ekspor penilaian JSON dan keterangan jelas bahwa belum ada rating global.",
+    "Integrasi backend rating disiapkan sebagai kontrak API, tidak mengklaim API sudah aktif.",
+    "Service Worker tetap meminta persetujuan sebelum aktivasi versi baru."
   ]
 }
