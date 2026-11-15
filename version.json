@@ -1,14 +1,13 @@
 {
-  "version": "0.40.39",
+  "version": "0.40.41",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Consent-based PWA Updates",
+  "title": "Reliable PWA Update & Recovery",
   "changes": [
-    "Notifikasi update sebelum aktivasi; tombol Lihat Update dan Nanti.",
-    "Tidak ada aktivasi service worker otomatis: perubahan hanya berlaku setelah persetujuan.",
-    "Versi aktif diselaraskan dengan nomor rilis HTML.",
-    "Tombol Cek Update membandingkan version.json terbaru dan versi yang sedang berjalan.",
-    "Mode cache-first mencegah shell aplikasi terganti diam-diam selama sesi aktif.",
-    "Riwayat/topologi lokal tidak dihapus oleh proses pembaruan."
+    "Tidak reload otomatis ketika Service Worker pertama kali mengambil kendali.",
+    "Perbarui sekarang hanya mengaktifkan versi setelah persetujuan pemain.",
+    "Pemulihan aman memverifikasi kesesuaian version.json dan index.html sebelum membersihkan cache PWA.",
+    "Pemulihan mempertahankan progres lokal dan tidak menghapus localStorage/IndexedDB.",
+    "Menjaga Iga Adaptive Mission Guide v0.40.40."
   ]
 }
