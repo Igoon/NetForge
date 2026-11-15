@@ -1,13 +1,13 @@
 {
-  "version": "0.40.64",
+  "version": "0.40.65",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Post-intro Google Login & Profile Navigation Fix",
+  "title": "Google OAuth Backend Integration & Secure Sessions",
   "changes": [
-    "Mengembalikan navigasi Pengaturan yang hilang dan memulihkan tombol Kelola Profil dari intro.",
-    "Menyediakan tombol Masuk dengan Google langsung pada menu setelah intro.",
-    "Status Official Player hanya muncul setelah verifikasi sesi /me.",
-    "Informasi dependensi backend Google Login lebih jelas; Guest Mode tetap tersedia.",
-    "Update PWA dan data progres lokal dipertahankan."
+    "Contoh backend Google OAuth lengkap: token Google diverifikasi server dan diikat ke Google sub.",
+    "Frontend menerima token Sanctum dan tetap mendukung token legacy.",
+    "Rotasi refresh token, endpoint sesi /me, dan logout tersedia dalam contoh backend.",
+    "Cloud Save manual dan Guest Mode tetap tersedia.",
+    "API Laravel tetap perlu dipasang dan diuji di server HTTPS terpisah."
   ]
 }
