@@ -1,13 +1,12 @@
 {
-  "version": "0.40.49",
+  "version": "0.40.50",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Community Rating API Integration",
+  "title": "Community Feedback Dashboard & Bug Reports",
   "changes": [
-    "Frontend dapat mengambil ringkasan komunitas dari backend yang dikonfigurasi.",
-    "Pengiriman rating global memerlukan login resmi dan persetujuan eksplisit.",
-    "Statistik global tidak dipalsukan ketika API offline atau belum terpasang.",
-    "Contoh modul backend Laravel, migration, routes, dan panduan pemasangan.",
-    "Rating lokal, intro, dan update PWA tetap dipertahankan."
+    "Dashboard distribusi rating dan statistik dari backend yang benar-benar tersedia.",
+    "Form laporan bug terpisah dari rating; draf lokal dan kirim dengan persetujuan login.",
+    "Riwayat laporan sendiri dan contoh API admin untuk moderasi.",
+    "PWA update dan Recovery Center tetap dipertahankan."
   ]
 }
