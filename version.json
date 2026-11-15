@@ -1,13 +1,13 @@
 {
-  "version": "0.40.42",
+  "version": "0.40.43",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Iga Visual Tutorial and Compact Intro Credits",
+  "title": "Iga Smart Port Guidance & Adaptive Diagnostics",
   "changes": [
-    "Kredit intro ringkas: © 2026 Created by I Go On (Igoon) & Rr. Yuliana R.",
-    "Iga dapat menyorot objective, inventori, workspace, serta terminal berdasarkan kebutuhan misi.",
-    "Panduan visual memiliki tombol berikutnya, selesai dan Escape untuk menutup.",
-    "Mekanisme pemulihan PWA dan persetujuan update tetap dipertahankan.",
-    "Lisensi Apache-2.0 dan repository resmi tetap tersedia."
+    "Panduan Port Iga menyorot perangkat secara bergantian sesuai objective.",
+    "Klik label port pada workspace untuk membaca jenis, status, dan kecocokan media.",
+    "Iga memberi petunjuk yang berbeda pada Easy, Normal, dan Hardcore.",
+    "Kegagalan Ping/Traceroute menghasilkan arahan diagnosis yang lebih spesifik.",
+    "Mekanisme persetujuan update dan Recovery Center tetap dipertahankan."
   ]
 }
