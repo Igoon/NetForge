@@ -1,12 +1,12 @@
 {
-  "version": "0.40.50",
+  "version": "0.40.51",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Community Feedback Dashboard & Bug Reports",
+  "title": "Admin Feedback Center & Moderation Dashboard",
   "changes": [
-    "Dashboard distribusi rating dan statistik dari backend yang benar-benar tersedia.",
-    "Form laporan bug terpisah dari rating; draf lokal dan kirim dengan persetujuan login.",
-    "Riwayat laporan sendiri dan contoh API admin untuk moderasi.",
-    "PWA update dan Recovery Center tetap dipertahankan."
+    "Admin Feedback Center muncul setelah izin backend terverifikasi.",
+    "Filter dan pagination laporan bug dengan perubahan status dan catatan admin.",
+    "Moderasi rating melalui API backend; statistik murni dari database.",
+    "Paket backend Laravel dipisahkan dari publikasi GitHub Pages."
   ]
 }
