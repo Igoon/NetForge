@@ -1,14 +1,14 @@
 {
-  "version": "0.40.67",
+  "version": "0.40.68",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Google Session Verification & Cloud Save Stability",
+  "title": "Workspace Reliability & Cable Anchors",
   "changes": [
-    "Cloud Save tidak lagi membuang hasil perbandingan hanya karena status panel akun dirender ulang.",
-    "Logout meminta backend mencabut access token dan refresh token; status ketidakpastian server diperjelas.",
-    "Logout tab lain dideteksi melalui browser storage event; sesi perlu diverifikasi ulang.",
-    "Tombol Verifikasi Sesi di Server memeriksa endpoint /me dan kesesuaian ID peserta.",
-    "API peserta menerima token Laravel Sanctum saat sesi Google valid.",
-    "Google OAuth production dan sinkronisasi multi-device tetap memerlukan pengujian backend HTTPS."
+    "Posisi kabel diperbarui setiap zoom, pan, perubahan graph, dan pergantian misi.",
+    "Mode Pan tidak lagi mengambil alih pointerdown pada perangkat atau port.",
+    "Indikator zoom/pan ringkas ditambahkan ke toolbar workspace.",
+    "Label versi workspace diperoleh dari metadata rilis, bukan nomor hard-coded lama.",
+    "Progres lokal, Google Login dan Cloud Save tidak dimigrasikan atau dihapus.",
+    "Pengujian end-to-end browser dan deployment tetap diperlukan."
   ]
 }
