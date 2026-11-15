@@ -1,14 +1,13 @@
 {
-  "version": "0.40.69",
+  "version": "0.40.70",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "ARP & Switch MAC Learning Lab",
+  "title": "Interactive Packet Flow Visualization",
   "changes": [
-    "Frame Lab baru pada menu Pencapaian dekat Protocol Lab; simulasi ARP Request/Reply berdasarkan konfigurasi dan kabel LAB.",
-    "Switch mempelajari MAC sumber berdasarkan port masuk untuk setiap frame ARP edukatif.",
-    "ARP cache dan MAC table bersifat memori sesi simulasi; otomatis reset ketika konfigurasi LAB berubah saat dibaca ulang.",
-    "IP beda subnet, link down, VLAN berbeda, atau router sebagai penghalang akan menghasilkan langkah diagnosis.",
-    "MAC address sintetis dan ARP/MAC learning bersifat edukatif; belum menjalankan packet forwarding sebenarnya atau 802.1Q trunk.",
-    "PWA, Google Login, Cloud Save dan seluruh data progres sebelumnya tidak dimigrasikan atau dihapus."
+    "Visualisasi ARP Request dan Reply pada workspace Network Lab melalui kabel dan perangkat yang aktif.",
+    "Animasi mengikuti posisi perangkat saat zoom, pan, dan perpindahan perangkat; berhenti jika topologi berubah.",
+    "Indikator Ethernet header, tahapan hop, tombol berhenti, dan progress animasi.",
+    "Validasi subnet, VLAN dan kabel sebelum visualisasi; tanpa membuat paket jaringan fisik.",
+    "Frame Lab dan seluruh progres, Google Login, Cloud Save tetap dipertahankan."
   ]
 }
