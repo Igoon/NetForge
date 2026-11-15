@@ -1,12 +1,12 @@
 {
-  "version": "0.40.61",
+  "version": "0.40.62",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Protocol Lab - DHCP DORA, VLAN & Routing Diagnostics",
+  "title": "Google Login Session Diagnostics & Reliability",
   "changes": [
-    "Protocol Lab: ilustrasi empat tahap DHCP DORA berdasarkan konfigurasi router dan klien.",
-    "Pemeriksaan VLAN/link dan daftar route langsung/static dari topologi Network Lab.",
-    "Pemisahan jelas antara validasi konfigurasi edukatif dan paket protokol nyata.",
-    "PWA berpersetujuan, Recovery Center, fitur misi, dan Cloud Save dipertahankan."
+    "Status login Google hanya dinyatakan aktif setelah verifikasi server.",
+    "Diagnostik OAuth: API HTTPS, CORS/jaringan, Client ID dan Authorized JavaScript Origin.",
+    "Pesan jelas ketika file lokal tidak mendukung login Google.",
+    "Progres lokal, Protocol Lab dan update PWA tetap dipertahankan."
   ]
 }
