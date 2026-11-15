@@ -1,13 +1,13 @@
 {
-  "version": "0.40.48",
+  "version": "0.40.49",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Player Ratings & Feedback",
+  "title": "Community Rating API Integration",
   "changes": [
-    "Rating 1-5 bintang dan komentar opsional dengan penyimpanan browser lokal.",
-    "Kategori pengalaman, pembelajaran, tampilan, misi, dan stabilitas.",
-    "Ekspor penilaian JSON dan keterangan jelas bahwa belum ada rating global.",
-    "Integrasi backend rating disiapkan sebagai kontrak API, tidak mengklaim API sudah aktif.",
-    "Service Worker tetap meminta persetujuan sebelum aktivasi versi baru."
+    "Frontend dapat mengambil ringkasan komunitas dari backend yang dikonfigurasi.",
+    "Pengiriman rating global memerlukan login resmi dan persetujuan eksplisit.",
+    "Statistik global tidak dipalsukan ketika API offline atau belum terpasang.",
+    "Contoh modul backend Laravel, migration, routes, dan panduan pemasangan.",
+    "Rating lokal, intro, dan update PWA tetap dipertahankan."
   ]
 }
