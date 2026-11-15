@@ -1,12 +1,13 @@
 {
-  "version": "0.40.45",
+  "version": "0.40.46",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "Port-Anchored Cabling & Link Telemetry",
+  "title": "Interactive Cable Inspection & Troubleshooting",
   "changes": [
-    "Ujung kabel mengikuti label port yang dipilih saat perangkat digeser atau workspace diubah ukurannya.",
-    "Indikator kabel Link Up/Down serta media Ethernet, PoE dan Fiber lebih jelas.",
-    "Hover kabel menampilkan status link dan kecepatan negosiasi port dalam simulasi.",
-    "Koneksi, progres misi, Iga, dan update PWA tetap menggunakan engine sebelumnya."
+    "Klik kabel untuk membuka pemeriksaan media, port, status link, dan kecepatan negosiasi.",
+    "Uji link fisik dengan animasi paket singkat; hasil dibedakan dari Ping IPv4.",
+    "Nonaktifkan/aktifkan link untuk uji gangguan dan hapus kabel dengan dukungan undo/redo.",
+    "Iga menjelaskan kesalahan media, PoE, wireless, serta langkah diagnostik.",
+    "Mekanisme update PWA atas persetujuan pemain dan Recovery Center dipertahankan."
   ]
 }
