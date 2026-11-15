@@ -1,13 +1,12 @@
 {
-  "version": "0.40.54",
+  "version": "0.40.55",
   "license": "Apache-2.0",
   "releaseDate": "2026-11-15",
-  "title": "PWA Update Reliability & Recovery",
+  "title": "Verified PWA Release & Cloud Save Safety",
   "changes": [
-    "Perbaikan versi internal HTML yang sebelumnya tertinggal di v0.40.52.",
-    "Satu nomor versi konsisten pada HTML, version.json, Service Worker, dan manifest rilis.",
-    "Aktivasi Service Worker hanya setelah versi paket terverifikasi dan pemain menyetujui.",
-    "Pemulihan aman memeriksa berkas server sebelum membersihkan cache khusus NET FORGE.",
-    "Cloud Save, Iga, rating, dan misi tetap dipertahankan."
+    "Pemeriksaan kesesuaian HTML, version.json, dan Service Worker sebelum update diizinkan.",
+    "Mencegah aktivasi worker jika versi paket server tidak cocok atau deployment belum selesai.",
+    "Pemeriksaan update memberikan diagnosis jelas ketika server belum konsisten.",
+    "Recovery Center dan Cloud Save lokal tetap dipertahankan tanpa pembersihan data pemain."
   ]
 }

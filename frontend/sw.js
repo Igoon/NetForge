@@ -1,7 +1,7 @@
-/* NET FORGE v0.40.54 — controlled updates, cache-safe recovery */
-const RELEASE='0.40.54';
+/* NET FORGE v0.40.55 — controlled updates, cache-safe recovery */
+const RELEASE='0.40.55';
 const CACHE='netforge-pwa-v'+RELEASE;
-const ASSETS=['./index.html','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png','./recovery.html'];
+const ASSETS=['./index.html','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png','./recovery.html','./version.json'];
 self.addEventListener('install',event=>{
  event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)));
  // Explicit approval only. No skipWaiting in install.
@@ -25,7 +25,7 @@ self.addEventListener('fetch',event=>{
  if(request.method!=='GET')return;
  const url=new URL(request.url);
  if(url.origin!==self.location.origin)return;
- if(url.pathname.endsWith('/version.json')||url.pathname.endsWith('/recovery.html')){
+ if(url.pathname.endsWith('/version.json')||url.pathname.endsWith('/recovery.html')||url.pathname.endsWith('/sw.js')){
   event.respondWith(fetch(request,{cache:'no-store'}).catch(()=>new Response('Offline - internet required',{status:503})));
   return;
  }
