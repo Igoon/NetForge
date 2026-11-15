@@ -1,12 +1,13 @@
 {
-  "version": "0.40.36",
-  "build": "compact-workspace-layout",
-  "title": "Compact Workspace Layout",
+  "version": "0.40.37",
+  "build": "intro-licensing-focus-first-workspace",
+  "title": "Intro Licensing & Focus-first Workspace",
   "changes": [
-    "Kontrol workspace dipadatkan untuk memperbesar area topologi.",
-    "Tombol ganti misi dan Audit dipindahkan ke header workspace; toolbar lama disembunyikan.",
-    "Caption misi ringkas ditampilkan di header.",
-    "PWA memakai cache baru `netforge-pwa-v0.40.36`; metadata versi klien diselaraskan."
+    "Panel hak cipta, lisensi, dan orisinalitas ditambahkan pada intro dan menu.",
+    "Credits diperluas: hak cipta, penggunaan/lisensi, orisinalitas, dan aset pihak ketiga.",
+    "Mode Fokus Workspace dapat menyembunyikan inventori kiri untuk memperbesar topologi.",
+    "Judul Network Traffic Analyzer dipulihkan dari regresi teks rilis.",
+    "Metadata versi klien diselaraskan ke v0.40.37."
   ],
   "notes": "Frontend-only; API, backend, dan XP resmi tidak berubah.",
   "releasedAt": "2026-11-15"
