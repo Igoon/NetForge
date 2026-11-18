@@ -1,20 +1,20 @@
 {
-  "version": "0.40.72",
+  "version": "0.40.73",
   "releaseDate": "2026-11-18",
-  "title": "Audit Fixes v0.40.72",
+  "title": "Audit Fixes v0.40.73",
   "changes": [
-    "P0: Konfigurasi perangkat bisa dibuka lagi — handler dblclick nf4019 tidak lagi menelan event dan menutup inspector; seleksi panel aksi disinkronkan ke seleksi canvas (selectNode).",
-    "P0: Chaos Event berfungsi di Unified Canvas — triggerChaos memakai graf unified (minimal 2 perangkat dan 1 kabel aktif), syarat ditampilkan di panel, perbaikan kabel $25 dari budget.",
-    "Validator unified: objektif Switch yang tidak dipakai berstatus netral (bukan lulus); objektif IPv4 menuntut konfigurasi IP eksplisit (DHCP/statis tersimpan); skor misi yang sudah lulus tidak turun; kelulusan langsung tercatat di Riwayat.",
-    "Satu sumber kebenaran status misi: updateObjectives klasik tidak menimpa panel objective saat Unified Canvas aktif; panel dipulihkan saat kembali ke mode klasik.",
-    "Perangkat baru disebar otomatis (grid 4 kolom berjarak); panel Aksi Perangkat berlabuh di bawah canvas pada lebar <=900px; klik canvas kosong di mode kabel memberi petunjuk.",
-    "Tata letak <=900px dan viewport pendek: judul inventori tidak lagi tertimpa status misi; pencarian perangkat full-width; tombol mengambang menjadi baris bawah yang ringkas; badge versi disembunyikan di layar kecil.",
-    "Guided Lab: Laptop dihitung sebagai Workstation; masuk Guided Lab tidak lagi menghapus topologi Lab yang sudah ada.",
-    "Autosave: nf365SaveWithRotation yang hilang kini didefinisikan (akar masalah chip 'Penyimpanan tidak tersedia'); penyimpanan Misi dan Lab dipisah try/catch; timer sesi dan log bertahan setelah reload; intro dilewati bila ada simpanan; 'Lanjut Bermain' aktif untuk simpanan Unified Canvas.",
-    "Budget tampil di mode tamu (perangkat $40-$300, kabel $10, perbaikan chaos $25, awal $1.000); kelulusan pertama tiap misi memberi +100 XP lokal; cara mendapat XP dijelaskan di UI.",
-    "URL API default Tailscale dihapus; satu konstanta NETFORGE_API_DEFAULT_URL (kosong = belum dikonfigurasi).",
-    "Ping menampilkan latensi dan TTL; traceroute menampilkan hop beserta latensi per hop; diagnosis gateway memeriksa semua port aktif router (bukan hanya port pertama).",
-    "Pesan Iga 'Semua objective sudah selesai' tidak lagi lengket setelah misi berubah menjadi belum selesai.",
-    "Performa WebGL: cache geometri kabel (refresh maks tiap 2 detik), devicePixelRatio dibatasi 1.5, HUD FPS diperbarui 1x/detik."
+    "Semua sisa string versi 0.40.70 (37x di index.html) diganti 0.40.73 — judul tab, label brand, footer, status bar, Pengaturan, NetForgeAuth, teks intro; NETFORGE_RELEASE, version.json, sw.js, dan recovery.html ikut naik ke 0.40.73.",
+    "P0: Klik ganda membuka konfigurasi perangkat apa pun tool yang aktif (gate tool==='move' dihapus di kedua handler dblclick Unified Canvas); tombol '⚙ Konfigurasi' di panel aksi menyinkronkan seleksi panel ke seleksi canvas dulu.",
+    "P0: Mission 01 klasik bisa dimainkan sampai lulus di Unified Canvas — updateObjectives merender objektif klasik dari graf unified (classicView: node/link unified dipetakan ke state klasik, IP router mentah tanpa default), placeholder 'Memuat objective misi 01…' tidak pernah tertinggal, dan misi selesai otomatis begitu semua objective terpenuhi (tombol validasi klasik dialihkan ke validator unified).",
+    "P0: Dropdown sumber Terminal diisi dari state unified; Ping/Traceroute Terminal memakai engine ping unified saat mode Unified aktif (latensi/TTL/hop tetap tampil).",
+    "P0: Guided Lab menghitung perangkat dari canvas unified (state Lab digabung dengan perangkat canvas yang dikonversi; tahap 2-3 dengan IP spesifik 192.168.10.1/.10/.11 + gateway kini bisa dicapai setelah konfigurasi bisa dibuka).",
+    "Validator: objektif Switch yang tidak dipakai tidak lagi diemisikan sebagai netral; header skor memakai lari BERJALAN (bukan skor terbaik yang pernah tercatat) — tidak ada lagi 'LULUS 100/100 di 2/4'; skor terbaik tercatat tetap ditampilkan sebagai info.",
+    "Chaos Event pertama tiap sesi selalu '🐈 Kucing Nakal!'; lemparan berikutnya acak dari 7 hewan seperti sebelumnya.",
+    "Catatan '+100 XP lokal (mode tamu)' di panel validator/riwayat tidak lagi terpotong (CSS white-space/overflow diperbaiki).",
+    "Tombol mengambang kanan-bawah (Audio, Lanjut Bermain, Diagnostik, Install, Update) ditata bertumpuk rapi di desktop dan kolom kanan diberi ruang scroll 260px agar tidak menutupi panel OBJECTIVE.",
+    "Performa WebGL: cache kabel kini menyimpan titik sampel (25 titik per kabel) sehingga getPointAtLength/matrixTransform tidak lagi dipanggil tiap frame; pengecekan jumlah kabel di-throttle 500 ms.",
+    "Budget diberi label jelas: BUDGET MISI (mode klasik), BUDGET CANVAS (Unified Canvas), BUDGET LAB (∞ saat Guided Lab aktif) — satu elemen tidak lagi berganti arti tanpa penjelasan.",
+    "Banner/tombol update tidak lagi muncul bila Service Worker yang menunggu membawa versi yang sama dengan versi aktif.",
+    "Catatan: startCampaignMission memang hanya mereset state klasik (nodes/links) — topologi unified tidak pernah terhapus; yang macet di v0.40.72 adalah updateObjectives yang early-return tanpa menyentuh panel. Tombol 'Kosongkan' di Lab tidak diubah — jalur kodenya sudah benar (confirm -> lab().clear() -> reset -> render); perangkat unified sengaja tidak ikut terhapus karena itu data misi."
   ]
 }
