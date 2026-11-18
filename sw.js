@@ -1,10 +1,21 @@
-/* NET FORGE v0.40.77 — controlled updates, cache-safe recovery */
-const RELEASE='0.40.77';
+/* NET FORGE v0.40.78 — self-activating updates, cache-safe recovery */
+const RELEASE='0.40.78';
 const CACHE='netforge-pwa-v'+RELEASE;
 const ASSETS=['./index.html','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png','./recovery.html','./version.json'];
 self.addEventListener('install',event=>{
- event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)));
- // Explicit approval only. No skipWaiting in install.
+ // v0.40.78: unduh aset dengan cache:'reload' (hindari HTTP cache yang bisa
+ // menyajikan index.html lama saat install) lalu skipWaiting — SW baru aktif
+ // begitu diunduh. Halaman lama TIDAK dimuat ulang otomatis: reload tetap
+ // menunggu persetujuan pemain (guard nf4041.approved di halaman).
+ event.waitUntil((async()=>{
+  const cache=await caches.open(CACHE);
+  await Promise.all(ASSETS.map(async url=>{
+   const res=await fetch(url,{cache:'reload'});
+   if(!res.ok)throw new Error('gagal mengunduh '+url+' (HTTP '+res.status+')');
+   await cache.put(url,res);
+  }));
+  await self.skipWaiting();
+ })());
 });
 self.addEventListener('message',event=>{
  if(event.data?.type==='GET_VERSION'){
@@ -31,10 +42,10 @@ self.addEventListener('fetch',event=>{
  }
  if(request.mode==='navigate'){
   event.respondWith((async()=>{
-   // v0.40.77: hard reload (request.cache==='reload') dan ?recover= mengambil
-   // shell terbaru dari network DAN memperbarui cache — sebelumnya hard reload
-   // tetap menyajikan index.html lama dari cache.
-   if(url.searchParams.has('recover')||request.cache==='reload'){
+   // v0.40.78: hard reload (request.cache==='reload') DAN reload biasa (F5,
+   // request.cache==='no-cache') mengambil shell terbaru dari network DAN
+   // memperbarui cache; ?recover= tetap jadi jalur darurat.
+   if(url.searchParams.has('recover')||request.cache==='reload'||request.cache==='no-cache'){
     try{const fresh=await fetch(request,{cache:'reload'});const cache=await caches.open(CACHE);cache.put('./index.html',fresh.clone());return fresh}catch{}
    }
    const cache=await caches.open(CACHE);
