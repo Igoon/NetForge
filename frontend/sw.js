@@ -1,5 +1,5 @@
-/* NET FORGE v0.40.76 — controlled updates, cache-safe recovery */
-const RELEASE='0.40.76';
+/* NET FORGE v0.40.77 — controlled updates, cache-safe recovery */
+const RELEASE='0.40.77';
 const CACHE='netforge-pwa-v'+RELEASE;
 const ASSETS=['./index.html','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png','./recovery.html','./version.json'];
 self.addEventListener('install',event=>{
@@ -31,9 +31,11 @@ self.addEventListener('fetch',event=>{
  }
  if(request.mode==='navigate'){
   event.respondWith((async()=>{
-   // Recovery-triggered navigation must avoid stale shell if still controlled.
-   if(url.searchParams.has('recover')){
-    try{return await fetch(request,{cache:'reload'})}catch{}
+   // v0.40.77: hard reload (request.cache==='reload') dan ?recover= mengambil
+   // shell terbaru dari network DAN memperbarui cache — sebelumnya hard reload
+   // tetap menyajikan index.html lama dari cache.
+   if(url.searchParams.has('recover')||request.cache==='reload'){
+    try{const fresh=await fetch(request,{cache:'reload'});const cache=await caches.open(CACHE);cache.put('./index.html',fresh.clone());return fresh}catch{}
    }
    const cache=await caches.open(CACHE);
    return (await cache.match('./index.html'))||fetch(request);
