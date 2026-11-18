@@ -1,12 +1,20 @@
 {
-  "version": "0.40.71",
-  "license": "Apache-2.0",
-  "releaseDate": "2026-11-15",
-  "title": "Intro Version Label Fix",
+  "version": "0.40.72",
+  "releaseDate": "2026-11-18",
+  "title": "Audit Fixes v0.40.72",
   "changes": [
-    "Perbaikan badge versi yang tertinggal v0.40.38 pada dialog pembuka audio intro.",
-    "Badge versi pada menu awal dan workspace mengambil nilai dari NETFORGE_RELEASE.",
-    "Selaraskan HTML, metadata PWA, service worker dan halaman pemulihan pada v0.40.71.",
-    "Fitur game, Google Login, Cloud Save dan progres lokal dipertahankan tanpa migrasi."
+    "P0: Konfigurasi perangkat bisa dibuka lagi — handler dblclick nf4019 tidak lagi menelan event dan menutup inspector; seleksi panel aksi disinkronkan ke seleksi canvas (selectNode).",
+    "P0: Chaos Event berfungsi di Unified Canvas — triggerChaos memakai graf unified (minimal 2 perangkat dan 1 kabel aktif), syarat ditampilkan di panel, perbaikan kabel $25 dari budget.",
+    "Validator unified: objektif Switch yang tidak dipakai berstatus netral (bukan lulus); objektif IPv4 menuntut konfigurasi IP eksplisit (DHCP/statis tersimpan); skor misi yang sudah lulus tidak turun; kelulusan langsung tercatat di Riwayat.",
+    "Satu sumber kebenaran status misi: updateObjectives klasik tidak menimpa panel objective saat Unified Canvas aktif; panel dipulihkan saat kembali ke mode klasik.",
+    "Perangkat baru disebar otomatis (grid 4 kolom berjarak); panel Aksi Perangkat berlabuh di bawah canvas pada lebar <=900px; klik canvas kosong di mode kabel memberi petunjuk.",
+    "Tata letak <=900px dan viewport pendek: judul inventori tidak lagi tertimpa status misi; pencarian perangkat full-width; tombol mengambang menjadi baris bawah yang ringkas; badge versi disembunyikan di layar kecil.",
+    "Guided Lab: Laptop dihitung sebagai Workstation; masuk Guided Lab tidak lagi menghapus topologi Lab yang sudah ada.",
+    "Autosave: nf365SaveWithRotation yang hilang kini didefinisikan (akar masalah chip 'Penyimpanan tidak tersedia'); penyimpanan Misi dan Lab dipisah try/catch; timer sesi dan log bertahan setelah reload; intro dilewati bila ada simpanan; 'Lanjut Bermain' aktif untuk simpanan Unified Canvas.",
+    "Budget tampil di mode tamu (perangkat $40-$300, kabel $10, perbaikan chaos $25, awal $1.000); kelulusan pertama tiap misi memberi +100 XP lokal; cara mendapat XP dijelaskan di UI.",
+    "URL API default Tailscale dihapus; satu konstanta NETFORGE_API_DEFAULT_URL (kosong = belum dikonfigurasi).",
+    "Ping menampilkan latensi dan TTL; traceroute menampilkan hop beserta latensi per hop; diagnosis gateway memeriksa semua port aktif router (bukan hanya port pertama).",
+    "Pesan Iga 'Semua objective sudah selesai' tidak lagi lengket setelah misi berubah menjadi belum selesai.",
+    "Performa WebGL: cache geometri kabel (refresh maks tiap 2 detik), devicePixelRatio dibatasi 1.5, HUD FPS diperbarui 1x/detik."
   ]
 }
