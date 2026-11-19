@@ -1,6 +1,6 @@
 {
-  "version": "0.40.83",
+  "version": "0.40.84",
   "releaseDate": "2026-11-19",
-  "title": "Audit Fixes v0.40.83",
-  "notes": "Hubungkan terkunci dari panel; traceroute terbaca penuh; boot kembali ke misi terakhir; Lanjut Bermain aktif bila ada simpanan; wording dana darurat akurat."
+  "title": "Audit Fixes v0.40.84",
+  "notes": "Traceroute 3 hop terbaca penuh; mode kabel kembali ke Pindah + tombol Batal/Escape; gelembung Iga segar di semua transisi; kalimat Lab kosong; lease DHCP menetap; tanpa duplikat entri Terminal; hit-area kabel di atas kartu."
 }
