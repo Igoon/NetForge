@@ -1,6 +1,6 @@
 {
-  "version": "0.40.86",
+  "version": "0.40.87",
   "releaseDate": "2026-11-19",
-  "title": "Audit Fixes v0.40.86",
-  "notes": "Klik garis/tombol kabel membuka panel Pemeriksaan Kabel (hit-line sejajar garis jack + label pindah ke hit-line); tombol Batal juga di panel aksi Hubungkan; bar judul misi sticky; gelembung Iga tidak lagi terpotong di atas; log 'Sumber sudah terkunci' hanya 1x per penguncian; mode Putuskan kembali ke Pindah setelah berhasil; lencana dialog Guided Lab sinkron dengan progres sebenarnya."
+  "title": "Audit Fixes v0.40.87",
+  "notes": "Perbaikan audit live v0.40.86: bar judul misi sticky (akar: overflow:hidden ancestor .workspace-panel), gelembung Iga anti-terpotong (tanpa scroll sendiri + unclip wadah induk), Batal selalu terlihat di panel aksi, lencana progres Guided Lab di kartu dialog Lab, mode port tetap aktif setelah kabel berhasil, counter packets dari canvas aktif, diagnostik Lab sadar-progres, pesan repair Chaos tidak lagi ditimpa, pesan batal Putuskan distinct, validator tidak menimpa progres saat Lab aktif."
 }
