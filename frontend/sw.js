@@ -1,9 +1,9 @@
-/* NET FORGE v0.40.82 — self-activating updates, cache-safe recovery */
-const RELEASE='0.40.82';
+/* NET FORGE v0.40.83 — self-activating updates, cache-safe recovery */
+const RELEASE='0.40.83';
 const CACHE='netforge-pwa-v'+RELEASE;
 const ASSETS=['./index.html','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png','./recovery.html','./version.json'];
 self.addEventListener('install',event=>{
- // v0.40.82: unduh aset dengan cache:'reload' (hindari HTTP cache yang bisa
+ // v0.40.83: unduh aset dengan cache:'reload' (hindari HTTP cache yang bisa
  // menyajikan index.html lama saat install) lalu skipWaiting — SW baru aktif
  // begitu diunduh. Halaman lama TIDAK dimuat ulang otomatis: reload tetap
  // menunggu persetujuan pemain (guard nf4041.approved di halaman).
@@ -42,7 +42,7 @@ self.addEventListener('fetch',event=>{
  }
  if(request.mode==='navigate'){
   event.respondWith((async()=>{
-   // v0.40.82: hard reload (request.cache==='reload') DAN reload biasa (F5,
+   // v0.40.83: hard reload (request.cache==='reload') DAN reload biasa (F5,
    // request.cache==='no-cache') mengambil shell terbaru dari network DAN
    // memperbarui cache; ?recover= tetap jadi jalur darurat.
    if(url.searchParams.has('recover')||request.cache==='reload'||request.cache==='no-cache'){

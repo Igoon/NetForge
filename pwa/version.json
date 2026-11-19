@@ -1,13 +1,6 @@
 {
-  "version": "0.40.82",
+  "version": "0.40.83",
   "releaseDate": "2026-11-19",
-  "title": "Audit Fixes v0.40.82",
-  "changes": [
-    "P0: Tombol 'Hubungkan' kini benar-benar membuat kabel. Akar masalah: (a) mode Sambung port (nf4044) menelan klik pada chip port selama mode itu aktif — dan mode itu tidak pernah mati sendiri — sehingga klik perangkat tujuan hilang tanpa kabel/log/budget; (b) cabang reset nf4019 mati karena `selected` sudah berisi node tujuan saat handler jalan (act()->sync() berjalan lebih dulu), sehingga tool tetap 'connect' dan penolakan tidak pernah tampil; (c) draw() menulis ulang innerHTML kartu dan menghapus baris chip port, yang baru kembali lewat interval 3 detik. Kini klik jack diteruskan saat Hubungkan berjalan, reset membandingkan terhadap sumber connect, dan draw() mempertahankan baris jack.",
-    "P1: Topologi misi kini kembali ke canvas setelah 'Ulang latihan' + 'Kosongkan', termasuk lewat reload. Akar masalah: (a) resetCanvas()->persist() menimpa kunci profil misi dengan graf kosong selama Lab aktif; (b) setelah reload Lab tidak lagi aktif sehingga leave() tidak pernah terpanggil dan snapshot misi tidak pernah dipulihkan. Kini persist() tidak menimpa profil misi saat Lab aktif, dan openMission() memulihkan snapshot yang tersisa sebelum ganti profil — menutup semua jalur pulang (leave, ganti misi, mode bar, reload + Lanjut Bermain).",
-    "P2: Baris traceroute tidak lagi terpotong. Akar masalah: kartu Terminal di-clamp tingginya dengan overflow:hidden sehingga kotak hasil terpotong di bawah (hop ke-3 tampil setengah baris, scrollbar ikut terpotong). Kartu kini tumbuh mengikuti isi; kotak hasil max-height 150px. Sekunder: signal() tidak lagi memotong teks log di 220 karakter tanpa penanda (kini teks penuh, batas aman 600 + penanda), dan baris log memakai pre-wrap agar hop tampil per baris.",
-    "P2: Tombol 'Cara menghubungkan' kini membuka dialog panduan yang sesungguhnya (5 langkah + tips biaya $10 dan dana darurat −$50). Sebelumnya tombol hanya mengubah teks tip di dalam panel aksi yang tak terlihat bila panel tersembunyi — dan panduan dialog memang tidak pernah ada di kode.",
-    "P1: Mode sambung port kini menolak kabel bila budget tidak mampu (penjaga affordability seperti connect(), termasuk lantai darurat −$50), dengan pesan penolakan yang sama persis. Sebelumnya kabel port-connect bisa mendorong budget di bawah lantai tanpa penjaga.",
-    "Catatan: Mission 06 (VLAN) di Unified Canvas tetap tidak bisa lulus karena inspector unified tidak punya input VLAN/trunk."
-  ]
+  "title": "Audit Fixes v0.40.83",
+  "notes": "Hubungkan terkunci dari panel; traceroute terbaca penuh; boot kembali ke misi terakhir; Lanjut Bermain aktif bila ada simpanan; wording dana darurat akurat."
 }
