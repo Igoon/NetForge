@@ -1,6 +1,6 @@
 {
-  "version": "0.40.84",
+  "version": "0.40.85",
   "releaseDate": "2026-11-19",
-  "title": "Audit Fixes v0.40.84",
-  "notes": "Traceroute 3 hop terbaca penuh; mode kabel kembali ke Pindah + tombol Batal/Escape; gelembung Iga segar di semua transisi; kalimat Lab kosong; lease DHCP menetap; tanpa duplikat entri Terminal; hit-area kabel di atas kartu."
+  "title": "Audit Fixes v0.40.85",
+  "notes": "Duplikat ping/traceroute hilang (tepat 1x lengkap); entri Log Aktivitas Workspace ringkas 1 baris + panel log keluar dari stage; tombol Batal terlihat di semua alur mode kabel; panel Iga pulih setelah keluar Lab; Ulang latihan 10 detik; judul misi utuh saat digulir; tombol kabel tidak tertutup panel aksi; FPS 1 desimal + hitung kabel unified."
 }
