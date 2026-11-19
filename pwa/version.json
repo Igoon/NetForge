@@ -1,6 +1,6 @@
 {
-  "version": "0.40.85",
+  "version": "0.40.86",
   "releaseDate": "2026-11-19",
-  "title": "Audit Fixes v0.40.85",
-  "notes": "Duplikat ping/traceroute hilang (tepat 1x lengkap); entri Log Aktivitas Workspace ringkas 1 baris + panel log keluar dari stage; tombol Batal terlihat di semua alur mode kabel; panel Iga pulih setelah keluar Lab; Ulang latihan 10 detik; judul misi utuh saat digulir; tombol kabel tidak tertutup panel aksi; FPS 1 desimal + hitung kabel unified."
+  "title": "Audit Fixes v0.40.86",
+  "notes": "Klik garis/tombol kabel membuka panel Pemeriksaan Kabel (hit-line sejajar garis jack + label pindah ke hit-line); tombol Batal juga di panel aksi Hubungkan; bar judul misi sticky; gelembung Iga tidak lagi terpotong di atas; log 'Sumber sudah terkunci' hanya 1x per penguncian; mode Putuskan kembali ke Pindah setelah berhasil; lencana dialog Guided Lab sinkron dengan progres sebenarnya."
 }
