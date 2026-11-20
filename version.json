@@ -1,6 +1,6 @@
 {
-  "version": "0.40.87",
-  "releaseDate": "2026-11-19",
-  "title": "Audit Fixes v0.40.87",
-  "notes": "Perbaikan audit live v0.40.86: bar judul misi sticky (akar: overflow:hidden ancestor .workspace-panel), gelembung Iga anti-terpotong (tanpa scroll sendiri + unclip wadah induk), Batal selalu terlihat di panel aksi, lencana progres Guided Lab di kartu dialog Lab, mode port tetap aktif setelah kabel berhasil, counter packets dari canvas aktif, diagnostik Lab sadar-progres, pesan repair Chaos tidak lagi ditimpa, pesan batal Putuskan distinct, validator tidak menimpa progres saat Lab aktif."
+  "version": "0.40.88",
+  "releaseDate": "2026-11-20",
+  "title": "Audit Fixes v0.40.88",
+  "notes": "Perbaikan audit live v0.40.87: diagnostik Lab selalu ditulis ulang dari satu sumber (pesan 'Selesai · 5/5' yang basi tidak lagi menempel), panel Objective di Lab menampilkan progres Lab (bukan status lulus misi yang terkunci), lencana dialog Lab menginisialisasi dari penyelesaian tersimpan saat boot, gelembung Iga segar setiap kali masuk Lab dan setelah Putuskan, topologi Guided Lab tersimpan dan dipulihkan saat masuk ulang (Kosongkan Free Lab tidak lagi menghapus progres/topologi Guided), Batal mode port menulis entri log."
 }
