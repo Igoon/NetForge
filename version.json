@@ -1,6 +1,6 @@
 {
-  "version": "0.40.89",
+  "version": "0.40.90",
   "releaseDate": "2026-11-20",
-  "title": "Audit Fixes v0.40.89",
-  "notes": "Perbaikan audit live v0.40.88: gelembung Iga segar setelah Nonaktifkan/Aktifkan Link (nf4046 + inspector), resume 'Lanjutkan Eksperimen Lab' memulihkan topologi Guided yang tersimpan (fallback netforge.guided.topology.v1) dan tidak lagi mengklaim pemulihan yang salah, gelembung saat ganti misi ditulis tertunda sampai snapshot objective menetap (tidak lagi tertinggal satu misi), panel Objective diperbarui sinkron saat Guided mencapai 5/5, keluar mode port via 'Selesai' menulis entri log, toast status link dibersihkan saat enter/leave Lab dan ganti misi, nomor tahap di kotak bantuan interaktif memakai tahap aktif, kotak diagnostik Lab hanya satu baris progres (Meta menjadi sub-baris konteks)."
+  "title": "Audit Fixes v0.40.90",
+  "notes": "Perbaikan audit live v0.40.89: resume 'Lanjutkan Eksperimen Lab' memulihkan topologi Guided yang tersimpan meski Free Lab masih berisi topologi lama (putusan dari muatan autosave, bukan isi canvas); 'Periksa tahap' Tahap 5 menyebut pemeriksaan yang gagal secara spesifik (nama + IP klien tanpa jalur aktif) dan panduan Tahap 5 menyebut syarat jalur aktif; toast 'Link bermasalah' menamai kabel yang baru saja diubah; insiden Chaos tetap tampil di panel setelah navigasi Lab ke Misi sampai benar-benar diperbaiki; toast membungkus teks panjang dan tampil lebih lama sebanding panjang pesan."
 }
