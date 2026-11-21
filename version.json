@@ -1,6 +1,6 @@
 {
-  "version": "0.40.91",
-  "releaseDate": "2026-11-20",
-  "title": "Audit Fixes v0.40.91",
-  "notes": "Perbaikan audit live v0.40.90 (dua audit): insiden Chaos ditandai di kabelnya sehingga tetap tampil di panel setelah Lab ke Misi dan setelah pindah misi bolak-balik sampai benar-benar diperbaiki (termasuk hewan pemicu di judul); toast penolakan repair kini fixed di viewport plus salinan pesan di dalam panel Chaos; Lanjutkan tanpa cadangan tetap di dialog dengan alasan di dalamnya; entri log Lab tidak lagi terhapus saat kembali ke Misi; baris Topologi tampil juga di Log Aktivitas Workspace setelah hard reload; lencana dialog Lab membaca cadangan tersimpan; toast Link bermasalah hilang saat kabel dipulihkan."
+  "version": "0.40.92",
+  "releaseDate": "2026-11-21",
+  "title": "Audit Fixes v0.40.92",
+  "notes": "Perbaikan audit live v0.40.91 (4 bug baru aliran Guided Lab): masuk Guided Lab tanpa cadangan kini selalu menampilkan canvas Lab kosong (bukan canvas misi); Periksa tahap menilai hanya graf unified yang ditampilkan di mode mixed; insiden Chaos terikat pada identitas kabel (uid) sehingga tidak bangkit pada kabel baru, dan topologi Guided disimpan pada setiap perubahan graf; gelembung Iga selalu menyebut misi aktif walau misi belum dimulai."
 }
