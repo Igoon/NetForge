@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 280" width="256" height="280">
+  <defs>
+    <radialGradient id="bg_panic" cx="50%" cy="38%" r="65%">
+      <stop offset="0%" stop-color="#4a1420"/>
+      <stop offset="100%" stop-color="#22080f"/>
+    </radialGradient>
+    <linearGradient id="skin_panic" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffd5b8"/>
+      <stop offset="100%" stop-color="#f3b28c"/>
+    </linearGradient>
+    <linearGradient id="hoodie_panic" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1d6ff2"/>
+      <stop offset="100%" stop-color="#0d42a3"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="280" rx="26" fill="url(#bg_panic)"/>
+  <circle cx="128" cy="130" r="98" fill="#fb7185" opacity="0.10"/>
+  
+          <path d="M174 88 Q183 103 174 111 Q165 103 174 88 Z" fill="#67e8f9" stroke="#0284c7" stroke-width="2"/>
+          <path d="M34 72 L46 84 M28 96 L44 96 M218 72 L206 84" stroke="#fb7185" stroke-width="4" stroke-linecap="round"/>
+  <!-- Hoodie & Shoulders -->
+  <path d="M36 280 Q44 205 90 192 L166 192 Q212 205 220 280 Z" fill="url(#hoodie_panic)"/>
+  <!-- Backpack straps -->
+  <path d="M84 198 Q78 240 82 280" fill="none" stroke="#1f2937" stroke-width="14" stroke-linecap="round"/>
+  <path d="M172 198 Q178 240 174 280" fill="none" stroke="#1f2937" stroke-width="14" stroke-linecap="round"/>
+  <!-- Hoodie collar & headphones -->
+  <ellipse cx="128" cy="197" rx="44" ry="15" fill="#1557cc"/>
+  <path d="M92 188 Q128 214 164 188" fill="none" stroke="#f59e0b" stroke-width="7" stroke-linecap="round"/>
+  <ellipse cx="96" cy="202" rx="13" ry="16" fill="#1e293b" stroke="#f59e0b" stroke-width="3.5"/>
+  <circle cx="96" cy="202" r="5" fill="#38bdf8"/>
+  <ellipse cx="160" cy="202" rx="13" ry="16" fill="#1e293b" stroke="#f59e0b" stroke-width="3.5"/>
+  <circle cx="160" cy="202" r="5" fill="#38bdf8"/>
+  <!-- Red-bordered IGA Chest Badge -->
+  <rect x="101" y="226" width="54" height="30" rx="5" fill="#ffffff" stroke="#dc2626" stroke-width="3.5"/>
+  <text x="128" y="247" text-anchor="middle" font-family="system-ui,sans-serif" font-size="18" font-weight="900" fill="#dc2626" letter-spacing="1">IGA</text>
+  <!-- Neck -->
+  <rect x="114" y="172" width="28" height="24" rx="10" fill="#e8a47c"/>
+  <!-- Ears -->
+  <circle cx="72" cy="136" r="14" fill="url(#skin_panic)"/>
+  <circle cx="74" cy="137" r="6.5" fill="#e59c74"/>
+  <circle cx="182" cy="136" r="14" fill="url(#skin_panic)"/>
+  <circle cx="180" cy="137" r="6.5" fill="#e59c74"/>
+  <!-- Head -->
+  <rect x="74" y="66" width="106" height="118" rx="48" fill="url(#skin_panic)"/>
+  <!-- Rosy cheeks -->
+  <ellipse cx="90" cy="146" rx="11" ry="6" fill="#fb7185" opacity="0.34"/>
+  <ellipse cx="162" cy="146" rx="11" ry="6" fill="#fb7185" opacity="0.34"/>
+  <!-- Nose -->
+  <path d="M124 134 Q131 141 124 144" fill="none" stroke="#d98e68" stroke-width="3.2" stroke-linecap="round"/>
+  <!-- Wavy swept-up dark hair -->
+  <path d="M68 122 Q62 72 95 52 Q115 24 150 32 Q178 38 184 68 Q194 94 184 122 Q178 90 162 82 Q142 74 124 84 Q102 74 84 94 Q75 104 68 122 Z" fill="#1f1716"/>
+  <path d="M98 54 Q124 38 156 50" fill="none" stroke="#3b2d2b" stroke-width="5" stroke-linecap="round"/>
+  <path d="M84 74 Q114 60 144 68" fill="none" stroke="#3b2d2b" stroke-width="4" stroke-linecap="round"/>
+  
+          <path d="M87 104 Q102 90 116 95" fill="none" stroke="#1e1512" stroke-width="6.5" stroke-linecap="round"/>
+          <path d="M137 95 Q151 90 165 104" fill="none" stroke="#1e1512" stroke-width="6.5" stroke-linecap="round"/>
+  
+          <ellipse cx="102" cy="126" rx="14" ry="15.5" fill="#fff" stroke="#2a140d" stroke-width="2"/>
+          <circle cx="102" cy="127" r="4.5" fill="#120905"/>
+          <circle cx="105" cy="123" r="1.8" fill="#fff"/>
+          <ellipse cx="150" cy="126" rx="14" ry="15.5" fill="#fff" stroke="#2a140d" stroke-width="2"/>
+          <circle cx="150" cy="127" r="4.5" fill="#120905"/>
+          <circle cx="153" cy="123" r="1.8" fill="#fff"/>
+  
+          <ellipse cx="126" cy="161" rx="13" ry="14" fill="#4a1118" stroke="#24080c" stroke-width="2"/>
+          <ellipse cx="126" cy="168" rx="8" ry="4.5" fill="#f47280"/>
+</svg>

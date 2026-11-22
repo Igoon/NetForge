@@ -1,0 +1,1296 @@
+/* === style:nf4093-layout-fix === */
+/* NET FORGE v0.50.1 — perbaikan tata letak hasil audit browser nyata.
+   (1) Inventori perangkat: grid 2 kolom lebih lebar dari panel 225px sehingga
+       kartu terpotong & ada scroll horizontal tersembunyi -> kolom kini auto-fill
+       (1 kolom di panel sempit, 2+ kolom di panel lebar), tanpa overflow-x.
+   (2) Tombol/status mengambang saling menimpa (Menu Utama, Menu, Autosave,
+       chip Guest Mode, status PWA, Cek Update) -> disusun tanpa tumpang tindih.
+   (3) Tautan footer intro memakai warna biru bawaan browser (kontras buruk). */
+#nf400List{grid-template-columns:repeat(auto-fill,minmax(min(100%,128px),1fr))!important;overflow-x:hidden!important;overflow-y:auto}
+#nf400List .nf400-device{min-width:0}
+#nf400List .nf400-device strong,#nf400List .nf400-device small{overflow-wrap:anywhere;min-width:0}
+/* kanan-bawah: [Menu Utama][Menu] sebaris, Autosave di atas Menu */
+#nf322Home{right:100px!important;bottom:14px!important;padding:8px 12px;z-index:190}
+#nf31SaveBadge{right:14px!important;bottom:58px!important}
+.nf-feedback{bottom:104px!important}
+/* kiri-bawah: chip mode, status PWA, Cek Update bertumpuk rapi */
+#nf346GlobalStatus{left:12px!important;right:auto!important;bottom:12px!important}
+#nf330PwaStatus{left:12px!important;bottom:46px!important}
+#nf330CheckUpdate{left:12px!important;bottom:84px!important}
+@media (max-width:900px){#nf330CheckUpdate{bottom:46px!important}}
+@media (max-width:600px){
+ #nf346GlobalStatus{left:8px!important;right:auto!important;bottom:8px!important}
+ #nf330CheckUpdate{left:8px!important;bottom:44px!important}
+ #nf322Home{right:92px!important;bottom:10px!important}
+ #nf31SaveBadge{bottom:54px!important;right:10px!important}
+ #nf4074Fab{right:10px;bottom:10px}
+}
+.nf322-footer a,.nf322-footer a:visited{color:#7ee8ff;text-decoration:underline}
+@media (min-width:901px){#nf31SaveBadge{right:236px!important;bottom:20px!important}}
+/* status PWA memudar sendiri setelah beberapa detik agar tidak menutupi inventori */
+#nf330PwaStatus{transition:opacity .6s}
+#nf330PwaStatus.nf4093-faded{opacity:0;visibility:hidden}
+@media (prefers-reduced-motion:reduce){#nf330PwaStatus{transition:none}}
+
+/* === style:nf4094-polish-fix === */
+/* NET FORGE v0.50.1 — Perbaikan UX, Tata Letak, Clipping Panel Iga & Responsivitas */
+
+/* 1. Hilangkan scrollbar horizontal liar di halaman intro, menu, dan workspace */
+html, body { max-width: 100vw; overflow-x: hidden !important; }
+#nf322Intro, .nf322-overlay, .nf322-card, .nf322-menu { max-width: 100vw; box-sizing: border-box; overflow-x: hidden !important; }
+
+/* 2. Perbaiki kartu Iga Pendamping Misi (#nf4034Coach) yang terpotong vertikal */
+.right > section.panel,
+.right > .panel { display: flex !important; flex-direction: column !important; overflow: visible !important; }
+.right > .panel .panelbody { overflow-y: auto !important; max-height: none !important; }
+#nf4034Coach {
+  flex: 0 0 auto !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  display: block !important;
+}
+#nf4034Coach .nf4034-persona {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 10px !important;
+  padding: 10px !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+#nf4034Coach #igaAvatar {
+  width: 60px !important;
+  min-width: 60px !important;
+  height: 68px !important;
+  max-height: 68px !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  background: rgba(8, 28, 52, 0.7) !important;
+  border: 1px solid rgba(72, 184, 240, 0.35) !important;
+}
+#nf4034Coach #igaAvatar img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center bottom !important;
+}
+#nf4034Coach #igaTalk {
+  min-height: 44px !important;
+  max-height: none !important;
+  height: auto !important;
+  overflow: visible !important;
+  white-space: normal !important;
+  word-break: break-word !important;
+}
+/* Pastikan #nfFxToggle tetap berada di dalam footer kartu Iga dan tidak mengambang menimpa Menu Utama */
+#nfFxToggle {
+  position: static !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  top: auto !important;
+}
+
+/* 3. Beri ruang napas di bawah inventori kiri agar kartu perangkat terbawah tidak pernah tertutup chip status */
+#nf400List {
+  padding-bottom: 112px !important;
+  scroll-padding-bottom: 112px !important;
+}
+/* Buat chip status kiri-bawah lebih ringkas dan tidak memakan area klik inventori secara berlebihan */
+#nf346GlobalStatus {
+  left: 10px !important;
+  bottom: 10px !important;
+  padding: 4px 9px !important;
+  font-size: 11px !important;
+  opacity: 0.92;
+  pointer-events: none !important;
+}
+#nf330CheckUpdate {
+  left: 10px !important;
+  bottom: 42px !important;
+  padding: 5px 9px !important;
+  font-size: 11px !important;
+  z-index: 185 !important;
+}
+#nf330PwaStatus {
+  left: 10px !important;
+  bottom: 76px !important;
+  max-width: 215px !important;
+  font-size: 11px !important;
+  pointer-events: none !important;
+}
+
+/* 4. Padatkan toolbar atas Workspace di desktop agar kanvas simulasi jauh lebih lega */
+@media (min-width: 901px) {
+  .nf400-bar, #nf400Bar {
+    padding: 6px 10px !important;
+    gap: 6px !important;
+    margin-bottom: 6px !important;
+  }
+  .nf400-bar button, #nf400Bar button {
+    padding: 5px 10px !important;
+    font-size: 12px !important;
+    min-height: 30px !important;
+  }
+  .workspace-panel > .panelhead {
+    padding: 6px 10px !important;
+    gap: 6px !important;
+  }
+  #nf403MissionBanner {
+    padding: 6px 10px !important;
+    margin: 4px 0 6px !important;
+    gap: 6px !important;
+  }
+  #nf403MissionBanner p, #nf403MissionBanner .desc {
+    margin: 0 !important;
+    font-size: 12px !important;
+    line-height: 1.35 !important;
+  }
+  #nf400Canvas {
+    min-height: 460px !important;
+  }
+}
+
+/* 5. Perbaikan tata letak Mobile (<= 768px): cegah tumpang tindih header XP/Lv & tombol mengambang */
+@media (max-width: 768px) {
+  header .stats, .topbar .stats, .hud-stats, .top-stats {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 6px !important;
+  }
+  /* Di layar sempit, sembunyikan chip non-kritis agar tidak menutup tombol Ganti Misi & Fokus Workspace */
+  #nf330CheckUpdate, #nf346GlobalStatus, #nf330PwaStatus {
+    display: none !important;
+  }
+  #nf31SaveBadge {
+    right: 10px !important;
+    bottom: 52px !important;
+    font-size: 10px !important;
+    padding: 4px 8px !important;
+  }
+  #nf322Home {
+    right: 88px !important;
+    bottom: 8px !important;
+    padding: 7px 10px !important;
+    font-size: 12px !important;
+  }
+  #nf4074Fab, #nf4074FabToggle {
+    right: 8px !important;
+    bottom: 8px !important;
+  }
+  body {
+    padding-bottom: 64px !important;
+  }
+}
+
+/* 6. Bebaskan inventori kiri 100% dari chip mengambang di desktop (profil sudah tampil di header kanan atas) */
+@media (min-width: 769px) {
+  #nf346GlobalStatus { display: none !important; }
+  #nf330CheckUpdate {
+    left: auto !important;
+    right: 236px !important;
+    bottom: 14px !important;
+    padding: 7px 10px !important;
+    border-radius: 10px !important;
+    z-index: 185 !important;
+  }
+  #nf31SaveBadge {
+    right: 346px !important;
+    bottom: 18px !important;
+  }
+  #nf330PwaStatus {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    bottom: 14px !important;
+    max-width: 340px !important;
+    text-align: center !important;
+  }
+}
+/* 7. Rapikan jarak badge XP dan Level pada header mobile */
+@media (max-width: 768px) {
+  .pill, .xp-pill, #xpPill, .lvl-pill, .badge { margin: 2px 3px !important; }
+  .top-right, .user-stats, header > div { gap: 6px !important; }
+}
+/* 8. Pastikan overlay intro tidak memunculkan scrollbar horizontal */
+#nf322Intro, #nf322Intro * { max-width: 100%; }
+
+/* === style:nf4100-alive-style === */
+/* NET FORGE v0.50.1 — Alive, Fun & Funny Edition */
+@keyframes nf41Float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-3px); }
+}
+@keyframes nf41Pop {
+  0% { transform: scale(0.84); opacity: 0.2; }
+  65% { transform: scale(1.06); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes nf41Shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px) rotate(-2deg); }
+  40% { transform: translateX(4px) rotate(2deg); }
+  60% { transform: translateX(-3px) rotate(-1deg); }
+  80% { transform: translateX(3px) rotate(1deg); }
+}
+@keyframes nf41Cheer {
+  0%, 100% { transform: translateY(0) scale(1); }
+  35% { transform: translateY(-7px) scale(1.07); }
+  70% { transform: translateY(-2px) scale(1.02); }
+}
+@keyframes nf41SparkRise {
+  0% { transform: translate(-50%, 0) scale(0.8); opacity: 1; }
+  100% { transform: translate(-50%, -44px) scale(1.18); opacity: 0; }
+}
+@keyframes nf41CatSnore {
+  0%, 100% { transform: translateY(0) scaleY(1); }
+  50% { transform: translateY(-2px) scaleY(1.05); }
+}
+@keyframes nf41ConfettiFall {
+  0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(140px) rotate(520deg); opacity: 0; }
+}
+
+/* 1. Iga Avatar Alive Expressions */
+#nf4034Coach #igaAvatar {
+  position: relative !important;
+  transition: border-color .25s ease, box-shadow .25s ease !important;
+}
+#nf4034Coach #igaAvatar img {
+  animation: nf41Float 3.4s ease-in-out infinite;
+}
+#nf4034Coach #igaAvatar::after {
+  content: attr(data-nf41-badge);
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  background: rgba(7, 24, 48, 0.92);
+  border: 1.5px solid #45d8ff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+  z-index: 4;
+  pointer-events: none;
+  transition: transform .2s ease, border-color .2s ease;
+}
+#nf4034Coach #igaAvatar[data-nf41-mood="celebrate"] {
+  border-color: #ffd54f !important;
+  box-shadow: 0 0 14px rgba(255, 213, 79, 0.55) !important;
+}
+#nf4034Coach #igaAvatar[data-nf41-mood="celebrate"] img {
+  animation: nf41Cheer .65s ease-in-out 3;
+}
+#nf4034Coach #igaAvatar[data-nf41-mood="success"] {
+  border-color: #3ef0a8 !important;
+  box-shadow: 0 0 12px rgba(62, 240, 168, 0.45) !important;
+}
+#nf4034Coach #igaAvatar[data-nf41-mood="fail"],
+#nf4034Coach #igaAvatar[data-nf41-mood="panic"] {
+  border-color: #ff6b81 !important;
+  box-shadow: 0 0 12px rgba(255, 107, 129, 0.55) !important;
+}
+#nf4034Coach #igaAvatar[data-nf41-mood="fail"] img,
+#nf4034Coach #igaAvatar[data-nf41-mood="panic"] img {
+  animation: nf41Shake .42s ease-in-out 2;
+}
+#nf4034Coach #igaAvatar[data-nf41-mood="confused"] {
+  border-color: #d4a6ff !important;
+}
+#nf4034Coach #igaTalk.nf41-pop {
+  animation: nf41Pop .28s ease-out;
+}
+
+/* 2. Packet Flow Overlay & Error Sparks on #nf400Canvas */
+#nf41PacketLayer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9;
+  overflow: visible;
+}
+.nf41-spark {
+  position: absolute;
+  pointer-events: none;
+  z-index: 30;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font: 700 11px/1.2 system-ui, sans-serif;
+  color: #fff;
+  background: rgba(220, 46, 76, 0.94);
+  border: 1px solid #ff9eb0;
+  box-shadow: 0 4px 14px rgba(220, 46, 76, 0.5);
+  white-space: nowrap;
+  animation: nf41SparkRise 2.2s ease-out forwards;
+}
+.nf41-spark.ok {
+  background: rgba(16, 152, 102, 0.94);
+  border-color: #79f5c2;
+  box-shadow: 0 4px 14px rgba(16, 152, 102, 0.45);
+}
+
+/* 3. Interactive Cat Chaos Event ("Si Oyen") */
+#nf41CatBtn {
+  background: linear-gradient(135deg, #b85d19, #d97724) !important;
+  color: #fff8eb !important;
+  border: 1px solid #ffbe76 !important;
+  border-radius: 8px !important;
+  padding: 5px 10px !important;
+  font: 700 11px/1.2 system-ui, sans-serif !important;
+  cursor: pointer !important;
+  transition: transform .15s ease, filter .15s ease;
+}
+#nf41CatBtn:hover { filter: brightness(1.12); transform: translateY(-1px); }
+.nf41-cat-overlay {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  pointer-events: auto;
+  user-select: none;
+  animation: nf41Pop .3s ease-out;
+}
+.nf41-cat-badge {
+  background: rgba(255, 136, 0, 0.96);
+  color: #1c0f00;
+  font: 800 10px/1.15 system-ui, sans-serif;
+  padding: 3px 7px;
+  border-radius: 999px;
+  border: 1px solid #ffe4b5;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.45);
+  white-space: nowrap;
+  margin-bottom: 2px;
+}
+.nf41-cat-svg {
+  width: 58px;
+  height: 44px;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.65));
+  animation: nf41CatSnore 1.6s ease-in-out infinite;
+}
+.nf41-cat-hot { overflow: visible !important;
+  box-shadow: 0 0 0 2px #ff922b, 0 0 18px rgba(255, 146, 43, 0.65) !important;
+}
+
+/* 4. 3-Star Mission Victory Card */
+#nf41VictoryModal {
+  position: fixed;
+  inset: 0;
+  z-index: 9600;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(4, 12, 26, 0.72);
+  backdrop-filter: blur(4px);
+  padding: 16px;
+}
+#nf41VictoryModal.open { display: flex; }
+.nf41-vcard {
+  position: relative;
+  width: min(440px, 94vw);
+  background: linear-gradient(160deg, #0d2a4b 0%, #07162b 100%);
+  border: 1.5px solid #3ec8f5;
+  border-radius: 18px;
+  padding: 20px 22px 18px;
+  color: #eaf7ff;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.65), 0 0 28px rgba(62, 200, 245, 0.22);
+  animation: nf41Pop .32s ease-out;
+  overflow: hidden;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+.nf41-vhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.nf41-vtag {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  color: #65f0c5;
+  text-transform: uppercase;
+}
+.nf41-vclose {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #d9f3ff;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.nf41-vtitle {
+  margin: 0 0 10px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+}
+.nf41-stars {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 8px 0 12px;
+  font-size: 34px;
+}
+.nf41-star { opacity: 0.25; filter: grayscale(1); transition: transform .3s ease, opacity .3s ease; }
+.nf41-star.lit { opacity: 1; filter: none; transform: scale(1.12); text-shadow: 0 0 16px rgba(255, 215, 64, 0.75); }
+.nf41-criteria {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  font-size: 12.5px;
+}
+.nf41-criteria li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.05);
+}
+.nf41-quote {
+  background: rgba(15, 55, 92, 0.65);
+  border-left: 3px solid #48d9ff;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: #d5f2ff;
+  margin-bottom: 14px;
+}
+.nf41-quote strong { color: #7eeeff; display: block; margin-bottom: 3px; font-size: 11px; }
+.nf41-vactions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+.nf41-vactions button {
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid #3ec8f5;
+  background: linear-gradient(135deg, #107bb3, #17a2d6);
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+}
+.nf41-confetti {
+  position: absolute;
+  top: -8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  pointer-events: none;
+  animation: nf41ConfettiFall 1.6s ease-out forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  #nf4034Coach #igaAvatar img, .nf41-cat-svg, .nf41-confetti, .nf41-spark { animation: none !important; }
+}
+
+/* === style:nf4200-ui-polish === */
+/* NET FORGE v0.50.1 — UI Declutter, Canvas Expansion & 3-Tier Visual Hierarchy */
+
+/* 1. Compact Header & Top Navigation (saves ~40px) */
+header.topbar {
+  padding: 6px 14px 8px !important;
+  gap: 6px !important;
+}
+header.topbar .brand img,
+header.topbar .brand svg {
+  width: 34px !important;
+  height: 34px !important;
+}
+header.topbar .topnav {
+  margin-top: 2px !important;
+  padding: 2px 0 !important;
+  gap: 6px !important;
+}
+header.topbar .topnav button {
+  padding: 6px 12px !important;
+  font-size: 12px !important;
+  min-height: 30px !important;
+}
+
+/* 2. Declutter & Compact Bars Above Canvas on Desktop (saves ~190px!) */
+@media (min-width: 901px) {
+  #nf400Modebar {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 5px 10px !important;
+    margin-bottom: 6px !important;
+    overflow-x: auto !important;
+  }
+  #nf400Modebar > span,
+  #nf400Modebar .nf400-note,
+  #nf400Modebar small {
+    display: none !important;
+  }
+  #nf400Modebar button {
+    padding: 5px 10px !important;
+    font-size: 11.5px !important;
+    min-height: 28px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+
+  .workspace-panel > .panelhead {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    padding: 5px 10px !important;
+    gap: 6px !important;
+    min-height: 0 !important;
+  }
+  .workspace-panel > .panelhead h3 {
+    font-size: 12px !important;
+    margin: 0 !important;
+  }
+  .workspace-panel > .panelhead .eyebrow,
+  #nf4036MissionCaption {
+    display: none !important;
+  }
+
+  #nf364Tools {
+    padding: 4px 8px !important;
+    margin: 4px 0 !important;
+    min-height: 34px !important;
+    gap: 5px !important;
+  }
+  #nf364Tools button {
+    padding: 4px 9px !important;
+    min-height: 26px !important;
+    font-size: 11.5px !important;
+  }
+
+  #nf403MissionBanner {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    padding: 6px 10px !important;
+    margin: 4px 0 6px !important;
+  }
+  #nf403MissionBanner > div:first-child,
+  #nf403MissionBanner .nf403-text {
+    min-width: 0 !important;
+    flex: 1 1 240px !important;
+    overflow: hidden !important;
+  }
+  #nf403MissionBanner p,
+  #nf403MissionBanner .desc {
+    font-size: 11.5px !important;
+    line-height: 1.3 !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+  #nf403MissionBanner .nf403-actions,
+  #nf403MissionBanner > div:last-child {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    flex-shrink: 0 !important;
+  }
+
+  #nf4045LinkInfo {
+    font-size: 10.5px !important;
+    padding: 2px 6px !important;
+    margin: 0 0 4px !important;
+    opacity: 0.78 !important;
+  }
+
+  #nf400Canvas {
+    min-height: 540px !important;
+  }
+}
+
+/* 3. Clear 3-Tier Visual Hierarchy */
+/* Tier 1: Primary Mission CTA (Emerald Solid with crisp glow) */
+#nf403RunMission {
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+  color: #ffffff !important;
+  border: 1px solid #6ee7b7 !important;
+  font-weight: 800 !important;
+  padding: 6px 13px !important;
+  border-radius: 9px !important;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35) !important;
+  transition: transform .15s ease, filter .15s ease !important;
+}
+#nf403RunMission:hover {
+  filter: brightness(1.1) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Tier 2: Secondary Utility Controls (Subtle ghost style so they don't compete with CTA) */
+#nf364Tools button,
+#nf372Switch,
+#nf391AuditButton,
+#nf4037FocusToggle,
+#nf4019GlobalHelp,
+#nf4031Sound {
+  background: rgba(15, 38, 68, 0.55) !important;
+  border: 1px solid rgba(125, 211, 252, 0.22) !important;
+  color: #cfe8f8 !important;
+  box-shadow: none !important;
+}
+#nf364Tools button:hover,
+#nf372Switch:hover,
+#nf391AuditButton:hover,
+#nf4037FocusToggle:hover {
+  background: rgba(24, 62, 108, 0.78) !important;
+  border-color: rgba(125, 211, 252, 0.45) !important;
+}
+
+/* Tier 3: Active Mode Pill highlight */
+#nf400Modebar button.active,
+#nf400Modebar button[aria-pressed="true"] {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+  border-color: #7dd3fc !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 12px rgba(14, 165, 233, 0.38) !important;
+}
+
+/* Crisp Online/Offline visual feedback on Canvas Device Cards */
+#nf400Canvas .nf400-node {
+  transition: border-color .2s ease, box-shadow .2s ease !important;
+}
+#nf400Canvas .nf400-node.nf42-online {
+  border-color: rgba(52, 211, 153, 0.78) !important;
+  box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.28), 0 8px 22px rgba(5, 25, 45, 0.55) !important;
+}
+#nf400Canvas .nf400-node.nf42-online::before {
+  content: '● ONLINE';
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  font: 800 9px/1 system-ui, sans-serif;
+  letter-spacing: .04em;
+  color: #34d399;
+  background: rgba(6, 46, 36, 0.85);
+  border: 1px solid rgba(52, 211, 153, 0.45);
+  padding: 2px 5px;
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* 4. Declutter Bottom Floating Chrome (keep canvas bottom spacious & clean) */
+#nf330CheckUpdate {
+  opacity: 0.72 !important;
+  font-size: 10.5px !important;
+  padding: 5px 8px !important;
+  background: rgba(11, 31, 56, 0.78) !important;
+  border-color: rgba(125, 211, 252, 0.22) !important;
+}
+#nf330CheckUpdate:hover { opacity: 1 !important; }
+#nf31SaveBadge {
+  opacity: 0.76 !important;
+  font-size: 10.5px !important;
+  padding: 4px 8px !important;
+  background: rgba(10, 28, 50, 0.75) !important;
+}
+#nf322Home {
+  background: rgba(12, 36, 66, 0.86) !important;
+  border-color: rgba(125, 211, 252, 0.35) !important;
+  font-size: 12px !important;
+  padding: 7px 11px !important;
+}
+
+/* 5. Mobile Ergonomics (<= 768px): compact header, hide verbose GPU/link bars so canvas appears fast */
+@media (max-width: 768px) {
+  .nf32-tools,
+  #nf4045LinkInfo,
+  #nf31SaveBadge,
+  #nf400Modebar small,
+  #nf400Modebar > span {
+    display: none !important;
+  }
+  #nf400Modebar {
+    padding: 6px 8px !important;
+    gap: 5px !important;
+  }
+  #nf400Modebar button {
+    padding: 5px 8px !important;
+    font-size: 11px !important;
+  }
+  #nf403MissionBanner {
+    padding: 7px 9px !important;
+    gap: 6px !important;
+  }
+  #nf400Canvas {
+    min-height: 360px !important;
+  }
+}
+
+/* === style:nf4300-single-screen-shell === */
+/* NET FORGE v0.50.1 — True 100dvh Single-Screen App Shell (Zero Page Scroll on Desktop) */
+
+@media (min-width: 901px) {
+  html, body {
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  body {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  header.topbar {
+    flex: 0 0 auto !important;
+  }
+  main.layout {
+    flex: 1 1 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    overflow: hidden !important;
+    align-items: stretch !important;
+    padding-bottom: 8px !important;
+    box-sizing: border-box !important;
+  }
+  aside.panel.left,
+  aside.left {
+    height: 100% !important;
+    max-height: 100% !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  aside.right {
+    height: 100% !important;
+    max-height: 100% !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding-bottom: 52px !important;
+    box-sizing: border-box !important;
+  }
+  section.workspace-shell {
+    height: 100% !important;
+    max-height: 100% !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    position: relative !important;
+  }
+  .workspace-shell > .workspace-panel {
+    flex: 1 1 0 !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    margin-bottom: 0 !important;
+  }
+  .workspace-panel > .panelbody,
+  .workspace-panel > .stagewrap,
+  #nf400Wrap {
+    flex: 1 1 0 !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+  }
+  #nf400Canvas {
+    flex: 1 1 0 !important;
+    min-height: 220px !important;
+    height: 100% !important;
+    max-height: none !important;
+  }
+  
+  /* Prevent flex children inside workspace-panel & left panel from shrinking/overlapping */
+  .workspace-panel > .panelhead,
+  .workspace-panel > #nf364Tools,
+  .workspace-panel > #nf403MissionBanner,
+  #nf364Tools,
+  #nf403MissionBanner,
+  #nf4044Toolbar,
+  #nf4045LinkInfo,
+  aside.left > .panelhead,
+  aside.left > header {
+    flex: 0 0 auto !important;
+    position: relative !important;
+  }
+  .workspace-panel > .panelbody,
+  .workspace-panel > .stagewrap {
+    overflow-y: auto !important;
+  }
+  #nf400Canvas {
+    min-height: 280px !important;
+  }
+
+  /* Hide the 3,200px vertical stack below canvas until user opens the drawer! */
+  body.nf43-shell-active #nf400Panel,
+  body.nf43-shell-active #commandDock {
+    display: none !important;
+  }
+}
+
+/* Mobile: also collapse the 3,200px vertical stack behind the toggle bar */
+@media (max-width: 900px) {
+  body.nf43-shell-active #nf400Panel,
+  body.nf43-shell-active #commandDock {
+    display: none !important;
+  }
+}
+
+/* When drawer is open, show the selected panel inside our sleek slide-up sheet */
+#nf43DrawerBar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 5px 10px;
+  margin-top: 6px;
+  background: linear-gradient(180deg, rgba(11, 32, 58, 0.96), rgba(8, 22, 42, 0.98));
+  border: 1px solid rgba(72, 184, 240, 0.28);
+  border-radius: 10px;
+  z-index: 40;
+}
+#nf43DrawerBar .nf43-tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+#nf43DrawerBar button {
+  padding: 5px 10px;
+  border-radius: 7px;
+  border: 1px solid rgba(125, 211, 252, 0.25);
+  background: rgba(16, 46, 82, 0.72);
+  color: #d7f1ff;
+  font: 700 11.5px/1.2 system-ui, sans-serif;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease;
+}
+#nf43DrawerBar button:hover,
+#nf43DrawerBar button.active {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  border-color: #7dd3fc;
+  color: #fff;
+}
+#nf43DrawerBar .nf43-hint {
+  font: 500 11px/1.2 system-ui, sans-serif;
+  color: #88b7d4;
+}
+
+/* Slide-up Drawer Sheet */
+#nf43DrawerSheet {
+  position: fixed;
+  left: 50%;
+  bottom: 54px;
+  transform: translateX(-50%);
+  width: min(1040px, 94vw);
+  max-height: 58dvh;
+  background: #081a31;
+  border: 1.5px solid #39b8e8;
+  border-radius: 14px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.75);
+  z-index: 8200;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+#nf43DrawerSheet.open {
+  display: flex;
+}
+.nf43-sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: #0d2a4d;
+  border-bottom: 1px solid rgba(72, 184, 240, 0.25);
+}
+.nf43-sheet-head strong {
+  font: 800 13px/1.2 system-ui, sans-serif;
+  color: #e6f7ff;
+}
+.nf43-sheet-close {
+  padding: 4px 10px;
+  border-radius: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+  color: #e6f7ff;
+  font: 700 12px/1.2 system-ui, sans-serif;
+  cursor: pointer;
+}
+#nf43DrawerBody {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 12px;
+}
+/* Ensure moved panels are visible when inside #nf43DrawerBody */
+#nf43DrawerBody > #nf400Panel,
+#nf43DrawerBody > #commandDock {
+  display: block !important;
+}
+#nf43DrawerBody > #commandDock {
+  display: grid !important;
+}
+
+/* === style:nf4400-expansion-style === */
+/* NET FORGE v0.50.1 — Mode Darurat 60s, Deck Insiden Kantor & Toko Teknisi */
+
+/* 1. Emergency 60s Mode Button & Countdown HUD */
+#nf44EmergencyBtn {
+  background: linear-gradient(135deg, #e11d48, #be123c) !important;
+  color: #fff5f7 !important;
+  border: 1px solid #fda4af !important;
+  border-radius: 8px !important;
+  padding: 5px 10px !important;
+  font: 800 11px/1.2 system-ui, sans-serif !important;
+  cursor: pointer !important;
+  box-shadow: 0 3px 12px rgba(225, 29, 72, 0.35) !important;
+  transition: transform .15s ease, filter .15s ease;
+}
+#nf44EmergencyBtn:hover { filter: brightness(1.12); transform: translateY(-1px); }
+
+#nf44TimerBar {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 12px;
+  margin: 4px 0;
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgba(159, 18, 57, 0.92), rgba(127, 29, 29, 0.9));
+  border: 1px solid #fb7185;
+  color: #fff;
+  font: 700 12px/1.25 system-ui, sans-serif;
+  flex: 0 0 auto !important;
+}
+#nf44TimerBar.active { display: flex; }
+#nf44TimerClock {
+  font: 900 15px/1 ui-monospace, monospace;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.35);
+  color: #fde047;
+}
+#nf44TimerStop {
+  padding: 4px 9px;
+  border-radius: 7px;
+  border: 1px solid rgba(255,255,255,0.35);
+  background: rgba(0,0,0,0.28);
+  color: #fff;
+  font: 700 11px/1.2 system-ui, sans-serif;
+  cursor: pointer;
+}
+
+/* 2. Multi-Incident Overlays (Overheat & 4K Traffic Spike) */
+.nf44-inc-overheat .nf41-cat-badge {
+  background: rgba(239, 68, 68, 0.96) !important;
+  color: #fff !important;
+  border-color: #fecaca !important;
+}
+.nf44-inc-stream .nf41-cat-badge {
+  background: rgba(139, 92, 246, 0.96) !important;
+  color: #fff !important;
+  border-color: #ddd6fe !important;
+}
+.nf44-inc-icon {
+  font-size: 28px;
+  line-height: 1;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.65));
+  animation: nf41CatSnore 1.1s ease-in-out infinite;
+}
+
+/* 3. Cable Neon Themes (Applied dynamically via body[data-nf44-cable]) */
+body[data-nf44-cable="matrix"] #nf400Wires line.nf400-wire:not(.nf4045-down) {
+  stroke: #22c55e !important;
+  filter: drop-shadow(0 0 5px rgba(34, 197, 94, 0.85));
+}
+body[data-nf44-cable="cyber"] #nf400Wires line.nf400-wire:not(.nf4045-down) {
+  stroke: #d946ef !important;
+  filter: drop-shadow(0 0 6px rgba(217, 70, 239, 0.9));
+}
+body[data-nf44-cable="lava"] #nf400Wires line.nf400-wire:not(.nf4045-down) {
+  stroke: #f97316 !important;
+  filter: drop-shadow(0 0 6px rgba(249, 115, 22, 0.9));
+}
+
+/* 4. Iga Avatar Cosmetic Accessory Badge */
+#nf4034Coach #igaAvatar::before {
+  content: attr(data-nf44-acc);
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  font-size: 15px;
+  line-height: 1;
+  z-index: 5;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.7));
+}
+
+/* 5. Technician Shop Modal */
+#nf44ShopModal {
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(4, 12, 26, 0.76);
+  backdrop-filter: blur(4px);
+  padding: 16px;
+}
+#nf44ShopModal.open { display: flex; }
+.nf44-shop-card {
+  width: min(500px, 95vw);
+  max-height: 86dvh;
+  overflow-y: auto;
+  background: linear-gradient(160deg, #0e2a4a, #07162a);
+  border: 1.5px solid #38bdf8;
+  border-radius: 16px;
+  padding: 18px 20px;
+  color: #eaf7ff;
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.72);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+.nf44-shop-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.nf44-shop-head h3 { margin: 0; font-size: 17px; color: #fff; }
+.nf44-shop-wallet {
+  display: flex;
+  gap: 10px;
+  font-size: 12.5px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(14, 165, 233, 0.14);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+.nf44-shop-sec {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .07em;
+  color: #7dd3fc;
+  text-transform: uppercase;
+  margin: 12px 0 8px;
+}
+.nf44-shop-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.nf44-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(125, 211, 252, 0.22);
+  border-radius: 11px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.nf44-item.equipped {
+  border-color: #34d399;
+  background: rgba(16, 185, 129, 0.14);
+}
+.nf44-item strong { font-size: 13px; color: #fff; }
+.nf44-item small { font-size: 11px; color: #a5c9e0; }
+.nf44-item button {
+  margin-top: auto;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #38bdf8;
+  background: #0284c7;
+  color: #fff;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.nf44-item button.owned { background: #0f766e; border-color: #5eead4; }
+.nf44-item button.equipped-btn { background: #065f46; border-color: #34d399; cursor: default; }
+.nf44-item button:disabled { opacity: 0.55; cursor: not-allowed; }
+
+/* === style:nf4500-master-style === */
+/* NET FORGE v0.50.1 — Achievements, Live Network Health & Optional Auto-Chaos */
+@keyframes nf45ToastIn {
+  0% { transform: translateY(-18px) scale(0.92); opacity: 0; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+#nf45ToastStack {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 9800;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+.nf45-toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(16, 48, 84, 0.96), rgba(9, 26, 48, 0.98));
+  border: 1.5px solid #fbbf24;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6), 0 0 18px rgba(251, 191, 36, 0.28);
+  color: #fffbeb;
+  font-family: system-ui, -apple-system, sans-serif;
+  animation: nf45ToastIn .3s ease-out;
+  max-width: 310px;
+}
+.nf45-toast-ico { font-size: 22px; line-height: 1; }
+.nf45-toast-txt strong { display: block; font-size: 12.5px; color: #fde047; }
+.nf45-toast-txt span { font-size: 11.5px; color: #e2f1ff; }
+
+#nf45HealthPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(8, 28, 52, 0.85);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  font: 700 11px/1.2 system-ui, sans-serif;
+  color: #bae6fd;
+  white-space: nowrap;
+}
+#nf45HealthPill .ok { color: #34d399; }
+#nf45HealthPill .warn { color: #fbbf24; }
+
+#nf45AutoChaosBtn.on {
+  background: linear-gradient(135deg, #d97706, #b45309) !important;
+  border-color: #fde68a !important;
+  color: #fff !important;
+}
+
+/* Achievements Modal */
+#nf45BadgeModal {
+  position: fixed;
+  inset: 0;
+  z-index: 9550;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(4, 12, 26, 0.76);
+  backdrop-filter: blur(4px);
+  padding: 16px;
+}
+#nf45BadgeModal.open { display: flex; }
+.nf45-badge-card {
+  width: min(520px, 95vw);
+  max-height: 85dvh;
+  overflow-y: auto;
+  background: linear-gradient(160deg, #0d2a4b, #07162a);
+  border: 1.5px solid #fbbf24;
+  border-radius: 16px;
+  padding: 18px 20px;
+  color: #eaf7ff;
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.72);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+.nf45-badge-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 12px;
+}
+.nf45-ach {
+  padding: 10px 11px;
+  border-radius: 11px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(255, 255, 255, 0.03);
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  opacity: 0.58;
+}
+.nf45-ach.unlocked {
+  opacity: 1;
+  border-color: rgba(251, 191, 36, 0.65);
+  background: rgba(251, 191, 36, 0.1);
+}
+.nf45-ach-ico { font-size: 22px; line-height: 1.1; }
+.nf45-ach strong { display: block; font-size: 12.5px; color: #fff; }
+.nf45-ach small { display: block; font-size: 11px; color: #a5c9e0; margin-top: 2px; }
+.nf45-ach .xp { display: inline-block; margin-top: 4px; font-size: 10.5px; font-weight: 800; color: #fde047; }
+@media (max-width: 600px) {
+  .nf45-badge-grid { grid-template-columns: 1fr; }
+  #nf45HealthPill { display: none; }
+}
+
+/* === style:nf5000-release-polish === */
+/* NET FORGE v0.50.1 — Intro Verification Badge & First-Class Guest Mode UX */
+.nf50-intro-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px auto 4px;
+  padding: 2px;
+  border-radius: 13px;
+  transition: filter .2s ease;
+}
+.nf50-intro-badge:hover { filter: brightness(1.12); }
+.nf50-intro-badge img {
+  display: block;
+  height: 44px;
+  width: auto;
+  max-width: 100%;
+  filter: drop-shadow(0 4px 12px rgba(52, 211, 153, 0.25));
+}
+
+/* Make Guest Mode the unmistakable, welcoming primary button on Main Menu */
+#nf346GuestPlay {
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+  color: #ffffff !important;
+  border: 1.5px solid #6ee7b7 !important;
+  font-weight: 800 !important;
+  font-size: 14px !important;
+  padding: 10px 18px !important;
+  border-radius: 10px !important;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.38) !important;
+}
+#nf346GuestPlay:hover { filter: brightness(1.09) !important; }
+
+/* Demote optional Google Login cleanly so players aren't blocked or confused */
+#nf64GoogleFromIntro {
+  background: rgba(15, 42, 74, 0.65) !important;
+  color: #cfe8f8 !important;
+  border: 1px solid rgba(125, 211, 252, 0.3) !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  padding: 8px 14px !important;
+  box-shadow: none !important;
+}
+#nf64GoogleFromIntro:hover {
+  background: rgba(24, 62, 108, 0.85) !important;
+  border-color: rgba(125, 211, 252, 0.55) !important;
+}
+.nf50-guest-note {
+  margin-top: 6px;
+  font: 500 11.5px/1.4 system-ui, sans-serif;
+  color: #86efac;
+  text-align: center;
+}

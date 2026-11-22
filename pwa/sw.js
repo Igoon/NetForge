@@ -1,9 +1,9 @@
-/* NET FORGE v0.40.95 — self-activating updates, cache-safe recovery */
-const RELEASE='0.40.95';
+/* NET FORGE v0.50.1 — self-activating updates, cache-safe recovery */
+const RELEASE='0.50.1';
 const CACHE='netforge-pwa-v'+RELEASE;
-const ASSETS=['./index.html','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png','./recovery.html','./version.json'];
+const ASSETS=['./index.html','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png','./recovery.html','./version.json','./css/core-theme.css','./css/ui-polish-shell.css','./js/core-engine.js','./js/alive-fun.js','./js/ui-shell.js','./js/gameplay-expansion.js','./css/visual-fx.css','./js/visual-fx.js','./icons/iga-talk.svg','./icons/iga-celebrate.svg','./icons/iga-panic.svg','./icons/iga-think.svg','./icons/iga-fail.svg','./icons/badge-verified.svg'];
 self.addEventListener('install',event=>{
- // v0.40.95: unduh aset dengan cache:'reload' (hindari HTTP cache yang bisa
+ // v0.50.1: unduh aset dengan cache:'reload' (hindari HTTP cache yang bisa
  // menyajikan index.html lama saat install) lalu skipWaiting — SW baru aktif
  // begitu diunduh. Halaman lama TIDAK dimuat ulang otomatis: reload tetap
  // menunggu persetujuan pemain (guard nf4041.approved di halaman).
@@ -42,12 +42,10 @@ self.addEventListener('fetch',event=>{
  }
  if(request.mode==='navigate'){
   event.respondWith((async()=>{
-   // v0.40.95: hard reload (request.cache==='reload') DAN reload biasa (F5,
-   // request.cache==='no-cache') mengambil shell terbaru dari network DAN
-   // memperbarui cache; ?recover= tetap jadi jalur darurat.
-   if(url.searchParams.has('recover')||request.cache==='reload'||request.cache==='no-cache'){
-    try{const fresh=await fetch(request,{cache:'reload'});const cache=await caches.open(CACHE);cache.put('./index.html',fresh.clone());return fresh}catch{}
-   }
+   try{
+    const fresh=await fetch(request,{cache:'no-store'});
+    if(fresh&&fresh.ok){const cache=await caches.open(CACHE);cache.put('./index.html',fresh.clone());return fresh;}
+   }catch{}
    const cache=await caches.open(CACHE);
    return (await cache.match('./index.html'))||fetch(request);
   })());

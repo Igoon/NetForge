@@ -1,6 +1,6 @@
 {
-  "version": "0.40.95",
+  "version": "0.50.1",
   "releaseDate": "2026-11-22",
-  "title": "Lazy WebGL2 & Direct Port Wiring v0.40.95",
-  "notes": "Inisialisasi WebGL2 dibuat lazy agar tidak memicu software WebGL/GPU stall saat membuka game di Unified Canvas, serta klik langsung pada port (LAN1/ETH0/dll.) kini otomatis memulai dan menyambungkan kabel tanpa perlu menekan tombol mode port terlebih dahulu."
+  "title": "Hotfix Pixel-Exact Bezier Cable Alignment v0.50.1",
+  "notes": "Memperbaiki posisi kabel lengkung Bezier dan paket data agar menempel presisi dari port sumber ke port tujuan di dalam #nf4024Viewport (sinkron dengan pan/zoom/drag dan bentuk titik paket bulat sempurna)."
 }

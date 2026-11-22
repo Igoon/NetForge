@@ -1,0 +1,273 @@
+/* NET FORGE v0.50.1 — Complete Living Graphics (Bezier Cables, Depth Glow, Steam/Sparks, Zero Hover Jitter) */
+
+@keyframes nf47RadarPulse {
+  0% { transform: scale(0.45); opacity: 0.88; }
+  100% { transform: scale(1.85); opacity: 0; }
+}
+@keyframes nf47LedBlinkA {
+  0%, 45%, 100% { opacity: 1; }
+  50%, 70% { opacity: 0.22; }
+}
+@keyframes nf47LedBlinkB {
+  0%, 30%, 80%, 100% { opacity: 0.28; }
+  40%, 65% { opacity: 1; }
+}
+@keyframes nf47WaveBar {
+  0%, 100% { transform: scaleY(0.32); }
+  50% { transform: scaleY(1); }
+}
+@keyframes nf47AuraBreath {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.38), 0 12px 28px rgba(4, 24, 48, 0.65), 0 0 24px rgba(52, 211, 153, 0.18); }
+  50% { box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.72), 0 16px 34px rgba(4, 24, 48, 0.74), 0 0 34px rgba(52, 211, 153, 0.34); }
+}
+@keyframes nf48CableFlow {
+  0% { stroke-dashoffset: 24; }
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes nf49RedBlink {
+  0%, 100% { opacity: 0.95; }
+  50% { opacity: 0.35; }
+}
+@keyframes nf48Ripple {
+  0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0.95; }
+  100% { transform: translate(-50%, -50%) scale(2.4); opacity: 0; }
+}
+@keyframes nf48Firefly {
+  0%, 100% { transform: translateY(0px) scale(0.9); opacity: 0.22; }
+  50% { transform: translateY(-14px) scale(1.25); opacity: 0.62; }
+}
+@keyframes nf49SteamRise {
+  0% { transform: translateY(4px) scale(0.75); opacity: 0; }
+  35% { opacity: 0.75; }
+  100% { transform: translateY(-22px) scale(1.25); opacity: 0; }
+}
+
+/* 1. Ambient Server-Room Depth & Soft Elevation (NEVER override transform on .nf400-node!) */
+#nf400Canvas {
+  background-image:
+    radial-gradient(circle at 50% 35%, rgba(14, 116, 178, 0.18), transparent 68%),
+    linear-gradient(rgba(56, 189, 248, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.05) 1px, transparent 1px) !important;
+  background-size: 100% 100%, 28px 28px, 28px 28px !important;
+}
+#nf400Canvas .nf400-node {
+  transition: box-shadow .2s ease, border-color .2s ease, filter .2s ease !important;
+}
+#nf400Canvas .nf400-node:hover {
+  border-color: rgba(125, 211, 252, 0.92) !important;
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.55), 0 16px 32px rgba(2, 14, 32, 0.78), 0 0 22px rgba(56, 189, 248, 0.22) !important;
+}
+#nf400Canvas .nf400-node.nf42-online {
+  animation: nf47AuraBreath 3.2s ease-in-out infinite;
+}
+/* Radial floor glow pool under ONLINE devices */
+.nf49-floor-glow {
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  width: 86%;
+  height: 18px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(52, 211, 153, 0.48), transparent 72%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* 2. Dynamic Bezier Cable Layer (#nf49BezierWires) */
+/* Keep original straight #nf400Wires lines invisible visually while preserving DOM/hit-testing */
+body.nf49-bezier-on #nf400Wires line.nf400-wire {
+  stroke-opacity: 0 !important;
+}
+#nf49BezierWires {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 6;
+  overflow: visible;
+}
+.nf49-cable-glow {
+  fill: none;
+  stroke-linecap: round;
+  opacity: 0.28;
+}
+.nf49-cable-core {
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 8 4;
+  animation: nf48CableFlow 1.15s linear infinite;
+}
+.nf49-cable-core.down {
+  stroke: #ff5c7c !important;
+  stroke-dasharray: 5 5;
+  animation: nf49RedBlink 0.75s ease-in-out infinite;
+}
+
+/* 3. Steam Wisps on Hot/Overheat Devices & Electric Zap */
+.nf49-steam {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  width: 44px;
+  height: 24px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 35;
+}
+.nf49-steam i {
+  position: absolute;
+  bottom: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 196, 120, 0.85), rgba(239, 68, 68, 0.15) 70%, transparent);
+  animation: nf49SteamRise 1.3s ease-out infinite;
+}
+.nf49-steam i:nth-child(1) { left: 4px; animation-delay: 0s; }
+.nf49-steam i:nth-child(2) { left: 17px; animation-delay: 0.42s; }
+.nf49-steam i:nth-child(3) { left: 30px; animation-delay: 0.84s; }
+
+/* 4. Ambient Server-Room Data Fireflies */
+#nf48AmbientDust {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.nf48-dot {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #67e8f9;
+  box-shadow: 0 0 8px rgba(103, 232, 249, 0.8);
+  animation: nf48Firefly 5.5s ease-in-out infinite;
+}
+
+/* 5. Connection Ripple Spark */
+.nf48-ripple {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid #52ffcb;
+  box-shadow: 0 0 12px rgba(82, 255, 203, 0.85);
+  pointer-events: none;
+  z-index: 25;
+  animation: nf48Ripple 0.52s ease-out forwards;
+}
+
+/* 6. Hardware Micro-Animation Layer inside Online Device Cards */
+.nf47-fx-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: visible;
+}
+.nf47-radar {
+  position: absolute;
+  top: 10px;
+  right: 28px;
+  width: 24px;
+  height: 24px;
+}
+.nf47-radar span {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(56, 224, 255, 0.88);
+  animation: nf47RadarPulse 2.0s ease-out infinite;
+}
+.nf47-radar span:nth-child(2) {
+  animation-delay: 0.68s;
+  border-color: rgba(52, 211, 153, 0.8);
+}
+
+.nf47-leds {
+  position: absolute;
+  top: 8px;
+  right: 28px;
+  display: flex;
+  gap: 3px;
+  padding: 2px 5px;
+  border-radius: 999px;
+  background: rgba(4, 16, 32, 0.82);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+.nf47-led {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 6px #34d399;
+  animation: nf47LedBlinkA 0.92s infinite;
+}
+.nf47-led:nth-child(2) {
+  background: #38bdf8;
+  box-shadow: 0 0 6px #38bdf8;
+  animation: nf47LedBlinkB 0.7s infinite;
+}
+.nf47-led:nth-child(3) {
+  background: #fbbf24;
+  box-shadow: 0 0 6px #fbbf24;
+  animation: nf47LedBlinkA 1.3s infinite 0.3s;
+}
+
+.nf47-wave {
+  position: absolute;
+  top: 8px;
+  right: 28px;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+  padding: 2px 4px;
+  border-radius: 5px;
+  background: rgba(4, 18, 36, 0.84);
+  border: 1px solid rgba(52, 211, 153, 0.38);
+}
+.nf47-wave i {
+  display: block;
+  width: 2.5px;
+  height: 100%;
+  border-radius: 2px;
+  background: #34d399;
+  transform-origin: bottom;
+  animation: nf47WaveBar 0.88s ease-in-out infinite;
+}
+.nf47-wave i:nth-child(2) { animation-delay: 0.18s; background: #38bdf8; }
+.nf47-wave i:nth-child(3) { animation-delay: 0.36s; }
+.nf47-wave i:nth-child(4) { animation-delay: 0.54s; background: #7dd3fc; }
+
+/* 7. Connected Port Activity LED */
+#nf400Canvas .nf4033-jack[data-used="true"] {
+  border-color: #34d399 !important;
+  box-shadow: 0 0 6px rgba(52, 211, 153, 0.52);
+  padding-right: 11px !important;
+}
+#nf400Canvas .nf4033-jack[data-used="true"]::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 3px;
+  width: 4px;
+  height: 4px;
+  margin-top: -2px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 5px #34d399;
+  pointer-events: none;
+  animation: nf47LedBlinkA 0.85s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nf47-radar span, .nf47-led, .nf47-wave i, .nf48-dot, .nf49-steam i,
+  .nf49-cable-core, #nf400Canvas .nf400-node.nf42-online,
+  #nf400Canvas .nf4033-jack[data-used="true"]::after {
+    animation: none !important;
+  }
+}
