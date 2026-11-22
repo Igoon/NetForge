@@ -1,6 +1,6 @@
 {
-  "version": "0.40.94",
+  "version": "0.40.95",
   "releaseDate": "2026-11-22",
-  "title": "Iga Sync & Layout v0.40.94",
-  "notes": "MERGE dua cabang v0.40.93 (basis v0.40.92 yang sama): perbaikan sinkronisasi gelembung/panel Iga dari Muse (B4 + 2 butir basi, penjaga konvergensi nf4093StaleBubble + verifikasi 600 ms) dan perbaikan tata letak dari Claude AI (grid inventori auto-fill, tombol/status mengambang tanpa tumpang tindih, status PWA memudar 7 detik, tautan footer cyan, manifest dirapikan)."
+  "title": "Lazy WebGL2 & Direct Port Wiring v0.40.95",
+  "notes": "Inisialisasi WebGL2 dibuat lazy agar tidak memicu software WebGL/GPU stall saat membuka game di Unified Canvas, serta klik langsung pada port (LAN1/ETH0/dll.) kini otomatis memulai dan menyambungkan kabel tanpa perlu menekan tombol mode port terlebih dahulu."
 }
