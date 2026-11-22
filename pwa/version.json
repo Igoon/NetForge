@@ -1,6 +1,6 @@
 {
-  "version": "0.40.92",
-  "releaseDate": "2026-11-21",
-  "title": "Audit Fixes v0.40.92",
-  "notes": "Perbaikan audit live v0.40.91 (4 bug baru aliran Guided Lab): masuk Guided Lab tanpa cadangan kini selalu menampilkan canvas Lab kosong (bukan canvas misi); Periksa tahap menilai hanya graf unified yang ditampilkan di mode mixed; insiden Chaos terikat pada identitas kabel (uid) sehingga tidak bangkit pada kabel baru, dan topologi Guided disimpan pada setiap perubahan graf; gelembung Iga selalu menyebut misi aktif walau misi belum dimulai."
+  "version": "0.40.94",
+  "releaseDate": "2026-11-22",
+  "title": "Iga Sync & Layout v0.40.94",
+  "notes": "MERGE dua cabang v0.40.93 (basis v0.40.92 yang sama): perbaikan sinkronisasi gelembung/panel Iga dari Muse (B4 + 2 butir basi, penjaga konvergensi nf4093StaleBubble + verifikasi 600 ms) dan perbaikan tata letak dari Claude AI (grid inventori auto-fill, tombol/status mengambang tanpa tumpang tindih, status PWA memudar 7 detik, tautan footer cyan, manifest dirapikan)."
 }
