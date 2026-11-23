@@ -1546,7 +1546,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  // v0.40.72: tidak ada backend bawaan. Satu konstanta ini adalah satu-satunya
  // default URL API; isi dengan URL HTTPS publik backend Anda di Pengaturan.
  // Nilai kosong berarti "belum dikonfigurasi" — mode tamu tetap berfungsi penuh.
- const NETFORGE_API_DEFAULT_URL='';
+ const NETFORGE_API_DEFAULT_URL='https://netforge-docker2.taild3997b.ts.net/api/v1';
  try{url.value=localStorage.getItem('netforge.server.url.v032')||NETFORGE_API_DEFAULT_URL;}catch{url.value=NETFORGE_API_DEFAULT_URL;}
  const previous=url.value.trim();if(previous==='http://netforge-docker2.taild3997b.ts.net:8085/api/v1'||previous==='https://netforge-docker2.taild3997b.ts.net/api/v1'){url.value=NETFORGE_API_DEFAULT_URL;}
  try{token.value=sessionStorage.getItem('netforge.server.token.v032')||'';}catch{}
