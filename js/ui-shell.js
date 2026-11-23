@@ -1,5 +1,5 @@
 /* === script:nf4093-pwa-status-fade === */
-/* v0.58.00: status PWA tampil 7 detik tiap kali teksnya berubah, lalu memudar. */
+/* v0.59.00: status PWA tampil 7 detik tiap kali teksnya berubah, lalu memudar. */
 (function(){'use strict';var timer=null;
 function arm(el){el.classList.remove('nf4093-faded');clearTimeout(timer);timer=setTimeout(function(){el.classList.add('nf4093-faded')},7000)}
 function init(){var el=document.getElementById('nf330PwaStatus');if(!el)return false;arm(el);
@@ -9,7 +9,7 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
 ;
 
 /* === script:nf4200-ui-helper === */
-/* NET FORGE v0.58.00 — Sync LED online badges on canvas nodes + faster PWA toast fade */
+/* NET FORGE v0.59.00 — Sync LED online badges on canvas nodes + faster PWA toast fade */
 (function () {
   'use strict';
   if (window.__NF4200_UI) return;
@@ -38,7 +38,7 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
 ;
 
 /* === script:nf4300-shell-controller === */
-/* NET FORGE v0.58.00 — Single-Screen 100dvh App Shell & Collapsible Bottom Drawer */
+/* NET FORGE v0.59.00 — Single-Screen 100dvh App Shell & Collapsible Bottom Drawer */
 (function () {
   'use strict';
   if (window.__NF4300_SHELL) return;
@@ -191,13 +191,13 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
 })();
 
 /* === script:nf5800-autoupdate === */
-/* NET FORGE v0.58.00 — Silent Background Update Checker & Non-Intrusive Banner */
+/* NET FORGE v0.59.00 — Silent Background Update Checker & Non-Intrusive Banner */
 (function () {
   'use strict';
   if (window.__NF5800_UPDATER) return;
   window.__NF5800_UPDATER = true;
 
-  const CURRENT = '0.58.00';
+  const CURRENT = '0.59.00';
   let lastCheckAt = 0;
 
   function cmpVer(a, b) {
@@ -288,4 +288,181 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
   });
   setTimeout(() => { injectSettingsCheck(); checkSilent(false); }, 2500);
   window.NetForgeUpdater = { version: CURRENT, checkNow: () => checkSilent(true) };
+})();
+
+/* === script:nf5900-profile-settings-ux === */
+/* NET FORGE v0.59.00 — Seamless Post-Google-Login Transition & Decluttered Settings Modal */
+(function () {
+  'use strict';
+  if (window.__NF5900_PROFILE_UX) return;
+  window.__NF5900_PROFILE_UX = true;
+
+  const $ = id => document.getElementById(id);
+  let wasSignedIn = Boolean(window.NetForgeAuth?.isSignedIn?.());
+  let cameFromIntroGoogle = false;
+
+  function showWelcomeToast(msg) {
+    $('nf59LoginToast')?.remove();
+    const t = document.createElement('div');
+    t.id = 'nf59LoginToast';
+    t.setAttribute('role', 'status');
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 3200);
+  }
+
+  function closeSettingsAndPlay() {
+    const closeBtn = $('nf30Close');
+    const ov = $('nf30Overlay');
+    if (closeBtn) closeBtn.click();
+    else if (ov) ov.hidden = true;
+  }
+
+  function syncMenuAuthState() {
+    const signed = Boolean(window.NetForgeAuth?.isSignedIn?.());
+    const player = window.NetForgeAuth?.getPlayer?.();
+    const googleBtn = $('nf64GoogleFromIntro');
+    const label = $('nf346GuestLabel');
+    const note = $('nf64AccountNote');
+    const actions = document.querySelector('#nf346MenuEntry .nf346-actions');
+
+    if (signed) {
+      if (label) label.textContent = '✅ Akun Google · ' + (player?.name || 'Pemain Resmi');
+      if (note) note.textContent = 'Sesi Google aktif. Progres dan pencapaian Anda siap disinkronkan ke Cloud.';
+      if (googleBtn) googleBtn.style.setProperty('display', 'none', 'important');
+      if (actions && !$('nf59CloudPill')) {
+        const pill = document.createElement('span');
+        pill.id = 'nf59CloudPill';
+        pill.textContent = '☁️ Cloud Sync Aktif';
+        actions.prepend(pill);
+      }
+    } else {
+      if (googleBtn) googleBtn.style.removeProperty('display');
+      $('nf59CloudPill')?.remove();
+    }
+  }
+
+  function organizeSettingsModal() {
+    const ov = $('nf30Overlay');
+    if (!ov) return;
+
+    // 1. Add prominent "▶ Lanjut ke Permainan" button in modal header
+    const head = ov.querySelector('.nf30-head');
+    const closeBtn = $('nf30Close');
+    if (head && closeBtn && !$('nf59PlayNowBtn')) {
+      const wrap = document.createElement('div');
+      wrap.className = 'nf59-head-actions';
+      const playBtn = document.createElement('button');
+      playBtn.id = 'nf59PlayNowBtn';
+      playBtn.type = 'button';
+      playBtn.textContent = '▶ Lanjut ke Permainan';
+      playBtn.addEventListener('click', closeSettingsAndPlay);
+      closeBtn.parentElement.insertBefore(wrap, closeBtn);
+      wrap.append(playBtn, closeBtn);
+    }
+
+    // 2. Tuck diagnostic buttons inside #nf350AuthPanel into collapsible <details>
+    const authPanel = $('nf350AuthPanel');
+    if (authPanel && !$('nf59AuthDiag')) {
+      const verify = $('nf367Verify');
+      const diag = $('nf362Diagnose');
+      const diagOut = $('nf362DiagOutput');
+      if (verify || diag) {
+        const det = document.createElement('details');
+        det.id = 'nf59AuthDiag';
+        det.innerHTML = '<summary>🔧 Diagnostik &amp; Verifikasi Sesi</summary><div class="nf59-diag-body"></div>';
+        const dBody = det.querySelector('.nf59-diag-body');
+        if (verify) dBody.appendChild(verify);
+        if (diag) dBody.appendChild(diag);
+        if (diagOut) dBody.appendChild(diagOut);
+        authPanel.appendChild(det);
+      }
+    }
+
+    // 3. Tuck technical server API URL, legacy duplicate profile, backup & local reset cards into collapsible Advanced drawer
+    const body = ov.querySelector('.nf30-body');
+    if (body && !$('nf59AdvancedPanel')) {
+      const adv = document.createElement('details');
+      adv.id = 'nf59AdvancedPanel';
+      adv.innerHTML = '<summary>🛠️ Pengaturan Server API, Backup &amp; Data Lanjutan</summary><div id="nf59AdvancedBody"></div>';
+      const advBody = adv.querySelector('#nf59AdvancedBody');
+
+      const toMove = [];
+      // Move legacy API URL / Token card
+      const apiCard = $('nf32Url')?.closest('section');
+      if (apiCard) toMove.push(apiCard);
+      // Move legacy duplicate Profil Pemain (#nf30Name), Backup, and Local Data cards
+      [...body.children].forEach(ch => {
+        if (ch.tagName !== 'SECTION') return;
+        const h = (ch.querySelector('h3')?.textContent || '');
+        if (ch.querySelector('#nf30Name') || /Backup|Kelola Data Lokal/i.test(h)) {
+          toMove.push(ch);
+        }
+      });
+
+      if (toMove.length) {
+        toMove.forEach(c => advBody.appendChild(c));
+        body.appendChild(adv);
+      }
+    }
+
+    // 4. Smart fallback: if API URL is empty when clicking #nf350Login, auto-open Advanced drawer so admin sees #nf32Url
+    const loginBtn = $('nf350Login');
+    if (loginBtn && !loginBtn.__nf59Hook) {
+      loginBtn.__nf59Hook = true;
+      loginBtn.addEventListener('click', () => {
+        const urlEl = $('nf32Url');
+        if (urlEl && !urlEl.value.trim()) {
+          const adv = $('nf59AdvancedPanel');
+          if (adv) {
+            adv.open = true;
+            setTimeout(() => urlEl.scrollIntoView({ behavior: 'smooth', block: 'center' }), 120);
+          }
+        }
+      });
+    }
+  }
+
+  // Track if user initiated Google Login from the Intro/Menu card
+  document.addEventListener('click', e => {
+    if (e.target.closest?.('#nf64GoogleFromIntro')) {
+      cameFromIntroGoogle = true;
+      setTimeout(() => {
+        organizeSettingsModal();
+        // Auto-trigger Google sign-in mount if URL is already configured so user doesn't have to click twice!
+        const urlEl = $('nf32Url');
+        const loginBtn = $('nf350Login');
+        if (urlEl && urlEl.value.trim() && loginBtn && !loginBtn.hidden && !window.NetForgeAuth?.isSignedIn?.()) {
+          loginBtn.click();
+        }
+      }, 220);
+    }
+  }, true);
+
+  // Seamless post-login transition: auto-close Settings modal & enter game right after Google Login succeeds!
+  window.addEventListener('netforge:auth-change', () => {
+    const nowSigned = Boolean(window.NetForgeAuth?.isSignedIn?.());
+    syncMenuAuthState();
+    if (!wasSignedIn && nowSigned) {
+      const name = window.NetForgeAuth?.getPlayer?.()?.name || 'Pemain';
+      const ov = $('nf30Overlay');
+      if (ov && !ov.hidden) {
+        showWelcomeToast('✅ Masuk sebagai ' + name + '! Membuka permainan…');
+        setTimeout(() => {
+          closeSettingsAndPlay();
+          cameFromIntroGoogle = false;
+        }, 900);
+      } else {
+        showWelcomeToast('✅ Sesi Google aktif: ' + name);
+      }
+    }
+    wasSignedIn = nowSigned;
+  });
+
+  let n = 0;
+  (function boot() {
+    organizeSettingsModal();
+    syncMenuAuthState();
+    if (++n < 16) setTimeout(boot, 400);
+  })();
 })();

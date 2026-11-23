@@ -1,5 +1,5 @@
-/* NET FORGE v0.58.00 — Offline-Safe Modular Cache & Network-First Auto-Update */
-const RELEASE = '0.58.00';
+/* NET FORGE v0.59.00 — Offline-Safe Modular Cache & Network-First Auto-Update */
+const RELEASE = '0.59.00';
 const CACHE = 'netforge-pwa-v' + RELEASE;
 const ASSETS = [
   './index.html',
@@ -58,7 +58,7 @@ self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET') return;
   const url = new URL(request.url);
-  if (url.origin !== self.location.origin) return;
+  if (url.origin !== self.location.origin || url.pathname.startsWith('/api/')) return;
 
   // 1. Metadata & recovery endpoints always bypass cache
   if (

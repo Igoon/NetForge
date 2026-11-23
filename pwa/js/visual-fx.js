@@ -1,4 +1,4 @@
-/* NET FORGE v0.58.00 — Complete Living Graphics Controller (Pixel-Exact Bezier Cables & Pan/Zoom-Synced) */
+/* NET FORGE v0.59.00 — Complete Living Graphics Controller (Pixel-Exact Bezier Cables & Pan/Zoom-Synced) */
 (function () {
   'use strict';
   if (window.__NF4900_VFX) return;
@@ -251,7 +251,7 @@
   setInterval(emitAmbientTraffic, 2000);
 
   window.NetForgeVisualFX = {
-    version: '0.58.00',
+    version: '0.59.00',
     syncHardwareMicroFx,
     syncBezierCables,
     emitAmbientTraffic,

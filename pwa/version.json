@@ -1,6 +1,6 @@
 {
-  "version": "0.58.00",
-  "releaseDate": "2026-11-23",
-  "title": "Smart Auto-Update & Offline-Safe PWA v0.58.00",
-  "notes": "Perombakan sistem update PWA: memperbaiki bug cache-miss offline di sw.js dengan ignoreSearch:true + Network-First untuk HTML/CSS/JS modular, mengganti tombol mengambang Cek Update di kanvas dengan pemeriksaan otomatis senyap di latar belakang + banner non-intrusif saat ada rilis baru, dan memindahkan tombol manual Cek Update ke menu Pengaturan."
+  "version": "0.59.00",
+  "releaseDate": "2026-11-24",
+  "title": "Seamless Google Login & Clean Profile UX v0.59.00",
+  "notes": "Perombakan alur pasca-login Google & halaman Profil/Pengaturan: otomatis menutup halaman Pengaturan dan langsung masuk ke permainan setelah login Google berhasil, menampilkan tombol jelas \"▶ Lanjut ke Permainan\", menyederhanakan kartu Akun & Menu Utama saat sesi aktif, melipat pengaturan server/diagnostik teknis ke panel lanjutan, serta menambahkan bypass /api/ pada sw.js."
 }
