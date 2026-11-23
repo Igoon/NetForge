@@ -12,10 +12,18 @@ services:
     volumes:
       - netforge_data:/var/lib/netforge
     networks: [internal]
+    healthcheck:
+      test: ["CMD-SHELL", "php -v >/dev/null 2>&1 && test -f /var/www/html/public/router.php && test -f /var/www/html/src/common.php"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
   nginx:
     image: nginx:1.27-alpine
     restart: unless-stopped
-    depends_on: [php]
+    depends_on:
+      php:
+        condition: service_healthy
     ports:
       - '127.0.0.1:8085:80'
     volumes:
@@ -23,6 +31,12 @@ services:
       - ./deploy/limit.conf:/etc/nginx/conf.d/00-limit.conf:ro
       - ./public:/var/www/html/public:ro
     networks: [internal]
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "-", "http://127.0.0.1/healthz"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 networks:
   internal:
 volumes:

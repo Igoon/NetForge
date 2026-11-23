@@ -1,5 +1,7 @@
 /backend/
 /docs/
+/frontend/docs/
+/pwa/docs/
 /tests/
 dist/
 test-results/
