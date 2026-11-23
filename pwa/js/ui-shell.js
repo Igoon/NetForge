@@ -1,5 +1,5 @@
 /* === script:nf4093-pwa-status-fade === */
-/* v0.50.1: status PWA tampil 7 detik tiap kali teksnya berubah, lalu memudar. */
+/* v0.56.00: status PWA tampil 7 detik tiap kali teksnya berubah, lalu memudar. */
 (function(){'use strict';var timer=null;
 function arm(el){el.classList.remove('nf4093-faded');clearTimeout(timer);timer=setTimeout(function(){el.classList.add('nf4093-faded')},7000)}
 function init(){var el=document.getElementById('nf330PwaStatus');if(!el)return false;arm(el);
@@ -9,7 +9,7 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
 ;
 
 /* === script:nf4200-ui-helper === */
-/* NET FORGE v0.50.1 — Sync LED online badges on canvas nodes + faster PWA toast fade */
+/* NET FORGE v0.56.00 — Sync LED online badges on canvas nodes + faster PWA toast fade */
 (function () {
   'use strict';
   if (window.__NF4200_UI) return;
@@ -38,7 +38,7 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
 ;
 
 /* === script:nf4300-shell-controller === */
-/* NET FORGE v0.50.1 — Single-Screen 100dvh App Shell & Collapsible Bottom Drawer */
+/* NET FORGE v0.56.00 — Single-Screen 100dvh App Shell & Collapsible Bottom Drawer */
 (function () {
   'use strict';
   if (window.__NF4300_SHELL) return;
@@ -127,3 +127,31 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
   })();
 })();
 ;
+
+/* === script:nf5600-streamline === */
+(function () {
+  'use strict';
+  if (window.__NF5600_CLEAN) return;
+  window.__NF5600_CLEAN = true;
+  function pruneRedundantUI() {
+    // Keep only "Petunjuk" & "Tunjukkan" inside Iga actions
+    document.querySelectorAll('#nf4034Coach .nf4034-actions button').forEach(btn => {
+      const t = (btn.textContent || '').toLowerCase();
+      if (t.includes('jelaskan') || t.includes('panduan') || t.includes('sambung port')) {
+        btn.style.display = 'none';
+      }
+    });
+    // Hide Legacy Classic Mode card in mission picker
+    document.querySelectorAll('button').forEach(btn => {
+      if ((btn.textContent || '').includes('Mode Klasik (Kompatibilitas)')) {
+        btn.style.display = 'none';
+      }
+    });
+  }
+  let n = 0;
+  (function run() {
+    pruneRedundantUI();
+    if (++n < 15) setTimeout(run, 400);
+  })();
+  document.addEventListener('click', () => setTimeout(pruneRedundantUI, 150), true);
+})();

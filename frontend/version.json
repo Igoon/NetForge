@@ -1,6 +1,6 @@
 {
-  "version": "0.50.1",
-  "releaseDate": "2026-11-22",
-  "title": "Hotfix Pixel-Exact Bezier Cable Alignment v0.50.1",
-  "notes": "Memperbaiki posisi kabel lengkung Bezier dan paket data agar menempel presisi dari port sumber ke port tujuan di dalam #nf4024Viewport (sinkron dengan pan/zoom/drag dan bentuk titik paket bulat sempurna)."
+  "version": "0.56.00",
+  "releaseDate": "2026-11-23",
+  "title": "Streamlined & Clean UI Edition v0.56.00",
+  "notes": "Merapikan antarmuka dari elemen warisan yang tumpang tindih: menyembunyikan kontrol GPU WebGL2 klasik di Unified Canvas, menyederhanakan tombol kartu Iga menjadi 2 aksi inti (Petunjuk & Tunjukkan), merapikan navigasi atas dari tombol online tanpa backend, menyembunyikan Mode Klasik lama dari pemilih misi, serta meringkas isi laci bawah."
 }

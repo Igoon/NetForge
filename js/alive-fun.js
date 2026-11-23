@@ -1,5 +1,5 @@
 /* === script:nf4100-alive-engine === */
-/* NET FORGE v0.50.1 — Alive, Fun & Funny Gameplay Layer
+/* NET FORGE v0.56.00 — Alive, Fun & Funny Gameplay Layer
    1. Dynamic Iga Expressions + Reactive Funny Quips
    2. Web Audio Micro-SFX (RJ45 Click, Pop, Cat Meow, Error Bonk, Victory Fanfare)
    3. Animated Packet Flow Pulses & Offline Error Sparks on Unified Canvas
@@ -366,14 +366,22 @@
 
   function showVictoryCard() {
     const state = API()?.getState?.() || {};
-    const mode = (API()?.getMode?.() || 'basics').toLowerCase();
+    const profile = (API()?.getProfile?.() || 'basics').toLowerCase();
     const nodes = state.nodes || [];
-    const budgetText = document.body.innerText.match(/\$\s*(\d[\d,]*)/);
-    const budgetVal = budgetText ? Number(budgetText[1].replace(/,/g, '')) : 700;
+    const budgetText = document.body.innerText.match(/\$\s*(-?\d[\d,]*)/);
+    const budgetVal = budgetText ? Number(budgetText[1].replace(/,/g, '')) : 900;
 
+    const thresholds = {
+      basics: { minBudget: 1000, maxNodes: 5 },
+      smart:  { minBudget: 420,  maxNodes: 9 },
+      office: { minBudget: 280,  maxNodes: 8 },
+      free:   { minBudget: 500,  maxNodes: 10 }
+    }[profile] || { minBudget: 500, maxNodes: 8 };
+
+    const report = window.NetForgeMissionValidator?.assess?.(profile === 'free' ? 'basics' : profile) || { passed: 3, total: 3, score: 100 };
     const star1 = true;
-    const star2 = budgetVal >= 500;
-    const star3 = nodes.length <= 5 && !catActiveNode;
+    const star2 = budgetVal >= thresholds.minBudget;
+    const star3 = nodes.length <= thresholds.maxNodes && !catActiveNode;
     const stars = (star1 ? 1 : 0) + (star2 ? 1 : 0) + (star3 ? 1 : 0);
 
     const modal = ensureVictoryModal();
@@ -385,12 +393,12 @@
 
     $('nf41VTitle').textContent = stars === 3 ? 'Sempurna! Teknisi Legendaris!' : (stars === 2 ? 'Keren! Jaringan Stabil!' : 'Misi Lulus!');
     $('nf41VCriteria').innerHTML = [
-      `<li><span>${star1 ? '✅' : '⬜'}</span><span>Semua objective misi terpenuhi (3/3)</span></li>`,
-      `<li><span>${star2 ? '✅' : '⬜'}</span><span>Hemat budget proyek (sisa $${budgetVal} ≥ $500)</span></li>`,
-      `<li><span>${star3 ? '✅' : '⬜'}</span><span>Topologi efisien & bebas gangguan kucing (${nodes.length} perangkat)</span></li>`
+      `<li><span>${star1 ? '✅' : '⬜'}</span><span>Semua objective misi terpenuhi (${report.passed}/${report.total} · Skor ${report.score}%)</span></li>`,
+      `<li><span>${star2 ? '✅' : '⬜'}</span><span>Hemat budget proyek (sisa $${budgetVal} ≥ $${thresholds.minBudget})</span></li>`,
+      `<li><span>${star3 ? '✅' : '⬜'}</span><span>Topologi efisien & bebas gangguan (${nodes.length} ≤ ${thresholds.maxNodes} perangkat)</span></li>`
     ].join('');
 
-    const pool = CLIENT_QUOTES[mode] || CLIENT_QUOTES.basics;
+    const pool = CLIENT_QUOTES[profile] || CLIENT_QUOTES.basics;
     const q = pool[Math.floor(Math.random() * pool.length)];
     $('nf41VQuote').innerHTML = `<strong>💬 Testimoni ${q.who}</strong>${q.text}`;
 
@@ -417,7 +425,7 @@
     const canvas = $('nf400Canvas');
     const wireCount = launchPacketBurst(2);
     const rightText = (document.querySelector('.right')?.innerText || '');
-    const passed = rightText.includes('3 / 3') || rightText.includes('MISI TUNTAS') || rightText.includes('LULUS');
+    const passed = rightText.includes('MISI TUNTAS') || rightText.includes('LULUS') || /(\d+)\s*\/\s*\1\s+objective/.test(rightText);
 
     if (passed) {
       if (canvas) {
@@ -499,7 +507,7 @@
 
   // Expose tiny debug/trigger API for QA & future extensions
   window.NetForgeAlive = {
-    version: '0.50.1',
+    version: '0.56.00',
     spawnCatChaos,
     launchPacketBurst,
     showVictoryCard,
@@ -517,7 +525,7 @@
 ;
 
 /* === script:nf5000-release-polish === */
-/* NET FORGE v0.50.1 — Intro Verified Badge, First-Class Guest Mode & Richer Tactile SFX */
+/* NET FORGE v0.56.00 — Intro Verified Badge, First-Class Guest Mode & Richer Tactile SFX */
 (function () {
   'use strict';
   if (window.__NF5000_RELEASE) return;
@@ -644,7 +652,7 @@
     }
   }
 
-  window.NetForgeRelease = { version: '0.50.1', ExtraSFX };
+  window.NetForgeRelease = { version: '0.56.00', ExtraSFX };
 
   let tries = 0;
   (function boot() {

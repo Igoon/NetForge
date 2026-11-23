@@ -1,4 +1,4 @@
-/* NET FORGE v0.50.1 — Complete Living Graphics Controller (Pixel-Exact Bezier Cables & Pan/Zoom-Synced) */
+/* NET FORGE v0.56.00 — Complete Living Graphics Controller (Pixel-Exact Bezier Cables & Pan/Zoom-Synced) */
 (function () {
   'use strict';
   if (window.__NF4900_VFX) return;
@@ -18,7 +18,7 @@
   function classifyNode(nodeEl) {
     const txt = (nodeEl.textContent || '').toLowerCase();
     if (/router|access point|\bap\b|wifi/.test(txt)) return 'wireless';
-    if (/switch|server|nvr|camera/.test(txt)) return 'rack';
+    if (/switch|server|nvr|camera|modem|firewall/.test(txt)) return 'rack';
     return 'client';
   }
 
@@ -251,7 +251,7 @@
   setInterval(emitAmbientTraffic, 2000);
 
   window.NetForgeVisualFX = {
-    version: '0.50.1',
+    version: '0.56.00',
     syncHardwareMicroFx,
     syncBezierCables,
     emitAmbientTraffic,
