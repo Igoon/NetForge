@@ -1,0 +1,29 @@
+services:
+  php:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile
+    restart: unless-stopped
+    environment:
+      NETFORGE_DB_DIR: /var/lib/netforge
+      NETFORGE_ORIGIN: ${NETFORGE_ORIGIN:-https://igoon.github.io}
+      NETFORGE_GOOGLE_CLIENT_ID: ${NETFORGE_GOOGLE_CLIENT_ID:?Set Google web client ID}
+      NETFORGE_ALLOW_HTTP: '0'
+    volumes:
+      - netforge_data:/var/lib/netforge
+    networks: [internal]
+  nginx:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    depends_on: [php]
+    ports:
+      - '127.0.0.1:8085:80'
+    volumes:
+      - ./deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./deploy/limit.conf:/etc/nginx/conf.d/00-limit.conf:ro
+      - ./public:/var/www/html/public:ro
+    networks: [internal]
+networks:
+  internal:
+volumes:
+  netforge_data:

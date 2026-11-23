@@ -1,7 +1,6 @@
-backend/
-docs/
-server-reference/
-tests/
+/backend/
+/docs/
+/tests/
 dist/
 test-results/
 *.log
