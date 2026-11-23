@@ -1,5 +1,16 @@
 # NET FORGE
 
+<p align="center">
+  <img src="./icons/netforge-qa-badge.svg" alt="NET FORGE v0.55.00 — Verified Playable (8.7/10)" width="760">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/NET_FORGE-v0.55.00-0ea5e9?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/QA_Status-Verified_Playable-10b981?style=for-the-badge" alt="QA Status">
+  <img src="https://img.shields.io/badge/Score-8.7%2F10-fbbf24?style=for-the-badge" alt="Score">
+  <img src="https://img.shields.io/badge/Tested_by-Gemini-38bdf8?style=for-the-badge" alt="Tested by Gemini">
+</p> 
+
 NET FORGE adalah game simulasi dan pembelajaran jaringan komputer: bangun topologi, hubungkan perangkat, konfigurasi IP/DHCP/routing, lalu selesaikan misi.
 
 - Live PWA: https://igoon.github.io/NetForge/
