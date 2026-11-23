@@ -1,5 +1,5 @@
 /* === script:nf4093-pwa-status-fade === */
-/* v0.57.00: status PWA tampil 7 detik tiap kali teksnya berubah, lalu memudar. */
+/* v0.58.00: status PWA tampil 7 detik tiap kali teksnya berubah, lalu memudar. */
 (function(){'use strict';var timer=null;
 function arm(el){el.classList.remove('nf4093-faded');clearTimeout(timer);timer=setTimeout(function(){el.classList.add('nf4093-faded')},7000)}
 function init(){var el=document.getElementById('nf330PwaStatus');if(!el)return false;arm(el);
@@ -9,7 +9,7 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
 ;
 
 /* === script:nf4200-ui-helper === */
-/* NET FORGE v0.57.00 — Sync LED online badges on canvas nodes + faster PWA toast fade */
+/* NET FORGE v0.58.00 — Sync LED online badges on canvas nodes + faster PWA toast fade */
 (function () {
   'use strict';
   if (window.__NF4200_UI) return;
@@ -38,7 +38,7 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
 ;
 
 /* === script:nf4300-shell-controller === */
-/* NET FORGE v0.57.00 — Single-Screen 100dvh App Shell & Collapsible Bottom Drawer */
+/* NET FORGE v0.58.00 — Single-Screen 100dvh App Shell & Collapsible Bottom Drawer */
 (function () {
   'use strict';
   if (window.__NF4300_SHELL) return;
@@ -188,4 +188,104 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
     if (++k < 14) setTimeout(tick, 350);
   })();
   document.addEventListener('click', () => setTimeout(polishMainMenu, 150), true);
+})();
+
+/* === script:nf5800-autoupdate === */
+/* NET FORGE v0.58.00 — Silent Background Update Checker & Non-Intrusive Banner */
+(function () {
+  'use strict';
+  if (window.__NF5800_UPDATER) return;
+  window.__NF5800_UPDATER = true;
+
+  const CURRENT = '0.58.00';
+  let lastCheckAt = 0;
+
+  function cmpVer(a, b) {
+    const pa = String(a || '0').split('.').map(n => parseInt(n, 10) || 0);
+    const pb = String(b || '0').split('.').map(n => parseInt(n, 10) || 0);
+    for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+      if ((pa[i] || 0) !== (pb[i] || 0)) return (pa[i] || 0) - (pb[i] || 0);
+    }
+    return 0;
+  }
+
+  function ensureBanner(newVer) {
+    let b = document.getElementById('nf58UpdateBanner');
+    if (!b) {
+      b = document.createElement('div');
+      b.id = 'nf58UpdateBanner';
+      b.setAttribute('role', 'status');
+      b.innerHTML = `
+        <span id="nf58UpdateText">✨ Versi baru NET FORGE tersedia!</span>
+        <button type="button" id="nf58UpdateApply">Perbarui Sekarang</button>
+        <button type="button" id="nf58UpdateLater">Nanti</button>
+      `;
+      document.body.appendChild(b);
+      b.querySelector('#nf58UpdateLater').addEventListener('click', () => b.classList.remove('show'));
+      b.querySelector('#nf58UpdateApply').addEventListener('click', async () => {
+        try {
+          if ('serviceWorker' in navigator) {
+            const reg = await navigator.serviceWorker.getRegistration();
+            if (reg?.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+            await reg?.update?.();
+          }
+        } catch (_) {}
+        sessionStorage.setItem('nf4041.approved', '1');
+        location.replace('./index.html?v=' + encodeURIComponent(newVer || Date.now()));
+      });
+    }
+    const txt = b.querySelector('#nf58UpdateText');
+    if (txt && newVer) txt.textContent = '✨ NET FORGE v' + newVer + ' tersedia!';
+    b.classList.add('show');
+  }
+
+  async function checkSilent(manual) {
+    if (location.protocol !== 'http:' && location.protocol !== 'https:') {
+      if (manual) {
+        const st = document.getElementById('nf58SettingsUpdateText');
+        if (st) st.textContent = 'Versi aktif v' + CURRENT + ' (mode file lokal)';
+      }
+      return;
+    }
+    const now = Date.now();
+    if (!manual && now - lastCheckAt < 300000) return;
+    lastCheckAt = now;
+    try {
+      const res = await fetch('./version.json?t=' + now, { cache: 'no-store' });
+      if (!res.ok) return;
+      const meta = await res.json();
+      const remote = meta && meta.version;
+      const st = document.getElementById('nf58SettingsUpdateText');
+      if (remote && cmpVer(remote, CURRENT) > 0) {
+        if (st) st.textContent = 'Update v' + remote + ' tersedia (aktif: v' + CURRENT + ')';
+        ensureBanner(remote);
+      } else if (manual && st) {
+        st.textContent = '✓ Sudah versi terbaru (v' + CURRENT + ')';
+      }
+    } catch (_) {
+      if (manual) {
+        const st = document.getElementById('nf58SettingsUpdateText');
+        if (st) st.textContent = 'Mode offline · versi aktif v' + CURRENT;
+      }
+    }
+  }
+
+  function injectSettingsCheck() {
+    const body = document.querySelector('#nf30Overlay .nf30-body');
+    if (!body || document.getElementById('nf58SettingsUpdateCard')) return;
+    const card = document.createElement('div');
+    card.id = 'nf58SettingsUpdateCard';
+    card.innerHTML = `
+      <span id="nf58SettingsUpdateText">Versi aktif: v${CURRENT} · Cek update otomatis aktif</span>
+      <button type="button" id="nf58SettingsUpdateBtn">⟳ Cek Update</button>
+    `;
+    body.appendChild(card);
+    card.querySelector('#nf58SettingsUpdateBtn').addEventListener('click', () => checkSilent(true));
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) checkSilent(false);
+  });
+  setTimeout(() => { injectSettingsCheck(); checkSilent(false); }, 2500);
+  window.NetForgeUpdater = { version: CURRENT, checkNow: () => checkSilent(true) };
 })();

@@ -1,6 +1,6 @@
 {
-  "version": "0.57.00",
+  "version": "0.58.00",
   "releaseDate": "2026-11-23",
-  "title": "Cinematic Intro, Clean Main Menu & Account UX Revamp v0.57.00",
-  "notes": "Perombakan menyeluruh Intro 1 (gerbang audio ramah pemain & splash sinematik bebas kotak lisensi/scrollbar), Intro ke-2 (Menu Utama 1 layar pas tanpa scrollbar dengan 2 tombol aksi jelas), serta penyatuan kartu Akun & Profil adaptif untuk Mode Tamu dan Masuk dengan Google (100% mempertahankan hook backend)."
+  "title": "Smart Auto-Update & Offline-Safe PWA v0.58.00",
+  "notes": "Perombakan sistem update PWA: memperbaiki bug cache-miss offline di sw.js dengan ignoreSearch:true + Network-First untuk HTML/CSS/JS modular, mengganti tombol mengambang Cek Update di kanvas dengan pemeriksaan otomatis senyap di latar belakang + banner non-intrusif saat ada rilis baru, dan memindahkan tombol manual Cek Update ke menu Pengaturan."
 }
