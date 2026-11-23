@@ -1,6 +1,6 @@
 {
-  "version": "0.59.00",
+  "version": "0.59.1",
   "releaseDate": "2026-11-24",
-  "title": "Seamless Google Login & Clean Profile UX v0.59.00",
-  "notes": "Perombakan alur pasca-login Google & halaman Profil/Pengaturan: otomatis menutup halaman Pengaturan dan langsung masuk ke permainan setelah login Google berhasil, menampilkan tombol jelas \"▶ Lanjut ke Permainan\", menyederhanakan kartu Akun & Menu Utama saat sesi aktif, melipat pengaturan server/diagnostik teknis ke panel lanjutan, serta menambahkan bypass /api/ pada sw.js."
+  "title": "Attribution Footer & License Access v0.59.1",
+  "notes": "Menampilkan kredit pengembang lengkap (© 2026 Created by I Go On (Igoon) & Rr. Yuliana R.), lisensi Apache-2.0 dengan tombol klik 1x ke detail lisensi, dan tautan GitHub dalam satu baris footer elegan pada Intro 1 dan Menu Utama."
 }
