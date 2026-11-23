@@ -1,5 +1,5 @@
 /* === script:nf4093-pwa-status-fade === */
-/* v0.56.00: status PWA tampil 7 detik tiap kali teksnya berubah, lalu memudar. */
+/* v0.57.00: status PWA tampil 7 detik tiap kali teksnya berubah, lalu memudar. */
 (function(){'use strict';var timer=null;
 function arm(el){el.classList.remove('nf4093-faded');clearTimeout(timer);timer=setTimeout(function(){el.classList.add('nf4093-faded')},7000)}
 function init(){var el=document.getElementById('nf330PwaStatus');if(!el)return false;arm(el);
@@ -9,7 +9,7 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
 ;
 
 /* === script:nf4200-ui-helper === */
-/* NET FORGE v0.56.00 — Sync LED online badges on canvas nodes + faster PWA toast fade */
+/* NET FORGE v0.57.00 — Sync LED online badges on canvas nodes + faster PWA toast fade */
 (function () {
   'use strict';
   if (window.__NF4200_UI) return;
@@ -38,7 +38,7 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
 ;
 
 /* === script:nf4300-shell-controller === */
-/* NET FORGE v0.56.00 — Single-Screen 100dvh App Shell & Collapsible Bottom Drawer */
+/* NET FORGE v0.57.00 — Single-Screen 100dvh App Shell & Collapsible Bottom Drawer */
 (function () {
   'use strict';
   if (window.__NF4300_SHELL) return;
@@ -154,4 +154,38 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
     if (++n < 15) setTimeout(run, 400);
   })();
   document.addEventListener('click', () => setTimeout(pruneRedundantUI, 150), true);
+})();
+
+/* === script:nf5700-intro-revamp === */
+(function () {
+  'use strict';
+  if (window.__NF5700_INTRO) return;
+  window.__NF5700_INTRO = true;
+
+  function polishMainMenu() {
+    const cont = document.getElementById('nf322Continue');
+    const adv = document.getElementById('nf322Adventure');
+    if (cont && adv) {
+      const noSave = cont.disabled || cont.getAttribute('aria-disabled') === 'true';
+      adv.classList.toggle('nf57-primary-cta', noSave);
+      if (noSave) adv.textContent = '▶ Mulai Petualangan Baru';
+    }
+    // Move startup checkboxes into the collapsible "Pengaturan & Lainnya" drawer
+    const extra = document.querySelector('#nf322Menu .nf360-menu-extra');
+    if (extra && !extra.__nf57Moved) {
+      extra.__nf57Moved = true;
+      document.querySelectorAll('#nf322Menu > label.nf322-check').forEach(lbl => {
+        lbl.style.setProperty('display', 'flex', 'important');
+        lbl.style.fontSize = '11.5px';
+        extra.appendChild(lbl);
+      });
+    }
+  }
+
+  let k = 0;
+  (function tick() {
+    polishMainMenu();
+    if (++k < 14) setTimeout(tick, 350);
+  })();
+  document.addEventListener('click', () => setTimeout(polishMainMenu, 150), true);
 })();

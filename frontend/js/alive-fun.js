@@ -1,5 +1,5 @@
 /* === script:nf4100-alive-engine === */
-/* NET FORGE v0.56.00 — Alive, Fun & Funny Gameplay Layer
+/* NET FORGE v0.57.00 — Alive, Fun & Funny Gameplay Layer
    1. Dynamic Iga Expressions + Reactive Funny Quips
    2. Web Audio Micro-SFX (RJ45 Click, Pop, Cat Meow, Error Bonk, Victory Fanfare)
    3. Animated Packet Flow Pulses & Offline Error Sparks on Unified Canvas
@@ -507,7 +507,7 @@
 
   // Expose tiny debug/trigger API for QA & future extensions
   window.NetForgeAlive = {
-    version: '0.56.00',
+    version: '0.57.00',
     spawnCatChaos,
     launchPacketBurst,
     showVictoryCard,
@@ -525,7 +525,7 @@
 ;
 
 /* === script:nf5000-release-polish === */
-/* NET FORGE v0.56.00 — Intro Verified Badge, First-Class Guest Mode & Richer Tactile SFX */
+/* NET FORGE v0.57.00 — Intro Verified Badge, First-Class Guest Mode & Richer Tactile SFX */
 (function () {
   'use strict';
   if (window.__NF5000_RELEASE) return;
@@ -652,7 +652,7 @@
     }
   }
 
-  window.NetForgeRelease = { version: '0.56.00', ExtraSFX };
+  window.NetForgeRelease = { version: '0.57.00', ExtraSFX };
 
   let tries = 0;
   (function boot() {

@@ -1,9 +1,9 @@
-/* NET FORGE v0.56.00 — self-activating updates, cache-safe recovery */
-const RELEASE='0.56.00';
+/* NET FORGE v0.57.00 — self-activating updates, cache-safe recovery */
+const RELEASE='0.57.00';
 const CACHE='netforge-pwa-v'+RELEASE;
 const ASSETS=['./index.html','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png','./recovery.html','./version.json','./css/core-theme.css','./css/ui-polish-shell.css','./js/core-engine.js','./js/alive-fun.js','./js/ui-shell.js','./js/gameplay-expansion.js','./css/visual-fx.css','./js/visual-fx.js','./icons/iga-talk.svg','./icons/iga-celebrate.svg','./icons/iga-panic.svg','./icons/iga-think.svg','./icons/iga-fail.svg','./icons/badge-verified.svg'];
 self.addEventListener('install',event=>{
- // v0.56.00: unduh aset dengan cache:'reload' (hindari HTTP cache yang bisa
+ // v0.57.00: unduh aset dengan cache:'reload' (hindari HTTP cache yang bisa
  // menyajikan index.html lama saat install) lalu skipWaiting — SW baru aktif
  // begitu diunduh. Halaman lama TIDAK dimuat ulang otomatis: reload tetap
  // menunggu persetujuan pemain (guard nf4041.approved di halaman).

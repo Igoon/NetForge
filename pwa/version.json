@@ -1,6 +1,6 @@
 {
-  "version": "0.56.00",
+  "version": "0.57.00",
   "releaseDate": "2026-11-23",
-  "title": "Streamlined & Clean UI Edition v0.56.00",
-  "notes": "Merapikan antarmuka dari elemen warisan yang tumpang tindih: menyembunyikan kontrol GPU WebGL2 klasik di Unified Canvas, menyederhanakan tombol kartu Iga menjadi 2 aksi inti (Petunjuk & Tunjukkan), merapikan navigasi atas dari tombol online tanpa backend, menyembunyikan Mode Klasik lama dari pemilih misi, serta meringkas isi laci bawah."
+  "title": "Cinematic Intro, Clean Main Menu & Account UX Revamp v0.57.00",
+  "notes": "Perombakan menyeluruh Intro 1 (gerbang audio ramah pemain & splash sinematik bebas kotak lisensi/scrollbar), Intro ke-2 (Menu Utama 1 layar pas tanpa scrollbar dengan 2 tombol aksi jelas), serta penyatuan kartu Akun & Profil adaptif untuk Mode Tamu dan Masuk dengan Google (100% mempertahankan hook backend)."
 }

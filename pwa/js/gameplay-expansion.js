@@ -1,5 +1,5 @@
 /* === script:nf4400-expansion-engine === */
-/* NET FORGE v0.56.00 — Mode Darurat 60s, Deck Insiden Kantor & Toko Teknisi */
+/* NET FORGE v0.57.00 — Mode Darurat 60s, Deck Insiden Kantor & Toko Teknisi */
 (function () {
   'use strict';
   if (window.__NF4400_LOADED) return;
@@ -343,7 +343,7 @@
   }
 
   window.NetForgeExpansion = {
-    version: '0.56.00',
+    version: '0.57.00',
     startEmergencyMode,
     stopEmergency,
     spawnOfficeIncident,
@@ -360,7 +360,7 @@
 ;
 
 /* === script:nf4500-master-engine === */
-/* NET FORGE v0.56.00 — Achievements, Live Network Health Bar & Optional Auto-Chaos */
+/* NET FORGE v0.57.00 — Achievements, Live Network Health Bar & Optional Auto-Chaos */
 (function () {
   'use strict';
   if (window.__NF4500_LOADED) return;
@@ -564,7 +564,7 @@
   }
 
   window.NetForgeMaster = {
-    version: '0.56.00',
+    version: '0.57.00',
     openBadgesModal,
     toggleAutoChaos,
     getUnlocked: () => [...unlocked],
