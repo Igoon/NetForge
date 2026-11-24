@@ -1,6 +1,6 @@
 {
-  "version": "0.59.1",
+  "version": "0.60.00",
   "releaseDate": "2026-11-24",
-  "title": "Attribution Footer & License Access v0.59.1",
-  "notes": "Menampilkan kredit pengembang lengkap (© 2026 Created by I Go On (Igoon) & Rr. Yuliana R.), lisensi Apache-2.0 dengan tombol klik 1x ke detail lisensi, dan tautan GitHub dalam satu baris footer elegan pada Intro 1 dan Menu Utama."
+  "title": "Mission Designer & Exam Mode v0.60.00",
+  "notes": "Menambahkan Desainer Misi & Mode Ujian (css/mission-designer.css & js/mission-designer.js) untuk sekolah dan kampus: pembuat soal visual, 3 template ujian siap pakai, perekaman topologi awal troubleshooting, ekspor/impor paket soal .json offline-friendly, Mode Ujian Terkunci dengan timer, penilaian rubrik otomatis, serta laporan hasil cetak/JSON dengan kode verifikasi."
 }

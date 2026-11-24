@@ -1,5 +1,5 @@
 /* === style:nf4093-layout-fix === */
-/* NET FORGE v0.59.1 — perbaikan tata letak hasil audit browser nyata.
+/* NET FORGE v0.60.00 — perbaikan tata letak hasil audit browser nyata.
    (1) Inventori perangkat: grid 2 kolom lebih lebar dari panel 225px sehingga
        kartu terpotong & ada scroll horizontal tersembunyi -> kolom kini auto-fill
        (1 kolom di panel sempit, 2+ kolom di panel lebar), tanpa overflow-x.
@@ -33,7 +33,7 @@
 @media (prefers-reduced-motion:reduce){#nf330PwaStatus{transition:none}}
 
 /* === style:nf4094-polish-fix === */
-/* NET FORGE v0.59.1 — Perbaikan UX, Tata Letak, Clipping Panel Iga & Responsivitas */
+/* NET FORGE v0.60.00 — Perbaikan UX, Tata Letak, Clipping Panel Iga & Responsivitas */
 
 /* 1. Hilangkan scrollbar horizontal liar di halaman intro, menu, dan workspace */
 html, body { max-width: 100vw; overflow-x: hidden !important; }
@@ -216,7 +216,7 @@ html, body { max-width: 100vw; overflow-x: hidden !important; }
 #nf322Intro, #nf322Intro * { max-width: 100%; }
 
 /* === style:nf4100-alive-style === */
-/* NET FORGE v0.59.1 — Alive, Fun & Funny Edition */
+/* NET FORGE v0.60.00 — Alive, Fun & Funny Edition */
 @keyframes nf41Float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-3px); }
@@ -501,7 +501,7 @@ html, body { max-width: 100vw; overflow-x: hidden !important; }
 }
 
 /* === style:nf4200-ui-polish === */
-/* NET FORGE v0.59.1 — UI Declutter, Canvas Expansion & 3-Tier Visual Hierarchy */
+/* NET FORGE v0.60.00 — UI Declutter, Canvas Expansion & 3-Tier Visual Hierarchy */
 
 /* 1. Compact Header & Top Navigation (saves ~40px) */
 header.topbar {
@@ -741,7 +741,7 @@ header.topbar .topnav button {
 }
 
 /* === style:nf4300-single-screen-shell === */
-/* NET FORGE v0.59.1 — True 100dvh Single-Screen App Shell (Zero Page Scroll on Desktop) */
+/* NET FORGE v0.60.00 — True 100dvh Single-Screen App Shell (Zero Page Scroll on Desktop) */
 
 @media (min-width: 901px) {
   html, body {
@@ -952,7 +952,7 @@ header.topbar .topnav button {
 }
 
 /* === style:nf4400-expansion-style === */
-/* NET FORGE v0.59.1 — Mode Darurat 60s, Deck Insiden Kantor & Toko Teknisi */
+/* NET FORGE v0.60.00 — Mode Darurat 60s, Deck Insiden Kantor & Toko Teknisi */
 
 /* 1. Emergency 60s Mode Button & Countdown HUD */
 #nf44EmergencyBtn {
@@ -1132,7 +1132,7 @@ body[data-nf44-cable="lava"] #nf400Wires line.nf400-wire:not(.nf4045-down) {
 .nf44-item button:disabled { opacity: 0.55; cursor: not-allowed; }
 
 /* === style:nf4500-master-style === */
-/* NET FORGE v0.59.1 — Achievements, Live Network Health & Optional Auto-Chaos */
+/* NET FORGE v0.60.00 — Achievements, Live Network Health & Optional Auto-Chaos */
 @keyframes nf45ToastIn {
   0% { transform: translateY(-18px) scale(0.92); opacity: 0; }
   100% { transform: translateY(0) scale(1); opacity: 1; }
@@ -1242,7 +1242,7 @@ body[data-nf44-cable="lava"] #nf400Wires line.nf400-wire:not(.nf4045-down) {
 }
 
 /* === style:nf5000-release-polish === */
-/* NET FORGE v0.59.1 — Intro Verification Badge & First-Class Guest Mode UX */
+/* NET FORGE v0.60.00 — Intro Verification Badge & First-Class Guest Mode UX */
 .nf50-intro-badge {
   display: inline-flex;
   align-items: center;
@@ -1296,7 +1296,7 @@ body[data-nf44-cable="lava"] #nf400Wires line.nf400-wire:not(.nf4045-down) {
 }
 
 /* === style:nf5600-streamline === */
-/* NET FORGE v0.59.1 — Streamlined UI: Remove Legacy GPU Controls, Redundant Iga Buttons & Offline Stubs */
+/* NET FORGE v0.60.00 — Streamlined UI: Remove Legacy GPU Controls, Redundant Iga Buttons & Offline Stubs */
 
 /* 1. Hide legacy Classic WebGL2 GPU dropdown & auto-quality checkbox from Unified Workspace header */
 body.nf400-mixed .nf32-tools,
@@ -1346,7 +1346,7 @@ body.nf400-mixed #nf32Hud {
 }
 
 /* === style:nf5700-intro-revamp === */
-/* NET FORGE v0.59.1 — Clean Cinematic Intro 1, Single-Screen Main Menu & Full-Stack Account Card */
+/* NET FORGE v0.60.00 — Clean Cinematic Intro 1, Single-Screen Main Menu & Full-Stack Account Card */
 
 /* Lock Intro Overlay to 100dvh with ZERO stray scrollbars */
 #nf322Overlay {
@@ -1532,7 +1532,7 @@ body.nf400-mixed #nf32Hud {
 }
 
 /* === style:nf5800-autoupdate === */
-/* NET FORGE v0.59.1 — Declutter Floating Update Chrome & Sleek Smart Update Banner */
+/* NET FORGE v0.60.00 — Declutter Floating Update Chrome & Sleek Smart Update Banner */
 #nf330CheckUpdate,
 #nf330PwaStatus {
   display: none !important;
@@ -1603,7 +1603,7 @@ body.nf400-mixed #nf32Hud {
 }
 
 /* === style:nf5900-profile-settings-ux === */
-/* NET FORGE v0.59.1 — Clean Player-First Profile & Settings Modal + Post-Login Flow */
+/* NET FORGE v0.60.00 — Clean Player-First Profile & Settings Modal + Post-Login Flow */
 
 #nf30Overlay .nf30-window {
   width: min(860px, 95vw) !important;
