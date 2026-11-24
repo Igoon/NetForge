@@ -1,6 +1,6 @@
 {
-  "version": "0.60.00",
-  "releaseDate": "2026-11-24",
-  "title": "Mission Designer & Exam Mode v0.60.00",
-  "notes": "Menambahkan Desainer Misi & Mode Ujian (css/mission-designer.css & js/mission-designer.js) untuk sekolah dan kampus: pembuat soal visual, 3 template ujian siap pakai, perekaman topologi awal troubleshooting, ekspor/impor paket soal .json offline-friendly, Mode Ujian Terkunci dengan timer, penilaian rubrik otomatis, serta laporan hasil cetak/JSON dengan kode verifikasi."
+  "version": "0.60.1",
+  "releaseDate": "2026-11-25",
+  "title": "Exam Sidebar, PDF Print Fix & Specific IP Rules v0.60.1",
+  "notes": "Memperbaiki 3 hal penting pada Desainer Misi & Mode Ujian: (1) menyembunyikan daftar objective misi lama di panel kanan dan menggantinya dengan Panel Rubrik Ujian live, (2) memperbaiki pratinjau Cetak/PDF yang sebelumnya kosong menggunakan dokumen cetak A4 terisolasi yang kontras dan siap tanda tangan, serta (3) menambahkan editor Aturan IP Spesifik per Perangkat (IP eksak, subnet wildcard 192.168.10.*, prefix /24, & gateway)."
 }

@@ -1,4 +1,4 @@
-/* NET FORGE v0.60.00 — Desainer Misi & Mode Ujian (Sekolah / Kampus Edition) */
+/* NET FORGE v0.60.1 — Desainer Misi & Mode Ujian (Fixed Side Panel, Print PDF & Specific IP Rules) */
 
 #nf60OpenBtn {
   background: linear-gradient(135deg, #6366f1, #4f46e5) !important;
@@ -8,14 +8,68 @@
 }
 #nf60OpenBtn:hover { filter: brightness(1.12); }
 
-/* Exam Lock Mode: hide entertainment / hint elements cleanly during exam */
+/* Exam Mode Active: hide legacy mission objectives & contract clutter in right sidebar so student only sees the Exam Rubric! */
+body.nf60-exam-active #objectives,
+body.nf60-exam-active #progressBar,
+body.nf60-exam-active #progressText,
+body.nf60-exam-active .right .progress,
+body.nf60-exam-active #missionDesc,
+body.nf60-exam-active #missionMeta,
+body.nf60-exam-active #nf4034Coach .nf4034-step,
+body.nf60-exam-active #nf4034Coach .nf4034-actions {
+  display: none !important;
+}
+
+/* Exam Lock Mode: hide entertainment & hint controls */
 body.nf60-exam-locked #nf41CatBtn,
 body.nf60-exam-locked #nf44EmergencyBtn,
 body.nf60-exam-locked #nf45AutoChaosBtn,
 body.nf60-exam-locked #nf44ShopBtn,
-body.nf60-exam-locked #nf4034Coach .nf4034-actions,
 body.nf60-exam-locked #nf403RunMission {
   display: none !important;
+}
+
+/* Dedicated Exam Rubric Panel inside Right Sidebar (replaces confusing legacy objectives during exam) */
+#nf60SidePanel {
+  display: none;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  background: linear-gradient(160deg, rgba(30, 41, 99, 0.72), rgba(10, 24, 52, 0.92));
+  border: 1px solid rgba(129, 140, 248, 0.55);
+  color: #eef2ff;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+body.nf60-exam-active #nf60SidePanel { display: block; }
+#nf60SidePanel h4 {
+  margin: 0 0 6px;
+  font-size: 12px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: #a5b4fc;
+}
+#nf60SideInstr {
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: #dbeafe;
+  margin: 0 0 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(129, 140, 248, 0.22);
+}
+#nf60SideList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  font-size: 11.5px;
+}
+#nf60SideList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  line-height: 1.35;
+  color: #e2e8f0;
 }
 
 /* Active Exam HUD Bar above canvas */
@@ -100,7 +154,7 @@ body.nf60-exam-locked #nf403RunMission {
 #nf60Modal.open, #nf60ResultModal.open { display: flex; }
 
 .nf60-dialog {
-  width: min(760px, 96vw);
+  width: min(780px, 96vw);
   max-height: 90dvh;
   display: flex;
   flex-direction: column;
@@ -210,6 +264,30 @@ body.nf60-exam-locked #nf403RunMission {
 }
 .nf60-chip input { display: none; }
 
+/* Specific IP Rule Rows in Designer */
+.nf60-ip-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 8px;
+}
+.nf60-ip-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1.3fr 0.7fr 1.1fr auto;
+  gap: 6px;
+  align-items: center;
+}
+.nf60-ip-row select, .nf60-ip-row input {
+  background: #061529;
+  color: #f1f8ff;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 7px;
+  padding: 6px 8px;
+  font: 500 12px/1.25 system-ui, sans-serif;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .nf60-row-actions {
   display: flex;
   flex-wrap: wrap;
@@ -261,6 +339,7 @@ body.nf60-exam-locked #nf403RunMission {
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.04);
 }
-@media (max-width: 640px) {
+@media (max-width: 680px) {
   .nf60-grid2 { grid-template-columns: 1fr; }
+  .nf60-ip-row { grid-template-columns: 1fr 1fr; }
 }
