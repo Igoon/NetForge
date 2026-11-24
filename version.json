@@ -1,6 +1,6 @@
 {
-  "version": "0.60.1",
+  "version": "0.61.0",
   "releaseDate": "2026-11-25",
-  "title": "Exam Sidebar, PDF Print Fix & Specific IP Rules v0.60.1",
-  "notes": "Memperbaiki 3 hal penting pada Desainer Misi & Mode Ujian: (1) menyembunyikan daftar objective misi lama di panel kanan dan menggantinya dengan Panel Rubrik Ujian live, (2) memperbaiki pratinjau Cetak/PDF yang sebelumnya kosong menggunakan dokumen cetak A4 terisolasi yang kontras dan siap tanda tangan, serta (3) menambahkan editor Aturan IP Spesifik per Perangkat (IP eksak, subnet wildcard 192.168.10.*, prefix /24, & gateway)."
+  "title": "Bank Soal Drive, Folder Komputer & Cloud v0.61.0",
+  "notes": "v0.61.0: Bank Soal Lokal (Browser), Simpan & Buka Folder Komputer (File System Access API), dan Integrasi Google Drive (scope aman drive.file)."
 }

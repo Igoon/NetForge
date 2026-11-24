@@ -1,4 +1,4 @@
-/* NET FORGE v0.60.1 — Desainer Misi & Mode Ujian (Sekolah / Kampus Edition)
+/* NET FORGE v0.61.0 — Desainer Misi & Mode Ujian (Sekolah / Kampus Edition)
    - Menyembunyikan panel Objective lama saat ujian & menampilkan Panel Rubrik Ujian khusus di sidebar kanan
    - Cetak / Simpan PDF via dokumen cetak bersih (terjamin tidak pernah blank di Print Preview!)
    - Editor Aturan IP Spesifik per Perangkat (IP eksak, subnet wildcard 192.168.10.*, prefix /24, & gateway) */
@@ -91,6 +91,477 @@
   let draftInitialGraph = null;
   let loadedExamPack = structuredClone(TEMPLATES[0]);
   let activeExam = null;
+
+  const BANK_KEY = 'netforge.examBank.v1';
+  const DRIVE_CLIENT_KEY = 'netforge.driveClientId.v1';
+  const DRIVE_FOLDER_NAME = 'NET FORGE - Bank Soal';
+  const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.file';
+
+  let connectedDirHandle = null;
+  let folderExamEntries = [];
+  let driveAccessToken = '';
+  let driveTokenExpiry = 0;
+  let driveFolderId = '';
+  let driveExamEntries = [];
+  let currentEditingId = null;
+
+  function slugify(text) {
+    return String(text || 'misi').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 36) || 'misi';
+  }
+
+  function makePackFileName(pack) {
+    return `soal-netforge-${slugify(pack?.title)}.json`;
+  }
+
+  function readLocalBank() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(BANK_KEY) || '[]');
+      return Array.isArray(raw) ? raw.filter(x => x && x.title) : [];
+    } catch (_) {
+      return [];
+    }
+  }
+
+  function writeLocalBank(list) {
+    try {
+      localStorage.setItem(BANK_KEY, JSON.stringify(list.slice(0, 100)));
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function savePackToLocalBank(pack) {
+    const list = readLocalBank();
+    const id = currentEditingId || pack.id || ('nf61_' + Date.now().toString(36));
+    const entry = {
+      ...structuredClone(pack),
+      id,
+      savedAt: new Date().toISOString()
+    };
+    const idx = list.findIndex(x => x.id === id);
+    if (idx >= 0) list[idx] = entry;
+    else list.unshift(entry);
+    currentEditingId = id;
+    writeLocalBank(list);
+    renderLocalBankList();
+    return entry;
+  }
+
+  function deletePackFromLocalBank(id) {
+    const list = readLocalBank().filter(x => x.id !== id);
+    writeLocalBank(list);
+    if (currentEditingId === id) currentEditingId = null;
+    renderLocalBankList();
+  }
+
+  function downloadPackFallback(pack) {
+    const blob = new Blob([JSON.stringify(pack, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = makePackFileName(pack);
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+  }
+
+  async function savePackToComputerFolder(pack) {
+    const jsonText = JSON.stringify(pack, null, 2);
+    const filename = makePackFileName(pack);
+    if (connectedDirHandle && typeof connectedDirHandle.getFileHandle === 'function') {
+      const fh = await connectedDirHandle.getFileHandle(filename, { create: true });
+      const writable = await fh.createWritable();
+      await writable.write(jsonText);
+      await writable.close();
+      await scanConnectedFolder();
+      return { mode: 'folder', label: `${connectedDirHandle.name}/${filename}` };
+    }
+    if (typeof window.showSaveFilePicker === 'function') {
+      const fh = await window.showSaveFilePicker({
+        suggestedName: filename,
+        types: [{ description: 'Paket Soal NET FORGE (.json)', accept: { 'application/json': ['.json'] } }]
+      });
+      const writable = await fh.createWritable();
+      await writable.write(jsonText);
+      await writable.close();
+      return { mode: 'picker', label: fh.name || filename };
+    }
+    downloadPackFallback(pack);
+    return { mode: 'download', label: filename };
+  }
+
+  async function scanConnectedFolder() {
+    folderExamEntries = [];
+    if (!connectedDirHandle) {
+      renderFolderList();
+      return;
+    }
+    for await (const [name, handle] of connectedDirHandle.entries()) {
+      if (handle.kind !== 'file' || !name.toLowerCase().endsWith('.json')) continue;
+      try {
+        const file = await handle.getFile();
+        const parsed = JSON.parse(await file.text());
+        if (parsed && parsed.title) {
+          folderExamEntries.push({
+            fileName: name,
+            handle,
+            pack: parsed,
+            modified: file.lastModified ? new Date(file.lastModified).toLocaleString('id-ID') : ''
+          });
+        }
+      } catch (_) {}
+    }
+    folderExamEntries.sort((a, b) => a.fileName.localeCompare(b.fileName));
+    renderFolderList();
+  }
+
+  async function connectLocalFolder() {
+    if (typeof window.showDirectoryPicker !== 'function') {
+      throw Error('Browser ini belum mendukung akses folder langsung (gunakan Chrome/Edge desktop, atau pakai tombol Impor/Ekspor .json).');
+    }
+    connectedDirHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
+    await scanConnectedFolder();
+    return connectedDirHandle.name;
+  }
+
+  // --- Google Drive Integration (OAuth 2.0 drive.file scope) ---
+  async function resolveGoogleClientId() {
+    const manualInput = ($('nf60DriveClientId')?.value || '').trim();
+    if (manualInput) {
+      try { localStorage.setItem(DRIVE_CLIENT_KEY, manualInput); } catch (_) {}
+      return manualInput;
+    }
+    const base = ($('nf32Url')?.value || '').trim().replace(/\/+$/, '');
+    if (base && (/^https:\/\//.test(base) || /^http:\/\/(?:localhost|127\.0\.0\.1)(?::\d+)?\/api\/v1$/.test(base))) {
+      try {
+        const res = await fetch(base + '/auth/config', { cache: 'no-store', signal: AbortSignal.timeout(7000) });
+        if (res.ok) {
+          const cfg = await res.json().catch(() => ({}));
+          if (cfg?.googleClientId) return String(cfg.googleClientId).trim();
+        }
+      } catch (_) {}
+    }
+    try {
+      const saved = (localStorage.getItem(DRIVE_CLIENT_KEY) || '').trim();
+      if (saved) return saved;
+    } catch (_) {}
+    return '';
+  }
+
+  function loadGsiScript() {
+    return new Promise((resolve, reject) => {
+      if (window.google?.accounts?.oauth2) return resolve();
+      const existing = document.querySelector('script[src*="accounts.google.com/gsi/client"]');
+      if (existing) {
+        let tries = 0;
+        const timer = setInterval(() => {
+          if (window.google?.accounts?.oauth2) { clearInterval(timer); resolve(); }
+          else if (++tries > 40) { clearInterval(timer); reject(Error('Google Identity Services belum siap.')); }
+        }, 150);
+        return;
+      }
+      const s = document.createElement('script');
+      s.src = 'https://accounts.google.com/gsi/client';
+      s.async = true;
+      s.onload = () => resolve();
+      s.onerror = () => reject(Error('Gagal memuat Google Identity Services. Periksa koneksi internet.'));
+      document.head.appendChild(s);
+    });
+  }
+
+  async function ensureDriveToken(interactive = true) {
+    if (driveAccessToken && Date.now() < driveTokenExpiry - 30000) return driveAccessToken;
+    if (!interactive) return '';
+    if (!navigator.onLine) throw Error('Perangkat sedang offline. Sambungkan internet untuk mengakses Google Drive.');
+    const clientId = await resolveGoogleClientId();
+    if (!clientId) {
+      throw Error('Google Client ID belum ditemukan. Pastikan backend API aktif di Pengaturan atau masukkan Client ID pada Pengaturan Lanjutan Google Drive.');
+    }
+    await loadGsiScript();
+    return new Promise((resolve, reject) => {
+      try {
+        const client = window.google.accounts.oauth2.initTokenClient({
+          client_id: clientId,
+          scope: DRIVE_SCOPE,
+          callback: resp => {
+            if (resp?.error) {
+              reject(Error('Izin Google Drive dibatalkan atau gagal: ' + (resp.error_description || resp.error)));
+              return;
+            }
+            if (!resp?.access_token) {
+              reject(Error('Google tidak mengembalikan token akses Drive.'));
+              return;
+            }
+            driveAccessToken = resp.access_token;
+            driveTokenExpiry = Date.now() + (Number(resp.expires_in || 3500) * 1000);
+            updateDriveBadge();
+            resolve(driveAccessToken);
+          },
+          error_callback: err => {
+            reject(Error('Popup izin Google Drive diblokir atau ditutup (' + (err?.type || 'error') + ').'));
+          }
+        });
+        client.requestAccessToken({ prompt: '' });
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  async function driveApiFetch(url, options = {}) {
+    const token = await ensureDriveToken(true);
+    const headers = Object.assign({ Authorization: 'Bearer ' + token }, options.headers || {});
+    const res = await fetch(url, { ...options, headers });
+    if (res.status === 401) {
+      driveAccessToken = '';
+      driveTokenExpiry = 0;
+      updateDriveBadge();
+      throw Error('Sesi Google Drive kedaluwarsa. Klik Hubungkan Google Drive kembali.');
+    }
+    if (!res.ok) {
+      const errJson = await res.json().catch(() => null);
+      const msg = errJson?.error?.message || ('HTTP ' + res.status);
+      if (res.status === 403 && /Drive API|not enabled|disabled/i.test(msg)) {
+        throw Error('Google Drive API belum diaktifkan di Google Cloud Console pada project OAuth Client ID Anda.');
+      }
+      throw Error('Google Drive error: ' + msg);
+    }
+    return res;
+  }
+
+  async function ensureDriveFolder() {
+    if (driveFolderId) return driveFolderId;
+    const q = encodeURIComponent(`name='${DRIVE_FOLDER_NAME}' and mimeType='application/vnd.google-apps.folder' and trashed=false`);
+    const res = await driveApiFetch(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name)&spaces=drive`);
+    const data = await res.json();
+    if (data.files && data.files.length) {
+      driveFolderId = data.files[0].id;
+      return driveFolderId;
+    }
+    const createRes = await driveApiFetch('https://www.googleapis.com/drive/v3/files?fields=id,name', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: DRIVE_FOLDER_NAME,
+        mimeType: 'application/vnd.google-apps.folder'
+      })
+    });
+    const created = await createRes.json();
+    driveFolderId = created.id;
+    return driveFolderId;
+  }
+
+  async function listDriveExamFiles() {
+    const folderId = await ensureDriveFolder();
+    const q = encodeURIComponent(`'${folderId}' in parents and trashed=false and mimeType='application/json'`);
+    const res = await driveApiFetch(`https://www.googleapis.com/drive/v3/files?q=${q}&orderBy=modifiedTime desc&fields=files(id,name,modifiedTime)&pageSize=50`);
+    const data = await res.json();
+    driveExamEntries = Array.isArray(data.files) ? data.files : [];
+    renderDriveList();
+    return driveExamEntries;
+  }
+
+  async function savePackToGoogleDrive(pack) {
+    const folderId = await ensureDriveFolder();
+    const fileName = makePackFileName(pack);
+    const safeName = fileName.replace(/'/g, "\'");
+    const q = encodeURIComponent(`'${folderId}' in parents and name='${safeName}' and trashed=false`);
+    const findRes = await driveApiFetch(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name)`);
+    const existing = (await findRes.json())?.files?.[0];
+
+    const metadata = existing
+      ? { name: fileName, mimeType: 'application/json' }
+      : { name: fileName, mimeType: 'application/json', parents: [folderId] };
+    const boundary = 'nf61_drive_boundary_' + Date.now();
+    const body =
+      `--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n` +
+      JSON.stringify(metadata) +
+      `\r\n--${boundary}\r\nContent-Type: application/json\r\n\r\n` +
+      JSON.stringify(pack, null, 2) +
+      `\r\n--${boundary}--`;
+
+    const uploadUrl = existing
+      ? `https://www.googleapis.com/upload/drive/v3/files/${existing.id}?uploadType=multipart&fields=id,name`
+      : 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name';
+
+    await driveApiFetch(uploadUrl, {
+      method: existing ? 'PATCH' : 'POST',
+      headers: { 'Content-Type': `multipart/related; boundary=${boundary}` },
+      body
+    });
+    await listDriveExamFiles();
+    return { fileName, updated: Boolean(existing) };
+  }
+
+  async function loadPackFromGoogleDrive(fileId) {
+    const res = await driveApiFetch(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(fileId)}?alt=media`);
+    const parsed = await res.json();
+    if (!parsed || !parsed.title) throw Error('Isi file di Google Drive bukan format soal NET FORGE yang valid.');
+    return parsed;
+  }
+
+  async function deletePackFromGoogleDrive(fileId) {
+    await driveApiFetch(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(fileId)}`, { method: 'DELETE' });
+    await listDriveExamFiles();
+  }
+
+  function updateDriveBadge() {
+    const pill = $('nf60DriveStatusPill');
+    if (!pill) return;
+    if (driveAccessToken && Date.now() < driveTokenExpiry - 30000) {
+      pill.className = 'nf60-pill ok';
+      pill.textContent = `☁️ Google Drive Terhubung · Folder: ${DRIVE_FOLDER_NAME}`;
+    } else {
+      pill.className = 'nf60-pill';
+      pill.textContent = '☁️ Google Drive Belum Terhubung (Scope aman: drive.file)';
+    }
+  }
+
+  function openPackInEditor(pack, sourceLabel) {
+    currentEditingId = pack.id || null;
+    populateDesignerForm(pack);
+    const tabBtn = document.querySelector('#nf60Modal .nf60-tab[data-nf60-tab="designer"]');
+    if (tabBtn) tabBtn.click();
+    if ($('nf60DesignerStatus')) $('nf60DesignerStatus').textContent = `✓ Soal "${pack.title}" dibuka dari ${sourceLabel}.`;
+  }
+
+  function openPackInExamTab(pack, sourceLabel) {
+    loadedExamPack = structuredClone(pack);
+    updateExamPreview();
+    const tabBtn = document.querySelector('#nf60Modal .nf60-tab[data-nf60-tab="exam"]');
+    if (tabBtn) tabBtn.click();
+    if ($('nf60ExamStatus')) $('nf60ExamStatus').textContent = `✓ Soal "${pack.title}" siap diujikan (sumber: ${sourceLabel}).`;
+  }
+
+  function renderLocalBankList() {
+    const box = $('nf60LocalBankList');
+    if (!box) return;
+    const list = readLocalBank();
+    if (!list.length) {
+      box.innerHTML = '<div class="nf60-empty">Belum ada soal di Bank Soal Browser. Buat soal di tab ✏️ Buat Soal lalu klik <b>💾 Simpan ke Bank Soal</b>.</div>';
+      return;
+    }
+    box.innerHTML = list.map((p, idx) => `
+      <div class="nf60-bank-item">
+        <div class="nf60-bank-meta">
+          <strong>${escapeHtml(p.title)}</strong>
+          <small>${escapeHtml(p.author || 'Pengajar')} · ${(p.requiredDevices || []).length} perangkat · ${(p.requiredIPs || []).length} aturan IP · ${p.durationMin ? p.durationMin + ' mnt' : 'Bebas'}</small>
+        </div>
+        <div class="nf60-bank-actions">
+          <button type="button" class="nf60-btn sm" data-bank-edit="${idx}">✏️ Edit</button>
+          <button type="button" class="nf60-btn sm primary" data-bank-exam="${idx}">▶ Ujian</button>
+          <button type="button" class="nf60-btn sm" data-bank-dl="${idx}" title="Unduh .json">⬇️</button>
+          <button type="button" class="nf60-btn sm danger" data-bank-del="${escapeHtml(p.id)}" title="Hapus">🗑</button>
+        </div>
+      </div>`).join('');
+    box.querySelectorAll('[data-bank-edit]').forEach(b => b.addEventListener('click', () => openPackInEditor(list[Number(b.dataset.bankEdit)], 'Bank Soal Browser')));
+    box.querySelectorAll('[data-bank-exam]').forEach(b => b.addEventListener('click', () => openPackInExamTab(list[Number(b.dataset.bankExam)], 'Bank Soal Browser')));
+    box.querySelectorAll('[data-bank-dl]').forEach(b => b.addEventListener('click', () => downloadPackFallback(list[Number(b.dataset.bankDl)])));
+    box.querySelectorAll('[data-bank-del]').forEach(b => b.addEventListener('click', () => {
+      if (window.confirm('Hapus soal ini dari Bank Soal Browser?')) deletePackFromLocalBank(b.dataset.bankDel);
+    }));
+  }
+
+  function renderFolderList() {
+    const box = $('nf60FolderBankList');
+    const pill = $('nf60FolderStatusPill');
+    if (pill) {
+      if (connectedDirHandle) {
+        pill.className = 'nf60-pill ok';
+        pill.textContent = `📁 Folder Aktif: ${connectedDirHandle.name} (${folderExamEntries.length} file soal)`;
+      } else {
+        pill.className = 'nf60-pill';
+        pill.textContent = '📁 Belum ada folder komputer yang dipilih';
+      }
+    }
+    if (!box) return;
+    if (!connectedDirHandle) {
+      box.innerHTML = '<div class="nf60-empty">Klik <b>📂 Pilih Folder Soal di Komputer</b> untuk membuka atau menyimpan banyak file <code>.json</code> langsung di satu folder khusus.</div>';
+      return;
+    }
+    if (!folderExamEntries.length) {
+      box.innerHTML = '<div class="nf60-empty">Folder terhubung, tetapi belum ada file soal <code>.json</code> NET FORGE di dalamnya. Klik <b>📁 Simpan ke Folder PC</b> di tab Buat Soal untuk menyimpan ke folder ini.</div>';
+      return;
+    }
+    box.innerHTML = folderExamEntries.map((item, idx) => `
+      <div class="nf60-bank-item">
+        <div class="nf60-bank-meta">
+          <strong>${escapeHtml(item.pack.title)}</strong>
+          <small>${escapeHtml(item.fileName)}${item.modified ? ' · ' + escapeHtml(item.modified) : ''}</small>
+        </div>
+        <div class="nf60-bank-actions">
+          <button type="button" class="nf60-btn sm" data-dir-edit="${idx}">✏️ Edit</button>
+          <button type="button" class="nf60-btn sm primary" data-dir-exam="${idx}">▶ Ujian</button>
+        </div>
+      </div>`).join('');
+    box.querySelectorAll('[data-dir-edit]').forEach(b => b.addEventListener('click', () => openPackInEditor(folderExamEntries[Number(b.dataset.dirEdit)].pack, 'Folder ' + connectedDirHandle.name)));
+    box.querySelectorAll('[data-dir-exam]').forEach(b => b.addEventListener('click', () => openPackInExamTab(folderExamEntries[Number(b.dataset.dirExam)].pack, 'Folder ' + connectedDirHandle.name)));
+  }
+
+  function renderDriveList() {
+    const box = $('nf60DriveBankList');
+    updateDriveBadge();
+    if (!box) return;
+    if (!driveAccessToken || Date.now() >= driveTokenExpiry - 30000) {
+      box.innerHTML = '<div class="nf60-empty">Hubungkan Google Drive untuk menyimpan &amp; membuka paket soal langsung di folder <b>NET FORGE - Bank Soal</b> pada akun Google Anda.</div>';
+      return;
+    }
+    if (!driveExamEntries.length) {
+      box.innerHTML = '<div class="nf60-empty">Folder <b>NET FORGE - Bank Soal</b> di Google Drive masih kosong. Klik <b>☁️ Simpan ke Google Drive</b> di tab Buat Soal.</div>';
+      return;
+    }
+    box.innerHTML = driveExamEntries.map((f, idx) => {
+      const mod = f.modifiedTime ? new Date(f.modifiedTime).toLocaleString('id-ID') : '';
+      return `
+      <div class="nf60-bank-item">
+        <div class="nf60-bank-meta">
+          <strong>${escapeHtml(f.name)}</strong>
+          <small>Google Drive${mod ? ' · Diubah ' + escapeHtml(mod) : ''}</small>
+        </div>
+        <div class="nf60-bank-actions">
+          <button type="button" class="nf60-btn sm" data-drv-edit="${idx}">✏️ Edit</button>
+          <button type="button" class="nf60-btn sm primary" data-drv-exam="${idx}">▶ Ujian</button>
+          <button type="button" class="nf60-btn sm danger" data-drv-del="${idx}" title="Hapus dari Drive">🗑</button>
+        </div>
+      </div>`;
+    }).join('');
+    box.querySelectorAll('[data-drv-edit]').forEach(b => b.addEventListener('click', async () => {
+      const entry = driveExamEntries[Number(b.dataset.drvEdit)];
+      const st = $('nf60BankStatus');
+      try {
+        if (st) st.textContent = '⏳ Mengunduh soal dari Google Drive…';
+        const pack = await loadPackFromGoogleDrive(entry.id);
+        openPackInEditor(pack, 'Google Drive');
+        if (st) st.textContent = '';
+      } catch (err) {
+        if (st) st.textContent = '⚠ ' + err.message;
+      }
+    }));
+    box.querySelectorAll('[data-drv-exam]').forEach(b => b.addEventListener('click', async () => {
+      const entry = driveExamEntries[Number(b.dataset.drvExam)];
+      const st = $('nf60BankStatus');
+      try {
+        if (st) st.textContent = '⏳ Memuat soal dari Google Drive…';
+        const pack = await loadPackFromGoogleDrive(entry.id);
+        openPackInExamTab(pack, 'Google Drive');
+        if (st) st.textContent = '';
+      } catch (err) {
+        if (st) st.textContent = '⚠ ' + err.message;
+      }
+    }));
+    box.querySelectorAll('[data-drv-del]').forEach(b => b.addEventListener('click', async () => {
+      const entry = driveExamEntries[Number(b.dataset.drvDel)];
+      if (!window.confirm(`Hapus "${entry.name}" dari Google Drive?`)) return;
+      const st = $('nf60BankStatus');
+      try {
+        if (st) st.textContent = '⏳ Menghapus file dari Google Drive…';
+        await deletePackFromGoogleDrive(entry.id);
+        if (st) st.textContent = '✓ File dihapus dari Google Drive.';
+      } catch (err) {
+        if (st) st.textContent = '⚠ ' + err.message;
+      }
+    }));
+  }
+
 
   function fnv1aHash(str) {
     let h = 0x811c9dc5;
@@ -413,7 +884,7 @@
     const reqPaths = [...document.querySelectorAll('#nf60PathChips input:checked')].map(i => i.value.split(':'));
     return {
       format: 'netforge-exam-v1',
-      version: '0.60.1',
+      version: '0.61.0',
       title: ($('nf60Title')?.value || '').trim() || 'Misi Kustom NET FORGE',
       author: ($('nf60Author')?.value || '').trim() || 'Pengajar Jaringan',
       instructions: ($('nf60Instr')?.value || '').trim() || 'Bangun topologi sesuai rubrik yang ditentukan.',
@@ -597,7 +1068,7 @@
     const code = makeVerifyCode(session.student, session.pack, ev.score, ev.passed, ev.total);
     const reportObj = {
       format: 'netforge-exam-result-v1',
-      version: '0.60.1',
+      version: '0.61.0',
       submittedAt: new Date().toISOString(),
       verificationCode: code,
       student: session.student,
@@ -686,8 +1157,9 @@
           <button type="button" class="nf60-btn" id="nf60Close">✕ Tutup</button>
         </div>
         <div class="nf60-tabs">
-          <button type="button" class="nf60-tab active" data-nf60-tab="designer">✏️ Buat Soal (Guru / Dosen)</button>
-          <button type="button" class="nf60-tab" data-nf60-tab="exam">🎓 Mulai Ujian (Siswa / Mahasiswa)</button>
+          <button type="button" class="nf60-tab active" data-nf60-tab="designer">✏️ Buat Soal</button>
+          <button type="button" class="nf60-tab" data-nf60-tab="bank">📚 Bank Soal &amp; Cloud</button>
+          <button type="button" class="nf60-tab" data-nf60-tab="exam">🎓 Mulai Ujian</button>
         </div>
 
         <!-- TAB 1: MISSION DESIGNER -->
@@ -740,13 +1212,54 @@
 
           <div class="nf60-status" id="nf60DesignerStatus"></div>
           <div class="nf60-row-actions" style="justify-content:flex-end;">
-            <button type="button" class="nf60-btn" id="nf60CopyCode">📋 Salin Kode Soal</button>
-            <button type="button" class="nf60-btn accent" id="nf60ExportJson">⬇️ Ekspor Soal (.json)</button>
-            <button type="button" class="nf60-btn primary" id="nf60TestMission">▶ Uji Coba Soal</button>
+            <button type="button" class="nf60-btn" id="nf60SaveBank">💾 Simpan ke Bank Soal</button>
+            <button type="button" class="nf60-btn" id="nf60SaveFolder">📁 Simpan ke Folder PC</button>
+            <button type="button" class="nf60-btn drive" id="nf60SaveDrive">☁️ Simpan ke Google Drive</button>
+            <button type="button" class="nf60-btn" id="nf60CopyCode">📋 Salin Kode</button>
+            <button type="button" class="nf60-btn accent" id="nf60ExportJson">⬇️ Unduh .json</button>
+            <button type="button" class="nf60-btn primary" id="nf60TestMission">▶ Uji Coba</button>
           </div>
         </div>
 
-        <!-- TAB 2: STUDENT EXAM MODE -->
+        <!-- TAB 2: BANK SOAL LOKAL, FOLDER PC & GOOGLE DRIVE -->
+        <div class="nf60-body" id="nf60TabBank" style="display:none;">
+          <div class="nf60-box">
+            <div class="nf60-box-title">💾 Bank Soal Tersimpan di Browser (Lokal)</div>
+            <div style="font-size:11.5px;color:#94a3b8;">Tersimpan otomatis di perangkat ini tanpa perlu internet.</div>
+            <div class="nf60-bank-list" id="nf60LocalBankList"></div>
+          </div>
+
+          <div class="nf60-box">
+            <div class="nf60-box-title">📁 Folder Khusus di Komputer (Chrome / Edge Desktop)</div>
+            <div class="nf60-row-actions">
+              <button type="button" class="nf60-btn accent" id="nf60PickFolder">📂 Pilih Folder Soal di Komputer</button>
+              <button type="button" class="nf60-btn" id="nf60RefreshFolder">🔄 Muat Ulang Folder</button>
+              <span class="nf60-pill" id="nf60FolderStatusPill">📁 Belum ada folder komputer yang dipilih</span>
+            </div>
+            <div class="nf60-bank-list" id="nf60FolderBankList"></div>
+          </div>
+
+          <div class="nf60-box">
+            <div class="nf60-box-title">☁️ Google Drive (Folder: NET FORGE - Bank Soal)</div>
+            <div class="nf60-row-actions">
+              <button type="button" class="nf60-btn drive" id="nf60ConnectDrive">🔗 Hubungkan &amp; Muat Google Drive</button>
+              <button type="button" class="nf60-btn" id="nf60RefreshDrive">🔄 Segarkan Drive</button>
+              <span class="nf60-pill" id="nf60DriveStatusPill">☁️ Google Drive Belum Terhubung</span>
+            </div>
+            <details class="nf60-details">
+              <summary>⚙️ Pengaturan Lanjutan Google Drive (Client ID &amp; Syarat)</summary>
+              <div style="margin-top:6px;line-height:1.45;">
+                Google Client ID otomatis dibaca dari backend API yang terhubung di Pengaturan. Pastikan <b>Google Drive API</b> aktif di Google Cloud Console Anda. Jika menjalankan mode offline/mandiri, Anda dapat menempelkan OAuth Web Client ID di bawah ini:
+                <input id="nf60DriveClientId" type="text" placeholder="Opsional: xxxxx.apps.googleusercontent.com" style="margin-top:6px;background:#061529;color:#f1f8ff;border:1px solid rgba(56,189,248,0.35);border-radius:7px;padding:6px 8px;width:100%;box-sizing:border-box;font-size:11.5px;">
+              </div>
+            </details>
+            <div class="nf60-bank-list" id="nf60DriveBankList"></div>
+          </div>
+
+          <div class="nf60-status" id="nf60BankStatus"></div>
+        </div>
+
+        <!-- TAB 3: STUDENT EXAM MODE -->
         <div class="nf60-body" id="nf60TabExam" style="display:none;">
           <div class="nf60-grid2">
             <div class="nf60-field"><label>Nama Lengkap Peserta</label><input id="nf60StuName" type="text" placeholder="Contoh: Budi Santoso" maxlength="60"></div>
@@ -761,6 +1274,7 @@
               <select id="nf60TplSelect" style="background:#061529;color:#fff;border:1px solid rgba(56,189,248,0.35);border-radius:8px;padding:6px 8px;font-size:12px;">
                 ${TEMPLATES.map((t, i) => `<option value="${i}">Template ${i + 1}: ${t.title}</option>`).join('')}
               </select>
+              <button type="button" class="nf60-btn drive" id="nf60JumpBank">📚 Pilih dari Bank Soal / Folder / Drive</button>
             </div>
             <div class="nf60-field">
               <label>Atau Tempel Kode Soal JSON dari Guru/Dosen</label>
@@ -792,7 +1306,9 @@
         const which = tab.dataset.nf60Tab;
         m.querySelectorAll('.nf60-tab').forEach(t => t.classList.toggle('active', t === tab));
         $('nf60TabDesigner').style.display = which === 'designer' ? 'flex' : 'none';
+        $('nf60TabBank').style.display = which === 'bank' ? 'flex' : 'none';
         $('nf60TabExam').style.display = which === 'exam' ? 'flex' : 'none';
+        if (which === 'bank') { renderLocalBankList(); renderFolderList(); renderDriveList(); }
         if (which === 'exam') updateExamPreview();
       });
     });
@@ -803,6 +1319,7 @@
 
     m.querySelectorAll('button[data-nf60-tpl]').forEach(b => {
       b.addEventListener('click', () => {
+        currentEditingId = null;
         populateDesignerForm(TEMPLATES[Number(b.dataset.nf60Tpl)]);
         $('nf60DesignerStatus').textContent = '✓ Template dimuat ke editor soal.';
       });
@@ -835,6 +1352,100 @@
       setTimeout(() => URL.revokeObjectURL(a.href), 1500);
       $('nf60DesignerStatus').textContent = '✓ File soal .json berhasil diunduh — siap dibagikan ke siswa!';
     });
+
+    $('nf60SaveBank').addEventListener('click', () => {
+      const pack = readDesignerForm();
+      const saved = savePackToLocalBank(pack);
+      $('nf60DesignerStatus').textContent = `✓ Soal "${saved.title}" tersimpan ke Bank Soal Browser!`;
+    });
+
+    $('nf60SaveFolder').addEventListener('click', async () => {
+      const pack = readDesignerForm();
+      try {
+        const res = await savePackToComputerFolder(pack);
+        if (res.mode === 'folder') {
+          $('nf60DesignerStatus').textContent = `✓ Tersimpan langsung ke folder komputer: ${res.label}`;
+        } else if (res.mode === 'picker') {
+          $('nf60DesignerStatus').textContent = `✓ File soal disimpan ke lokasi pilihan Anda: ${res.label}`;
+        } else {
+          $('nf60DesignerStatus').textContent = `✓ File ${res.label} diunduh (browser ini memakai folder unduhan standar).`;
+        }
+      } catch (err) {
+        if (err?.name === 'AbortError') return;
+        $('nf60DesignerStatus').textContent = '⚠ Gagal menyimpan ke folder: ' + err.message;
+      }
+    });
+
+    $('nf60SaveDrive').addEventListener('click', async () => {
+      const pack = readDesignerForm();
+      const st = $('nf60DesignerStatus');
+      try {
+        st.textContent = '⏳ Menyimpan soal ke Google Drive (NET FORGE - Bank Soal)…';
+        const res = await savePackToGoogleDrive(pack);
+        st.textContent = `✓ Soal ${res.updated ? 'diperbarui' : 'disimpan'} di Google Drive → ${DRIVE_FOLDER_NAME}/${res.fileName}`;
+      } catch (err) {
+        st.textContent = '⚠ ' + err.message;
+      }
+    });
+
+    $('nf60PickFolder').addEventListener('click', async () => {
+      const st = $('nf60BankStatus');
+      try {
+        const folderName = await connectLocalFolder();
+        st.textContent = `✓ Folder "${folderName}" terhubung (${folderExamEntries.length} file soal ditemukan).`;
+      } catch (err) {
+        if (err?.name === 'AbortError') return;
+        st.textContent = '⚠ ' + err.message;
+      }
+    });
+
+    $('nf60RefreshFolder').addEventListener('click', async () => {
+      const st = $('nf60BankStatus');
+      if (!connectedDirHandle) {
+        st.textContent = 'Pilih folder komputer terlebih dahulu.';
+        return;
+      }
+      try {
+        await scanConnectedFolder();
+        st.textContent = `✓ Daftar file di folder "${connectedDirHandle.name}" diperbarui (${folderExamEntries.length} soal).`;
+      } catch (err) {
+        st.textContent = '⚠ ' + err.message;
+      }
+    });
+
+    $('nf60ConnectDrive').addEventListener('click', async () => {
+      const st = $('nf60BankStatus');
+      try {
+        st.textContent = '⏳ Menghubungkan ke Google Drive…';
+        await ensureDriveToken(true);
+        const files = await listDriveExamFiles();
+        st.textContent = `✓ Google Drive terhubung! Ditemukan ${files.length} file soal di folder "${DRIVE_FOLDER_NAME}".`;
+      } catch (err) {
+        st.textContent = '⚠ ' + err.message;
+      }
+    });
+
+    $('nf60RefreshDrive').addEventListener('click', async () => {
+      const st = $('nf60BankStatus');
+      try {
+        st.textContent = '⏳ Menyegarkan daftar soal dari Google Drive…';
+        const files = await listDriveExamFiles();
+        st.textContent = `✓ Daftar Google Drive diperbarui (${files.length} soal).`;
+      } catch (err) {
+        st.textContent = '⚠ ' + err.message;
+      }
+    });
+
+    $('nf60JumpBank').addEventListener('click', () => {
+      const tabBtn = m.querySelector('.nf60-tab[data-nf60-tab="bank"]');
+      if (tabBtn) tabBtn.click();
+    });
+
+    try {
+      const savedCid = localStorage.getItem(DRIVE_CLIENT_KEY) || '';
+      if (savedCid && $('nf60DriveClientId')) $('nf60DriveClientId').value = savedCid;
+    } catch (_) {}
+
 
     $('nf60CopyCode').addEventListener('click', async () => {
       const pack = readDesignerForm();
@@ -892,6 +1503,9 @@
     });
 
     populateDesignerForm(TEMPLATES[0]);
+    renderLocalBankList();
+    renderFolderList();
+    renderDriveList();
     updateExamPreview();
     return m;
   }
@@ -926,7 +1540,7 @@
   }, true);
 
   window.NetForgeExamDesigner = {
-    version: '0.60.1',
+    version: '0.61.0',
     openDesigner,
     startExamSession,
     stopExam,
