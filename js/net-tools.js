@@ -1,4 +1,4 @@
-/* NET FORGE v0.65.0 — Utilitas Jaringan: Kalkulator IP/Subnet & Terminal CLI Ringan */
+/* NET FORGE v0.65.1 — Utilitas Jaringan: Kalkulator IP/Subnet & Terminal CLI Ringan */
 (function () {
   'use strict';
   if (window.__NF6400_NETTOOLS) return;
@@ -541,7 +541,7 @@ Trace complete.`
       b.addEventListener('click', () => runCliCommand(b.dataset.cliCmd));
     });
 
-    $('nf64CliScreen').innerHTML = `<span class="dim">NET FORGE Network CLI v0.65.0 — Terhubung langsung ke topologi kanvas.
+    $('nf64CliScreen').innerHTML = `<span class="dim">NET FORGE Network CLI v0.65.1 — Terhubung langsung ke topologi kanvas.
 Ketik "help", "ipconfig", "devices", "ping &lt;ip&gt;", atau "tracert &lt;ip&gt;".</span>
 `;
     renderCalc();
@@ -587,7 +587,7 @@ Ketik "help", "ipconfig", "devices", "ping &lt;ip&gt;", atau "tracert &lt;ip&gt;
   }
 
   window.NetForgeNetTools = {
-    version: '0.65.0',
+    version: '0.65.1',
     open: openNetTools,
     calcSubnet
   };

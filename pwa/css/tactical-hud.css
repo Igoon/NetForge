@@ -1,13 +1,13 @@
 /* ============================================================================
-   NET FORGE v0.65.0 — Modern "Glassmorphic Tactical Cyber" HUD Overhaul
-   Palette: Dark OLED Slate (#0B0F19) + Electric Cyan (#22D3EE) + Neon Mint (#10B981)
-            + Amber (#F59E0B) + Crimson (#F43F5E) · Hairline 1px Glass Borders
+   NET FORGE v0.65.1 — Modern "Glassmorphic Tactical Cyber" HUD + Theme Switcher
+   - Default: Tactical Dark OLED Slate (#0B0F19) + Electric Cyan + Neon Mint
+   - Toggleable: body.nf65-theme-classic restores Classic Blue (for bright classroom projectors)
    ============================================================================ */
 
 :root {
   --nf-oled-bg: #0B0F19;
-  --nf-glass: rgba(15, 23, 42, 0.74);
-  --nf-glass-strong: rgba(11, 15, 25, 0.88);
+  --nf-glass: rgba(15, 23, 42, 0.76);
+  --nf-glass-strong: rgba(11, 15, 25, 0.90);
   --nf-hairline: rgba(148, 163, 184, 0.14);
   --nf-hairline-active: rgba(34, 211, 238, 0.42);
   --nf-cyan: #22D3EE;
@@ -19,146 +19,9 @@
   --nf-muted: #94A3B8;
 }
 
-/* 1. OLED Dark Slate Canvas & Ambient Tactical Backdrop */
-html, body {
-  background:
-    radial-gradient(900px 420px at 50% -120px, rgba(34, 211, 238, 0.08), transparent 70%),
-    radial-gradient(600px 400px at 90% 100%, rgba(16, 185, 129, 0.05), transparent 65%),
-    var(--nf-oled-bg) !important;
-  color: var(--nf-text) !important;
-}
+/* --- A. STRUCTURAL LAYOUT IMPROVEMENTS (APPLY TO BOTH THEMES) --- */
 
-/* 2. Top Header HUD — Clean Tactical Glass Bar & Gamified Stat Meters */
-header.top, .top {
-  background: var(--nf-glass-strong) !important;
-  backdrop-filter: blur(14px) !important;
-  border-bottom: 1px solid var(--nf-hairline) !important;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45) !important;
-}
-.top nav button, .topnav button, .top .nav button {
-  background: rgba(15, 23, 42, 0.55) !important;
-  border: 1px solid var(--nf-hairline) !important;
-  color: var(--nf-muted) !important;
-  font-weight: 700 !important;
-  transition: background .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease !important;
-}
-.top nav button:hover, .topnav button:hover {
-  color: var(--nf-text) !important;
-  border-color: rgba(34, 211, 238, 0.35) !important;
-  background: rgba(30, 41, 59, 0.72) !important;
-}
-.top nav button.active, .topnav button.active, .top nav button[aria-current="page"] {
-  background: linear-gradient(135deg, rgba(34, 211, 238, 0.22), rgba(14, 116, 144, 0.28)) !important;
-  border-color: var(--nf-cyan) !important;
-  color: #ffffff !important;
-  box-shadow: 0 0 16px rgba(34, 211, 238, 0.22) !important;
-}
-
-/* Gamified XP, Level, & Budget RPG HUD Pills */
-.topstats .stat {
-  background: rgba(15, 23, 42, 0.82) !important;
-  border: 1px solid var(--nf-hairline) !important;
-  border-radius: 10px !important;
-  position: relative;
-  overflow: hidden;
-  padding: 5px 11px !important;
-}
-.topstats .stat small {
-  color: var(--nf-muted) !important;
-  font-size: 9.5px !important;
-  letter-spacing: 0.08em !important;
-}
-.topstats .xp-stat {
-  border-color: rgba(245, 158, 11, 0.38) !important;
-  background: linear-gradient(180deg, rgba(245, 158, 11, 0.12), rgba(15, 23, 42, 0.85)) !important;
-}
-.topstats .xp-stat strong { color: #FDE68A !important; }
-.topstats .xp-stat::after {
-  content: "";
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--nf-amber), #FDE047);
-}
-.topstats .level-stat {
-  border-color: rgba(34, 211, 238, 0.38) !important;
-  background: linear-gradient(180deg, rgba(34, 211, 238, 0.12), rgba(15, 23, 42, 0.85)) !important;
-}
-.topstats .level-stat strong { color: #A5F3FC !important; }
-.topstats .budget-stat {
-  border-color: rgba(16, 185, 129, 0.38) !important;
-  background: linear-gradient(180deg, rgba(16, 185, 129, 0.12), rgba(15, 23, 42, 0.85)) !important;
-}
-.topstats .budget-stat strong { color: #6EE7B7 !important; }
-
-/* 3. Glassmorphic Hairline Panels — Eliminate Nested Heavy Borders */
-.panel,
-aside.panel.left,
-aside.right > section.panel,
-.workspace-panel {
-  background: var(--nf-glass) !important;
-  backdrop-filter: blur(14px) !important;
-  border: 1px solid var(--nf-hairline) !important;
-  border-radius: 14px !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.38) !important;
-}
-.panelhead {
-  background: rgba(15, 23, 42, 0.65) !important;
-  border-bottom: 1px solid var(--nf-hairline) !important;
-}
-.panelhead h3 {
-  color: var(--nf-text) !important;
-  letter-spacing: 0.06em !important;
-  font-size: 11.5px !important;
-}
-#nf400Inventory {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 4px 2px !important;
-}
-#nf400Inventory > h4,
-#nf400InventoryTip {
-  display: none !important;
-}
-#nf400Inventory input,
-#nf400Inventory select {
-  background: rgba(6, 10, 19, 0.88) !important;
-  border: 1px solid var(--nf-hairline) !important;
-  border-radius: 9px !important;
-  color: var(--nf-text) !important;
-  font-size: 12px !important;
-}
-#nf400Inventory input:focus,
-#nf400Inventory select:focus {
-  border-color: var(--nf-cyan) !important;
-  outline: none !important;
-  box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.18) !important;
-}
-#nf400Inventory button.nf400-device {
-  background: rgba(15, 23, 42, 0.72) !important;
-  border: 1px solid var(--nf-hairline) !important;
-  border-radius: 10px !important;
-  padding: 8px 9px !important;
-  min-height: 46px !important;
-  transition: transform .15s ease, border-color .15s ease, background .15s ease !important;
-}
-#nf400Inventory button.nf400-device:hover {
-  background: rgba(30, 41, 59, 0.9) !important;
-  border-color: var(--nf-hairline-active) !important;
-  outline: none !important;
-  transform: translateY(-1px);
-}
-#nf400Inventory button.nf400-device strong {
-  color: var(--nf-text) !important;
-  font-size: 12px !important;
-}
-#nf400Inventory button.nf400-device small {
-  color: var(--nf-muted) !important;
-  font-size: 10px !important;
-}
-
-/* 4. Focus Mode Canvas — Collapsible Slim Icon Dock (Expands Canvas to ~76% Width!) */
+/* Collapsible Left Inventory Dock Toggle */
 #nf65DockToggle {
   margin-left: auto;
   padding: 3px 8px;
@@ -173,6 +36,35 @@ aside.right > section.panel,
 #nf65DockToggle:hover {
   background: rgba(34, 211, 238, 0.24);
   color: #fff;
+}
+
+/* Instant Floating Tooltip for Slim Icon Dock */
+#nf65DockTip {
+  position: fixed;
+  z-index: 99700;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity .12s ease, transform .12s ease;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(11, 15, 25, 0.96);
+  border: 1px solid rgba(34, 211, 238, 0.48);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.65);
+  color: #F8FAFC;
+  font: 700 12px/1.25 system-ui, -apple-system, sans-serif;
+  white-space: nowrap;
+}
+#nf65DockTip.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+#nf65DockTip small {
+  display: block;
+  margin-top: 2px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #6EE7B7;
 }
 
 @media (min-width: 901px) {
@@ -211,157 +103,40 @@ aside.right > section.panel,
   }
 }
 
-/* 5. Spacious High-Contrast Tactical Topology Canvas & Port Socket Cards */
-#nf400Canvas, #stage {
-  background:
-    radial-gradient(rgba(148, 163, 184, 0.13) 1px, transparent 1px),
-    radial-gradient(circle at 50% 45%, rgba(15, 29, 54, 0.65), #070B14 90%) !important;
-  background-size: 24px 24px, 100% 100% !important;
-  border: 1px solid var(--nf-hairline) !important;
-  border-radius: 12px !important;
+/* Slimmer Canvas Header (+45-55px vertical space for Topology Canvas!) */
+.workspace-panel > .panelhead {
+  padding: 5px 10px !important;
+  min-height: 0 !important;
+}
+#nf364Tools {
+  padding: 3px 8px !important;
+  margin: 0 !important;
+  gap: 5px !important;
+}
+#nf364Tools button {
+  padding: 3px 8px !important;
+  font-size: 11px !important;
+}
+#nf403MissionBanner {
+  padding: 4px 9px !important;
+  margin: 2px 0 !important;
+  font-size: 11px !important;
+  line-height: 1.25 !important;
+}
+#nf4045LinkInfo {
+  padding: 2px 8px !important;
+  margin: 0 !important;
+  font-size: 10.5px !important;
 }
 #nf400Modebar {
-  background: rgba(15, 23, 42, 0.68) !important;
-  border: 1px solid var(--nf-hairline) !important;
-  border-radius: 11px !important;
-  padding: 5px 10px !important;
+  padding: 4px 9px !important;
+  margin-bottom: 4px !important;
 }
-#nf400Modebar button {
-  background: rgba(15, 23, 42, 0.55) !important;
-  border: 1px solid var(--nf-hairline) !important;
-  color: var(--nf-muted) !important;
-  border-radius: 8px !important;
-}
-#nf400Modebar button.active,
-#nf400Modebar button[aria-pressed="true"] {
-  background: rgba(34, 211, 238, 0.16) !important;
-  border-color: var(--nf-cyan) !important;
-  color: #ffffff !important;
-}
-
-/* Tactical Node Cards & Interactive Port Sockets */
-#nf400Canvas .nf400-node {
-  background: rgba(11, 17, 30, 0.88) !important;
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(148, 163, 184, 0.22) !important;
-  border-radius: 12px !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.52) !important;
-}
-#nf400Canvas .nf400-node.selected,
-#nf400Canvas .nf400-node:focus-within {
-  border-color: var(--nf-cyan) !important;
-  box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.25), 0 10px 28px rgba(0, 0, 0, 0.6) !important;
-}
-#nf400Canvas .nf400-port,
-#nf400Canvas [data-port] {
-  background: #060A13 !important;
-  border: 1px solid rgba(34, 211, 238, 0.28) !important;
-  border-radius: 5px !important;
-  color: #BAE6FD !important;
-  font-family: ui-monospace, SFMono-Regular, monospace !important;
-  transition: border-color .15s ease, box-shadow .15s ease, background .15s ease !important;
-}
-#nf400Canvas .nf400-port:hover,
-#nf400Canvas [data-port]:hover {
-  border-color: var(--nf-mint-bright) !important;
-  background: rgba(16, 185, 129, 0.2) !important;
-  box-shadow: 0 0 8px rgba(52, 211, 153, 0.45) !important;
-  color: #ffffff !important;
-}
-
-/* Animated Glowing Data Flow on Bezier Cables */
-#nf49BezierWires path {
-  filter: drop-shadow(0 0 4px rgba(34, 211, 238, 0.45));
-}
-
-/* 6. AI Companion "IGA" Holographic Card & RPG Objective Tracker */
-#nf4034Coach {
-  background: linear-gradient(155deg, rgba(15, 29, 54, 0.82), rgba(11, 15, 25, 0.92)) !important;
-  border: 1px solid rgba(34, 211, 238, 0.34) !important;
-  border-radius: 12px !important;
-  box-shadow: inset 0 1px 0 rgba(34, 211, 238, 0.22), 0 8px 20px rgba(0, 0, 0, 0.35) !important;
-  position: relative;
-}
-#nf4034Coach::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 12px; right: 12px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--nf-cyan), transparent);
-}
-/* Sembunyikan panel diagnostik ganda (#nf4040Panel) di dalam kartu Iga agar Objective langsung terlihat */
 #nf4040Panel {
   display: none !important;
 }
 
-/* Animated RPG Progress Bar & Objective Items */
-.right .progress {
-  height: 7px !important;
-  border-radius: 999px !important;
-  background: rgba(15, 23, 42, 0.9) !important;
-  border: 1px solid var(--nf-hairline) !important;
-  overflow: hidden !important;
-}
-#progressBar {
-  background: linear-gradient(90deg, var(--nf-cyan), var(--nf-mint-bright)) !important;
-  box-shadow: 0 0 10px rgba(52, 211, 153, 0.55) !important;
-  transition: width .35s cubic-bezier(.22, 1, .36, 1) !important;
-}
-#objectives .objective {
-  background: rgba(15, 23, 42, 0.6) !important;
-  border: 1px solid var(--nf-hairline) !important;
-  border-radius: 8px !important;
-  padding: 6px 8px !important;
-  margin-bottom: 5px !important;
-  font-size: 11.5px !important;
-}
-#objectives .objective.done {
-  border-color: rgba(16, 185, 129, 0.42) !important;
-  background: rgba(16, 185, 129, 0.1) !important;
-}
-
-/* 7. Unified Command Center Bottom Telemetry Bar — Cohesive Glass Pills (Zero Rainbow Clutter) */
-#nf43DrawerBar {
-  background: var(--nf-glass-strong) !important;
-  backdrop-filter: blur(14px) !important;
-  border: 1px solid var(--nf-hairline) !important;
-  border-radius: 11px !important;
-}
-#nf43DrawerBar .nf43-tabs button {
-  background: rgba(30, 41, 59, 0.65) !important;
-  border: 1px solid var(--nf-hairline) !important;
-  color: #CBD5E1 !important;
-  border-radius: 8px !important;
-  font-weight: 700 !important;
-  transition: background .15s ease, border-color .15s ease, color .15s ease !important;
-}
-#nf43DrawerBar .nf43-tabs button:hover {
-  background: rgba(51, 65, 85, 0.85) !important;
-  border-color: var(--nf-hairline-active) !important;
-  color: #ffffff !important;
-}
-#nf43DrawerBar .nf43-tabs button.active {
-  background: rgba(34, 211, 238, 0.18) !important;
-  border-color: var(--nf-cyan) !important;
-  color: #ffffff !important;
-}
-#nf60OpenBtn {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.35), rgba(79, 70, 229, 0.45)) !important;
-  border-color: rgba(165, 180, 252, 0.55) !important;
-  color: #EEF2FF !important;
-}
-#nf64CliBtn {
-  background: rgba(6, 78, 59, 0.38) !important;
-  border-color: rgba(52, 211, 153, 0.45) !important;
-  color: #6EE7B7 !important;
-}
-#nf63LofiBtn:not(.is-muted) {
-  background: rgba(14, 116, 144, 0.32) !important;
-  border-color: rgba(34, 211, 238, 0.45) !important;
-  color: #A5F3FC !important;
-}
-
-/* Mini Live Network Traffic Sparkline Telemetry Widget */
+/* Mini Live Network Traffic Sparkline & Theme Toggle Pill */
 #nf65Telemetry {
   display: inline-flex;
   align-items: center;
@@ -374,19 +149,363 @@ aside.right > section.panel,
 }
 #nf65Sparkline {
   display: block;
-  width: 58px;
+  width: 56px;
   height: 18px;
 }
 #nf65Mbps {
   font: 800 10.5px/1 ui-monospace, SFMono-Regular, monospace;
   color: var(--nf-cyan);
-  min-width: 52px;
+  min-width: 50px;
   text-align: right;
 }
+#nf65ThemeBtn {
+  padding: 4px 8px !important;
+  font-size: 11px !important;
+  border-radius: 8px !important;
+  cursor: pointer;
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
+}
+#nf65SettingsThemeCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 10px 12px;
+  margin-top: 8px;
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(34, 211, 238, 0.28);
+  font-size: 12px;
+  color: #E2E8F0;
+}
+#nf65SettingsThemeCard button {
+  padding: 6px 11px;
+  border-radius: 8px;
+  border: 1px solid rgba(34, 211, 238, 0.48);
+  background: rgba(34, 211, 238, 0.16);
+  color: #E0F2FE;
+  font-weight: 700;
+  cursor: pointer;
+}
 
-/* Statusbar OLED polish */
-.statusbar {
+/* --- B. TACTICAL DARK OLED SLATE THEME (ACTIVE BY DEFAULT) --- */
+body:not(.nf65-theme-classic) {
+  background:
+    radial-gradient(900px 420px at 50% -120px, rgba(34, 211, 238, 0.08), transparent 70%),
+    radial-gradient(600px 400px at 90% 100%, rgba(16, 185, 129, 0.05), transparent 65%),
+    var(--nf-oled-bg) !important;
+  color: var(--nf-text) !important;
+}
+
+body:not(.nf65-theme-classic) header.top,
+body:not(.nf65-theme-classic) .top {
+  background: var(--nf-glass-strong) !important;
+  backdrop-filter: blur(14px) !important;
+  border-bottom: 1px solid var(--nf-hairline) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45) !important;
+}
+body:not(.nf65-theme-classic) .top nav button,
+body:not(.nf65-theme-classic) .topnav button,
+body:not(.nf65-theme-classic) .top .nav button {
+  background: rgba(15, 23, 42, 0.55) !important;
+  border: 1px solid var(--nf-hairline) !important;
+  color: var(--nf-muted) !important;
+  font-weight: 700 !important;
+  transition: background .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease !important;
+}
+body:not(.nf65-theme-classic) .top nav button:hover,
+body:not(.nf65-theme-classic) .topnav button:hover {
+  color: var(--nf-text) !important;
+  border-color: rgba(34, 211, 238, 0.35) !important;
+  background: rgba(30, 41, 59, 0.72) !important;
+}
+body:not(.nf65-theme-classic) .top nav button.active,
+body:not(.nf65-theme-classic) .topnav button.active,
+body:not(.nf65-theme-classic) .top nav button[aria-current="page"] {
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.22), rgba(14, 116, 144, 0.28)) !important;
+  border-color: var(--nf-cyan) !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 16px rgba(34, 211, 238, 0.22) !important;
+}
+
+/* Gamified XP, Level, & Budget RPG HUD Pills */
+body:not(.nf65-theme-classic) .topstats .stat {
+  background: rgba(15, 23, 42, 0.82) !important;
+  border: 1px solid var(--nf-hairline) !important;
+  border-radius: 10px !important;
+  position: relative;
+  overflow: hidden;
+  padding: 5px 11px !important;
+}
+body:not(.nf65-theme-classic) .topstats .stat small {
+  color: var(--nf-muted) !important;
+  font-size: 9.5px !important;
+  letter-spacing: 0.08em !important;
+}
+body:not(.nf65-theme-classic) .topstats .xp-stat {
+  border-color: rgba(245, 158, 11, 0.38) !important;
+  background: linear-gradient(180deg, rgba(245, 158, 11, 0.12), rgba(15, 23, 42, 0.85)) !important;
+}
+body:not(.nf65-theme-classic) .topstats .xp-stat strong { color: #FDE68A !important; }
+body:not(.nf65-theme-classic) .topstats .xp-stat::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--nf-amber), #FDE047);
+}
+body:not(.nf65-theme-classic) .topstats .level-stat {
+  border-color: rgba(34, 211, 238, 0.38) !important;
+  background: linear-gradient(180deg, rgba(34, 211, 238, 0.12), rgba(15, 23, 42, 0.85)) !important;
+}
+body:not(.nf65-theme-classic) .topstats .level-stat strong { color: #A5F3FC !important; }
+body:not(.nf65-theme-classic) .topstats .budget-stat {
+  border-color: rgba(16, 185, 129, 0.38) !important;
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.12), rgba(15, 23, 42, 0.85)) !important;
+}
+body:not(.nf65-theme-classic) .topstats .budget-stat strong { color: #6EE7B7 !important; }
+
+/* Glassmorphic Hairline Panels */
+body:not(.nf65-theme-classic) .panel,
+body:not(.nf65-theme-classic) aside.panel.left,
+body:not(.nf65-theme-classic) aside.right > section.panel,
+body:not(.nf65-theme-classic) .workspace-panel {
+  background: var(--nf-glass) !important;
+  backdrop-filter: blur(14px) !important;
+  border: 1px solid var(--nf-hairline) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.38) !important;
+}
+body:not(.nf65-theme-classic) .panelhead {
+  background: rgba(15, 23, 42, 0.65) !important;
+  border-bottom: 1px solid var(--nf-hairline) !important;
+}
+body:not(.nf65-theme-classic) .panelhead h3 {
+  color: var(--nf-text) !important;
+  letter-spacing: 0.06em !important;
+  font-size: 11.5px !important;
+}
+body:not(.nf65-theme-classic) #nf400Inventory {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 4px 2px !important;
+}
+body:not(.nf65-theme-classic) #nf400Inventory > h4,
+body:not(.nf65-theme-classic) #nf400InventoryTip {
+  display: none !important;
+}
+body:not(.nf65-theme-classic) #nf400Inventory input,
+body:not(.nf65-theme-classic) #nf400Inventory select {
+  background: rgba(6, 10, 19, 0.88) !important;
+  border: 1px solid var(--nf-hairline) !important;
+  border-radius: 9px !important;
+  color: var(--nf-text) !important;
+  font-size: 12px !important;
+}
+body:not(.nf65-theme-classic) #nf400Inventory input:focus,
+body:not(.nf65-theme-classic) #nf400Inventory select:focus {
+  border-color: var(--nf-cyan) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.18) !important;
+}
+body:not(.nf65-theme-classic) #nf400Inventory button.nf400-device {
+  background: rgba(15, 23, 42, 0.72) !important;
+  border: 1px solid var(--nf-hairline) !important;
+  border-radius: 10px !important;
+  padding: 8px 9px !important;
+  min-height: 46px !important;
+  transition: transform .15s ease, border-color .15s ease, background .15s ease !important;
+}
+body:not(.nf65-theme-classic) #nf400Inventory button.nf400-device:hover {
+  background: rgba(30, 41, 59, 0.9) !important;
+  border-color: var(--nf-hairline-active) !important;
+  outline: none !important;
+  transform: translateY(-1px);
+}
+body:not(.nf65-theme-classic) #nf400Inventory button.nf400-device strong {
+  color: var(--nf-text) !important;
+  font-size: 12px !important;
+}
+body:not(.nf65-theme-classic) #nf400Inventory button.nf400-device small {
+  color: var(--nf-muted) !important;
+  font-size: 10px !important;
+}
+
+/* Tactical Topology Canvas & Port Sockets */
+body:not(.nf65-theme-classic) #nf400Canvas,
+body:not(.nf65-theme-classic) #stage {
+  background:
+    radial-gradient(rgba(148, 163, 184, 0.13) 1px, transparent 1px),
+    radial-gradient(circle at 50% 45%, rgba(15, 29, 54, 0.65), #070B14 90%) !important;
+  background-size: 24px 24px, 100% 100% !important;
+  border: 1px solid var(--nf-hairline) !important;
+  border-radius: 12px !important;
+}
+body:not(.nf65-theme-classic) #nf400Modebar {
+  background: rgba(15, 23, 42, 0.68) !important;
+  border: 1px solid var(--nf-hairline) !important;
+  border-radius: 11px !important;
+}
+body:not(.nf65-theme-classic) #nf400Modebar button {
+  background: rgba(15, 23, 42, 0.55) !important;
+  border: 1px solid var(--nf-hairline) !important;
+  color: var(--nf-muted) !important;
+  border-radius: 8px !important;
+}
+body:not(.nf65-theme-classic) #nf400Modebar button.active,
+body:not(.nf65-theme-classic) #nf400Modebar button[aria-pressed="true"] {
+  background: rgba(34, 211, 238, 0.16) !important;
+  border-color: var(--nf-cyan) !important;
+  color: #ffffff !important;
+}
+body:not(.nf65-theme-classic) #nf400Canvas .nf400-node {
+  background: rgba(11, 17, 30, 0.88) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(148, 163, 184, 0.22) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.52) !important;
+}
+body:not(.nf65-theme-classic) #nf400Canvas .nf400-node.selected,
+body:not(.nf65-theme-classic) #nf400Canvas .nf400-node:focus-within {
+  border-color: var(--nf-cyan) !important;
+  box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.25), 0 10px 28px rgba(0, 0, 0, 0.6) !important;
+}
+body:not(.nf65-theme-classic) #nf400Canvas .nf400-port,
+body:not(.nf65-theme-classic) #nf400Canvas [data-port] {
+  background: #060A13 !important;
+  border: 1px solid rgba(34, 211, 238, 0.28) !important;
+  border-radius: 5px !important;
+  color: #BAE6FD !important;
+  font-family: ui-monospace, SFMono-Regular, monospace !important;
+  transition: border-color .15s ease, box-shadow .15s ease, background .15s ease !important;
+}
+body:not(.nf65-theme-classic) #nf400Canvas .nf400-port:hover,
+body:not(.nf65-theme-classic) #nf400Canvas [data-port]:hover {
+  border-color: var(--nf-mint-bright) !important;
+  background: rgba(16, 185, 129, 0.2) !important;
+  box-shadow: 0 0 8px rgba(52, 211, 153, 0.45) !important;
+  color: #ffffff !important;
+}
+body:not(.nf65-theme-classic) #nf49BezierWires path {
+  filter: drop-shadow(0 0 4px rgba(34, 211, 238, 0.45));
+}
+
+/* AI Companion "IGA" Holographic Card & RPG Objective Tracker */
+body:not(.nf65-theme-classic) #nf4034Coach {
+  background: linear-gradient(155deg, rgba(15, 29, 54, 0.82), rgba(11, 15, 25, 0.92)) !important;
+  border: 1px solid rgba(34, 211, 238, 0.34) !important;
+  border-radius: 12px !important;
+  box-shadow: inset 0 1px 0 rgba(34, 211, 238, 0.22), 0 8px 20px rgba(0, 0, 0, 0.35) !important;
+  position: relative;
+}
+body:not(.nf65-theme-classic) #nf4034Coach::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 12px; right: 12px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--nf-cyan), transparent);
+}
+body:not(.nf65-theme-classic) .right .progress {
+  height: 7px !important;
+  border-radius: 999px !important;
+  background: rgba(15, 23, 42, 0.9) !important;
+  border: 1px solid var(--nf-hairline) !important;
+  overflow: hidden !important;
+}
+body:not(.nf65-theme-classic) #progressBar {
+  background: linear-gradient(90deg, var(--nf-cyan), var(--nf-mint-bright)) !important;
+  box-shadow: 0 0 10px rgba(52, 211, 153, 0.55) !important;
+  transition: width .35s cubic-bezier(.22, 1, .36, 1) !important;
+}
+body:not(.nf65-theme-classic) #objectives .objective {
+  background: rgba(15, 23, 42, 0.6) !important;
+  border: 1px solid var(--nf-hairline) !important;
+  border-radius: 8px !important;
+  padding: 6px 8px !important;
+  margin-bottom: 5px !important;
+  font-size: 11.5px !important;
+}
+body:not(.nf65-theme-classic) #objectives .objective.done {
+  border-color: rgba(16, 185, 129, 0.42) !important;
+  background: rgba(16, 185, 129, 0.1) !important;
+}
+
+/* Unified Command Center Bottom Bar */
+body:not(.nf65-theme-classic) #nf43DrawerBar {
+  background: var(--nf-glass-strong) !important;
+  backdrop-filter: blur(14px) !important;
+  border: 1px solid var(--nf-hairline) !important;
+  border-radius: 11px !important;
+}
+body:not(.nf65-theme-classic) #nf43DrawerBar .nf43-tabs button {
+  background: rgba(30, 41, 59, 0.65) !important;
+  border: 1px solid var(--nf-hairline) !important;
+  color: #CBD5E1 !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+}
+body:not(.nf65-theme-classic) #nf43DrawerBar .nf43-tabs button:hover {
+  background: rgba(51, 65, 85, 0.85) !important;
+  border-color: var(--nf-hairline-active) !important;
+  color: #ffffff !important;
+}
+body:not(.nf65-theme-classic) #nf43DrawerBar .nf43-tabs button.active {
+  background: rgba(34, 211, 238, 0.18) !important;
+  border-color: var(--nf-cyan) !important;
+  color: #ffffff !important;
+}
+body:not(.nf65-theme-classic) #nf60OpenBtn {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.35), rgba(79, 70, 229, 0.45)) !important;
+  border-color: rgba(165, 180, 252, 0.55) !important;
+  color: #EEF2FF !important;
+}
+body:not(.nf65-theme-classic) #nf64CliBtn {
+  background: rgba(6, 78, 59, 0.38) !important;
+  border-color: rgba(52, 211, 153, 0.45) !important;
+  color: #6EE7B7 !important;
+}
+body:not(.nf65-theme-classic) #nf63LofiBtn:not(.is-muted) {
+  background: rgba(14, 116, 144, 0.32) !important;
+  border-color: rgba(34, 211, 238, 0.45) !important;
+  color: #A5F3FC !important;
+}
+body:not(.nf65-theme-classic) .statusbar {
   background: rgba(7, 10, 18, 0.94) !important;
   border-top: 1px solid var(--nf-hairline) !important;
   color: var(--nf-muted) !important;
+}
+
+/* Unified Dark OLED Slate on ALL Modals & Main Menu (100% Visual Consistency) */
+body:not(.nf65-theme-classic) #nf322Overlay {
+  background:
+    radial-gradient(ellipse at 50% 25%, rgba(34, 211, 238, 0.11) 0%, rgba(11, 15, 25, 0.96) 55%, #060911 100%) !important;
+}
+body:not(.nf65-theme-classic) .nf322-card,
+body:not(.nf65-theme-classic) #nf30Overlay .nf30-card,
+body:not(.nf65-theme-classic) #nf60Modal .nf60-dialog,
+body:not(.nf65-theme-classic) #nf60ResultModal .nf60-dialog,
+body:not(.nf65-theme-classic) #nf60PwdModal .nf60-pwd-card,
+body:not(.nf65-theme-classic) #nf64Modal .nf64-dialog,
+body:not(.nf65-theme-classic) #nf44ShopModal .nf44-card,
+body:not(.nf65-theme-classic) #nf45BadgeModal .nf45-card,
+body:not(.nf65-theme-classic) #nf41VictoryModal .nf41-card {
+  background: linear-gradient(160deg, rgba(15, 23, 42, 0.96) 0%, #0B0F19 100%) !important;
+  border: 1px solid rgba(34, 211, 238, 0.32) !important;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.85) !important;
+  color: var(--nf-text) !important;
+}
+body:not(.nf65-theme-classic) .nf60-head,
+body:not(.nf65-theme-classic) .nf64-head,
+body:not(.nf65-theme-classic) #nf30Overlay .nf30-head {
+  background: rgba(11, 15, 25, 0.92) !important;
+  border-bottom: 1px solid var(--nf-hairline) !important;
+}
+body:not(.nf65-theme-classic) .nf60-box,
+body:not(.nf65-theme-classic) .nf64-stat,
+body:not(.nf65-theme-classic) .nf60-bank-item {
+  background: rgba(15, 23, 42, 0.62) !important;
+  border-color: var(--nf-hairline) !important;
 }

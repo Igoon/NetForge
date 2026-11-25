@@ -1,6 +1,6 @@
 {
-  "version": "0.65.0",
+  "version": "0.65.1",
   "releaseDate": "2026-11-25",
-  "title": "Tactical Cyber HUD UI Overhaul v0.65.0",
-  "notes": "v0.65.0: Rombakan UI Glassmorphic Tactical Cyber HUD (#0B0F19 OLED Slate, Dock Inventori ringkas, kartu holografis IGA, dan mini grafik trafik live)."
+  "title": "Tactical Polish, OLED Modals & Theme Switcher v0.65.1",
+  "notes": "v0.65.1: Penyelarasan tema Dark OLED ke seluruh modal & Menu Utama, header kanvas lebih ramping, tooltip instan di Dock Ringkas, dan sakelar tema Tactical Dark / Classic Blue."
 }
