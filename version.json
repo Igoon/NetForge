@@ -1,6 +1,6 @@
 {
-  "version": "0.68.0",
-  "releaseDate": "2026-11-25",
-  "title": "X-Ray Zoning, Mini Web Browser & Firewall ACL v0.68.0",
-  "notes": "v0.68.0: Mode X-Ray Jaringan (visualisasi zona Subnet & VLAN), Mini Web Browser simulasi (HTTP/HTTPS/DNS), dan Firewall ACL Port Filter (Port 80/443/22/53)."
+  "version": "0.69.0",
+  "releaseDate": "2026-11-26",
+  "title": "Daily Troubleshooting Challenge v0.69.0",
+  "notes": "v0.69.0: Tantangan Troubleshooting Harian (Daily Challenge deterministik dengan 6 skenario nyata, streak harian, timer, dan teks bagikan hasil)."
 }
