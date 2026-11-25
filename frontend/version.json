@@ -1,6 +1,6 @@
 {
-  "version": "0.64.0",
+  "version": "0.64.1",
   "releaseDate": "2026-11-25",
-  "title": "Subnet Calculator, Same-Subnet Check & Network CLI v0.64.0",
-  "notes": "v0.64.0: Kalkulator IPv4/CIDR Subnetting + Cek Satu Subnet (dengan sakelar izin ujian guru) dan Terminal CLI Jaringan ringan (ipconfig, ping, tracert, arp -a)."
+  "title": "Layout Vertical Space Optimization v0.64.1",
+  "notes": "v0.64.1: Optimasi ruang vertikal panel kiri & kanan dashboard, bilah drawer 1 baris tunggal, dan penggabungan footer duplikat."
 }
