@@ -1,6 +1,6 @@
 {
-  "version": "0.66.0",
+  "version": "0.67.0",
   "releaseDate": "2026-11-25",
-  "title": "Node Micro-HUD IP Chips & ICMP Hop Animation v0.66.0",
-  "notes": "v0.66.0: Node Micro-HUD chip IP langsung di tiap perangkat, efek pop-in pemasangan, dan animasi paket ICMP/TRACE hop-by-hop saat uji Ping/Tracert."
+  "title": "Full Curriculum Exam Rubric & VLAN Template v0.67.0",
+  "notes": "v0.67.0: Rubrik Ujian Kurikulum Lengkap (VLAN & Switch Trunk, Jumlah Unit Perangkat, DHCP Server/Klien, DNS, Bebas Konflik IP, Jalur Kustom, Media Kabel) + Template #4 VLAN Separation & Badge VLAN di kanvas."
 }

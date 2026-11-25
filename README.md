@@ -1,11 +1,11 @@
 # NET FORGE
 
 <p align="center">
-  <img src="./icons/netforge-qa-badge.svg" alt="NET FORGE v0.66.0 — Node Micro-HUD IP Chips & ICMP Animation" width="760">
+  <img src="./icons/netforge-qa-badge.svg" alt="NET FORGE v0.67.0 — Full Curriculum Exam Rubric & VLAN Template" width="760">
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/NET_FORGE-v0.66.0-0ea5e9?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/NET_FORGE-v0.67.0-0ea5e9?style=for-the-badge" alt="Version">
   <img src="https://img.shields.io/badge/QA_Status-Verified_Playable-10b981?style=for-the-badge" alt="QA Status">
   <img src="https://img.shields.io/badge/Score-9.4%2F10-fbbf24?style=for-the-badge" alt="Score">
   <img src="https://img.shields.io/badge/Tested_by-Gemini-38bdf8?style=for-the-badge" alt="Tested by Gemini">

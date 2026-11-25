@@ -1,4 +1,4 @@
-/* NET FORGE v0.66.0 — Desainer Misi & Mode Ujian (Sekolah / Kampus Edition)
+/* NET FORGE v0.67.0 — Desainer Misi & Mode Ujian (Sekolah / Kampus Edition)
    - Menyembunyikan panel Objective lama saat ujian & menampilkan Panel Rubrik Ujian khusus di sidebar kanan
    - Cetak / Simpan PDF via dokumen cetak bersih (terjamin tidak pernah blank di Print Preview!)
    - Editor Aturan IP Spesifik per Perangkat (IP eksak, subnet wildcard 192.168.10.*, prefix /24, & gateway) */
@@ -75,6 +75,36 @@
         nextId: 6,
         spent: 770
       }
+    },
+    {
+      id: 'tpl_vlan_trunk',
+      title: 'Ujian Praktik VLAN — Segmentasi VLAN 10/20 & Switch Trunk',
+      author: 'Template UKK SMK TKJ',
+      instructions: 'Bangun topologi Router → Switch → 4 Desktop PC. Pisahkan minimal 2 PC ke VLAN 10 (Admin) dan 2 PC ke VLAN 20 (Staff), lalu atur Switch ke mode trunk dengan VLAN 10,20 serta pastikan tidak ada konflik IP.',
+      durationMin: 20,
+      maxBudget: 1450,
+      examLock: true,
+      allowIpCalc: true,
+      requiredDevices: ['router', 'switch', 'pc'],
+      deviceMinCounts: { router: 1, switch: 1, pc: 4 },
+      requiredPaths: [['router', 'switch'], ['pc', 'router']],
+      requiredIPs: [
+        { type: 'router', ip: '192.168.10.1', prefix: '24', gateway: '' }
+      ],
+      requiredVlans: [
+        { type: 'pc', vlan: '10', iface: '', minCount: 2 },
+        { type: 'pc', vlan: '20', iface: '', minCount: 2 },
+        { type: 'switch', vlan: '10,20', iface: 'trunk', minCount: 1 }
+      ],
+      requireRouterDhcp: false,
+      requireClientDhcp: false,
+      requiredDns: '',
+      requireNoIpConflict: true,
+      requiredMedia: '',
+      requireAllOnline: true,
+      requirePing: true,
+      requireBudget: true,
+      initialGraph: null
     }
   ];
 
@@ -579,7 +609,7 @@
 
 
   // =========================================================================
-  // v0.66.0 — PASSWORD PROTECTION FOR MISSION FILES
+  // v0.67.0 — PASSWORD PROTECTION FOR MISSION FILES
   // =========================================================================
   function xorBytes(bytes, keyStr) {
     const k = new TextEncoder().encode(keyStr || 'NF62');
@@ -625,6 +655,13 @@
       requirePing: clean.requirePing !== false,
       requireBudget: clean.requireBudget !== false,
       allowIpCalc: clean.allowIpCalc !== false,
+      deviceMinCounts: clean.deviceMinCounts || {},
+      requiredVlans: clean.requiredVlans || [],
+      requireRouterDhcp: Boolean(clean.requireRouterDhcp),
+      requireClientDhcp: Boolean(clean.requireClientDhcp),
+      requiredDns: clean.requiredDns || '',
+      requireNoIpConflict: clean.requireNoIpConflict !== false,
+      requiredMedia: clean.requiredMedia || '',
       initialGraph: clean.initialGraph || null
     };
     const enc = xorBytes(new TextEncoder().encode(JSON.stringify(secretObj)), `${salt}:${pwd}:NF62`);
@@ -756,7 +793,12 @@
         name: n.name || n.type,
         ip: (n.ip && String(n.ip).trim()) || cfg.ip || (n.type === 'router' ? '192.168.10.1' : ''),
         prefix: String(cfg.prefix || '24').replace(/^\//, ''),
-        gateway: (n.gateway && String(n.gateway).trim()) || cfg.gateway || ''
+        gateway: (n.gateway && String(n.gateway).trim()) || cfg.gateway || '',
+        dns: String((n.dns && String(n.dns).trim()) || cfg.dns || '').trim(),
+        vlan: String((n.vlan && String(n.vlan).trim()) || cfg.vlan || '').trim(),
+        iface: String((n.iface && String(n.iface).trim()) || cfg.iface || '').trim().toLowerCase(),
+        mode: String((n.mode && String(n.mode).trim()) || cfg.mode || 'static').trim().toLowerCase(),
+        dhcp: n.dhcp !== undefined ? Boolean(n.dhcp) : Boolean(cfg.dhcp)
       };
     });
   }
@@ -792,14 +834,20 @@
     const cat = api?.catalog || [];
     const devName = id => (cat.find(d => d.id === id)?.name) || id;
 
-    // 1. Required devices
+    // 1. Required devices (with optional minimum quantity per device type)
     const reqDevs = Array.isArray(pack.requiredDevices) ? pack.requiredDevices : [];
+    const minMap = (pack.deviceMinCounts && typeof pack.deviceMinCounts === 'object') ? pack.deviceMinCounts : {};
     if (reqDevs.length) {
-      const missing = reqDevs.filter(t => !first(t)).map(devName);
+      const missing = [];
+      reqDevs.forEach(t => {
+        const need = Math.max(1, parseInt(minMap[t] || 1, 10) || 1);
+        const have = nodes.filter(n => n.type === t).length;
+        if (have < need) missing.push(need > 1 ? `${devName(t)} (${have}/${need})` : devName(t));
+      });
       checks.push({
         label: `Perangkat wajib tersedia (${reqDevs.length - missing.length}/${reqDevs.length})`,
         ok: missing.length === 0,
-        detail: missing.length === 0 ? 'Semua perangkat wajib terpasang.' : 'Kurang: ' + missing.join(', ')
+        detail: missing.length === 0 ? 'Semua perangkat wajib & jumlah unitnya terpenuhi.' : 'Kurang: ' + missing.join(', ')
       });
     }
 
@@ -838,6 +886,103 @@
           ok: Boolean(matched),
           detail: matched ? `Terpenuhi (${matched.ip}/${matched.prefix}).` : `Saat ini: ${foundDesc}. Klik 2x perangkat untuk mengatur IP.`
         });
+      });
+    }
+
+    // 3b. VLAN & Switch Trunk Rules
+    const effNodesAll = getEffectiveNodeConfigs();
+    const reqVlans = Array.isArray(pack.requiredVlans) ? pack.requiredVlans : [];
+    if (reqVlans.length) {
+      reqVlans.forEach(rule => {
+        if (!rule || !rule.type || !rule.vlan) return;
+        const wantVlans = String(rule.vlan).replace(/\s+/g, '').split(',').filter(Boolean);
+        const wantIface = String(rule.iface || '').trim().toLowerCase();
+        const minCount = Math.max(1, parseInt(rule.minCount || 1, 10) || 1);
+        const matched = effNodesAll.filter(n => {
+          if (n.type !== rule.type) return false;
+          const nodeVlans = String(n.vlan || '').replace(/\s+/g, '').split(',').filter(Boolean);
+          const hasAllVlans = wantVlans.every(v => nodeVlans.includes(v));
+          const ifaceOk = !wantIface || n.iface === wantIface;
+          return hasAllVlans && ifaceOk;
+        });
+        const ok = matched.length >= minCount;
+        const descIface = wantIface ? ` (mode ${wantIface})` : '';
+        checks.push({
+          label: `VLAN ${wantVlans.join(',')} pada ${minCount > 1 ? minCount + '× ' : ''}${devName(rule.type)}${descIface}`,
+          ok,
+          detail: ok
+            ? `Terpenuhi (${matched.length}/${minCount} unit sesuai).`
+            : `Baru ${matched.length}/${minCount} unit sesuai. Klik 2x perangkat untuk mengatur VLAN${wantIface ? ' & Interface ' + wantIface : ''}.`
+        });
+      });
+    }
+
+    // 3c. DHCP Server (Router) & DHCP Client Rules
+    if (pack.requireRouterDhcp) {
+      const routers = effNodesAll.filter(n => n.type === 'router');
+      const ok = routers.some(r => r.dhcp);
+      checks.push({
+        label: 'Router mengaktifkan layanan DHCP Server',
+        ok,
+        detail: ok ? 'DHCP Server aktif pada Router.' : 'Aktifkan DHCP Server di konfigurasi Router.'
+      });
+    }
+    if (pack.requireClientDhcp) {
+      const clients = effNodesAll.filter(n => ['pc', 'laptop', 'tablet', 'phone'].includes(n.type));
+      const dhcpOk = clients.length > 0 && clients.every(c => c.mode === 'dhcp');
+      checks.push({
+        label: `Perangkat klien menggunakan mode DHCP (${clients.filter(c => c.mode === 'dhcp').length}/${clients.length})`,
+        ok: dhcpOk,
+        detail: clients.length === 0 ? 'Belum ada perangkat klien.' : (dhcpOk ? 'Semua klien memakai mode DHCP.' : 'Ubah mode IP klien ke DHCP pada pengaturan perangkat.')
+      });
+    }
+
+    // 3d. Required DNS Server
+    if (pack.requiredDns && String(pack.requiredDns).trim()) {
+      const wantDns = String(pack.requiredDns).trim();
+      const endpoints = effNodesAll.filter(n => !['switch', 'modem'].includes(n.type));
+      const matchedDns = endpoints.filter(n => n.dns === wantDns);
+      const ok = matchedDns.length > 0;
+      checks.push({
+        label: `Konfigurasi DNS Server = ${wantDns}`,
+        ok,
+        detail: ok ? `${matchedDns.length} perangkat sudah memakai DNS ${wantDns}.` : `Belum ada perangkat yang diarahkan ke DNS ${wantDns}.`
+      });
+    }
+
+    // 3e. No IP Conflict
+    if (pack.requireNoIpConflict) {
+      const ipSeen = new Map();
+      const dups = [];
+      effNodesAll.forEach(n => {
+        if (!n.ip || n.ip.toUpperCase() === 'DHCP') return;
+        if (ipSeen.has(n.ip)) dups.push(`${n.ip} (${ipSeen.get(n.ip)} & ${n.name})`);
+        else ipSeen.set(n.ip, n.name);
+      });
+      const ok = dups.length === 0;
+      checks.push({
+        label: 'Bebas konflik alamat IP (semua IP unik)',
+        ok,
+        detail: ok ? 'Tidak ditemukan duplikasi IP pada topologi.' : 'Konflik IP terdeteksi: ' + dups.join('; ')
+      });
+    }
+
+    // 3f. Required Cable / Link Media (Fiber / PoE / Wi-Fi)
+    if (pack.requiredMedia) {
+      const wantM = String(pack.requiredMedia).toLowerCase();
+      const mediaNames = { fiber: 'Fiber / SFP', poe: 'PoE', wifi: 'Wi-Fi' };
+      const ok = activeEdges.some(e => {
+        const m = String(e.medium || '').toLowerCase();
+        const p = String((e.portA || '') + ' ' + (e.portB || '')).toLowerCase();
+        if (wantM === 'fiber') return m.includes('fiber') || p.includes('sfp');
+        if (wantM === 'poe') return m.includes('poe') || Boolean(e.poe) || p.includes('poe');
+        if (wantM === 'wifi') return m.includes('wifi') || m.includes('wireless') || p.includes('wi-fi');
+        return false;
+      });
+      checks.push({
+        label: `Menggunakan tautan media ${mediaNames[wantM] || wantM}`,
+        ok,
+        detail: ok ? `Tautan ${mediaNames[wantM] || wantM} aktif.` : `Belum ada koneksi aktif dengan media ${mediaNames[wantM] || wantM}.`
       });
     }
 
@@ -1033,12 +1178,86 @@
     return out;
   }
 
+  function addVlanRuleRow(rule) {
+    const list = $('nf60VlanList');
+    if (!list) return;
+    const cat = API()?.catalog || [];
+    const r = rule || { type: 'pc', vlan: '10', iface: '', minCount: 1 };
+    const row = document.createElement('div');
+    row.className = 'nf60-vlan-row';
+    row.innerHTML = `
+      <select class="nf60-vlan-type">
+        ${cat.map(d => `<option value="${d.id}" ${d.id === r.type ? 'selected' : ''}>${d.icon} ${d.name}</option>`).join('')}
+      </select>
+      <input class="nf60-vlan-id" type="text" placeholder="VLAN (10 atau 10,20)" value="${escapeHtml(r.vlan || '')}">
+      <select class="nf60-vlan-iface">
+        <option value="" ${!r.iface ? 'selected' : ''}>Mode: Bebas</option>
+        <option value="access" ${r.iface === 'access' ? 'selected' : ''}>access</option>
+        <option value="trunk" ${r.iface === 'trunk' ? 'selected' : ''}>trunk</option>
+      </select>
+      <input class="nf60-vlan-min" type="number" min="1" max="12" title="Minimal unit perangkat" value="${Math.max(1, parseInt(r.minCount || 1, 10) || 1)}">
+      <button type="button" class="nf60-btn danger nf60-vlan-del" title="Hapus aturan VLAN">✕</button>
+    `;
+    row.querySelector('.nf60-vlan-del').addEventListener('click', () => row.remove());
+    list.appendChild(row);
+  }
+
+  function readVlanRules() {
+    const out = [];
+    document.querySelectorAll('#nf60VlanList .nf60-vlan-row').forEach(row => {
+      const type = row.querySelector('.nf60-vlan-type')?.value;
+      const vlan = (row.querySelector('.nf60-vlan-id')?.value || '').trim();
+      const iface = (row.querySelector('.nf60-vlan-iface')?.value || '').trim().toLowerCase();
+      const minCount = Math.max(1, parseInt(row.querySelector('.nf60-vlan-min')?.value || '1', 10) || 1);
+      if (type && vlan) out.push({ type, vlan, iface, minCount });
+    });
+    return out;
+  }
+
+  function addCustomPathRow(pair) {
+    const list = $('nf60CustomPathList');
+    if (!list) return;
+    const cat = API()?.catalog || [];
+    const [a, b] = Array.isArray(pair) ? pair : ['ap', 'laptop'];
+    const row = document.createElement('div');
+    row.className = 'nf60-cpath-row';
+    row.innerHTML = `
+      <select class="nf60-cp-a">${cat.map(d => `<option value="${d.id}" ${d.id === a ? 'selected' : ''}>${d.icon} ${d.name}</option>`).join('')}</select>
+      <span style="color:#7dd3fc;font-weight:800;">↔</span>
+      <select class="nf60-cp-b">${cat.map(d => `<option value="${d.id}" ${d.id === b ? 'selected' : ''}>${d.icon} ${d.name}</option>`).join('')}</select>
+      <button type="button" class="nf60-btn danger nf60-cp-del" title="Hapus jalur kustom">✕</button>
+    `;
+    row.querySelector('.nf60-cp-del').addEventListener('click', () => row.remove());
+    list.appendChild(row);
+  }
+
+  function readCustomPaths() {
+    const out = [];
+    document.querySelectorAll('#nf60CustomPathList .nf60-cpath-row').forEach(row => {
+      const a = row.querySelector('.nf60-cp-a')?.value;
+      const b = row.querySelector('.nf60-cp-b')?.value;
+      if (a && b && a !== b) out.push([a, b]);
+    });
+    return out;
+  }
+
+
   function readDesignerForm() {
-    const reqDevices = [...document.querySelectorAll('#nf60DevChips input:checked')].map(i => i.value);
-    const reqPaths = [...document.querySelectorAll('#nf60PathChips input:checked')].map(i => i.value.split(':'));
+    const reqDevices = [];
+    const deviceMinCounts = {};
+    document.querySelectorAll('#nf60DevChips .nf60-chip').forEach(lbl => {
+      const cb = lbl.querySelector('input[type="checkbox"]');
+      if (cb && cb.checked) {
+        reqDevices.push(cb.value);
+        const q = Math.max(1, parseInt(lbl.querySelector('.nf60-qty')?.value || '1', 10) || 1);
+        if (q > 1) deviceMinCounts[cb.value] = q;
+      }
+    });
+    const basePaths = [...document.querySelectorAll('#nf60PathChips input:checked')].map(i => i.value.split(':'));
+    const customPaths = readCustomPaths();
     return {
       format: 'netforge-exam-v1',
-      version: '0.66.0',
+      version: '0.67.0',
       title: ($('nf60Title')?.value || '').trim() || 'Misi Kustom NET FORGE',
       author: ($('nf60Author')?.value || '').trim() || 'Pengajar Jaringan',
       instructions: ($('nf60Instr')?.value || '').trim() || 'Bangun topologi sesuai rubrik yang ditentukan.',
@@ -1047,8 +1266,15 @@
       examLock: Boolean($('nf60Lock')?.checked),
       allowIpCalc: $('nf60AllowIpCalc') ? Boolean($('nf60AllowIpCalc').checked) : true,
       requiredDevices: reqDevices,
-      requiredPaths: reqPaths,
+      deviceMinCounts,
+      requiredPaths: [...basePaths, ...customPaths],
       requiredIPs: readIpRules(),
+      requiredVlans: readVlanRules(),
+      requireRouterDhcp: Boolean($('nf60ReqRouterDhcp')?.checked),
+      requireClientDhcp: Boolean($('nf60ReqClientDhcp')?.checked),
+      requiredDns: ($('nf60ReqDns')?.value || '').trim(),
+      requireNoIpConflict: $('nf60ReqNoConflict') ? Boolean($('nf60ReqNoConflict').checked) : true,
+      requiredMedia: ($('nf60ReqMedia')?.value || '').trim(),
       requireAllOnline: Boolean($('nf60ReqOnline')?.checked),
       requirePing: Boolean($('nf60ReqPing')?.checked),
       requireBudget: Boolean($('nf60ReqBudget')?.checked),
@@ -1074,6 +1300,33 @@
     if ($('nf60ReqOnline')) $('nf60ReqOnline').checked = pack.requireAllOnline !== false;
     if ($('nf60ReqPing')) $('nf60ReqPing').checked = pack.requirePing !== false;
     if ($('nf60ReqBudget')) $('nf60ReqBudget').checked = pack.requireBudget !== false;
+    if ($('nf60ReqNoConflict')) $('nf60ReqNoConflict').checked = pack.requireNoIpConflict !== false;
+    if ($('nf60ReqRouterDhcp')) $('nf60ReqRouterDhcp').checked = Boolean(pack.requireRouterDhcp);
+    if ($('nf60ReqClientDhcp')) $('nf60ReqClientDhcp').checked = Boolean(pack.requireClientDhcp);
+    if ($('nf60ReqDns')) $('nf60ReqDns').value = pack.requiredDns || '';
+    if ($('nf60ReqMedia')) $('nf60ReqMedia').value = pack.requiredMedia || '';
+    const minMap = (pack.deviceMinCounts && typeof pack.deviceMinCounts === 'object') ? pack.deviceMinCounts : {};
+    document.querySelectorAll('#nf60DevChips .nf60-chip').forEach(lbl => {
+      const cb = lbl.querySelector('input[type="checkbox"]');
+      const qtyInp = lbl.querySelector('.nf60-qty');
+      if (cb && qtyInp) qtyInp.value = String(Math.max(1, parseInt(minMap[cb.value] || 1, 10) || 1));
+    });
+    const vlanList = $('nf60VlanList');
+    if (vlanList) {
+      vlanList.innerHTML = '';
+      (pack.requiredVlans || []).forEach(r => addVlanRuleRow(r));
+    }
+    const cpathList = $('nf60CustomPathList');
+    if (cpathList) {
+      cpathList.innerHTML = '';
+      const commonSet = new Set(COMMON_PATHS.map(p => p.key));
+      (pack.requiredPaths || []).forEach(pair => {
+        if (!Array.isArray(pair) || pair.length < 2) return;
+        const k1 = `${pair[0]}:${pair[1]}`;
+        const k2 = `${pair[1]}:${pair[0]}`;
+        if (!commonSet.has(k1) && !commonSet.has(k2)) addCustomPathRow(pair);
+      });
+    }
     draftInitialGraph = pack.initialGraph ? structuredClone(pack.initialGraph) : null;
     updateInitialGraphLabel();
 
@@ -1233,7 +1486,7 @@
     const code = makeVerifyCode(session.student, session.pack, ev.score, ev.passed, ev.total);
     const reportObj = {
       format: 'netforge-exam-result-v1',
-      version: '0.66.0',
+      version: '0.67.0',
       submittedAt: new Date().toISOString(),
       verificationCode: code,
       student: session.student,
@@ -1309,7 +1562,7 @@
     m.setAttribute('aria-modal', 'true');
     const catalog = API()?.catalog || [];
     const devChipsHtml = catalog.map(d =>
-      `<label class="nf60-chip"><input type="checkbox" value="${d.id}">${d.icon} ${d.name}</label>`
+      `<label class="nf60-chip"><input type="checkbox" value="${d.id}">${d.icon} ${d.name}<input type="number" class="nf60-qty" min="1" max="12" value="1" title="Jumlah minimal unit" onclick="event.stopPropagation()"></label>`
     ).join('');
     const pathChipsHtml = COMMON_PATHS.map(p =>
       `<label class="nf60-chip"><input type="checkbox" value="${p.key}">🔗 ${p.label}</label>`
@@ -1369,6 +1622,43 @@
             <div style="font-size:11px;color:#94a3b8;margin-bottom:7px;">Isi IP eksak (mis. <code>192.168.10.10</code>) atau subnet wildcard (mis. <code>192.168.10.*</code>), prefix (<code>24</code>), dan gateway opsional.</div>
             <div class="nf60-ip-list" id="nf60IpList"></div>
             <button type="button" class="nf60-btn" id="nf60AddIpRule">＋ Tambah Aturan IP Perangkat</button>
+          </div>
+
+          <div class="nf60-box">
+            <div class="nf60-box-title">🏷️ Aturan VLAN &amp; Switch Trunk (Opsional)</div>
+            <div style="font-size:11px;color:#94a3b8;margin-bottom:7px;">Pilih perangkat, isi VLAN ID (mis. <code>10</code> atau <code>10,20</code> untuk trunk), mode antarmuka (<code>access</code>/<code>trunk</code>), dan jumlah minimal unit.</div>
+            <div class="nf60-vlan-list" id="nf60VlanList"></div>
+            <button type="button" class="nf60-btn" id="nf60AddVlanRule">＋ Tambah Aturan VLAN / Trunk</button>
+          </div>
+
+          <div class="nf60-box">
+            <div class="nf60-box-title">🔗 Jalur Koneksi Kustom Bebas (Opsional)</div>
+            <div class="nf60-cpath-list" id="nf60CustomPathList"></div>
+            <button type="button" class="nf60-btn" id="nf60AddCustomPath">＋ Tambah Pasangan Jalur Kustom</button>
+          </div>
+
+          <div class="nf60-box">
+            <div class="nf60-box-title">⚙️ Layanan Jaringan (DHCP, DNS, Konflik IP &amp; Media Kabel)</div>
+            <div class="nf60-row-actions" style="font-size:12px;margin-bottom:8px;">
+              <label><input type="checkbox" id="nf60ReqNoConflict" checked> 🛡️ Bebas Konflik IP</label>
+              <label><input type="checkbox" id="nf60ReqRouterDhcp"> 🔄 Router wajib DHCP Server</label>
+              <label><input type="checkbox" id="nf60ReqClientDhcp"> 📡 Klien wajib mode DHCP</label>
+            </div>
+            <div class="nf60-grid2">
+              <div class="nf60-field">
+                <label>🌍 DNS Server Wajib (Opsional)</label>
+                <input id="nf60ReqDns" type="text" placeholder="Contoh: 192.168.10.10 atau 8.8.8.8">
+              </div>
+              <div class="nf60-field">
+                <label>🔌 Media Kabel Wajib (Opsional)</label>
+                <select id="nf60ReqMedia">
+                  <option value="">Bebas (Ethernet / Wi-Fi / apa saja)</option>
+                  <option value="fiber">Wajib ada tautan Fiber / SFP</option>
+                  <option value="poe">Wajib ada tautan PoE</option>
+                  <option value="wifi">Wajib ada tautan Wi-Fi</option>
+                </select>
+              </div>
+            </div>
           </div>
 
           <div class="nf60-box">
@@ -1465,8 +1755,9 @@
     document.body.appendChild(m);
 
     m.querySelectorAll('.nf60-chip').forEach(lbl => {
-      lbl.addEventListener('click', () => {
-        const inp = lbl.querySelector('input');
+      lbl.addEventListener('click', e => {
+        if (e.target && e.target.classList.contains('nf60-qty')) return;
+        const inp = lbl.querySelector('input[type="checkbox"]');
         setTimeout(() => lbl.classList.toggle('on', inp.checked), 0);
       });
     });
@@ -1487,6 +1778,8 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && m.classList.contains('open')) m.classList.remove('open'); });
     m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
     $('nf60AddIpRule').addEventListener('click', () => addIpRuleRow());
+    $('nf60AddVlanRule').addEventListener('click', () => addVlanRuleRow());
+    $('nf60AddCustomPath').addEventListener('click', () => addCustomPathRow());
 
     m.querySelectorAll('button[data-nf60-tpl]').forEach(b => {
       b.addEventListener('click', () => {
@@ -1716,7 +2009,7 @@
   }, true);
 
   window.NetForgeExamDesigner = {
-    version: '0.66.0',
+    version: '0.67.0',
     openDesigner,
     startExamSession,
     stopExam,

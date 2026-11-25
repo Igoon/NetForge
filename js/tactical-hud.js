@@ -1,4 +1,4 @@
-/* NET FORGE v0.66.0 — Tactical Cyber HUD Controller
+/* NET FORGE v0.67.0 — Tactical Cyber HUD Controller
    (Slim Icon Dock + Instant Hover Tooltip + Live Traffic Sparkline + Tactical/Classic Theme Switcher) */
 (function () {
   'use strict';
@@ -204,7 +204,7 @@
   }
 
 
-  // 4. v0.66.0 — Node Micro-HUD IP Chips + Pop-in Micro-Interaction + Hop-by-Hop ICMP Packet Pulse
+  // 4. v0.67.0 — Node Micro-HUD IP Chips + Pop-in Micro-Interaction + Hop-by-Hop ICMP Packet Pulse
   const seenNodeIds = new Set();
 
   function syncNodeMicroHud() {
@@ -267,6 +267,22 @@
       if (pill.className !== cls) pill.className = cls;
       const html = `<span class="nf66-dot"></span><span>${label}</span>`;
       if (pill.innerHTML !== html) pill.innerHTML = html;
+
+      // v0.67.0: VLAN / Trunk micro-badge on canvas device card
+      const vlanVal = String((n.vlan && String(n.vlan).trim()) || cfg.vlan || '').trim();
+      const ifaceVal = String((n.iface && String(n.iface).trim()) || cfg.iface || '').trim().toLowerCase();
+      let vpill = el.querySelector('.nf67-vlan-pill');
+      if (vlanVal || ifaceVal === 'trunk') {
+        if (!vpill) {
+          vpill = document.createElement('div');
+          vpill.className = 'nf67-vlan-pill';
+          el.appendChild(vpill);
+        }
+        const vTxt = ifaceVal === 'trunk' ? `TRUNK ${vlanVal || 'ALL'}` : `VLAN ${vlanVal}`;
+        if (vpill.textContent !== vTxt) vpill.textContent = vTxt;
+      } else if (vpill) {
+        vpill.remove();
+      }
     });
   }
 
@@ -343,7 +359,7 @@
   }
 
   window.NetForgeTacticalHUD = {
-    version: '0.66.0',
+    version: '0.67.0',
     setSlimDock: applyDockState,
     toggleDock: () => applyDockState(!document.body.classList.contains('nf65-dock-slim')),
     setTheme: applyTheme,
