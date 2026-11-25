@@ -1,4 +1,4 @@
-/* NET FORGE v0.69.1 — Tantangan Troubleshooting Harian (Daily Challenge + Streak) */
+/* NET FORGE v0.69.2 — Tantangan Troubleshooting Harian (Daily Challenge + Streak) */
 (function () {
   'use strict';
   if (window.__NF6900_DAILY) return;
@@ -465,41 +465,65 @@
     m.classList.add('open');
   }
 
-  function injectButton() {
-    const tabs = document.querySelector('#nf43DrawerBar .nf43-tabs');
-    if (tabs && !$('nf69DailyBtn')) {
-      const b = document.createElement('button');
-      b.id = 'nf69DailyBtn';
-      b.type = 'button';
-      b.textContent = '📅 Harian';
-      b.title = 'Tantangan Troubleshooting Harian (1 kasus jaringan rusak baru setiap hari)';
-      b.addEventListener('click', openDailyModal);
-      const refNode = $('nf60OpenBtn') || tabs.firstChild;
-      if (refNode && refNode.parentElement === tabs) tabs.insertBefore(b, refNode);
-      else tabs.prepend(b);
+  function injectMissionEntries() {
+    let okMode = false;
+    let okPicker = false;
+
+    // 1. Unified Canvas Mission Bar (#nf400Modebar) — right beside Free Lab Terpadu
+    const modebar = $('nf400Modebar');
+    if (modebar) {
+      if (!$('nf69ModebarDaily')) {
+        const b = document.createElement('button');
+        b.id = 'nf69ModebarDaily';
+        b.type = 'button';
+        b.textContent = '📅 Tantangan Harian';
+        b.title = 'Misi Troubleshooting Harian (1 kasus jaringan rusak baru setiap hari)';
+        b.addEventListener('click', openDailyModal);
+        const mixedBtn = $('nf400Mixed');
+        if (mixedBtn && mixedBtn.parentElement === modebar) {
+          modebar.insertBefore(b, mixedBtn.nextSibling);
+        } else {
+          modebar.appendChild(b);
+        }
+      }
+      okMode = true;
     }
-    const emBtn = $('nf44EmergencyBtn');
-    if (emBtn && emBtn.parentElement && !$('nf69DailyTopBtn')) {
-      const tb = document.createElement('button');
-      tb.id = 'nf69DailyTopBtn';
-      tb.type = 'button';
-      tb.textContent = '📅 Harian';
-      tb.title = 'Tantangan Troubleshooting Harian';
-      tb.addEventListener('click', openDailyModal);
-      emBtn.parentElement.insertBefore(tb, emBtn);
+
+    // 2. Mission Control Picker (#nf372MissionDialog .nf372-mission-grid) — default Mission Card
+    const grid = document.querySelector('#nf372MissionDialog .nf372-mission-grid');
+    if (grid) {
+      if (!$('nf69PickerDaily')) {
+        const st = loadStore();
+        const card = document.createElement('button');
+        card.id = 'nf69PickerDaily';
+        card.type = 'button';
+        card.className = 'nf372-choice nf69-picker-card';
+        card.innerHTML = `<span class="nf372-chip">Harian · 🔥 ${st.streak || 0} Streak</span><strong>📅 Tantangan Harian · Daily Troubleshooting</strong><small>1 kasus jaringan rusak baru setiap hari (IP, Firewall, VLAN, Kabel) lengkap dengan timer &amp; skor harian.</small>`;
+        card.addEventListener('click', () => {
+          const dlg = $('nf372MissionDialog');
+          if (dlg) dlg.hidden = true;
+          const intro = $('nf322Overlay');
+          if (intro) intro.hidden = true;
+          const home = $('nf322Home');
+          if (home) home.hidden = false;
+          openDailyModal();
+        });
+        grid.appendChild(card);
+      }
+      okPicker = true;
     }
-    return Boolean($('nf69DailyBtn'));
+    return okMode && okPicker;
   }
 
   window.NetForgeDailyChallenge = {
-    version: '0.69.1',
+    version: '0.69.2',
     open: openDailyModal,
     stop: stopDaily
   };
 
   let tries = 0;
   (function boot() {
-    if (injectButton() || ++tries > 24) return;
+    if (injectMissionEntries() || ++tries > 30) return;
     setTimeout(boot, 350);
   })();
 })();

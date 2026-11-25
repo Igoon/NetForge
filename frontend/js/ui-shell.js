@@ -1,5 +1,5 @@
 /* === script:nf4093-pwa-status-fade === */
-/* v0.69.1: status PWA tampil 7 detik tiap kali teksnya berubah, lalu memudar. */
+/* v0.69.2: status PWA tampil 7 detik tiap kali teksnya berubah, lalu memudar. */
 (function(){'use strict';var timer=null;
 function arm(el){el.classList.remove('nf4093-faded');clearTimeout(timer);timer=setTimeout(function(){el.classList.add('nf4093-faded')},7000)}
 function init(){var el=document.getElementById('nf330PwaStatus');if(!el)return false;arm(el);
@@ -9,7 +9,7 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
 ;
 
 /* === script:nf4200-ui-helper === */
-/* NET FORGE v0.69.1 — Sync LED online badges on canvas nodes + faster PWA toast fade */
+/* NET FORGE v0.69.2 — Sync LED online badges on canvas nodes + faster PWA toast fade */
 (function () {
   'use strict';
   if (window.__NF4200_UI) return;
@@ -38,7 +38,7 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
 ;
 
 /* === script:nf4300-shell-controller === */
-/* NET FORGE v0.69.1 — Single-Screen 100dvh App Shell & Collapsible Bottom Drawer */
+/* NET FORGE v0.69.2 — Single-Screen 100dvh App Shell & Collapsible Bottom Drawer */
 (function () {
   'use strict';
   if (window.__NF4300_SHELL) return;
@@ -191,13 +191,13 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
 })();
 
 /* === script:nf5800-autoupdate === */
-/* NET FORGE v0.69.1 — Silent Background Update Checker & Non-Intrusive Banner */
+/* NET FORGE v0.69.2 — Silent Background Update Checker & Non-Intrusive Banner */
 (function () {
   'use strict';
   if (window.__NF5800_UPDATER) return;
   window.__NF5800_UPDATER = true;
 
-  const CURRENT = (window.NETFORGE_RELEASE && window.NETFORGE_RELEASE.version) || '0.69.1';
+  const CURRENT = (window.NETFORGE_RELEASE && window.NETFORGE_RELEASE.version) || '0.69.2';
   let lastCheckAt = 0;
 
   function cmpVer(a, b) {
@@ -299,7 +299,7 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
 })();
 
 /* === script:nf5900-profile-settings-ux === */
-/* NET FORGE v0.69.1 — Seamless Post-Google-Login Transition & Decluttered Settings Modal */
+/* NET FORGE v0.69.2 — Seamless Post-Google-Login Transition & Decluttered Settings Modal */
 (function () {
   'use strict';
   if (window.__NF5900_PROFILE_UX) return;

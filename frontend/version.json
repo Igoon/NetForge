@@ -1,6 +1,6 @@
 {
-  "version": "0.69.1",
+  "version": "0.69.2",
   "releaseDate": "2026-11-26",
-  "title": "Compact Toolbar & Daily Button v0.69.1",
-  "notes": "v0.69.1: Perapian label ringkas bilah bawah agar tombol 📅 Harian, 🩻 X-Ray, dan semua alat langsung terlihat tanpa terpotong + tombol cepat 📅 Harian di sebelah Darurat 60s."
+  "title": "Daily Challenge In Mission Control v0.69.2",
+  "notes": "v0.69.2: Tantangan Harian terintegrasi langsung ke Pilihan Misi (Mission Control & Bar Misi Unified Canvas) sehingga selalu terlihat di semua ukuran layar dan bilah bawah lebih lega."
 }
