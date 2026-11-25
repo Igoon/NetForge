@@ -1756,3 +1756,16 @@ body.nf400-mixed #nf32Hud {
   min-height: 0 !important;
 }
 .nf591-footer-link:hover { filter: brightness(1.18); }
+
+/* v0.63.0 — Lo-Fi BGM Toggle Pill */
+#nf63LofiBtn {
+  background: linear-gradient(135deg, rgba(14, 116, 144, 0.85), rgba(15, 76, 117, 0.9)) !important;
+  color: #e0f2fe !important;
+  border: 1px solid rgba(56, 189, 248, 0.55) !important;
+  font-weight: 700 !important;
+}
+#nf63LofiBtn.is-muted {
+  background: rgba(15, 23, 42, 0.72) !important;
+  color: #94a3b8 !important;
+  border-color: rgba(148, 163, 184, 0.35) !important;
+}

@@ -1,6 +1,6 @@
 {
-  "version": "0.62.0",
+  "version": "0.63.0",
   "releaseDate": "2026-11-25",
-  "title": "Exam Lock Password, Focus Mode & Update Fix v0.62.0",
-  "notes": "v0.62.0: Fix notifikasi update berulang & tombol tutup modal Desainer Misi, tambah proteksi Password pada file soal, dan mode fokus penuh saat ujian."
+  "title": "Lo-Fi BGM & QA Badge 9.4/10 v0.63.0",
+  "notes": "v0.63.0: Musik latar Lo-Fi ringan berbasis Web Audio API (bisa di-mute, 100% offline) & pembaruan badge skor kualitas 9.4/10."
 }
