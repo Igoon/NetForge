@@ -1,4 +1,4 @@
-/* NET FORGE v0.65.1 — Tactical Cyber HUD Controller
+/* NET FORGE v0.66.0 — Tactical Cyber HUD Controller
    (Slim Icon Dock + Instant Hover Tooltip + Live Traffic Sparkline + Tactical/Classic Theme Switcher) */
 (function () {
   'use strict';
@@ -203,12 +203,153 @@
     return true;
   }
 
+
+  // 4. v0.66.0 — Node Micro-HUD IP Chips + Pop-in Micro-Interaction + Hop-by-Hop ICMP Packet Pulse
+  const seenNodeIds = new Set();
+
+  function syncNodeMicroHud() {
+    const api = API();
+    const container = document.getElementById('nf400Nodes');
+    if (!api || !container) return;
+    const state = api.getState?.() || { nodes: [], edges: [] };
+    const nodes = Array.isArray(state.nodes) ? state.nodes : [];
+    const activeEdges = (state.edges || []).filter(e => api.isLinkActive?.(e));
+    const classic = api.classicView?.()?.nodes || [];
+    const cfgById = new Map(classic.map(c => [String(c.id), c.config || {}]));
+
+    const linkedSet = new Set();
+    for (const e of activeEdges) {
+      linkedSet.add(String(e.a));
+      linkedSet.add(String(e.b));
+    }
+
+    const byId = new Map(nodes.map(n => [String(n.id), n]));
+    container.querySelectorAll('.nf400-node').forEach(el => {
+      const id = String(el.dataset.id || el.dataset.nodeId || '');
+      const n = byId.get(id);
+      if (!n) return;
+
+      // Subtle pop-in glow for newly added devices
+      if (!seenNodeIds.has(id)) {
+        seenNodeIds.add(id);
+        if (seenNodeIds.size > 1) {
+          el.classList.add('nf66-just-placed');
+          setTimeout(() => el.classList.remove('nf66-just-placed'), 420);
+        }
+      }
+
+      const cfg = cfgById.get(id) || {};
+      const ip = (n.ip && String(n.ip).trim()) || cfg.ip || (n.type === 'router' ? '192.168.10.1' : '');
+      const pref = String(cfg.prefix || '24').replace(/^\//, '');
+      const isLinked = linkedSet.has(id);
+      const isL2Only = n.type === 'switch' || n.type === 'modem';
+
+      let pill = el.querySelector('.nf66-ip-pill');
+      if (!pill) {
+        pill = document.createElement('div');
+        pill.className = 'nf66-ip-pill';
+        el.appendChild(pill);
+      }
+
+      let cls = 'nf66-ip-pill';
+      let label = '';
+      if (ip) {
+        cls += isLinked ? ' st-ok' : ' st-warn';
+        label = `${ip}/${pref}`;
+      } else if (isL2Only) {
+        cls += isLinked ? ' st-l2' : '';
+        label = isLinked ? (n.type === 'modem' ? 'WAN LINK UP' : 'L2 LINK UP') : 'Standby';
+      } else {
+        cls += ' st-warn';
+        label = isLinked ? 'Belum ada IP' : 'Offline';
+      }
+
+      if (pill.className !== cls) pill.className = cls;
+      const html = `<span class="nf66-dot"></span><span>${label}</span>`;
+      if (pill.innerHTML !== html) pill.innerHTML = html;
+    });
+  }
+
+  function spawnPulseRing(xPct, yPct, tone) {
+    const vp = document.getElementById('nf4024Viewport');
+    if (!vp) return;
+    const ring = document.createElement('div');
+    ring.className = 'nf66-pulse-ring' + (tone ? ' ' + tone : '');
+    ring.style.left = xPct + '%';
+    ring.style.top = yPct + '%';
+    vp.appendChild(ring);
+    setTimeout(() => ring.remove(), 620);
+  }
+
+  function animatePacketPath(nodeIds, opts = {}) {
+    const api = API();
+    const vp = document.getElementById('nf4024Viewport');
+    if (!api || !vp || !Array.isArray(nodeIds) || !nodeIds.length) return;
+    const nodes = api.getState?.()?.nodes || [];
+    const byId = new Map(nodes.map(n => [String(n.id), n]));
+    const pts = nodeIds.map(id => byId.get(String(id))).filter(Boolean);
+    if (!pts.length) return;
+
+    const label = opts.label || 'ICMP';
+    const isDrop = Boolean(opts.drop);
+    const bounce = Boolean(opts.bounce) && !isDrop && pts.length > 1;
+
+    const orb = document.createElement('div');
+    orb.className = 'nf66-pkt-orb' + (isDrop ? ' drop' : '');
+    orb.textContent = isDrop ? 'DROP ✕' : label;
+    orb.style.left = pts[0].x + '%';
+    orb.style.top = pts[0].y + '%';
+    vp.appendChild(orb);
+    spawnPulseRing(pts[0].x, pts[0].y, isDrop ? 'drop' : '');
+
+    if (isDrop || pts.length === 1) {
+      setTimeout(() => orb.remove(), 900);
+      return;
+    }
+
+    const hops = bounce ? [...pts, ...pts.slice(0, -1).reverse()] : pts;
+    let idx = 1;
+    function stepNext() {
+      if (idx >= hops.length) {
+        setTimeout(() => orb.remove(), 260);
+        return;
+      }
+      const p = hops[idx];
+      const isReturnLeg = bounce && idx >= pts.length;
+      if (isReturnLeg && !orb.classList.contains('reply')) {
+        orb.classList.add('reply');
+        orb.textContent = 'REPLY ✓';
+      }
+      orb.style.left = p.x + '%';
+      orb.style.top = p.y + '%';
+      if (idx === pts.length - 1 || idx === hops.length - 1) {
+        setTimeout(() => spawnPulseRing(p.x, p.y, isReturnLeg ? 'mint' : ''), 320);
+      }
+      idx++;
+      setTimeout(stepNext, 440);
+    }
+    setTimeout(stepNext, 40);
+  }
+
+  let hudObs = null;
+  function attachNodeHudObserver() {
+    const container = document.getElementById('nf400Nodes');
+    if (!container || hudObs) return Boolean(container);
+    hudObs = new MutationObserver(() => syncNodeMicroHud());
+    hudObs.observe(container, { childList: true, subtree: false });
+    syncNodeMicroHud();
+    setInterval(syncNodeMicroHud, 1200);
+    return true;
+  }
+
   window.NetForgeTacticalHUD = {
-    version: '0.65.1',
+    version: '0.66.0',
     setSlimDock: applyDockState,
     toggleDock: () => applyDockState(!document.body.classList.contains('nf65-dock-slim')),
     setTheme: applyTheme,
-    toggleTheme
+    toggleTheme,
+    syncNodeMicroHud,
+    animatePacketPath
   };
 
   initTheme();
@@ -218,7 +359,8 @@
     const b = bindSlimDockTooltips();
     const c = injectTelemetryAndThemeBtn();
     const d = injectSettingsThemeCard();
-    if ((a && b && c && d) || ++tries > 24) return;
+    const e = attachNodeHudObserver();
+    if ((a && b && c && d && e) || ++tries > 24) return;
     setTimeout(boot, 350);
   })();
 })();

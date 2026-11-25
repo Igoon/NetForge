@@ -1,4 +1,4 @@
-/* NET FORGE v0.65.1 — Utilitas Jaringan: Kalkulator IP/Subnet & Terminal CLI Ringan */
+/* NET FORGE v0.66.0 — Utilitas Jaringan: Kalkulator IP/Subnet & Terminal CLI Ringan */
 (function () {
   'use strict';
   if (window.__NF6400_NETTOOLS) return;
@@ -460,6 +460,7 @@ ${escapeHtml(rows.join('\n'))}`);
         if (op === 'ping') {
           const tLabel = target.ip || target.name;
           if (!path) {
+            window.NetForgeTacticalHUD?.animatePacketPath?.([host.id], { drop: true });
             appendCli(
               `Pinging ${escapeHtml(target.name)} [${escapeHtml(tLabel)}] with 32 bytes of data:
 ` +
@@ -471,6 +472,7 @@ Destination host unreachable — tidak ada jalur kabel aktif dari ${escapeHtml(h
             );
             return;
           }
+          window.NetForgeTacticalHUD?.animatePacketPath?.(path, { label: 'ICMP', bounce: true });
           const hops = Math.max(1, path.length - 1);
           const ms = hops * 2;
           appendCli(
@@ -492,6 +494,7 @@ Destination host unreachable — tidak ada jalur kabel aktif dari ${escapeHtml(h
           appendCli(`<span class="err">Tracing route to ${escapeHtml(target.name)} gagal — jalur terputus atau belum terhubung.</span>`);
           return;
         }
+        window.NetForgeTacticalHUD?.animatePacketPath?.(path, { label: 'TRACE', bounce: false });
         const hopLines = path.map((id, idx) => {
           const nd = byId.get(id);
           const hopIp = nd?.ip || '(L2 Switch/No IP)';
@@ -541,7 +544,7 @@ Trace complete.`
       b.addEventListener('click', () => runCliCommand(b.dataset.cliCmd));
     });
 
-    $('nf64CliScreen').innerHTML = `<span class="dim">NET FORGE Network CLI v0.65.1 — Terhubung langsung ke topologi kanvas.
+    $('nf64CliScreen').innerHTML = `<span class="dim">NET FORGE Network CLI v0.66.0 — Terhubung langsung ke topologi kanvas.
 Ketik "help", "ipconfig", "devices", "ping &lt;ip&gt;", atau "tracert &lt;ip&gt;".</span>
 `;
     renderCalc();
@@ -587,7 +590,7 @@ Ketik "help", "ipconfig", "devices", "ping &lt;ip&gt;", atau "tracert &lt;ip&gt;
   }
 
   window.NetForgeNetTools = {
-    version: '0.65.1',
+    version: '0.66.0',
     open: openNetTools,
     calcSubnet
   };

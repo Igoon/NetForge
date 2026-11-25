@@ -1,5 +1,5 @@
 /* ============================================================================
-   NET FORGE v0.65.1 — Modern "Glassmorphic Tactical Cyber" HUD + Theme Switcher
+   NET FORGE v0.66.0 — Modern "Glassmorphic Tactical Cyber" HUD + Theme Switcher
    - Default: Tactical Dark OLED Slate (#0B0F19) + Electric Cyan + Neon Mint
    - Toggleable: body.nf65-theme-classic restores Classic Blue (for bright classroom projectors)
    ============================================================================ */
@@ -508,4 +508,116 @@ body:not(.nf65-theme-classic) .nf64-stat,
 body:not(.nf65-theme-classic) .nf60-bank-item {
   background: rgba(15, 23, 42, 0.62) !important;
   border-color: var(--nf-hairline) !important;
+}
+
+/* =========================================================================
+   v0.66.0 — Node Micro-HUD IP Chips, Pop-in & Hop-by-Hop ICMP Packet Pulse
+   ========================================================================= */
+.nf66-ip-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 3px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(6, 10, 19, 0.88);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  color: #CBD5E1;
+  font: 700 9.5px/1.15 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.02em;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nf66-ip-pill .nf66-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: 0 0 6px;
+  background: #64748B;
+}
+.nf66-ip-pill.st-ok {
+  border-color: rgba(52, 211, 153, 0.45);
+  color: #A7F3D0;
+}
+.nf66-ip-pill.st-ok .nf66-dot {
+  background: #34D399;
+  box-shadow: 0 0 6px #34D399;
+}
+.nf66-ip-pill.st-l2 {
+  border-color: rgba(34, 211, 238, 0.42);
+  color: #A5F3FC;
+}
+.nf66-ip-pill.st-l2 .nf66-dot {
+  background: #22D3EE;
+  box-shadow: 0 0 6px #22D3EE;
+}
+.nf66-ip-pill.st-warn {
+  border-color: rgba(245, 158, 11, 0.45);
+  color: #FDE68A;
+}
+.nf66-ip-pill.st-warn .nf66-dot {
+  background: #F59E0B;
+  box-shadow: 0 0 5px #F59E0B;
+}
+
+/* Subtle Pop-in Micro-Interaction when placing a device on canvas */
+@keyframes nf66PopIn {
+  0% { opacity: 0; filter: brightness(1.8); }
+  100% { opacity: 1; filter: brightness(1); }
+}
+.nf400-node.nf66-just-placed {
+  animation: nf66PopIn .26s ease-out;
+  box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.55), 0 0 22px rgba(34, 211, 238, 0.35) !important;
+}
+
+/* Hop-by-Hop Animated ICMP / Trace Packet Orb inside #nf4024Viewport */
+.nf66-pkt-orb {
+  position: absolute;
+  z-index: 65;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  padding: 2px 6px;
+  border-radius: 999px;
+  font: 900 9px/1.1 ui-monospace, SFMono-Regular, monospace;
+  letter-spacing: 0.04em;
+  color: #04101C;
+  background: #22D3EE;
+  box-shadow: 0 0 12px #22D3EE, 0 0 22px rgba(34, 211, 238, 0.65);
+  transition: left .42s cubic-bezier(.35, 0, .25, 1), top .42s cubic-bezier(.35, 0, .25, 1);
+  white-space: nowrap;
+}
+.nf66-pkt-orb.reply {
+  background: #34D399;
+  box-shadow: 0 0 12px #34D399, 0 0 22px rgba(52, 211, 153, 0.65);
+}
+.nf66-pkt-orb.drop {
+  background: #F43F5E;
+  color: #fff;
+  box-shadow: 0 0 14px #F43F5E, 0 0 24px rgba(244, 63, 94, 0.75);
+}
+
+/* Expanding Radar Ring on Target Arrival or Port Snap */
+@keyframes nf66Ring {
+  0% { transform: translate(-50%, -50%) scale(0.35); opacity: 0.95; }
+  100% { transform: translate(-50%, -50%) scale(2.4); opacity: 0; }
+}
+.nf66-pulse-ring {
+  position: absolute;
+  z-index: 60;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid #22D3EE;
+  pointer-events: none;
+  animation: nf66Ring .58s ease-out forwards;
+}
+.nf66-pulse-ring.mint { border-color: #34D399; }
+.nf66-pulse-ring.drop { border-color: #F43F5E; }
+
+@media (prefers-reduced-motion: reduce) {
+  .nf400-node.nf66-just-placed, .nf66-pulse-ring { animation: none !important; }
+  .nf66-pkt-orb { transition: none !important; }
 }
