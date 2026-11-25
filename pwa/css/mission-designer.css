@@ -1,4 +1,4 @@
-/* NET FORGE v0.63.0 — Desainer Misi & Mode Ujian (Fixed Side Panel, Print PDF & Specific IP Rules) */
+/* NET FORGE v0.64.0 — Desainer Misi & Mode Ujian (Fixed Side Panel, Print PDF & Specific IP Rules) */
 
 #nf60OpenBtn {
   background: linear-gradient(135deg, #6366f1, #4f46e5) !important;
@@ -344,7 +344,7 @@ body.nf60-exam-active #nf60SidePanel { display: block; }
   .nf60-ip-row { grid-template-columns: 1fr 1fr; }
 }
 
-/* v0.63.0 — Bank Soal Lokal, Folder PC & Google Drive */
+/* v0.64.0 — Bank Soal Lokal, Folder PC & Google Drive */
 .nf60-bank-list {
   display: flex;
   flex-direction: column;
@@ -434,7 +434,7 @@ body.nf60-exam-active #nf60SidePanel { display: block; }
   text-align: center;
 }
 
-/* v0.63.0 — Distraction-Free Exam Mode: sembunyikan seluruh elemen game yang tidak berhubungan dengan ujian */
+/* v0.64.0 — Distraction-Free Exam Mode: sembunyikan seluruh elemen game yang tidak berhubungan dengan ujian */
 body.nf60-exam-active .xp-stat,
 body.nf60-exam-active .level-stat,
 body.nf60-exam-active .difficulty-stat,

@@ -1,6 +1,6 @@
 {
-  "version": "0.63.0",
+  "version": "0.64.0",
   "releaseDate": "2026-11-25",
-  "title": "Lo-Fi BGM & QA Badge 9.4/10 v0.63.0",
-  "notes": "v0.63.0: Musik latar Lo-Fi ringan berbasis Web Audio API (bisa di-mute, 100% offline) & pembaruan badge skor kualitas 9.4/10."
+  "title": "Subnet Calculator, Same-Subnet Check & Network CLI v0.64.0",
+  "notes": "v0.64.0: Kalkulator IPv4/CIDR Subnetting + Cek Satu Subnet (dengan sakelar izin ujian guru) dan Terminal CLI Jaringan ringan (ipconfig, ping, tracert, arp -a)."
 }

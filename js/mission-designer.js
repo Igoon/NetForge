@@ -1,4 +1,4 @@
-/* NET FORGE v0.63.0 — Desainer Misi & Mode Ujian (Sekolah / Kampus Edition)
+/* NET FORGE v0.64.0 — Desainer Misi & Mode Ujian (Sekolah / Kampus Edition)
    - Menyembunyikan panel Objective lama saat ujian & menampilkan Panel Rubrik Ujian khusus di sidebar kanan
    - Cetak / Simpan PDF via dokumen cetak bersih (terjamin tidak pernah blank di Print Preview!)
    - Editor Aturan IP Spesifik per Perangkat (IP eksak, subnet wildcard 192.168.10.*, prefix /24, & gateway) */
@@ -579,7 +579,7 @@
 
 
   // =========================================================================
-  // v0.63.0 — PASSWORD PROTECTION FOR MISSION FILES
+  // v0.64.0 — PASSWORD PROTECTION FOR MISSION FILES
   // =========================================================================
   function xorBytes(bytes, keyStr) {
     const k = new TextEncoder().encode(keyStr || 'NF62');
@@ -624,6 +624,7 @@
       requireAllOnline: clean.requireAllOnline !== false,
       requirePing: clean.requirePing !== false,
       requireBudget: clean.requireBudget !== false,
+      allowIpCalc: clean.allowIpCalc !== false,
       initialGraph: clean.initialGraph || null
     };
     const enc = xorBytes(new TextEncoder().encode(JSON.stringify(secretObj)), `${salt}:${pwd}:NF62`);
@@ -1037,13 +1038,14 @@
     const reqPaths = [...document.querySelectorAll('#nf60PathChips input:checked')].map(i => i.value.split(':'));
     return {
       format: 'netforge-exam-v1',
-      version: '0.63.0',
+      version: '0.64.0',
       title: ($('nf60Title')?.value || '').trim() || 'Misi Kustom NET FORGE',
       author: ($('nf60Author')?.value || '').trim() || 'Pengajar Jaringan',
       instructions: ($('nf60Instr')?.value || '').trim() || 'Bangun topologi sesuai rubrik yang ditentukan.',
       durationMin: Math.max(0, parseInt($('nf60Dur')?.value || '15', 10) || 0),
       maxBudget: Math.max(200, parseInt($('nf60Budget')?.value || '1200', 10) || 1200),
       examLock: Boolean($('nf60Lock')?.checked),
+      allowIpCalc: $('nf60AllowIpCalc') ? Boolean($('nf60AllowIpCalc').checked) : true,
       requiredDevices: reqDevices,
       requiredPaths: reqPaths,
       requiredIPs: readIpRules(),
@@ -1067,6 +1069,7 @@
     if ($('nf60Dur')) $('nf60Dur').value = String(pack.durationMin ?? 15);
     if ($('nf60Budget')) $('nf60Budget').value = String(pack.maxBudget ?? 1200);
     if ($('nf60Lock')) $('nf60Lock').checked = pack.examLock !== false;
+    if ($('nf60AllowIpCalc')) $('nf60AllowIpCalc').checked = pack.allowIpCalc !== false;
     if ($('nf60Password')) $('nf60Password').value = pack._unlockedPassword || '';
     if ($('nf60ReqOnline')) $('nf60ReqOnline').checked = pack.requireAllOnline !== false;
     if ($('nf60ReqPing')) $('nf60ReqPing').checked = pack.requirePing !== false;
@@ -1129,7 +1132,7 @@
     const current = activeExam;
     if (current.timerId) clearInterval(current.timerId);
     activeExam = null;
-    document.body.classList.remove('nf60-exam-locked', 'nf60-exam-active');
+    document.body.classList.remove('nf60-exam-locked', 'nf60-exam-active', 'nf60-no-ipcalc');
     $('nf60ExamHud')?.classList.remove('active');
     if (showReport) renderResultModal(current);
   }
@@ -1194,6 +1197,7 @@
     clk.textContent = totalSec > 0 ? formatMMSS(totalSec) : '∞ Bebas';
 
     document.body.classList.add('nf60-exam-active');
+    document.body.classList.toggle('nf60-no-ipcalc', pack.allowIpCalc === false);
     if (pack.examLock) document.body.classList.add('nf60-exam-locked');
     hud.classList.add('active');
     $('nf60Modal')?.classList.remove('open');
@@ -1229,7 +1233,7 @@
     const code = makeVerifyCode(session.student, session.pack, ev.score, ev.passed, ev.total);
     const reportObj = {
       format: 'netforge-exam-result-v1',
-      version: '0.63.0',
+      version: '0.64.0',
       submittedAt: new Date().toISOString(),
       verificationCode: code,
       student: session.student,
@@ -1356,6 +1360,7 @@
               <label><input type="checkbox" id="nf60ReqPing" checked> Uji Ping IPv4 lulus</label>
               <label><input type="checkbox" id="nf60ReqBudget" checked> Sesuai batas budget</label>
               <label><input type="checkbox" id="nf60Lock" checked> 🔒 Mode Ujian Terkunci</label>
+              <label><input type="checkbox" id="nf60AllowIpCalc" checked> 🧮 Izinkan Kalkulator IP saat ujian</label>
             </div>
           </div>
 
@@ -1711,7 +1716,7 @@
   }, true);
 
   window.NetForgeExamDesigner = {
-    version: '0.63.0',
+    version: '0.64.0',
     openDesigner,
     startExamSession,
     stopExam,
