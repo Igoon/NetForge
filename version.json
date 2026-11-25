@@ -1,6 +1,6 @@
 {
-  "version": "0.67.0",
+  "version": "0.68.0",
   "releaseDate": "2026-11-25",
-  "title": "Full Curriculum Exam Rubric & VLAN Template v0.67.0",
-  "notes": "v0.67.0: Rubrik Ujian Kurikulum Lengkap (VLAN & Switch Trunk, Jumlah Unit Perangkat, DHCP Server/Klien, DNS, Bebas Konflik IP, Jalur Kustom, Media Kabel) + Template #4 VLAN Separation & Badge VLAN di kanvas."
+  "title": "X-Ray Zoning, Mini Web Browser & Firewall ACL v0.68.0",
+  "notes": "v0.68.0: Mode X-Ray Jaringan (visualisasi zona Subnet & VLAN), Mini Web Browser simulasi (HTTP/HTTPS/DNS), dan Firewall ACL Port Filter (Port 80/443/22/53)."
 }

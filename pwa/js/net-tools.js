@@ -1,4 +1,4 @@
-/* NET FORGE v0.67.0 — Utilitas Jaringan: Kalkulator IP/Subnet & Terminal CLI Ringan */
+/* NET FORGE v0.68.0 — Utilitas Jaringan: Kalkulator IP/Subnet & Terminal CLI Ringan */
 (function () {
   'use strict';
   if (window.__NF6400_NETTOOLS) return;
@@ -168,6 +168,40 @@
   }
 
   // --- Modal UI ---
+
+  // --- v0.68.0 Firewall ACL State & Port Filter Helpers ---
+  const FW_KEY = 'netforge.firewallAcl.v1';
+  const DEFAULT_FW = { 80: 'allow', 443: 'allow', 22: 'deny', 53: 'allow' };
+  const FW_SERVICES = [
+    { port: 80, proto: 'TCP', name: 'HTTP (Web Server)', desc: 'Akses halaman web standar (http://...)' },
+    { port: 443, proto: 'TCP', name: 'HTTPS (Web Aman / TLS)', desc: 'Akses halaman web terenkripsi (https://...)' },
+    { port: 22, proto: 'TCP', name: 'SSH (Remote Admin)', desc: 'Akses terminal jarak jauh ke Server/Router' },
+    { port: 53, proto: 'UDP', name: 'DNS (Domain Name System)', desc: 'Penerjemah domain (mis. server.local → IP)' }
+  ];
+
+  function loadFwRules() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(FW_KEY) || 'null');
+      return Object.assign({}, DEFAULT_FW, parsed || {});
+    } catch (_) {
+      return Object.assign({}, DEFAULT_FW);
+    }
+  }
+
+  function saveFwRules(rules) {
+    try { localStorage.setItem(FW_KEY, JSON.stringify(rules)); } catch (_) {}
+  }
+
+  function checkFirewallOnPath(pathIds, port) {
+    const nodes = getCanvasNodes();
+    const byId = new Map(nodes.map(n => [n.id, n]));
+    const fwNode = (pathIds || []).map(id => byId.get(id)).find(n => n && n.type === 'firewall');
+    if (!fwNode) return { blocked: false, firewall: null };
+    const rules = loadFwRules();
+    const action = rules[port] || 'allow';
+    return { blocked: action === 'deny', firewall: fwNode, action };
+  }
+
   const cliHistory = [];
   let cliHistIdx = -1;
 
@@ -190,9 +224,11 @@
           <button type="button" class="nf60-btn" id="nf64ModalClose">✕ Tutup</button>
         </div>
         <div class="nf64-tabs">
-          <button type="button" class="nf64-tab active" data-nf64-tab="calc">🧮 Kalkulator Subnet</button>
-          <button type="button" class="nf64-tab" data-nf64-tab="compare">🔀 Cek Satu Subnet</button>
-          <button type="button" class="nf64-tab" data-nf64-tab="cli">💻 Terminal CLI</button>
+          <button type="button" class="nf64-tab active" data-nf64-tab="calc">🧮 Subnet</button>
+          <button type="button" class="nf64-tab" data-nf64-tab="compare">🔀 Cek 2 IP</button>
+          <button type="button" class="nf64-tab" data-nf64-tab="cli">💻 CLI</button>
+          <button type="button" class="nf64-tab" data-nf64-tab="web">🌐 Mini Browser</button>
+          <button type="button" class="nf64-tab" data-nf64-tab="fw">🛡️ Firewall ACL</button>
         </div>
 
         <!-- TAB 1: CIDR CALCULATOR -->
@@ -248,6 +284,37 @@
             <button type="button" class="nf60-btn primary" id="nf64CliRun">Jalankan</button>
           </div>
         </div>
+
+        <!-- TAB 4: MINI WEB BROWSER (HTTP/HTTPS/DNS + FIREWALL CHECK) -->
+        <div class="nf64-body" id="nf64TabWeb" style="display:none;">
+          <div class="nf64-row" style="align-items:center;">
+            <div class="nf64-field" style="flex:1 1 220px;">
+              <label for="nf68WebClient">Klien Sumber (PC / Laptop / HP di Kanvas)</label>
+              <select id="nf68WebClient"></select>
+            </div>
+            <button type="button" class="nf60-btn" id="nf68WebRefresh">🔄 Segarkan</button>
+          </div>
+          <div class="nf68-browser-bar">
+            <input id="nf68WebUrl" type="text" value="http://server.local" placeholder="Contoh: http://server.local atau https://192.168.10.10">
+            <button type="button" class="nf60-btn primary" id="nf68WebGo">🌐 Buka URL</button>
+          </div>
+          <div class="nf64-quick-cmds">
+            <button type="button" class="nf60-btn sm" data-web-url="http://server.local">http://server.local</button>
+            <button type="button" class="nf60-btn sm" data-web-url="https://server.local">https://server.local</button>
+            <button type="button" class="nf60-btn sm" data-web-url="http://192.168.10.10">http://192.168.10.10</button>
+            <button type="button" class="nf60-btn sm" data-web-url="http://intranet.sekolah:22">Test Port 22 (SSH)</button>
+          </div>
+          <div class="nf68-viewport" id="nf68WebViewport">
+            <div style="color:#94A3B8;">Ketik alamat IP Server atau domain lokal (mis. <code>http://server.local</code>) lalu klik <b>🌐 Buka URL</b> untuk menguji HTTP, HTTPS, DNS, dan aturan Firewall ACL di topologi Anda.</div>
+          </div>
+        </div>
+
+        <!-- TAB 5: FIREWALL ACL PORT FILTER -->
+        <div class="nf64-body" id="nf64TabFw" style="display:none;">
+          <div id="nf68FwBanner" class="nf64-badge ok"></div>
+          <div class="nf68-fw-list" id="nf68FwList"></div>
+          <div style="font-size:11.5px;color:#94A3B8;">Perubahan aturan Firewall langsung berlaku di <b>🌐 Mini Browser</b> dan <b>💻 Terminal CLI</b> (coba ubah HTTP Port 80 ke <code>DENY</code> lalu buka <code>http://server.local</code>!).</div>
+        </div>
       </div>`;
     document.body.appendChild(m);
 
@@ -255,17 +322,21 @@
     m.querySelectorAll('.nf64-tab').forEach(tab => {
       tab.addEventListener('click', () => {
         const which = tab.dataset.nf64Tab;
-        if (which !== 'cli' && document.body.classList.contains('nf60-exam-active') && document.body.classList.contains('nf60-no-ipcalc')) {
+        if ((which === 'calc' || which === 'compare') && document.body.classList.contains('nf60-exam-active') && document.body.classList.contains('nf60-no-ipcalc')) {
           return;
         }
         m.querySelectorAll('.nf64-tab').forEach(t => t.classList.toggle('active', t === tab));
         $('nf64TabCalc').style.display = which === 'calc' ? 'flex' : 'none';
         $('nf64TabCompare').style.display = which === 'compare' ? 'flex' : 'none';
         $('nf64TabCli').style.display = which === 'cli' ? 'flex' : 'none';
+        $('nf64TabWeb').style.display = which === 'web' ? 'flex' : 'none';
+        $('nf64TabFw').style.display = which === 'fw' ? 'flex' : 'none';
         if (which === 'cli') {
           syncCliHosts();
           setTimeout(() => $('nf64CliInput')?.focus(), 40);
         }
+        if (which === 'web') syncWebClients();
+        if (which === 'fw') renderFirewallPanel();
       });
     });
 
@@ -331,7 +402,153 @@
     $('nf64PrefSelect').addEventListener('change', () => {
       const ipVal = $('nf64IpInput').value;
       if (ipVal.includes('/')) $('nf64IpInput').value = ipVal.split('/')[0];
-      renderCalc();
+  
+    // --- Mini Web Browser & Firewall ACL Logic ---
+    function syncWebClients() {
+      const sel = $('nf68WebClient');
+      if (!sel) return;
+      const prev = sel.value;
+      const nodes = getCanvasNodes();
+      const clients = nodes.filter(n => !['switch', 'modem', 'firewall'].includes(n.type));
+      if (!clients.length) {
+        sel.innerHTML = '<option value="">(Tambahkan PC / Laptop ke kanvas dulu)</option>';
+        return;
+      }
+      sel.innerHTML = clients.map(n => `<option value="${escapeHtml(n.id)}">${escapeHtml(n.name)} (${escapeHtml(n.ip || 'no IP')})</option>`).join('');
+      if (prev && clients.some(c => c.id === prev)) sel.value = prev;
+    }
+
+    function renderFirewallPanel() {
+      const banner = $('nf68FwBanner');
+      const list = $('nf68FwList');
+      if (!banner || !list) return;
+      const nodes = getCanvasNodes();
+      const fwCount = nodes.filter(n => n.type === 'firewall').length;
+      if (fwCount > 0) {
+        banner.className = 'nf64-badge ok';
+        banner.textContent = `🛡️ ${fwCount} perangkat Firewall aktif di kanvas — aturan ACL di bawah ini sedang menyaring trafik jalur yang melewati Firewall.`;
+      } else {
+        banner.className = 'nf64-badge warn';
+        banner.textContent = '⚠️ Belum ada perangkat 🛡️ Firewall di kanvas. Aturan sudah tersimpan dan akan otomatis aktif begitu Anda memasang Firewall di jalur jaringan.';
+      }
+      const rules = loadFwRules();
+      list.innerHTML = FW_SERVICES.map(svc => {
+        const act = rules[svc.port] || 'allow';
+        return `
+          <div class="nf68-fw-row">
+            <div>
+              <strong>Port ${svc.port} (${svc.proto}) — ${svc.name}</strong>
+              <small>${svc.desc}</small>
+            </div>
+            <button type="button" class="nf68-fw-toggle ${act}" data-fw-port="${svc.port}">${act === 'allow' ? '✅ ALLOW' : '🚫 DENY'}</button>
+          </div>`;
+      }).join('');
+      list.querySelectorAll('[data-fw-port]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const port = Number(btn.dataset.fwPort);
+          const cur = loadFwRules();
+          cur[port] = (cur[port] === 'deny') ? 'allow' : 'deny';
+          saveFwRules(cur);
+          renderFirewallPanel();
+        });
+      });
+    }
+
+    function openSimulatedUrl(rawUrl) {
+      const vp = $('nf68WebViewport');
+      if (!vp) return;
+      const urlStr = String(rawUrl || '').trim();
+      const m = urlStr.match(/^(https?):\/\/([^/:]+)(?::(\d+))?(\/.*)?$/i);
+      if (!m) {
+        vp.innerHTML = '<div class="nf68-page-block"><h4>⚠️ Format URL Tidak Valid</h4>Gunakan format seperti <code>http://server.local</code> atau <code>https://192.168.10.10</code>.</div>';
+        return;
+      }
+      const proto = m[1].toLowerCase();
+      const hostStr = m[2].toLowerCase();
+      const port = m[3] ? Number(m[3]) : (proto === 'https' ? 443 : 80);
+
+      const nodes = getCanvasNodes();
+      const client = nodes.find(n => n.id === $('nf68WebClient')?.value) || nodes.find(n => n.type === 'pc' || n.type === 'laptop');
+      if (!client) {
+        vp.innerHTML = '<div class="nf68-page-block"><h4>⚠️ Tidak Ada Klien di Kanvas</h4>Tambahkan minimal 1 Desktop PC / Laptop dan 1 Server terlebih dahulu.</div>';
+        return;
+      }
+
+      const isIp = parseIPv4(hostStr) !== null;
+      const server = isIp
+        ? nodes.find(n => n.ip === hostStr)
+        : (nodes.find(n => n.type === 'server') || nodes.find(n => n.name.toLowerCase().includes(hostStr.split('.')[0])));
+
+      if (!server) {
+        window.NetForgeTacticalHUD?.animatePacketPath?.([client.id], { drop: true });
+        vp.innerHTML = `<div class="nf68-page-block"><h4>❌ ERR_NAME_NOT_RESOLVED / Host Tidak Ditemukan</h4>Target <code>${escapeHtml(hostStr)}</code> tidak ditemukan di topologi saat ini. Pastikan perangkat <b>Server</b> sudah terpasang di kanvas.</div>`;
+        return;
+      }
+
+      const path = findPathNodes(client.id, server.id);
+      if (!path) {
+        window.NetForgeTacticalHUD?.animatePacketPath?.([client.id], { drop: true });
+        vp.innerHTML = `<div class="nf68-page-block"><h4>❌ ERR_CONNECTION_TIMED_OUT</h4>Tidak ada jalur kabel/Wi-Fi aktif dari <b>${escapeHtml(client.name)}</b> menuju <b>${escapeHtml(server.name)}</b> (${escapeHtml(server.ip || 'belum ada IP')}).</div>`;
+        return;
+      }
+
+      // Check DNS Port 53 if using domain name
+      if (!isIp) {
+        const dnsFw = checkFirewallOnPath(path, 53);
+        if (dnsFw.blocked) {
+          window.NetForgeTacticalHUD?.animatePacketPath?.(path.slice(0, path.indexOf(dnsFw.firewall.id) + 1), { drop: true });
+          vp.innerHTML = `<div class="nf68-page-block"><h4>🛡️ BLOCKED BY FIREWALL (DNS Port 53)</h4>Permintaan resolusi domain <code>${escapeHtml(hostStr)}</code> diblokir oleh <b>${escapeHtml(dnsFw.firewall.name)}</b> karena <b>Port 53 (DNS)</b> diatur <code>DENY</code>. Buka tab <b>🛡️ Firewall ACL</b> untuk mengizinkannya.</div>`;
+          return;
+        }
+      }
+
+      // Check Target Service Port on Firewall
+      const fwCheck = checkFirewallOnPath(path, port);
+      if (fwCheck.blocked) {
+        const fwIdx = path.indexOf(fwCheck.firewall.id);
+        window.NetForgeTacticalHUD?.animatePacketPath?.(path.slice(0, fwIdx + 1), { drop: true });
+        vp.innerHTML = `
+          <div class="nf68-page-block">
+            <h4>🛡️ 403 BLOCKED BY FIREWALL — Port ${port} (${proto.toUpperCase()})</h4>
+            <p>Koneksi dari <b>${escapeHtml(client.name)}</b> ke <b>${escapeHtml(server.name)}</b> dihentikan oleh <b>${escapeHtml(fwCheck.firewall.name)}</b> karena aturan Firewall ACL untuk <b>Port ${port}</b> sedang berstatus <code>DENY</code>.</p>
+            <div style="font-size:11px;color:#94A3B8;">Tips: Buka tab <b>🛡️ Firewall ACL</b> untuk mengubah Port ${port} menjadi <b>ALLOW</b>, lalu uji ulang.</div>
+          </div>`;
+        return;
+      }
+
+      const byId = new Map(nodes.map(n => [n.id, n]));
+      const hopNames = path.map(id => byId.get(id)?.name || id).join(' → ');
+      const latency = Math.max(2, (path.length - 1) * 3);
+      window.NetForgeTacticalHUD?.animatePacketPath?.(path, { label: proto.toUpperCase(), bounce: true });
+
+      vp.innerHTML = `
+        <div class="nf68-page-ok">
+          <h4>✅ 200 OK — Portal Intranet ${escapeHtml(server.name)}</h4>
+          <p style="margin:0 0 8px;color:#E2E8F0;">Selamat! Koneksi <b>${proto.toUpperCase()} (Port ${port})</b> dari <b>${escapeHtml(client.name)}</b> berhasil mencapai server tujuan melalui jaringan yang Anda bangun.</p>
+          <div style="padding:8px 10px;border-radius:8px;background:rgba(15,23,42,0.85);border:1px solid rgba(52,211,153,0.3);font-family:ui-monospace,monospace;font-size:11.5px;color:#BAE6FD;">
+            URL: ${escapeHtml(urlStr)}<br>
+            Resolved IP: ${escapeHtml(server.ip || '(L2 Server)')} · Latensi: ${latency} ms<br>
+            Jalur Hop: ${escapeHtml(hopNames)}<br>
+            Firewall Status: ${fwCheck.firewall ? '🛡️ Lolos inspeksi ' + escapeHtml(fwCheck.firewall.name) + ' (ALLOW)' : 'Langsung (tanpa Firewall)'}
+          </div>
+        </div>`;
+    }
+
+    $('nf68WebRefresh').addEventListener('click', syncWebClients);
+    $('nf68WebGo').addEventListener('click', () => openSimulatedUrl($('nf68WebUrl').value));
+    $('nf68WebUrl').addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); openSimulatedUrl($('nf68WebUrl').value); }
+    });
+    m.querySelectorAll('[data-web-url]').forEach(b => {
+      b.addEventListener('click', () => {
+        $('nf68WebUrl').value = b.dataset.webUrl;
+        openSimulatedUrl(b.dataset.webUrl);
+      });
+    });
+
+    renderCalc();
+    syncWebClients();
+    renderFirewallPanel();
     });
     $('nf64CmpA').addEventListener('input', renderCompare);
     $('nf64CmpB').addEventListener('input', renderCompare);
@@ -396,7 +613,7 @@
 ` +
           `  <b>tracert &lt;ip|nama&gt;</b>       Lacak jalur hop-by-hop dari host ini ke tujuan
 ` +
-          `  <b>clear</b>                   Bersihkan layar terminal`
+          `  <b>curl &lt;url&gt;</b>              Uji akses HTTP/HTTPS + Firewall ACL dari host ini\n  <b>ssh &lt;ip|nama&gt;</b>           Uji akses SSH (Port 22) melewati Firewall ACL\n  <b>clear</b>                   Bersihkan layar terminal`
         );
         return;
       }
@@ -440,6 +657,34 @@ ${escapeHtml(lines.join('\n'))}`);
 ${escapeHtml(rows.join('\n'))}`);
         return;
       }
+      if (op === 'curl' || op === 'ssh') {
+        if (!arg) {
+          appendCli(`<span class="err">Gunakan: ${op === 'curl' ? 'curl http://server.local' : 'ssh 192.168.10.10'}</span>`);
+          return;
+        }
+        const port = op === 'ssh' ? 22 : (arg.toLowerCase().startsWith('https://') ? 443 : 80);
+        const target = nodes.find(n => (n.ip && arg.includes(n.ip)) || n.type === 'server');
+        if (!target) {
+          appendCli(`<span class="err">${op}: target server tidak ditemukan di kanvas.</span>`);
+          return;
+        }
+        const path = findPathNodes(host.id, target.id);
+        if (!path) {
+          window.NetForgeTacticalHUD?.animatePacketPath?.([host.id], { drop: true });
+          appendCli(`<span class="err">${op}: tidak ada jalur aktif menuju ${escapeHtml(target.name)}.</span>`);
+          return;
+        }
+        const fw = checkFirewallOnPath(path, port);
+        if (fw.blocked) {
+          window.NetForgeTacticalHUD?.animatePacketPath?.(path.slice(0, path.indexOf(fw.firewall.id) + 1), { drop: true });
+          appendCli(`<span class="err">🛡️ BLOCKED BY ${escapeHtml(fw.firewall.name)}: Port ${port} (${op.toUpperCase()}) berstatus DENY di Firewall ACL!</span>`);
+          return;
+        }
+        window.NetForgeTacticalHUD?.animatePacketPath?.(path, { label: op.toUpperCase(), bounce: true });
+        appendCli(`<span class="ok">✅ ${op.toUpperCase()} ke ${escapeHtml(target.name)} [${escapeHtml(target.ip || 'server')}] Port ${port} BERHASIL (ALLOW).</span>`);
+        return;
+      }
+
       if (op === 'ping' || op === 'tracert' || op === 'traceroute') {
         if (!arg) {
           appendCli(`<span class="err">Gunakan: ${op} &lt;alamat_ip atau nama_perangkat&gt;</span>`);
@@ -544,7 +789,7 @@ Trace complete.`
       b.addEventListener('click', () => runCliCommand(b.dataset.cliCmd));
     });
 
-    $('nf64CliScreen').innerHTML = `<span class="dim">NET FORGE Network CLI v0.67.0 — Terhubung langsung ke topologi kanvas.
+    $('nf64CliScreen').innerHTML = `<span class="dim">NET FORGE Network CLI v0.68.0 — Terhubung langsung ke topologi kanvas.
 Ketik "help", "ipconfig", "devices", "ping &lt;ip&gt;", atau "tracert &lt;ip&gt;".</span>
 `;
     renderCalc();
@@ -590,7 +835,7 @@ Ketik "help", "ipconfig", "devices", "ping &lt;ip&gt;", atau "tracert &lt;ip&gt;
   }
 
   window.NetForgeNetTools = {
-    version: '0.67.0',
+    version: '0.68.0',
     open: openNetTools,
     calcSubnet
   };

@@ -1,4 +1,4 @@
-/* NET FORGE v0.67.0 — Utilitas Jaringan: Kalkulator IP/Subnet & Terminal CLI Ringan */
+/* NET FORGE v0.68.0 — Utilitas Jaringan: Kalkulator IP/Subnet & Terminal CLI Ringan */
 
 #nf64IpCalcBtn {
   background: linear-gradient(135deg, #0284c7, #0369a1) !important;
@@ -207,4 +207,76 @@ body.nf60-exam-active.nf60-no-ipcalc #nf64IpCalcBtn {
 }
 @media (max-width: 600px) {
   .nf64-grid { grid-template-columns: 1fr; }
+}
+
+/* v0.68.0 — Mini Web Browser & Firewall ACL Rules */
+.nf68-browser-bar {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.nf68-browser-bar input {
+  flex: 1 1 auto;
+  background: #040B16;
+  color: #F8FAFC;
+  border: 1px solid rgba(34, 211, 238, 0.42);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font: 600 12.5px/1.2 ui-monospace, SFMono-Regular, monospace;
+}
+.nf68-viewport {
+  min-height: 215px;
+  max-height: 280px;
+  overflow-y: auto;
+  border-radius: 11px;
+  background: #040B16;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  padding: 14px;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.nf68-page-ok {
+  border-left: 3px solid #34D399;
+  padding-left: 12px;
+}
+.nf68-page-ok h4 { margin: 0 0 6px; color: #34D399; font-size: 15px; }
+.nf68-page-block {
+  border-left: 3px solid #F43F5E;
+  padding-left: 12px;
+}
+.nf68-page-block h4 { margin: 0 0 6px; color: #FDA4AF; font-size: 15px; }
+.nf68-fw-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.nf68-fw-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+.nf68-fw-row strong { display: block; font-size: 12.5px; color: #F8FAFC; }
+.nf68-fw-row small { display: block; font-size: 11px; color: #94A3B8; }
+.nf68-fw-toggle {
+  padding: 5px 12px;
+  border-radius: 8px;
+  font: 800 11.5px/1.1 ui-monospace, monospace;
+  cursor: pointer;
+  border: 1px solid transparent;
+  min-width: 92px;
+}
+.nf68-fw-toggle.allow {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: #34D399;
+  color: #6EE7B7;
+}
+.nf68-fw-toggle.deny {
+  background: rgba(244, 63, 94, 0.22);
+  border-color: #FB7185;
+  color: #FECDD3;
 }

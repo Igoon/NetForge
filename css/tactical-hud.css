@@ -1,5 +1,5 @@
 /* ============================================================================
-   NET FORGE v0.67.0 — Modern "Glassmorphic Tactical Cyber" HUD + Theme Switcher
+   NET FORGE v0.68.0 — Modern "Glassmorphic Tactical Cyber" HUD + Theme Switcher
    - Default: Tactical Dark OLED Slate (#0B0F19) + Electric Cyan + Neon Mint
    - Toggleable: body.nf65-theme-classic restores Classic Blue (for bright classroom projectors)
    ============================================================================ */
@@ -511,7 +511,7 @@ body:not(.nf65-theme-classic) .nf60-bank-item {
 }
 
 /* =========================================================================
-   v0.67.0 — Node Micro-HUD IP Chips, Pop-in & Hop-by-Hop ICMP Packet Pulse
+   v0.68.0 — Node Micro-HUD IP Chips, Pop-in & Hop-by-Hop ICMP Packet Pulse
    ========================================================================= */
 .nf66-ip-pill {
   display: inline-flex;
@@ -622,7 +622,7 @@ body:not(.nf65-theme-classic) .nf60-bank-item {
   .nf66-pkt-orb { transition: none !important; }
 }
 
-/* v0.67.0 — VLAN / Trunk Micro-Badge on Canvas Nodes */
+/* v0.68.0 — VLAN / Trunk Micro-Badge on Canvas Nodes */
 .nf67-vlan-pill {
   display: inline-block;
   margin-top: 2px;
@@ -633,4 +633,101 @@ body:not(.nf65-theme-classic) .nf60-bank-item {
   color: #E0E7FF;
   font: 800 9px/1.15 ui-monospace, SFMono-Regular, monospace;
   letter-spacing: 0.03em;
+}
+
+/* =========================================================================
+   v0.68.0 — Mode X-Ray Jaringan (Visualisasi Zona Subnet & VLAN di Kanvas)
+   ========================================================================= */
+#nf68XrayBtn {
+  background: rgba(30, 41, 59, 0.72) !important;
+  border: 1px solid rgba(34, 211, 238, 0.42) !important;
+  color: #BAE6FD !important;
+  font-weight: 700 !important;
+}
+#nf68XrayBtn.active {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.35), rgba(34, 211, 238, 0.35)) !important;
+  border-color: #34D399 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 12px rgba(52, 211, 153, 0.45) !important;
+}
+
+#nf68XrayLegend {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 75;
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  max-width: min(320px, 86%);
+  padding: 8px 11px;
+  border-radius: 11px;
+  background: rgba(11, 15, 25, 0.92);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(34, 211, 238, 0.42);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6);
+  color: #F1F5F9;
+  font: 600 11px/1.35 system-ui, -apple-system, sans-serif;
+}
+body.nf68-xray-on #nf68XrayLegend {
+  display: flex;
+}
+.nf68-xray-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.nf68-xray-head strong {
+  font-size: 11.5px;
+  color: #34D399;
+  letter-spacing: 0.04em;
+}
+.nf68-xray-switch {
+  display: inline-flex;
+  gap: 4px;
+}
+.nf68-xray-switch button {
+  padding: 2px 7px;
+  border-radius: 6px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(15, 23, 42, 0.8);
+  color: #94A3B8;
+  font: 700 10.5px/1.2 system-ui, sans-serif;
+  cursor: pointer;
+}
+.nf68-xray-switch button.active {
+  background: rgba(34, 211, 238, 0.22);
+  border-color: #22D3EE;
+  color: #fff;
+}
+.nf68-xray-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.nf68-xray-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  font: 700 10px/1.2 ui-monospace, SFMono-Regular, monospace;
+}
+.nf68-xray-swatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* X-Ray Node Aura Rings */
+body.nf68-xray-on .nf400-node[data-xray-color] {
+  border-width: 2px !important;
+  border-color: var(--xray-c, #22D3EE) !important;
+  box-shadow: 0 0 0 3px var(--xray-glow, rgba(34, 211, 238, 0.28)), 0 0 22px var(--xray-glow, rgba(34, 211, 238, 0.35)) !important;
+}
+body.nf68-xray-on .nf400-node[data-xray-dashed="1"] {
+  border-style: dashed !important;
 }

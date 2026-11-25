@@ -1,4 +1,4 @@
-/* NET FORGE v0.67.0 — Tactical Cyber HUD Controller
+/* NET FORGE v0.68.0 — Tactical Cyber HUD Controller
    (Slim Icon Dock + Instant Hover Tooltip + Live Traffic Sparkline + Tactical/Classic Theme Switcher) */
 (function () {
   'use strict';
@@ -204,7 +204,7 @@
   }
 
 
-  // 4. v0.67.0 — Node Micro-HUD IP Chips + Pop-in Micro-Interaction + Hop-by-Hop ICMP Packet Pulse
+  // 4. v0.68.0 — Node Micro-HUD IP Chips + Pop-in Micro-Interaction + Hop-by-Hop ICMP Packet Pulse
   const seenNodeIds = new Set();
 
   function syncNodeMicroHud() {
@@ -268,7 +268,7 @@
       const html = `<span class="nf66-dot"></span><span>${label}</span>`;
       if (pill.innerHTML !== html) pill.innerHTML = html;
 
-      // v0.67.0: VLAN / Trunk micro-badge on canvas device card
+      // v0.68.0: VLAN / Trunk micro-badge on canvas device card
       const vlanVal = String((n.vlan && String(n.vlan).trim()) || cfg.vlan || '').trim();
       const ifaceVal = String((n.iface && String(n.iface).trim()) || cfg.iface || '').trim().toLowerCase();
       let vpill = el.querySelector('.nf67-vlan-pill');
@@ -354,18 +354,179 @@
     hudObs = new MutationObserver(() => syncNodeMicroHud());
     hudObs.observe(container, { childList: true, subtree: false });
     syncNodeMicroHud();
-    setInterval(syncNodeMicroHud, 1200);
+    setInterval(() => { syncNodeMicroHud(); if (xrayActive) refreshXrayOverlay(); }, 1200);
     return true;
   }
 
+
+  // 5. v0.68.0 — Mode X-Ray Jaringan (Subnet & VLAN Color Aura Overlay)
+  let xrayActive = false;
+  let xrayMode = 'subnet'; // 'subnet' | 'vlan'
+  const XRAY_PALETTE = [
+    { c: '#22D3EE', g: 'rgba(34, 211, 238, 0.32)' },
+    { c: '#A855F7', g: 'rgba(168, 85, 247, 0.34)' },
+    { c: '#34D399', g: 'rgba(52, 211, 153, 0.32)' },
+    { c: '#F59E0B', g: 'rgba(245, 158, 11, 0.32)' },
+    { c: '#F43F5E', g: 'rgba(244, 63, 94, 0.32)' },
+    { c: '#38BDF8', g: 'rgba(56, 189, 248, 0.32)' }
+  ];
+
+  function calcNetKey(ip, pref) {
+    const parts = String(ip || '').trim().split('.');
+    if (parts.length !== 4 || parts.some(p => !/^\d+$/.test(p) || Number(p) > 255)) return '';
+    const p = Math.max(0, Math.min(32, parseInt(pref || '24', 10) || 24));
+    let num = 0;
+    for (const s of parts) num = ((num << 8) | Number(s)) >>> 0;
+    const mask = p === 0 ? 0 : ((0xffffffff << (32 - p)) >>> 0);
+    const net = (num & mask) >>> 0;
+    return `${(net >>> 24) & 255}.${(net >>> 16) & 255}.${(net >>> 8) & 255}.${net & 255}/${p}`;
+  }
+
+  function ensureXrayLegend() {
+    const canvas = document.getElementById('nf400Canvas');
+    if (!canvas) return null;
+    let el = document.getElementById('nf68XrayLegend');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'nf68XrayLegend';
+      el.innerHTML = `
+        <div class="nf68-xray-head">
+          <strong>🩻 X-RAY JARINGAN</strong>
+          <div class="nf68-xray-switch">
+            <button type="button" data-xray-mode="subnet" class="active">Subnet</button>
+            <button type="button" data-xray-mode="vlan">VLAN</button>
+          </div>
+        </div>
+        <div class="nf68-xray-items" id="nf68XrayItems"></div>
+      `;
+      canvas.appendChild(el);
+      el.querySelectorAll('[data-xray-mode]').forEach(b => {
+        b.addEventListener('click', () => {
+          xrayMode = b.dataset.xrayMode;
+          el.querySelectorAll('[data-xray-mode]').forEach(x => x.classList.toggle('active', x === b));
+          refreshXrayOverlay();
+        });
+      });
+    }
+    return el;
+  }
+
+  function refreshXrayOverlay() {
+    const container = document.getElementById('nf400Nodes');
+    if (!container) return;
+    if (!xrayActive) {
+      container.querySelectorAll('.nf400-node').forEach(el => {
+        el.removeAttribute('data-xray-color');
+        el.removeAttribute('data-xray-dashed');
+        el.style.removeProperty('--xray-c');
+        el.style.removeProperty('--xray-glow');
+      });
+      return;
+    }
+    ensureXrayLegend();
+    const api = API();
+    const state = api?.getState?.() || { nodes: [] };
+    const classic = api?.classicView?.()?.nodes || [];
+    const cfgById = new Map(classic.map(c => [String(c.id), c.config || {}]));
+    const byId = new Map((state.nodes || []).map(n => [String(n.id), n]));
+
+    const groupColors = new Map();
+    let colorIdx = 0;
+    const pickColor = key => {
+      if (!groupColors.has(key)) {
+        groupColors.set(key, XRAY_PALETTE[colorIdx % XRAY_PALETTE.length]);
+        colorIdx++;
+      }
+      return groupColors.get(key);
+    };
+
+    container.querySelectorAll('.nf400-node').forEach(el => {
+      const id = String(el.dataset.id || el.dataset.nodeId || '');
+      const n = byId.get(id);
+      if (!n) return;
+      const cfg = cfgById.get(id) || {};
+      let key = '';
+      let dashed = false;
+
+      if (xrayMode === 'subnet') {
+        const ip = (n.ip && String(n.ip).trim()) || cfg.ip || (n.type === 'router' ? '192.168.10.1' : '');
+        const pref = String(cfg.prefix || '24').replace(/^\//, '');
+        key = ip ? calcNetKey(ip, pref) : (n.type === 'switch' ? 'L2 Switch' : 'Belum ber-IP');
+      } else {
+        const vlan = String((n.vlan && String(n.vlan).trim()) || cfg.vlan || '').trim();
+        const iface = String((n.iface && String(n.iface).trim()) || cfg.iface || '').trim().toLowerCase();
+        if (iface === 'trunk') {
+          key = `TRUNK (${vlan || 'ALL'})`;
+          dashed = true;
+        } else if (vlan) {
+          key = `VLAN ${vlan}`;
+        } else {
+          key = 'Default (Untagged)';
+        }
+      }
+
+      const pal = (key === 'Belum ber-IP' || key === 'Default (Untagged)')
+        ? { c: '#64748B', g: 'rgba(100, 116, 139, 0.22)' }
+        : pickColor(key);
+
+      el.setAttribute('data-xray-color', key);
+      if (dashed) el.setAttribute('data-xray-dashed', '1');
+      else el.removeAttribute('data-xray-dashed');
+      el.style.setProperty('--xray-c', pal.c);
+      el.style.setProperty('--xray-glow', pal.g);
+    });
+
+    const itemsBox = document.getElementById('nf68XrayItems');
+    if (itemsBox) {
+      const entries = [...groupColors.entries()];
+      itemsBox.innerHTML = entries.length
+        ? entries.map(([k, p]) => `<span class="nf68-xray-chip"><span class="nf68-xray-swatch" style="background:${p.c}"></span>${k}</span>`).join('')
+        : '<span style="color:#94A3B8;font-size:10.5px;">Belum ada Subnet/VLAN terkonfigurasi di kanvas.</span>';
+    }
+  }
+
+  function toggleXray(forceState) {
+    xrayActive = typeof forceState === 'boolean' ? forceState : !xrayActive;
+    document.body.classList.toggle('nf68-xray-on', xrayActive);
+    const btn = document.getElementById('nf68XrayBtn');
+    if (btn) {
+      btn.classList.toggle('active', xrayActive);
+      btn.setAttribute('aria-pressed', String(xrayActive));
+      btn.textContent = xrayActive ? '🩻 X-Ray: ON' : '🩻 X-Ray';
+    }
+    refreshXrayOverlay();
+  }
+
+  function injectXrayButton() {
+    const tabs = document.querySelector('#nf43DrawerBar .nf43-tabs');
+    if (!tabs || document.getElementById('nf68XrayBtn')) return Boolean(document.getElementById('nf68XrayBtn'));
+    const b = document.createElement('button');
+    b.id = 'nf68XrayBtn';
+    b.type = 'button';
+    b.textContent = '🩻 X-Ray';
+    b.title = 'Mode X-Ray Jaringan: lihat aura zona Subnet & VLAN di kanvas (Alt+X)';
+    b.addEventListener('click', () => toggleXray());
+    tabs.appendChild(b);
+    return true;
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.altKey && (e.key === 'x' || e.key === 'X')) {
+      e.preventDefault();
+      toggleXray();
+    }
+  });
+
   window.NetForgeTacticalHUD = {
-    version: '0.67.0',
+    version: '0.68.0',
     setSlimDock: applyDockState,
     toggleDock: () => applyDockState(!document.body.classList.contains('nf65-dock-slim')),
     setTheme: applyTheme,
     toggleTheme,
     syncNodeMicroHud,
-    animatePacketPath
+    animatePacketPath,
+    toggleXray,
+    refreshXrayOverlay
   };
 
   initTheme();
@@ -376,7 +537,8 @@
     const c = injectTelemetryAndThemeBtn();
     const d = injectSettingsThemeCard();
     const e = attachNodeHudObserver();
-    if ((a && b && c && d && e) || ++tries > 24) return;
+    const f = injectXrayButton();
+    if ((a && b && c && d && e && f) || ++tries > 24) return;
     setTimeout(boot, 350);
   })();
 })();
