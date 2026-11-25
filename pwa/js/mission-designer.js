@@ -1,4 +1,4 @@
-/* NET FORGE v0.69.0 — Desainer Misi & Mode Ujian (Sekolah / Kampus Edition)
+/* NET FORGE v0.69.1 — Desainer Misi & Mode Ujian (Sekolah / Kampus Edition)
    - Menyembunyikan panel Objective lama saat ujian & menampilkan Panel Rubrik Ujian khusus di sidebar kanan
    - Cetak / Simpan PDF via dokumen cetak bersih (terjamin tidak pernah blank di Print Preview!)
    - Editor Aturan IP Spesifik per Perangkat (IP eksak, subnet wildcard 192.168.10.*, prefix /24, & gateway) */
@@ -609,7 +609,7 @@
 
 
   // =========================================================================
-  // v0.69.0 — PASSWORD PROTECTION FOR MISSION FILES
+  // v0.69.1 — PASSWORD PROTECTION FOR MISSION FILES
   // =========================================================================
   function xorBytes(bytes, keyStr) {
     const k = new TextEncoder().encode(keyStr || 'NF62');
@@ -1257,7 +1257,7 @@
     const customPaths = readCustomPaths();
     return {
       format: 'netforge-exam-v1',
-      version: '0.69.0',
+      version: '0.69.1',
       title: ($('nf60Title')?.value || '').trim() || 'Misi Kustom NET FORGE',
       author: ($('nf60Author')?.value || '').trim() || 'Pengajar Jaringan',
       instructions: ($('nf60Instr')?.value || '').trim() || 'Bangun topologi sesuai rubrik yang ditentukan.',
@@ -1486,7 +1486,7 @@
     const code = makeVerifyCode(session.student, session.pack, ev.score, ev.passed, ev.total);
     const reportObj = {
       format: 'netforge-exam-result-v1',
-      version: '0.69.0',
+      version: '0.69.1',
       submittedAt: new Date().toISOString(),
       verificationCode: code,
       student: session.student,
@@ -1994,7 +1994,7 @@
       const b = document.createElement('button');
       b.id = 'nf60OpenBtn';
       b.type = 'button';
-      b.textContent = '📝 Desainer / Ujian';
+      b.textContent = '📝 Ujian';
       b.title = 'Buat soal misi kustom atau jalankan Mode Ujian Sekolah/Kampus';
       b.addEventListener('click', () => openDesigner('designer'));
       tabs.appendChild(b);
@@ -2009,7 +2009,7 @@
   }, true);
 
   window.NetForgeExamDesigner = {
-    version: '0.69.0',
+    version: '0.69.1',
     openDesigner,
     startExamSession,
     stopExam,

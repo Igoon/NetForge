@@ -1,4 +1,4 @@
-/* NET FORGE v0.69.0 — Tantangan Troubleshooting Harian (Daily Challenge + Streak) */
+/* NET FORGE v0.69.1 — Tantangan Troubleshooting Harian (Daily Challenge + Streak) */
 (function () {
   'use strict';
   if (window.__NF6900_DAILY) return;
@@ -467,19 +467,32 @@
 
   function injectButton() {
     const tabs = document.querySelector('#nf43DrawerBar .nf43-tabs');
-    if (!tabs || $('nf69DailyBtn')) return Boolean($('nf69DailyBtn'));
-    const b = document.createElement('button');
-    b.id = 'nf69DailyBtn';
-    b.type = 'button';
-    b.textContent = '📅 Harian';
-    b.title = 'Tantangan Troubleshooting Harian (1 kasus jaringan rusak baru setiap hari)';
-    b.addEventListener('click', openDailyModal);
-    tabs.appendChild(b);
-    return true;
+    if (tabs && !$('nf69DailyBtn')) {
+      const b = document.createElement('button');
+      b.id = 'nf69DailyBtn';
+      b.type = 'button';
+      b.textContent = '📅 Harian';
+      b.title = 'Tantangan Troubleshooting Harian (1 kasus jaringan rusak baru setiap hari)';
+      b.addEventListener('click', openDailyModal);
+      const refNode = $('nf60OpenBtn') || tabs.firstChild;
+      if (refNode && refNode.parentElement === tabs) tabs.insertBefore(b, refNode);
+      else tabs.prepend(b);
+    }
+    const emBtn = $('nf44EmergencyBtn');
+    if (emBtn && emBtn.parentElement && !$('nf69DailyTopBtn')) {
+      const tb = document.createElement('button');
+      tb.id = 'nf69DailyTopBtn';
+      tb.type = 'button';
+      tb.textContent = '📅 Harian';
+      tb.title = 'Tantangan Troubleshooting Harian';
+      tb.addEventListener('click', openDailyModal);
+      emBtn.parentElement.insertBefore(tb, emBtn);
+    }
+    return Boolean($('nf69DailyBtn'));
   }
 
   window.NetForgeDailyChallenge = {
-    version: '0.69.0',
+    version: '0.69.1',
     open: openDailyModal,
     stop: stopDaily
   };

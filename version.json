@@ -1,6 +1,6 @@
 {
-  "version": "0.69.0",
+  "version": "0.69.1",
   "releaseDate": "2026-11-26",
-  "title": "Daily Troubleshooting Challenge v0.69.0",
-  "notes": "v0.69.0: Tantangan Troubleshooting Harian (Daily Challenge deterministik dengan 6 skenario nyata, streak harian, timer, dan teks bagikan hasil)."
+  "title": "Compact Toolbar & Daily Button v0.69.1",
+  "notes": "v0.69.1: Perapian label ringkas bilah bawah agar tombol 📅 Harian, 🩻 X-Ray, dan semua alat langsung terlihat tanpa terpotong + tombol cepat 📅 Harian di sebelah Darurat 60s."
 }

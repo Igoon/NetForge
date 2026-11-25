@@ -1,5 +1,5 @@
 /* ============================================================================
-   NET FORGE v0.69.0 — Modern "Glassmorphic Tactical Cyber" HUD + Theme Switcher
+   NET FORGE v0.69.1 — Modern "Glassmorphic Tactical Cyber" HUD + Theme Switcher
    - Default: Tactical Dark OLED Slate (#0B0F19) + Electric Cyan + Neon Mint
    - Toggleable: body.nf65-theme-classic restores Classic Blue (for bright classroom projectors)
    ============================================================================ */
@@ -511,7 +511,7 @@ body:not(.nf65-theme-classic) .nf60-bank-item {
 }
 
 /* =========================================================================
-   v0.69.0 — Node Micro-HUD IP Chips, Pop-in & Hop-by-Hop ICMP Packet Pulse
+   v0.69.1 — Node Micro-HUD IP Chips, Pop-in & Hop-by-Hop ICMP Packet Pulse
    ========================================================================= */
 .nf66-ip-pill {
   display: inline-flex;
@@ -622,7 +622,7 @@ body:not(.nf65-theme-classic) .nf60-bank-item {
   .nf66-pkt-orb { transition: none !important; }
 }
 
-/* v0.69.0 — VLAN / Trunk Micro-Badge on Canvas Nodes */
+/* v0.69.1 — VLAN / Trunk Micro-Badge on Canvas Nodes */
 .nf67-vlan-pill {
   display: inline-block;
   margin-top: 2px;
@@ -636,7 +636,7 @@ body:not(.nf65-theme-classic) .nf60-bank-item {
 }
 
 /* =========================================================================
-   v0.69.0 — Mode X-Ray Jaringan (Visualisasi Zona Subnet & VLAN di Kanvas)
+   v0.69.1 — Mode X-Ray Jaringan (Visualisasi Zona Subnet & VLAN di Kanvas)
    ========================================================================= */
 #nf68XrayBtn {
   background: rgba(30, 41, 59, 0.72) !important;
@@ -733,7 +733,7 @@ body.nf68-xray-on .nf400-node[data-xray-dashed="1"] {
 }
 
 /* =========================================================================
-   v0.69.0 — Tantangan Troubleshooting Harian (Daily Challenge HUD & Modal)
+   v0.69.1 — Tantangan Troubleshooting Harian (Daily Challenge HUD & Modal)
    ========================================================================= */
 #nf69DailyBtn {
   background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(217, 119, 6, 0.35)) !important;
@@ -799,3 +799,25 @@ body.nf60-exam-active #nf69DailyHud {
   color: #FDE047;
   border: 1px solid rgba(253, 224, 71, 0.35);
 }
+
+/* v0.69.1 — Compact Command Center Pills so ALL buttons stay 100% visible without clipping */
+#nf43DrawerBar .nf43-tabs {
+  gap: 4px !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(34, 211, 238, 0.4) transparent !important;
+}
+#nf43DrawerBar .nf43-tabs button {
+  padding: 4px 7px !important;
+  font-size: 10.5px !important;
+}
+#nf69DailyTopBtn {
+  padding: 4px 9px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.28), rgba(217, 119, 6, 0.4));
+  border: 1px solid rgba(251, 191, 36, 0.6);
+  color: #FEF3C7;
+  font: 800 11px/1.2 system-ui, sans-serif;
+  cursor: pointer;
+}
+#nf69DailyTopBtn:hover { filter: brightness(1.14); }
+body.nf60-exam-active #nf69DailyTopBtn { display: none !important; }

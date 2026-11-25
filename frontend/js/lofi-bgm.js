@@ -1,4 +1,4 @@
-/* NET FORGE v0.69.0 — Procedural Lo-Fi Chillhop Background Music (Web Audio API, Muteable) */
+/* NET FORGE v0.69.1 — Procedural Lo-Fi Chillhop Background Music (Web Audio API, Muteable) */
 (function () {
   'use strict';
   if (window.__NF6300_LOFI) return;
@@ -196,7 +196,7 @@
     if (!btn) return;
     btn.setAttribute('aria-pressed', String(!muted));
     btn.classList.toggle('is-muted', muted);
-    btn.textContent = muted ? '🔇 Lo-Fi: OFF' : '🎵 Lo-Fi: ON';
+    btn.textContent = muted ? '🔇 Lo-Fi' : '🎵 Lo-Fi';
     btn.title = muted ? 'Nyalakan musik latar lo-fi ringan' : 'Bisukan musik latar lo-fi';
   }
 
@@ -259,7 +259,7 @@
   });
 
   window.NetForgeLofi = {
-    version: '0.69.0',
+    version: '0.69.1',
     toggle,
     setMuted,
     isMuted: () => muted,

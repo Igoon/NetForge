@@ -258,7 +258,7 @@
       modal.innerHTML = `
         <div class="nf44-shop-card">
           <div class="nf44-shop-head">
-            <h3>🎨 Toko Teknisi & Kosmetik</h3>
+            <h3>🎨 Toko & Kosmetik</h3>
             <button type="button" class="nf43-sheet-close" id="nf44ShopClose">✕ Tutup</button>
           </div>
           <div class="nf44-shop-wallet">
@@ -334,7 +334,7 @@
         const sBtn = document.createElement('button');
         sBtn.id = 'nf44ShopBtn';
         sBtn.type = 'button';
-        sBtn.textContent = '🎨 Toko Teknisi';
+        sBtn.textContent = '🎨 Toko';
         sBtn.title = 'Tukar XP dengan tema kabel neon & aksesori Iga';
         sBtn.addEventListener('click', openShop);
         tabs.appendChild(sBtn);
@@ -475,7 +475,7 @@
     const btn = $('nf45AutoChaosBtn');
     if (btn) {
       btn.classList.toggle('on', autoChaosOn);
-      btn.textContent = autoChaosOn ? '⚡ Auto-Chaos: Aktif' : '⚡ Auto-Chaos: Mati';
+      btn.textContent = autoChaosOn ? '⚡ Auto: Aktif' : '⚡ Auto: Mati';
     }
     if (autoChaosTimer) { clearInterval(autoChaosTimer); autoChaosTimer = null; }
     if (autoChaosOn) {
@@ -546,7 +546,7 @@
       const c = document.createElement('button');
       c.id = 'nf45AutoChaosBtn';
       c.type = 'button';
-      c.textContent = '⚡ Auto-Chaos: Mati';
+      c.textContent = '⚡ Auto: Mati';
       c.title = 'Aktifkan insiden kantor acak otomatis setiap 35 detik';
       c.addEventListener('click', toggleAutoChaos);
       tabs.appendChild(c);
