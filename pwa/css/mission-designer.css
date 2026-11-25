@@ -1,4 +1,4 @@
-/* NET FORGE v0.61.0 — Desainer Misi & Mode Ujian (Fixed Side Panel, Print PDF & Specific IP Rules) */
+/* NET FORGE v0.62.0 — Desainer Misi & Mode Ujian (Fixed Side Panel, Print PDF & Specific IP Rules) */
 
 #nf60OpenBtn {
   background: linear-gradient(135deg, #6366f1, #4f46e5) !important;
@@ -143,7 +143,7 @@ body.nf60-exam-active #nf60SidePanel { display: block; }
 #nf60Modal, #nf60ResultModal {
   position: fixed;
   inset: 0;
-  z-index: 9650;
+  z-index: 99500;
   display: none;
   align-items: center;
   justify-content: center;
@@ -344,7 +344,7 @@ body.nf60-exam-active #nf60SidePanel { display: block; }
   .nf60-ip-row { grid-template-columns: 1fr 1fr; }
 }
 
-/* v0.61.0 — Bank Soal Lokal, Folder PC & Google Drive */
+/* v0.62.0 — Bank Soal Lokal, Folder PC & Google Drive */
 .nf60-bank-list {
   display: flex;
   flex-direction: column;
@@ -432,4 +432,95 @@ body.nf60-exam-active #nf60SidePanel { display: block; }
   background: rgba(6, 21, 41, 0.5);
   border: 1px dashed rgba(148, 163, 184, 0.25);
   text-align: center;
+}
+
+/* v0.62.0 — Distraction-Free Exam Mode: sembunyikan seluruh elemen game yang tidak berhubungan dengan ujian */
+body.nf60-exam-active .xp-stat,
+body.nf60-exam-active .level-stat,
+body.nf60-exam-active .difficulty-stat,
+body.nf60-exam-active #nf41CatBtn,
+body.nf60-exam-active #nf44EmergencyBtn,
+body.nf60-exam-active #nf45AutoChaosBtn,
+body.nf60-exam-active #nf44ShopBtn,
+body.nf60-exam-active #nf45BadgeBtn,
+body.nf60-exam-active #nf45HealthPill,
+body.nf60-exam-active #nf403RunMission,
+body.nf60-exam-active #nextMissionBtn,
+body.nf60-exam-active #newContractBtn,
+body.nf60-exam-active #missionCode,
+body.nf60-exam-active #missionTitle,
+body.nf60-exam-active #nf4034Coach,
+body.nf60-exam-active .iga-dock,
+body.nf60-exam-active .right > section.panel:nth-of-type(2),
+body.nf60-exam-active #nf60OpenBtn,
+body.nf60-exam-active #nf24Help,
+body.nf60-exam-active #nfFxToggle,
+body.nf60-exam-active #motionToggle,
+body.nf60-exam-active #nf328Install,
+body.nf60-exam-active #nf328Update,
+body.nf60-exam-active #nf330CheckUpdate,
+body.nf60-exam-active #nf330PwaStatus,
+body.nf60-exam-active #nf342Version,
+body.nf60-exam-active #nf58UpdateBanner,
+body.nf60-exam-active #nf4039UpdateBanner,
+body.nf60-exam-active #nf346GlobalStatus,
+body.nf60-exam-active .nf25-dock,
+body.nf60-exam-active #nf30SettingsBtn,
+body.nf60-exam-active #nf351DashBtn,
+body.nf60-exam-active .nf-top-actions button:not(#nf24Focus),
+body.nf60-exam-active .footer {
+  display: none !important;
+}
+
+/* Sembunyikan bagian Lab Virtualisasi di panel kiri saat ujian agar fokus ke jaringan soal */
+body.nf60-exam-active #hostBtn,
+body.nf60-exam-active #vmBtn,
+body.nf60-exam-active #lxcBtn,
+body.nf60-exam-active #dockerBtn,
+body.nf60-exam-active #virtualList,
+body.nf60-exam-active #ramBar,
+body.nf60-exam-active #resourceText {
+  display: none !important;
+}
+
+/* Password Prompt Modal */
+#nf60PwdModal {
+  position: fixed;
+  inset: 0;
+  z-index: 99600;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(2, 8, 22, 0.85);
+  backdrop-filter: blur(6px);
+  padding: 16px;
+}
+#nf60PwdModal.open { display: flex; }
+.nf60-pwd-card {
+  width: min(420px, 94vw);
+  border-radius: 16px;
+  padding: 20px;
+  background: linear-gradient(160deg, #0d2648 0%, #061326 100%);
+  border: 1.5px solid #38bdf8;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.82);
+  color: #eaf5ff;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+.nf60-pwd-card h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+  color: #fff;
+}
+.nf60-pwd-card p {
+  margin: 0 0 12px;
+  font-size: 12.5px;
+  color: #bae6fd;
+  line-height: 1.45;
+}
+.nf60-pwd-err {
+  min-height: 18px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fda4af;
+  margin: 7px 0 10px;
 }

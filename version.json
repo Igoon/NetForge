@@ -1,6 +1,6 @@
 {
-  "version": "0.61.0",
+  "version": "0.62.0",
   "releaseDate": "2026-11-25",
-  "title": "Bank Soal Drive, Folder Komputer & Cloud v0.61.0",
-  "notes": "v0.61.0: Bank Soal Lokal (Browser), Simpan & Buka Folder Komputer (File System Access API), dan Integrasi Google Drive (scope aman drive.file)."
+  "title": "Exam Lock Password, Focus Mode & Update Fix v0.62.0",
+  "notes": "v0.62.0: Fix notifikasi update berulang & tombol tutup modal Desainer Misi, tambah proteksi Password pada file soal, dan mode fokus penuh saat ujian."
 }

@@ -1,4 +1,4 @@
-/* NET FORGE v0.61.0 — Desainer Misi & Mode Ujian (Sekolah / Kampus Edition)
+/* NET FORGE v0.62.0 — Desainer Misi & Mode Ujian (Sekolah / Kampus Edition)
    - Menyembunyikan panel Objective lama saat ujian & menampilkan Panel Rubrik Ujian khusus di sidebar kanan
    - Cetak / Simpan PDF via dokumen cetak bersih (terjamin tidak pernah blank di Print Preview!)
    - Editor Aturan IP Spesifik per Perangkat (IP eksak, subnet wildcard 192.168.10.*, prefix /24, & gateway) */
@@ -416,12 +416,17 @@
     }
   }
 
-  function openPackInEditor(pack, sourceLabel) {
-    currentEditingId = pack.id || null;
-    populateDesignerForm(pack);
+  async function openPackInEditor(pack, sourceLabel) {
+    let target = pack;
+    if (target?.passwordProtected && !target._unlockedPassword) {
+      target = await promptPasswordForPack(target, 'mengedit soal ini');
+      if (!target) return;
+    }
+    currentEditingId = target.id || null;
+    populateDesignerForm(target);
     const tabBtn = document.querySelector('#nf60Modal .nf60-tab[data-nf60-tab="designer"]');
     if (tabBtn) tabBtn.click();
-    if ($('nf60DesignerStatus')) $('nf60DesignerStatus').textContent = `✓ Soal "${pack.title}" dibuka dari ${sourceLabel}.`;
+    if ($('nf60DesignerStatus')) $('nf60DesignerStatus').textContent = `✓ Soal "${target.title}" dibuka dari ${sourceLabel}.`;
   }
 
   function openPackInExamTab(pack, sourceLabel) {
@@ -443,7 +448,7 @@
     box.innerHTML = list.map((p, idx) => `
       <div class="nf60-bank-item">
         <div class="nf60-bank-meta">
-          <strong>${escapeHtml(p.title)}</strong>
+          <strong>${p.passwordProtected ? '🔐 ' : ''}${escapeHtml(p.title)}</strong>
           <small>${escapeHtml(p.author || 'Pengajar')} · ${(p.requiredDevices || []).length} perangkat · ${(p.requiredIPs || []).length} aturan IP · ${p.durationMin ? p.durationMin + ' mnt' : 'Bebas'}</small>
         </div>
         <div class="nf60-bank-actions">
@@ -570,6 +575,154 @@
       h = Math.imul(h, 0x01000193);
     }
     return (h >>> 0).toString(16).toUpperCase().padStart(8, '0');
+  }
+
+
+  // =========================================================================
+  // v0.62.0 — PASSWORD PROTECTION FOR MISSION FILES
+  // =========================================================================
+  function xorBytes(bytes, keyStr) {
+    const k = new TextEncoder().encode(keyStr || 'NF62');
+    const out = new Uint8Array(bytes.length);
+    for (let i = 0; i < bytes.length; i++) {
+      out[i] = bytes[i] ^ k[i % k.length] ^ ((i * 31) & 0xff);
+    }
+    return out;
+  }
+
+  function bytesToB64(bytes) {
+    let bin = '';
+    for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin);
+  }
+
+  function b64ToBytes(b64) {
+    const bin = atob(b64);
+    const out = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+    return out;
+  }
+
+  function protectPack(pack, password) {
+    const pwd = String(password || '').trim();
+    const clean = structuredClone(pack);
+    delete clean.password;
+    if (!pwd) {
+      delete clean.passwordProtected;
+      delete clean.passwordSalt;
+      delete clean.passwordHash;
+      delete clean.protectedPayload;
+      return clean;
+    }
+    const salt = Math.random().toString(36).slice(2, 10).toUpperCase();
+    const hash = fnv1aHash(`${salt}:${pwd}:NF62_LOCK`);
+    const secretObj = {
+      instructions: clean.instructions || '',
+      requiredDevices: clean.requiredDevices || [],
+      requiredPaths: clean.requiredPaths || [],
+      requiredIPs: clean.requiredIPs || [],
+      requireAllOnline: clean.requireAllOnline !== false,
+      requirePing: clean.requirePing !== false,
+      requireBudget: clean.requireBudget !== false,
+      initialGraph: clean.initialGraph || null
+    };
+    const enc = xorBytes(new TextEncoder().encode(JSON.stringify(secretObj)), `${salt}:${pwd}:NF62`);
+    return {
+      schema: 2,
+      id: clean.id || ('nf62_' + Date.now().toString(36)),
+      title: clean.title,
+      author: clean.author,
+      durationMin: clean.durationMin,
+      maxBudget: clean.maxBudget,
+      examLock: clean.examLock !== false,
+      passwordProtected: true,
+      passwordSalt: salt,
+      passwordHash: hash,
+      protectedPayload: bytesToB64(enc),
+      savedAt: clean.savedAt || new Date().toISOString()
+    };
+  }
+
+  function unlockPack(pack, password) {
+    if (!pack || !pack.passwordProtected) return structuredClone(pack);
+    const pwd = String(password || '').trim();
+    const expected = fnv1aHash(`${pack.passwordSalt || ''}:${pwd}:NF62_LOCK`);
+    if (expected !== pack.passwordHash) return null;
+    try {
+      const decBytes = xorBytes(b64ToBytes(pack.protectedPayload || ''), `${pack.passwordSalt || ''}:${pwd}:NF62`);
+      const secretObj = JSON.parse(new TextDecoder().decode(decBytes));
+      return {
+        ...pack,
+        ...secretObj,
+        passwordProtected: true,
+        _unlockedPassword: pwd
+      };
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function promptPasswordForPack(pack, purposeLabel) {
+    return new Promise(resolve => {
+      if (!pack || !pack.passwordProtected) return resolve(structuredClone(pack));
+      let modal = $('nf60PwdModal');
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'nf60PwdModal';
+        modal.setAttribute('role', 'dialog');
+        modal.setAttribute('aria-modal', 'true');
+        modal.innerHTML = `
+          <div class="nf60-pwd-card">
+            <h3 id="nf60PwdTitle">🔐 Password Soal Diperlukan</h3>
+            <p id="nf60PwdDesc"></p>
+            <div class="nf60-field">
+              <label for="nf60PwdInput">Masukkan Password Soal</label>
+              <input id="nf60PwdInput" type="password" placeholder="Ketik password dari guru/dosen…" autocomplete="off">
+            </div>
+            <div class="nf60-pwd-err" id="nf60PwdErr"></div>
+            <div class="nf60-row-actions" style="justify-content:flex-end;">
+              <button type="button" class="nf60-btn" id="nf60PwdCancel">Batal</button>
+              <button type="button" class="nf60-btn primary" id="nf60PwdSubmit">🔓 Buka &amp; Lanjutkan</button>
+            </div>
+          </div>`;
+        document.body.appendChild(modal);
+      }
+      const desc = modal.querySelector('#nf60PwdDesc');
+      const inp = modal.querySelector('#nf60PwdInput');
+      const err = modal.querySelector('#nf60PwdErr');
+      const btnCancel = modal.querySelector('#nf60PwdCancel');
+      const btnOk = modal.querySelector('#nf60PwdSubmit');
+
+      desc.textContent = `Soal "${pack.title}" dilindungi password. Masukkan password untuk ${purposeLabel || 'memulai ujian'}.`;
+      inp.value = '';
+      err.textContent = '';
+
+      function cleanup(val) {
+        modal.classList.remove('open');
+        btnCancel.onclick = null;
+        btnOk.onclick = null;
+        inp.onkeydown = null;
+        resolve(val);
+      }
+      function submit() {
+        const unlocked = unlockPack(pack, inp.value);
+        if (!unlocked) {
+          err.textContent = '❌ Password salah. Periksa huruf besar/kecil dan coba lagi.';
+          inp.focus();
+          inp.select();
+          return;
+        }
+        cleanup(unlocked);
+      }
+      btnCancel.onclick = () => cleanup(null);
+      btnOk.onclick = submit;
+      inp.onkeydown = e => {
+        if (e.key === 'Enter') { e.preventDefault(); submit(); }
+        else if (e.key === 'Escape') { e.preventDefault(); cleanup(null); }
+      };
+      modal.classList.add('open');
+      setTimeout(() => inp.focus(), 60);
+    });
   }
 
   function makeVerifyCode(student, pack, score, passed, total) {
@@ -884,7 +1037,7 @@
     const reqPaths = [...document.querySelectorAll('#nf60PathChips input:checked')].map(i => i.value.split(':'));
     return {
       format: 'netforge-exam-v1',
-      version: '0.61.0',
+      version: '0.62.0',
       title: ($('nf60Title')?.value || '').trim() || 'Misi Kustom NET FORGE',
       author: ($('nf60Author')?.value || '').trim() || 'Pengajar Jaringan',
       instructions: ($('nf60Instr')?.value || '').trim() || 'Bangun topologi sesuai rubrik yang ditentukan.',
@@ -901,6 +1054,12 @@
     };
   }
 
+  function readDesignerFormProtected() {
+    const raw = readDesignerForm();
+    const pwd = ($('nf60Password')?.value || '').trim();
+    return protectPack(raw, pwd);
+  }
+
   function populateDesignerForm(pack) {
     if ($('nf60Title')) $('nf60Title').value = pack.title || '';
     if ($('nf60Author')) $('nf60Author').value = pack.author || '';
@@ -908,6 +1067,7 @@
     if ($('nf60Dur')) $('nf60Dur').value = String(pack.durationMin ?? 15);
     if ($('nf60Budget')) $('nf60Budget').value = String(pack.maxBudget ?? 1200);
     if ($('nf60Lock')) $('nf60Lock').checked = pack.examLock !== false;
+    if ($('nf60Password')) $('nf60Password').value = pack._unlockedPassword || '';
     if ($('nf60ReqOnline')) $('nf60ReqOnline').checked = pack.requireAllOnline !== false;
     if ($('nf60ReqPing')) $('nf60ReqPing').checked = pack.requirePing !== false;
     if ($('nf60ReqBudget')) $('nf60ReqBudget').checked = pack.requireBudget !== false;
@@ -950,11 +1110,12 @@
     const el = $('nf60ExamPreview');
     if (!el || !loadedExamPack) return;
     const p = loadedExamPack;
-    const ipCount = (p.requiredIPs || []).length;
+    const isLocked = Boolean(p.passwordProtected && !p._unlockedPassword);
+    const ipCount = isLocked ? 0 : (p.requiredIPs || []).length;
     el.innerHTML = `
-      <strong>${escapeHtml(p.title)}</strong>
-      <div style="font-size:11.5px;color:#a5c9e0;margin:4px 0 6px;">Pengajar: ${escapeHtml(p.author)} · Durasi: ${p.durationMin ? p.durationMin + ' menit' : 'Bebas'} · Budget Maks: $${p.maxBudget}${ipCount ? ' · ' + ipCount + ' Aturan IP Spesifik' : ''} · ${p.examLock ? '🔒 Mode Ujian Terkunci' : '🔓 Mode Latihan'}</div>
-      <div style="font-size:12px;line-height:1.45;color:#e2f1ff;">${escapeHtml(p.instructions)}</div>
+      <strong>${isLocked ? '🔐 ' : ''}${escapeHtml(p.title)}</strong>
+      <div style="font-size:11.5px;color:#a5c9e0;margin:4px 0 6px;">Pengajar: ${escapeHtml(p.author)} · Durasi: ${p.durationMin ? p.durationMin + ' menit' : 'Bebas'} · Budget Maks: $${p.maxBudget}${ipCount ? ' · ' + ipCount + ' Aturan IP Spesifik' : ''} · ${p.examLock ? '🔒 Mode Ujian Terkunci' : '🔓 Mode Latihan'}${p.passwordProtected ? ' · 🔑 Berpassword' : ''}</div>
+      <div style="font-size:12px;line-height:1.45;color:#e2f1ff;">${isLocked ? '🔒 Soal dan instruksi dilindungi password. Klik <b>🚀 Mulai Ujian Sekarang</b> lalu masukkan password dari pengajar untuk membuka soal.' : escapeHtml(p.instructions)}</div>
     `;
   }
 
@@ -1068,7 +1229,7 @@
     const code = makeVerifyCode(session.student, session.pack, ev.score, ev.passed, ev.total);
     const reportObj = {
       format: 'netforge-exam-result-v1',
-      version: '0.61.0',
+      version: '0.62.0',
       submittedAt: new Date().toISOString(),
       verificationCode: code,
       student: session.student,
@@ -1154,7 +1315,7 @@
       <div class="nf60-dialog">
         <div class="nf60-head">
           <h3>📝 Desainer Misi &amp; Mode Ujian (Sekolah / Kampus)</h3>
-          <button type="button" class="nf60-btn" id="nf60Close">✕ Tutup</button>
+          <button type="button" class="nf60-btn" id="nf60ModalClose">✕ Tutup</button>
         </div>
         <div class="nf60-tabs">
           <button type="button" class="nf60-tab active" data-nf60-tab="designer">✏️ Buat Soal</button>
@@ -1176,6 +1337,10 @@
           <div class="nf60-grid2">
             <div class="nf60-field"><label>Durasi Ujian (menit · 0 = bebas)</label><input id="nf60Dur" type="number" min="0" max="180" value="15"></div>
             <div class="nf60-field"><label>Batas Budget Maksimal ($)</label><input id="nf60Budget" type="number" min="200" max="5000" step="50" value="1200"></div>
+          </div>
+          <div class="nf60-field">
+            <label>🔑 Password Soal (Opsional — jika diisi, peserta wajib memasukkan password untuk memulai)</label>
+            <input id="nf60Password" type="text" placeholder="Kosongkan jika soal bebas dibuka tanpa password" maxlength="40" autocomplete="off">
           </div>
 
           <div class="nf60-box">
@@ -1313,7 +1478,8 @@
       });
     });
 
-    $('nf60Close').addEventListener('click', () => m.classList.remove('open'));
+    m.querySelector('#nf60ModalClose').addEventListener('click', () => m.classList.remove('open'));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && m.classList.contains('open')) m.classList.remove('open'); });
     m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
     $('nf60AddIpRule').addEventListener('click', () => addIpRuleRow());
 
@@ -1342,7 +1508,7 @@
     });
 
     $('nf60ExportJson').addEventListener('click', () => {
-      const pack = readDesignerForm();
+      const pack = readDesignerFormProtected();
       const blob = new Blob([JSON.stringify(pack, null, 2)], { type: 'application/json' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
@@ -1354,13 +1520,13 @@
     });
 
     $('nf60SaveBank').addEventListener('click', () => {
-      const pack = readDesignerForm();
+      const pack = readDesignerFormProtected();
       const saved = savePackToLocalBank(pack);
       $('nf60DesignerStatus').textContent = `✓ Soal "${saved.title}" tersimpan ke Bank Soal Browser!`;
     });
 
     $('nf60SaveFolder').addEventListener('click', async () => {
-      const pack = readDesignerForm();
+      const pack = readDesignerFormProtected();
       try {
         const res = await savePackToComputerFolder(pack);
         if (res.mode === 'folder') {
@@ -1377,7 +1543,7 @@
     });
 
     $('nf60SaveDrive').addEventListener('click', async () => {
-      const pack = readDesignerForm();
+      const pack = readDesignerFormProtected();
       const st = $('nf60DesignerStatus');
       try {
         st.textContent = '⏳ Menyimpan soal ke Google Drive (NET FORGE - Bank Soal)…';
@@ -1448,7 +1614,7 @@
 
 
     $('nf60CopyCode').addEventListener('click', async () => {
-      const pack = readDesignerForm();
+      const pack = readDesignerFormProtected();
       try {
         await navigator.clipboard.writeText(JSON.stringify(pack));
         $('nf60DesignerStatus').textContent = '✓ Kode soal disalin ke clipboard!';
@@ -1495,11 +1661,16 @@
       }
     });
 
-    $('nf60StartExam').addEventListener('click', () => {
+    $('nf60StartExam').addEventListener('click', async () => {
+      let packToRun = loadedExamPack;
+      if (packToRun?.passwordProtected && !packToRun._unlockedPassword) {
+        packToRun = await promptPasswordForPack(packToRun, 'memulai ujian');
+        if (!packToRun) return;
+      }
       const name = ($('nf60StuName')?.value || '').trim() || window.NetForgeAuth?.getPlayer?.()?.name || window.NetForgeGuest?.profile?.()?.name || 'Peserta Ujian';
       const nim = ($('nf60StuNim')?.value || '').trim();
       const kelas = ($('nf60StuClass')?.value || '').trim();
-      startExamSession(loadedExamPack, { name, nim, kelas });
+      startExamSession(packToRun, { name, nim, kelas });
     });
 
     populateDesignerForm(TEMPLATES[0]);
@@ -1540,7 +1711,7 @@
   }, true);
 
   window.NetForgeExamDesigner = {
-    version: '0.61.0',
+    version: '0.62.0',
     openDesigner,
     startExamSession,
     stopExam,

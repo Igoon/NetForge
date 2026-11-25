@@ -3,7 +3,7 @@
 <html lang="id">
 <head>
 <meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>NET FORGE v0.61.0 — Network Adventure &amp; Simulation Game</title>
+<title>NET FORGE v0.62.0 — Network Adventure &amp; Simulation Game</title>
 
 
 
@@ -32,14 +32,14 @@
 
 
 
-<link rel="stylesheet" href="./css/core-theme.css?v=0.61.0">
-<link rel="stylesheet" href="./css/ui-polish-shell.css?v=0.61.0">
-<link rel="stylesheet" href="./css/visual-fx.css?v=0.61.0">
-<link rel="stylesheet" href="./css/mission-designer.css?v=0.61.0">
+<link rel="stylesheet" href="./css/core-theme.css?v=0.62.0">
+<link rel="stylesheet" href="./css/ui-polish-shell.css?v=0.62.0">
+<link rel="stylesheet" href="./css/visual-fx.css?v=0.62.0">
+<link rel="stylesheet" href="./css/mission-designer.css?v=0.62.0">
 </head>
 <body>
 <header class="topbar">
-<div class="brand"><div aria-label="NET FORGE network logo" class="logo"><svg aria-hidden="true" viewbox="0 0 48 48"><g fill="none" stroke="#a8f8ff" stroke-width="2.4"><path d="M10 13L24 7L38 15L35 34L19 41L7 28Z"></path><path d="M10 13L24 25L38 15M24 25L19 41M24 25L35 34"></path></g><g fill="#39eaff" stroke="#eaffff" stroke-width="1.4"><circle cx="10" cy="13" r="4"></circle><circle cx="24" cy="7" r="4"></circle><circle cx="38" cy="15" r="4"></circle><circle cx="35" cy="34" r="4"></circle><circle cx="19" cy="41" r="4"></circle><circle cx="7" cy="28" r="4"></circle><circle cx="24" cy="25" r="4.5"></circle></g></svg></div><div><b>NET FORGE</b><small data-nf-release-label>IGA'S NETWORK ADVENTURE · v0.61.0</small></div></div>
+<div class="brand"><div aria-label="NET FORGE network logo" class="logo"><svg aria-hidden="true" viewbox="0 0 48 48"><g fill="none" stroke="#a8f8ff" stroke-width="2.4"><path d="M10 13L24 7L38 15L35 34L19 41L7 28Z"></path><path d="M10 13L24 25L38 15M24 25L19 41M24 25L35 34"></path></g><g fill="#39eaff" stroke="#eaffff" stroke-width="1.4"><circle cx="10" cy="13" r="4"></circle><circle cx="24" cy="7" r="4"></circle><circle cx="38" cy="15" r="4"></circle><circle cx="35" cy="34" r="4"></circle><circle cx="19" cy="41" r="4"></circle><circle cx="7" cy="28" r="4"></circle><circle cx="24" cy="25" r="4.5"></circle></g></svg></div><div><b>NET FORGE</b><small data-nf-release-label>IGA'S NETWORK ADVENTURE · v0.62.0</small></div></div>
 <nav aria-label="Navigasi utama" class="topnav"><a href="#nf30Overlay" id="nf64SettingsNav" aria-label="Profil dan Pengaturan">⚙ Pengaturan</a><a class="active" href="#missionTitle">⚑ Misi</a><a href="#pveConfigPanel">♙ Lab</a><a href="#log">▤ Laporan</a><a href="#progressText">🏆 Pencapaian</a><button type="button" id="nf48RateNav" class="nf48-nav-trigger" aria-haspopup="dialog">⭐ Beri Rating</button><button type="button" id="nf50FeedbackNav" class="nf48-nav-trigger" aria-haspopup="dialog">💬 Feedback</button></nav>
 <div class="topstats"><div class="stat xp-stat"><small>⭐ EXPERIENCE</small><strong id="xp">0 XP</strong></div><div class="stat level-stat"><small>LEVEL</small><strong>Lv. 1</strong></div><div class="stat budget-stat"><small>BUDGET</small><strong id="budget">$1,000</strong></div><div class="stat difficulty-stat"><small>MODE</small><strong id="difficultyLabel">EASY</strong></div></div>
 </header>
@@ -71,7 +71,7 @@
 </div>
 </section>
 </aside>
-<section class="workspace-shell"><div class="panel workspace-panel"><div class="panelhead"><h3>🏢 WORKSPACE · SIMULASI JARINGAN</h3><span class="eyebrow">INTERACTIVE NETWORK SIMULATION · <span data-nf-intro-version>v0.61.0</span></span></div><div class="stage" id="stage"><div class="stagebar"><div class="hint" id="modeHint">Pilih perangkat dari inventory untuk mulai.</div><div aria-label="Kontrol workspace" class="nf24-tools" role="group"><button id="nf24Arrange" title="Rapikan posisi perangkat" type="button">▦ Rapikan</button><button aria-pressed="false" id="nf24Focus" title="Fokus pada workspace" type="button">⛶ Fokus</button><button id="nf24Help" title="Panduan bermain" type="button">❔ Panduan</button></div><button aria-pressed="true" class="motion-toggle" id="motionToggle" type="button">✨ Animasi: Aktif</button></div><div class="room-dressing"><div class="ceiling-strip ceiling-a"></div><div class="ceiling-strip ceiling-b"></div><div class="floor-horizon"></div><div class="scene-marquee">NET <em>FORGE</em><span>NETWORK SIMULATION LAB</span></div><div class="mission-whiteboard"><div class="wb-caption">MISSION CONTROL</div><div class="wb-title">BUILD · CONNECT · TEST</div><div class="wb-list"><span>✓ Choose devices</span><span>✓ Connect Ethernet</span><span>✓ Configure IP</span><span>✓ Verify network</span></div></div><div class="scene-server scene-server-a"><span></span><span></span><span></span><span></span><span></span></div><div class="scene-server scene-server-b"><span></span><span></span><span></span></div><div class="scene-floor-glow"></div><div class="wall-light"></div><div class="wall-panel"></div><div class="server-cabinet"></div><div class="plant">🪴</div><div class="plant leftplant">🌿</div></div><div aria-live="polite" class="nf24-hud" id="nf24Hud"><span>⬡ 0 Perangkat</span><span>⛓ 0 Kabel</span><span>● Siap</span></div><div class="board" id="board"><svg class="wires" id="wires"></svg><div aria-hidden="true" class="board-legend"><span class="legend-live">● LIVE LINKS</span><span>DRAG DEVICES · DOUBLE CLICK TO CONFIGURE</span></div></div><div class="toast" id="toast"></div></div></div>
+<section class="workspace-shell"><div class="panel workspace-panel"><div class="panelhead"><h3>🏢 WORKSPACE · SIMULASI JARINGAN</h3><span class="eyebrow">INTERACTIVE NETWORK SIMULATION · <span data-nf-intro-version>v0.62.0</span></span></div><div class="stage" id="stage"><div class="stagebar"><div class="hint" id="modeHint">Pilih perangkat dari inventory untuk mulai.</div><div aria-label="Kontrol workspace" class="nf24-tools" role="group"><button id="nf24Arrange" title="Rapikan posisi perangkat" type="button">▦ Rapikan</button><button aria-pressed="false" id="nf24Focus" title="Fokus pada workspace" type="button">⛶ Fokus</button><button id="nf24Help" title="Panduan bermain" type="button">❔ Panduan</button></div><button aria-pressed="true" class="motion-toggle" id="motionToggle" type="button">✨ Animasi: Aktif</button></div><div class="room-dressing"><div class="ceiling-strip ceiling-a"></div><div class="ceiling-strip ceiling-b"></div><div class="floor-horizon"></div><div class="scene-marquee">NET <em>FORGE</em><span>NETWORK SIMULATION LAB</span></div><div class="mission-whiteboard"><div class="wb-caption">MISSION CONTROL</div><div class="wb-title">BUILD · CONNECT · TEST</div><div class="wb-list"><span>✓ Choose devices</span><span>✓ Connect Ethernet</span><span>✓ Configure IP</span><span>✓ Verify network</span></div></div><div class="scene-server scene-server-a"><span></span><span></span><span></span><span></span><span></span></div><div class="scene-server scene-server-b"><span></span><span></span><span></span></div><div class="scene-floor-glow"></div><div class="wall-light"></div><div class="wall-panel"></div><div class="server-cabinet"></div><div class="plant">🪴</div><div class="plant leftplant">🌿</div></div><div aria-live="polite" class="nf24-hud" id="nf24Hud"><span>⬡ 0 Perangkat</span><span>⛓ 0 Kabel</span><span>● Siap</span></div><div class="board" id="board"><svg class="wires" id="wires"></svg><div aria-hidden="true" class="board-legend"><span class="legend-live">● LIVE LINKS</span><span>DRAG DEVICES · DOUBLE CLICK TO CONFIGURE</span></div></div><div class="toast" id="toast"></div></div></div>
 <div class="command-dock" id="commandDock">
 <section class="dock-card iga-dock"><div class="dock-title"><span>🧑‍🔧 IGA · NETWORK GUIDE</span><span class="live-pill">● ONLINE</span></div><div id="igaDockPortrait"></div><div id="igaDockTalk"></div><button id="igaHintBtn" style="margin-top:7px;width:100%;font-weight:800;background:#064a74;color:#d5f9ff;border:1px solid #18b9e3;border-radius:8px;padding:6px;cursor:pointer" type="button">💡 Tanya Iga</button><div class="nf-polish-controls"><button aria-pressed="true" class="nf-fx-toggle" id="nfFxToggle" title="Aktifkan atau nonaktifkan efek visual" type="button">✦ FX Aktif</button></div></section>
 <section class="dock-card terminal-dock"><div class="dock-title"><span>⌁ TERMINAL JARINGAN</span><span class="dock-sub">PING · TRACEROUTE</span></div><div id="terminalDockContent"></div></section>
@@ -96,7 +96,7 @@
 </section>
 <aside class="right"><section class="panel"><div class="panelhead"><h3>📋 KENDALI MISI</h3><span class="eyebrow">ACTIVE</span></div><div class="panelbody"><div class="mission"><div class="eyebrow" id="missionCode">CLIENT CONTRACT · #001</div><h2 id="missionTitle">Small Office Network</h2><p id="missionDesc">Bangun jaringan kantor kecil. Semua workstation harus terhubung ke gateway dan server.</p><div class="muted" id="missionMeta" style="font-size:10px;margin-top:7px">Contract seed: —</div><button class="good" id="nextMissionBtn" style="display:none;width:100%;margin-top:10px">➡️ Lanjut ke misi berikutnya</button><button class="primary" id="newContractBtn" style="display:none;width:100%;margin-top:7px">🎲 Generate kontrak baru</button></div><div id="objectives"><div class="objective"><span>○</span><span>Pasang 1 Router dan 1 Workstation</span></div><div class="objective"><span>○</span><span>Hubungkan PC langsung ke Router</span></div><div class="objective"><span>○</span><span>Hubungkan 3 Workstation ke jaringan</span></div><div class="objective"><span>○</span><span>Hubungkan Server ke jaringan</span></div><div class="objective"><span>○</span><span>Semua perangkat reachable dari Router</span></div></div><div class="progress"><i id="progressBar"></i></div><p class="muted" id="progressText" style="font-size:10px;margin:6px 0 0">0 / 5 objectives</p></div></section>
 <section class="panel"><div class="panelhead"><h3>🧑‍🔧 ASISTEN · IGA</h3><span class="eyebrow">ONLINE</span></div><div class="panelbody"><div class="iga"><div aria-label="Ekspresi Iga" class="avatar" id="igaAvatar"><img alt="Iga, teknisi jaringan NET FORGE" class="iga-portrait" onerror="this.onerror=null;this.style.display='none';this.parentElement.textContent='🧑‍💻'" src="./icons/iga-talk.svg"/></div><div style="min-width:0;flex:1"><b>Iga · Teknisi Jaringan</b><div class="iga-caption" id="igaMood">SIAP MEMBANTU</div></div></div><div aria-live="polite" class="iga-bubble" id="igaTalk" role="status">Halo! Yuk bangun jaringan kantor pertama kita.</div><div class="rightsection"><h4>⚡ PUSAT INSIDEN</h4><div class="muted" id="eventArea" style="font-size:11px">Belum ada gangguan. Semoga semua pengunjung liar sedang sibuk di luar...</div></div><div class="rightsection"><h4>📟 LOG AKTIVITAS</h4><div class="log" id="log"><div>04:00 · Iga menerima kontrak pertama.</div><div>04:01 · Workspace siap digunakan.</div></div></div></div></section></aside>
-</main><div class="statusbar" role="status"><span class="simstate"><i id="simLed"></i> Simulasi: <b id="simStatus">Online</b></span><span class="status-sep">|</span><span>◷ Waktu simulasi: <b id="simClock">00:00</b></span><span class="status-build">NET FORGE v0.61.0 · Interactive Network Simulation</span></div><footer class="footer"><span>NET FORGE · Learn networking by building, breaking &amp; fixing.</span><span>NET FORGE v0.61.0 · Interactive Command Center</span></footer>
+</main><div class="statusbar" role="status"><span class="simstate"><i id="simLed"></i> Simulasi: <b id="simStatus">Online</b></span><span class="status-sep">|</span><span>◷ Waktu simulasi: <b id="simClock">00:00</b></span><span class="status-build">NET FORGE v0.62.0 · Interactive Network Simulation</span></div><footer class="footer"><span>NET FORGE · Learn networking by building, breaking &amp; fixing.</span><span>NET FORGE v0.62.0 · Interactive Command Center</span></footer>
 <div class="modalback open" id="startModal"><div class="modal"><div class="eyebrow">NETWORKING FUNDAMENTALS · LEVEL 1</div><h2>Siap membangun jaringan pertamamu?</h2><p>Pilih tingkat kesulitan. Mulai dari jaringan kantor. Mulai dari satu PC dan router. Kuasai IP, subnet, gateway, DHCP, dan DNS sebelum masuk ke virtualisasi. Hati-hati, dunia Net Forge penuh kejutan!</p><div class="difficulty"><button class="active" data-diff="easy"><b>🟢 EASY</b><small>Budget longgar</small></button><button data-diff="normal"><b>🟠 NORMAL</b><small>Budget terbatas</small></button><button data-diff="hard"><b>🔴 HARDCORE</b><small>Minim bantuan</small></button></div><button class="primary" id="startBtn" style="width:100%">🚀 Start mission</button><p style="font-size:10px;margin-bottom:0">Prototype edukasi · Virtualisasi dan konektivitas disimulasikan secara lokal, bukan Proxmox sungguhan.</p></div></div>
 <div class="config-modal-back" id="deviceConfigModal">
 <div aria-labelledby="deviceConfigTitle" aria-modal="true" class="config-modal" role="dialog">
@@ -255,7 +255,7 @@
       <div class="nf322-menu-logo">NET <em>FORGE</em></div>
       <p class="nf322-tagline">Build · Connect · Configure · Conquer</p>
       <p class="nf322-small">Network Adventure &amp; Simulation Game</p><p class="nf4037-menu-legal">Open source · Apache-2.0 · <button type="button" class="nf4037-license-open">Lisensi &amp; Sumber Resmi</button></p>
-      <div id="nf360MenuIdentity" class="nf360-menu-identity" role="status" aria-live="polite"><span class="nf360-identity-mark">◈</span><span id="nf360MenuIdentityText">Siap menjelajah jaringan sebagai tamu</span><span class="nf360-version" data-nf-intro-version>v0.61.0</span></div>
+      <div id="nf360MenuIdentity" class="nf360-menu-identity" role="status" aria-live="polite"><span class="nf360-identity-mark">◈</span><span id="nf360MenuIdentityText">Siap menjelajah jaringan sebagai tamu</span><span class="nf360-version" data-nf-intro-version>v0.62.0</span></div>
       <div class="nf322-menu-actions nf360-menu-actions">
         <div class="nf360-menu-primary"><button class="nf322-btn nf322-btn-primary nf322-btn-wide" id="nf322Continue" type="button">▶ Lanjut Bermain</button><button class="nf322-btn nf322-btn-wide" id="nf322Adventure" type="button">✦ Mulai Petualangan Baru</button></div>
         <div class="nf360-menu-secondary"><button class="nf322-btn" id="nf322Lab" type="button">🧪 Network Lab</button><button class="nf322-btn" id="nf351DashboardMenu" type="button">📊 Dashboard Pemain</button></div>
@@ -276,11 +276,11 @@
       <dt>Dokumen Lisensi</dt><dd><a href="https://github.com/Igoon/NetForge/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">Apache 2.0 — LICENSE ↗</a> · <a href="https://github.com/Igoon/NetForge/blob/main/NOTICE" target="_blank" rel="noopener noreferrer">NOTICE / Atribusi ↗</a></dd>
       <dt>Attribution / NOTICE</dt><dd>© 2026 Created by I Go On (Igoon) &amp; Rr. Yuliana R. Kredit pembuat juga ditampilkan secara ringkas pada intro.</dd>
       <dt>Komponen Pihak Ketiga</dt><dd>Aset, pustaka, nama produk, dan standar pihak ketiga dapat memiliki hak serta lisensi masing-masing. Lisensi Apache-2.0 tidak otomatis memberikan hak merek dagang atau izin atas aset yang berada di luar cakupannya.</dd>
-      <dt>Versi</dt><dd>NET FORGE v0.61.0</dd>
+      <dt>Versi</dt><dd>NET FORGE v0.62.0</dd>
       </dl>
       <button id="nf322CreditsBack" type="button" class="nf322-btn nf322-btn-primary">← Kembali ke Menu</button>
     </section>
-    <p class="nf322-footer">© 2026 Created by I Go On (Igoon) &amp; Rr. Yuliana R. · NET FORGE v0.61.0 · Apache-2.0 · <button type="button" class="nf4037-license-open nf591-footer-link">Lisensi</button> · <a href="https://github.com/Igoon/NetForge" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+    <p class="nf322-footer">© 2026 Created by I Go On (Igoon) &amp; Rr. Yuliana R. · NET FORGE v0.62.0 · Apache-2.0 · <button type="button" class="nf4037-license-open nf591-footer-link">Lisensi</button> · <a href="https://github.com/Igoon/NetForge" target="_blank" rel="noopener noreferrer">GitHub</a></p>
   </div>
 </div>
 <button id="nf322Home" class="nf322-return" type="button" hidden>⌂ Menu Utama</button>
@@ -306,7 +306,7 @@
 
 <section id="nf344AudioGate" role="dialog" aria-modal="true" aria-labelledby="nf344AudioTitle" hidden>
  <div class="nf344-card">
-   <div style="font-weight:900;font-size:17px">⚡ NET FORGE <small style="font-weight:400;font-size:11px" data-nf-intro-version>v0.61.0</small></div>
+   <div style="font-weight:900;font-size:17px">⚡ NET FORGE <small style="font-weight:400;font-size:11px" data-nf-intro-version>v0.62.0</small></div>
    <h2 id="nf344AudioTitle">Siap Memulai Petualangan?</h2>
    <p>Aktifkan audio agar efek suara jaringan, respons Iga, dan animasi pembuka terasa lebih hidup.</p>
    <button id="nf344SoundStart" type="button">🔊 Mulai Intro dengan Suara</button>
@@ -320,7 +320,7 @@
 <div id="nf351Overlay" hidden role="dialog" aria-modal="true" aria-labelledby="nf351Title">
  <div id="nf351Shell">
   <div id="nf351Top"><h2 id="nf351Title">📊 Dashboard Pemain</h2><button class="secondary" type="button" id="nf351Close" aria-label="Tutup dashboard">✕ Tutup</button></div>
-  <p id="nf351Intro">NET FORGE v0.61.0 · Statistik resmi dihitung di server. Guest Mode tetap bisa dimainkan tanpa login.</p>
+  <p id="nf351Intro">NET FORGE v0.62.0 · Statistik resmi dihitung di server. Guest Mode tetap bisa dimainkan tanpa login.</p>
   <div id="nf351Identity"><img id="nf352Avatar" alt="Avatar pemain Google" hidden><span id="nf352IdentityText">👤 Memeriksa status akun…</span></div>
   <div id="nf351Actions"><button id="nf351Reload" type="button">↻ Sinkronkan Progres</button><button class="secondary" id="nf351Account" type="button">⚙ Pengaturan Akun</button></div>
   <div id="nf351Status" role="status" aria-live="polite">Siap.</div>
@@ -620,10 +620,10 @@
 
 
 
-<script defer src="./js/core-engine.js?v=0.61.0"></script>
-<script defer src="./js/alive-fun.js?v=0.61.0"></script>
-<script defer src="./js/ui-shell.js?v=0.61.0"></script>
-<script defer src="./js/gameplay-expansion.js?v=0.61.0"></script>
-<script defer src="./js/visual-fx.js?v=0.61.0"></script>
-<script defer src="./js/mission-designer.js?v=0.61.0"></script>
+<script defer src="./js/core-engine.js?v=0.62.0"></script>
+<script defer src="./js/alive-fun.js?v=0.62.0"></script>
+<script defer src="./js/ui-shell.js?v=0.62.0"></script>
+<script defer src="./js/gameplay-expansion.js?v=0.62.0"></script>
+<script defer src="./js/visual-fx.js?v=0.62.0"></script>
+<script defer src="./js/mission-designer.js?v=0.62.0"></script>
 </body></html>
