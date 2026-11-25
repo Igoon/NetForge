@@ -14,7 +14,7 @@
 NET FORGE adalah game simulasi dan pembelajaran jaringan komputer: bangun topologi, hubungkan perangkat, konfigurasi IP/DHCP/routing, lalu selesaikan misi.
 
 - Live PWA: https://igoon.github.io/NetForge/
-- Rilis saat ini: v0.40.37
+- Rilis saat ini: v0.67.0
 - Backend: Google Login, progres, leaderboard, dan validasi misi terpadu
 
 ## Lisensi
