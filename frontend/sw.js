@@ -1,5 +1,5 @@
-/* NET FORGE v0.64.1 — Offline-Safe Modular Cache & Network-First Auto-Update */
-const RELEASE = '0.64.1';
+/* NET FORGE v0.65.0 — Offline-Safe Modular Cache & Network-First Auto-Update */
+const RELEASE = '0.65.0';
 const CACHE = 'netforge-pwa-v' + RELEASE;
 const ASSETS = [
   './index.html',
@@ -13,6 +13,7 @@ const ASSETS = [
   './css/visual-fx.css',
   './css/mission-designer.css',
   './css/net-tools.css',
+  './css/tactical-hud.css',
   './js/core-engine.js',
   './js/alive-fun.js',
   './js/ui-shell.js',
@@ -21,6 +22,7 @@ const ASSETS = [
   './js/mission-designer.js',
   './js/lofi-bgm.js',
   './js/net-tools.js',
+  './js/tactical-hud.js',
   './icons/iga-talk.svg',
   './icons/iga-celebrate.svg',
   './icons/iga-panic.svg',
