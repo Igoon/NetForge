@@ -1,5 +1,5 @@
-/* NET FORGE v0.69.3 — Offline-Safe Modular Cache & Network-First Auto-Update */
-const RELEASE = '0.69.3';
+/* NET FORGE v0.69.2 — Offline-Safe Modular Cache & Network-First Auto-Update */
+const RELEASE = '0.69.2';
 const CACHE = 'netforge-pwa-v' + RELEASE;
 const ASSETS = [
   './index.html',
@@ -14,7 +14,6 @@ const ASSETS = [
   './css/mission-designer.css',
   './css/net-tools.css',
   './css/tactical-hud.css',
-  './css/ui-shell-clean.css',
   './js/core-engine.js',
   './js/alive-fun.js',
   './js/ui-shell.js',
