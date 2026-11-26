@@ -1,4 +1,4 @@
-/* NET FORGE v0.69.9 — Smart Fault Diagnostics & CLI Hints (Unified + Classic Canvas) */
+/* NET FORGE v0.70.0 — Smart Fault Diagnostics & CLI Hints (Unified + Classic Canvas) */
 (function () {
   'use strict';
   if (window.__NF5_DIAGNOSTICS) return;
@@ -135,7 +135,7 @@
 
   function readNodeProfile(el, idx, uniMap) {
     const d = el.dataset || {};
-    const nodeId = String(d.id || d.nodeId || el.id || `node-${idx}`);
+    const nodeId = String(d.node || d.id || d.nodeId || el.id || `node-${idx}`);
     const uni = uniMap?.get(nodeId) || null;
 
     const title = uni?.name || (el.querySelector('b, strong, .title, .nf400-title')?.textContent || '').trim() || d.name || `Device-${idx + 1}`;
@@ -445,6 +445,8 @@
       const level = faultMap.get(n.el);
       n.el.classList.toggle('nf5-node-error', level === 'error');
       n.el.classList.toggle('nf5-node-warn', level === 'warn');
+      if (level) n.el.setAttribute('data-nf5-fault', level);
+      else n.el.removeAttribute('data-nf5-fault');
 
       let badge = n.el.querySelector('.nf5-fault-badge');
       const count = counts.get(n.el) || 0;

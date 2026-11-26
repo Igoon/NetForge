@@ -1,6 +1,6 @@
 {
-  "version": "0.69.9",
+  "version": "0.70.0",
   "releaseDate": "2026-11-26",
-  "title": "Smart Fault Diagnostics & CLI Hints v0.69.9",
-  "notes": "v0.69.9: Paket perbaikan #5 — Smart Fault Diagnostics & CLI Hints real-time di Unified & Classic Canvas, badge error kiri-atas aman dari Port LED, dan otomatis nonaktif saat Mode Ujian Terkunci."
+  "title": "Node Polish: Data Attributes, Highlights & Type Accents v0.70.0",
+  "notes": "v0.70.0: Fix atribut data-node untuk chip IP/VLAN & X-Ray di Unified Canvas, perbaikan highlight .sel di Tactical Dark, aksen warna per tipe perangkat, peta sudut anti-tabrakan (gear kanan-bawah), & atribut data-nf5-fault persisten."
 }

@@ -1,4 +1,4 @@
-/* NET FORGE v0.69.9 — Live Side Inspector & Packet Flow Canvas Sync */
+/* NET FORGE v0.70.0 — Live Side Inspector & Packet Flow Canvas Sync */
 (function () {
   'use strict';
   if (window.__NF3_LIVE_LAB) return;

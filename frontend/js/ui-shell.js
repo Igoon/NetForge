@@ -1,4 +1,4 @@
-/* NET FORGE v0.69.9 — Clean Single-Screen Shell, Unified Drawer & Event-Driven UI */
+/* NET FORGE v0.70.0 — Clean Single-Screen Shell, Unified Drawer & Event-Driven UI */
 
 /* === script:nf4093-pwa-status-fade === */
 (function () {
@@ -425,7 +425,7 @@
   if (window.__NF5800_UPDATER) return;
   window.__NF5800_UPDATER = true;
 
-  const CURRENT = (window.NETFORGE_RELEASE && window.NETFORGE_RELEASE.version) || '0.69.9';
+  const CURRENT = (window.NETFORGE_RELEASE && window.NETFORGE_RELEASE.version) || '0.70.0';
   let lastCheckAt = 0;
 
   function cmpVer(a, b) {

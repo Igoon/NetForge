@@ -1,4 +1,4 @@
-/* NET FORGE v0.69.9 — Smart Fault Diagnostics & CLI Hints */
+/* NET FORGE v0.70.0 — Smart Fault Diagnostics & CLI Hints */
 
 /* 1. Tombol status diagnostik di Modebar / HUD kanvas */
 .nf5-diag-btn {
@@ -48,12 +48,14 @@ body.nf60-exam-active.nf60-exam-locked .nf5-fault-badge {
 }
 
 /* 2. Penanda visual node bermasalah di kanvas (pojok kiri atas agar aman dari LED #4) */
-.nf5-node-error {
+.nf5-node-error,
+[data-nf5-fault="error"] {
   outline: 2px solid rgba(239, 68, 68, 0.9) !important;
   box-shadow: 0 0 16px rgba(239, 68, 68, 0.4) !important;
 }
 
-.nf5-node-warn {
+.nf5-node-warn,
+[data-nf5-fault="warn"] {
   outline: 2px dashed rgba(251, 191, 36, 0.85) !important;
   box-shadow: 0 0 12px rgba(251, 191, 36, 0.25) !important;
 }

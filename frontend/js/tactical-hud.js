@@ -1,4 +1,4 @@
-/* NET FORGE v0.69.9 — Tactical Cyber HUD Controller
+/* NET FORGE v0.70.0 — Tactical Cyber HUD Controller
    (Slim Icon Dock + Instant Hover Tooltip + Live Traffic Sparkline + Tactical/Classic Theme Switcher) */
 (function () {
   'use strict';
@@ -204,7 +204,7 @@
   }
 
 
-  // 4. v0.69.9 — Node Micro-HUD IP Chips + Pop-in Micro-Interaction + Hop-by-Hop ICMP Packet Pulse
+  // 4. v0.70.0 — Node Micro-HUD IP Chips + Pop-in Micro-Interaction + Hop-by-Hop ICMP Packet Pulse
   const seenNodeIds = new Set();
 
   function syncNodeMicroHud() {
@@ -225,7 +225,7 @@
 
     const byId = new Map(nodes.map(n => [String(n.id), n]));
     container.querySelectorAll('.nf400-node').forEach(el => {
-      const id = String(el.dataset.id || el.dataset.nodeId || '');
+      const id = String(el.dataset.node || el.dataset.id || el.dataset.nodeId || '');
       const n = byId.get(id);
       if (!n) return;
 
@@ -268,7 +268,7 @@
       const html = `<span class="nf66-dot"></span><span>${label}</span>`;
       if (pill.innerHTML !== html) pill.innerHTML = html;
 
-      // v0.69.9: VLAN / Trunk micro-badge on canvas device card
+      // v0.70.0: VLAN / Trunk micro-badge on canvas device card
       const vlanVal = String((n.vlan && String(n.vlan).trim()) || cfg.vlan || '').trim();
       const ifaceVal = String((n.iface && String(n.iface).trim()) || cfg.iface || '').trim().toLowerCase();
       let vpill = el.querySelector('.nf67-vlan-pill');
@@ -351,15 +351,21 @@
   function attachNodeHudObserver() {
     const container = document.getElementById('nf400Nodes');
     if (!container || hudObs) return Boolean(container);
-    hudObs = new MutationObserver(() => syncNodeMicroHud());
-    hudObs.observe(container, { childList: true, subtree: false });
+    let hudRaf = false;
+    hudObs = new MutationObserver(muts => {
+      const relevant = muts.some(m => !(m.target?.classList?.contains('nf66-ip-pill') || m.target?.classList?.contains('nf67-vlan-pill')));
+      if (!relevant || hudRaf) return;
+      hudRaf = true;
+      requestAnimationFrame(() => { hudRaf = false; syncNodeMicroHud(); if (xrayActive) refreshXrayOverlay(); });
+    });
+    hudObs.observe(container, { childList: true, subtree: true });
     syncNodeMicroHud();
     setInterval(() => { syncNodeMicroHud(); if (xrayActive) refreshXrayOverlay(); }, 1200);
     return true;
   }
 
 
-  // 5. v0.69.9 — Mode X-Ray Jaringan (Subnet & VLAN Color Aura Overlay)
+  // 5. v0.70.0 — Mode X-Ray Jaringan (Subnet & VLAN Color Aura Overlay)
   let xrayActive = false;
   let xrayMode = 'subnet'; // 'subnet' | 'vlan'
   const XRAY_PALETTE = [
@@ -441,7 +447,7 @@
     };
 
     container.querySelectorAll('.nf400-node').forEach(el => {
-      const id = String(el.dataset.id || el.dataset.nodeId || '');
+      const id = String(el.dataset.node || el.dataset.id || el.dataset.nodeId || '');
       const n = byId.get(id);
       if (!n) return;
       const cfg = cfgById.get(id) || {};
@@ -518,7 +524,7 @@
   });
 
   window.NetForgeTacticalHUD = {
-    version: '0.69.9',
+    version: '0.70.0',
     setSlimDock: applyDockState,
     toggleDock: () => applyDockState(!document.body.classList.contains('nf65-dock-slim')),
     setTheme: applyTheme,

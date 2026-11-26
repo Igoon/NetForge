@@ -1,4 +1,4 @@
-/* NET FORGE v0.69.9 — Procedural Lo-Fi Chillhop Background Music (Web Audio API, Muteable) */
+/* NET FORGE v0.70.0 — Procedural Lo-Fi Chillhop Background Music (Web Audio API, Muteable) */
 (function () {
   'use strict';
   if (window.__NF6300_LOFI) return;
@@ -259,7 +259,7 @@
   });
 
   window.NetForgeLofi = {
-    version: '0.69.9',
+    version: '0.70.0',
     toggle,
     setMuted,
     isMuted: () => muted,
