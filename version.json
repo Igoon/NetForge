@@ -1,6 +1,6 @@
 {
-  "version": "0.69.2",
+  "version": "0.69.6",
   "releaseDate": "2026-11-26",
-  "title": "Daily Challenge In Mission Control v0.69.2",
-  "notes": "v0.69.2: Tantangan Harian terintegrasi langsung ke Pilihan Misi (Mission Control & Bar Misi Unified Canvas) sehingga selalu terlihat di semua ukuran layar dan bilah bawah lebih lega."
+  "title": "Live Side Lab Inspector (ARP/MAC & Protocol) v0.69.6",
+  "notes": "v0.69.6: Paket perbaikan #3 — Live Side Inspector (ARP/MAC & Protocol Lab) non-blocking di samping kanvas, tombol mode Build | ARP/MAC | Protocol di Unified Canvas, & sinkronisasi aliran paket live."
 }

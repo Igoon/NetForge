@@ -1,0 +1,275 @@
+/* NET FORGE v0.69.6 — Contextual Device Inspector, Switch Port Strip & Mini CLI */
+
+#deviceConfigModal .config-modal {
+  width: min(640px, 94vw);
+  max-height: 90dvh;
+  overflow-y: auto;
+}
+
+.nf2-header-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 8px 0 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.18);
+}
+
+.nf2-role-pills {
+  display: inline-flex;
+  gap: 4px;
+  background: rgba(8, 16, 28, 0.85);
+  padding: 3px;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.nf2-role-pills button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.nf2-role-pills button.active {
+  background: rgba(56, 189, 248, 0.2);
+  color: #e0f7ff;
+}
+
+.nf2-mode-tabs {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.nf2-mode-tabs button {
+  appearance: none;
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  background: rgba(15, 29, 46, 0.75);
+  color: #cbd5e1;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 11px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.nf2-mode-tabs button.active {
+  background: #0284c7;
+  border-color: #38bdf8;
+  color: #ffffff;
+}
+
+/* Field kontekstual */
+#deviceConfigModal .config-field.nf2-hidden {
+  display: none !important;
+}
+
+#deviceConfigModal .config-field.nf2-dimmed {
+  opacity: 0.48;
+}
+
+.nf2-subnet-hint {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(12, 26, 44, 0.85);
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11.5px;
+  color: #bae6fd;
+}
+
+.nf2-subnet-hint .nf2-warn {
+  color: #fbbf24;
+  font-weight: 700;
+}
+
+.nf2-subnet-hint .nf2-ok {
+  color: #34d399;
+}
+
+/* Switch Visual Port Strip */
+.nf2-port-strip-box {
+  margin: 10px 0 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #0c1828 0%, #09121e 100%);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+}
+
+.nf2-port-strip-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #7dd3fc;
+  margin-bottom: 8px;
+}
+
+.nf2-port-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+@media (max-width: 520px) {
+  .nf2-port-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.nf2-port-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 7px 8px;
+  border-radius: 7px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  background: rgba(17, 31, 49, 0.9);
+  color: #e2e8f0;
+  cursor: pointer;
+  text-align: left;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+}
+
+.nf2-port-btn.selected {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 1px #38bdf8;
+  background: rgba(14, 116, 144, 0.28);
+}
+
+.nf2-port-top {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+}
+
+.nf2-port-led {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #475569;
+}
+
+.nf2-port-led.up {
+  background: #34d399;
+  box-shadow: 0 0 6px #34d399;
+}
+
+.nf2-port-led.trunk {
+  background: #fbbf24;
+  box-shadow: 0 0 6px #fbbf24;
+}
+
+.nf2-port-meta {
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.nf2-port-editor {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 9px;
+  padding-top: 9px;
+  border-top: 1px dashed rgba(148, 163, 184, 0.22);
+  font-size: 11.5px;
+}
+
+.nf2-port-editor select,
+.nf2-port-editor input {
+  background: #0d1929;
+  color: #f8fafc;
+  border: 1px solid #3a526f;
+  border-radius: 6px;
+  padding: 4px 7px;
+  font-size: 11.5px;
+}
+
+/* Mini CLI Tab */
+.nf2-cli-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.nf2-cli-screen {
+  height: 240px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 9px;
+  background: #050a12;
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  color: #cbd5e1;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  line-height: 1.48;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.nf2-cli-inputrow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #091321;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+}
+
+.nf2-cli-prompt {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: #38bdf8;
+  white-space: nowrap;
+}
+
+.nf2-cli-input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: #f8fafc;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12.5px;
+}
+
+.nf2-cli-quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.nf2-cli-quick button {
+  appearance: none;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(15, 29, 46, 0.85);
+  color: #bae6fd;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}

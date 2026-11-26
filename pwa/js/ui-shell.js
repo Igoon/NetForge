@@ -1,44 +1,92 @@
+/* NET FORGE v0.69.6 — Clean Single-Screen Shell, Unified Drawer & Event-Driven UI */
+
 /* === script:nf4093-pwa-status-fade === */
-/* v0.69.2: status PWA tampil 7 detik tiap kali teksnya berubah, lalu memudar. */
-(function(){'use strict';var timer=null;
-function arm(el){el.classList.remove('nf4093-faded');clearTimeout(timer);timer=setTimeout(function(){el.classList.add('nf4093-faded')},7000)}
-function init(){var el=document.getElementById('nf330PwaStatus');if(!el)return false;arm(el);
- if(window.MutationObserver){new MutationObserver(function(){arm(el)}).observe(el,{childList:true,characterData:true,subtree:true})}return true}
-var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})();
+(function () {
+  'use strict';
+  let timer = null;
+  function arm(el) {
+    el.classList.remove('nf4093-faded');
+    clearTimeout(timer);
+    timer = setTimeout(() => el.classList.add('nf4093-faded'), 3500);
+  }
+  function attach() {
+    const el = document.getElementById('nf330PwaStatus');
+    if (!el || el.__nf4093Bound) return Boolean(el);
+    el.__nf4093Bound = true;
+    arm(el);
+    if (window.MutationObserver) {
+      new MutationObserver(() => arm(el)).observe(el, {
+        childList: true,
+        characterData: true,
+        subtree: true
+      });
+    }
+    return true;
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!attach()) {
+      const obs = new MutationObserver(() => {
+        if (attach()) obs.disconnect();
+      });
+      obs.observe(document.body, { childList: true, subtree: true });
+      setTimeout(() => obs.disconnect(), 15000);
+    }
+  });
 })();
-;
 
 /* === script:nf4200-ui-helper === */
-/* NET FORGE v0.69.2 — Sync LED online badges on canvas nodes + faster PWA toast fade */
+/* Sinkronisasi LED berbasis MutationObserver (instan, tanpa setInterval) */
 (function () {
   'use strict';
   if (window.__NF4200_UI) return;
   window.__NF4200_UI = true;
 
+  let rafPending = false;
   function syncNodeLeds() {
+    rafPending = false;
     const canvas = document.getElementById('nf400Canvas');
     if (!canvas) return;
     canvas.querySelectorAll('.nf400-node').forEach(node => {
-      const txt = (node.textContent || '');
+      const txt = node.textContent || '';
       const isOnline = /LINK UP|ONLINE|ACTIVE/i.test(txt) && !/OFFLINE/i.test(txt);
       node.classList.toggle('nf42-online', isOnline);
     });
   }
 
-  // Sync LEDs on clicks/evaluations without heavy continuous polling
-  document.addEventListener('click', () => setTimeout(syncNodeLeds, 160), true);
-  setInterval(syncNodeLeds, 2500);
+  function scheduleSync() {
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(syncNodeLeds);
+  }
 
-  // Fade PWA local-mode banner faster (3.5s) so it never sits over canvas
-  setTimeout(() => {
-    const pwa = document.getElementById('nf330PwaStatus');
-    if (pwa) pwa.classList.add('nf4093-faded');
-  }, 3500);
+  function bindCanvasObserver() {
+    const canvas = document.getElementById('nf400Canvas');
+    if (!canvas || canvas.__nf4200Bound) return Boolean(canvas);
+    canvas.__nf4200Bound = true;
+    syncNodeLeds();
+    if (window.MutationObserver) {
+      new MutationObserver(scheduleSync).observe(canvas, {
+        childList: true,
+        subtree: true,
+        characterData: true
+      });
+    }
+    return true;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!bindCanvasObserver()) {
+      const obs = new MutationObserver(() => {
+        if (bindCanvasObserver()) obs.disconnect();
+      });
+      obs.observe(document.body, { childList: true, subtree: true });
+      setTimeout(() => obs.disconnect(), 20000);
+    }
+  });
 })();
-;
 
 /* === script:nf4300-shell-controller === */
-/* NET FORGE v0.69.2 — Single-Screen 100dvh App Shell & Collapsible Bottom Drawer */
+/* Shell 100dvh, Tab Inventori/Lab, Floating Iga, Drawer 3 Tab, & Sinkronisasi Gate Awal */
 (function () {
   'use strict';
   if (window.__NF4300_SHELL) return;
@@ -47,7 +95,140 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
   const $ = id => document.getElementById(id);
   let activeTab = null;
 
-  function ensureDrawerUI() {
+  /* 1. Pastikan #startModal & #nf344AudioGate tidak bertumpuk di belakang #nf322Overlay */
+  function syncIntroGateLock() {
+    const intro = $('nf322Overlay');
+    const isIntroVisible = Boolean(
+      intro && !intro.hidden && getComputedStyle(intro).display !== 'none'
+    );
+    document.body.classList.toggle('nf1-intro-open', isIntroVisible);
+  }
+
+  /* 2. Bagi aside.panel.left menjadi 2 tab: Perangkat | Lab Virtual */
+  function setupLeftTabs() {
+    const left = document.querySelector('aside.panel.left');
+    if (!left || $('nf1LeftTabs')) return;
+
+    const head = left.querySelector(':scope > .panelhead');
+    const body = left.querySelector(':scope > .panelbody');
+    if (!head || !body) return;
+
+    const tabs = document.createElement('div');
+    tabs.id = 'nf1LeftTabs';
+    tabs.className = 'nf1-left-tabs';
+    tabs.setAttribute('role', 'tablist');
+    tabs.innerHTML = `
+      <button type="button" role="tab" id="nf1TabDevices" aria-selected="true" class="active">⬡ Perangkat</button>
+      <button type="button" role="tab" id="nf1TabLab" aria-selected="false">🖥️ Lab Virtual</button>
+    `;
+    head.insertAdjacentElement('afterend', tabs);
+
+    body.classList.add('nf1-left-pane');
+    const labPane = document.createElement('div');
+    labPane.id = 'nf1LeftPaneLab';
+    labPane.className = 'nf1-left-pane';
+    labPane.hidden = true;
+
+    const toMove = [];
+    let sib = body.nextElementSibling;
+    while (sib) {
+      toMove.push(sib);
+      sib = sib.nextElementSibling;
+    }
+    toMove.forEach(el => labPane.appendChild(el));
+    left.appendChild(labPane);
+
+    const switchLeft = mode => {
+      const isDev = mode === 'devices';
+      body.hidden = !isDev;
+      labPane.hidden = isDev;
+      $('nf1TabDevices').classList.toggle('active', isDev);
+      $('nf1TabDevices').setAttribute('aria-selected', String(isDev));
+      $('nf1TabLab').classList.toggle('active', !isDev);
+      $('nf1TabLab').setAttribute('aria-selected', String(!isDev));
+    };
+
+    $('nf1TabDevices').addEventListener('click', () => switchLeft('devices'));
+    $('nf1TabLab').addEventListener('click', () => switchLeft('lab'));
+
+    document.querySelector('a[href="#pveConfigPanel"]')?.addEventListener('click', () => {
+      switchLeft('lab');
+    });
+  }
+
+  /* 3. Sembunyikan panel Iga/Log/Insiden duplikat di aside.right agar fokus ke Misi */
+  function declutterRightSidebar() {
+    const right = document.querySelector('aside.right');
+    if (!right) return;
+    const panels = right.querySelectorAll(':scope > section.panel');
+    if (panels[1]) {
+      panels[1].classList.add('nf1-right-dup-panel');
+    }
+  }
+
+  /* 4. Jadikan Iga sebagai floating assistant chip di pojok kanvas */
+  function setupFloatingIga() {
+    const stage = $('stage');
+    const igaDock = document.querySelector('#commandDock .iga-dock');
+    if (!stage || !igaDock || $('nf1IgaWidget')) return;
+
+    const widget = document.createElement('div');
+    widget.id = 'nf1IgaWidget';
+    widget.innerHTML = `
+      <div id="nf1IgaPopover" hidden role="region" aria-label="Asisten Iga">
+        <div class="nf1-iga-head">
+          <span>🧑‍🔧 IGA · NETWORK GUIDE</span>
+          <button type="button" id="nf1IgaClose" aria-label="Ciutkan Iga">✕</button>
+        </div>
+        <div id="nf1IgaSlot"></div>
+      </div>
+      <button type="button" id="nf1IgaToggle" aria-expanded="false">
+        <span class="nf1-iga-dot" aria-hidden="true"></span>
+        <span>Iga</span>
+        <span class="nf1-iga-preview" id="nf1IgaPreview">Siap membantu</span>
+      </button>
+    `;
+    stage.appendChild(widget);
+
+    const slot = $('nf1IgaSlot');
+    slot.appendChild(igaDock);
+
+    const popover = $('nf1IgaPopover');
+    const toggle = $('nf1IgaToggle');
+    const preview = $('nf1IgaPreview');
+
+    const setOpen = open => {
+      popover.hidden = !open;
+      toggle.setAttribute('aria-expanded', String(open));
+    };
+
+    toggle.addEventListener('click', () => setOpen(popover.hidden));
+    $('nf1IgaClose').addEventListener('click', () => setOpen(false));
+
+    const syncPreview = () => {
+      const dockTxt = ($('igaDockTalk')?.textContent || '').trim();
+      const rightTxt = ($('igaTalk')?.textContent || '').trim();
+      const text = dockTxt || rightTxt || 'Siap membantu';
+      preview.textContent = text;
+      if (!dockTxt && rightTxt && $('igaDockTalk')) {
+        $('igaDockTalk').textContent = rightTxt;
+      }
+    };
+    syncPreview();
+    ['igaDockTalk', 'igaTalk'].forEach(id => {
+      const el = $(id);
+      if (el && window.MutationObserver) {
+        new MutationObserver(syncPreview).observe(el, {
+          childList: true,
+          characterData: true,
+          subtree: true
+        });
+      }
+    });
+  }
+
+  /* 5. Drawer bawah 3 tab tunggal: Terminal · Log & Trafik · Insiden & Chaos */
+  function setupUnifiedDrawer() {
     const wsShell = document.querySelector('section.workspace-shell');
     if (!wsShell) return false;
     document.body.classList.add('nf43-shell-active');
@@ -56,11 +237,12 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
       const bar = document.createElement('div');
       bar.id = 'nf43DrawerBar';
       bar.innerHTML = `
-        <div class="nf43-tabs">
-          <button type="button" id="nf43TabPanel">📊 Log, Trafik & Progres ▲</button>
-          <button type="button" id="nf43TabDock">⌁ Terminal & Chaos ▲</button>
+        <div class="nf43-tabs" role="tablist" aria-label="Panel alat workspace">
+          <button type="button" id="nf1TabTerminal">⌁ Terminal</button>
+          <button type="button" id="nf1TabLog">📟 Log &amp; Trafik</button>
+          <button type="button" id="nf1TabChaos">🎲 Insiden &amp; Chaos</button>
         </div>
-        <span class="nf43-hint">Layar penuh aktif · klik panel untuk buka/tutup</span>
+        <span class="nf43-hint">Klik tab untuk buka/tutup panel</span>
       `;
       wsShell.appendChild(bar);
     }
@@ -69,20 +251,79 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
       const sheet = document.createElement('div');
       sheet.id = 'nf43DrawerSheet';
       sheet.setAttribute('role', 'dialog');
+      sheet.setAttribute('aria-label', 'Panel Alat Jaringan');
       sheet.innerHTML = `
         <div class="nf43-sheet-head">
-          <strong id="nf43SheetTitle">Panel Detail</strong>
+          <strong id="nf43SheetTitle">Panel Alat</strong>
           <button type="button" class="nf43-sheet-close" id="nf43SheetClose">✕ Tutup</button>
         </div>
-        <div id="nf43DrawerBody"></div>
+        <div id="nf43DrawerBody">
+          <div id="nf1PaneTerminal" class="nf1-drawer-tabpane" hidden></div>
+          <div id="nf1PaneLog" class="nf1-drawer-tabpane" hidden></div>
+          <div id="nf1PaneChaos" class="nf1-drawer-tabpane" hidden></div>
+        </div>
       `;
       document.body.appendChild(sheet);
+
+      const paneTerm = $('nf1PaneTerminal');
+      const paneLog = $('nf1PaneLog');
+      const paneChaos = $('nf1PaneChaos');
+
+      const terminalDock = document.querySelector('#commandDock .terminal-dock');
+      const pingPanel = document.querySelector('aside.panel.left .ping-panel');
+      if (terminalDock) paneTerm.appendChild(terminalDock);
+      const termContent = $('terminalDockContent');
+      if (pingPanel && termContent && !termContent.children.length) {
+        termContent.appendChild(pingPanel);
+      }
+
+      const nf400Panel = $('nf400Panel');
+      const activityDock = document.querySelector('#commandDock .activity-dock');
+      const legacyLog = $('log')?.closest('.rightsection');
+      if (nf400Panel) paneLog.appendChild(nf400Panel);
+      if (activityDock) paneLog.appendChild(activityDock);
+      if (legacyLog && !document.querySelector('#activityDockContent')?.children.length) {
+        paneLog.appendChild(legacyLog);
+      }
+
+      const chaosPanel = document.querySelector('#commandDock .chaos-panel');
+      const incidentSection = $('eventArea')?.closest('.rightsection');
+      if (chaosPanel) paneChaos.appendChild(chaosPanel);
+      if (incidentSection) paneChaos.appendChild(incidentSection);
+
+      const tabMap = {
+        terminal: { btn: $('nf1TabTerminal'), pane: paneTerm, title: '⌁ Terminal Jaringan (Ping & Traceroute)' },
+        log: { btn: $('nf1TabLog'), pane: paneLog, title: '📟 Log Aktivitas, Trafik & Evaluasi' },
+        chaos: { btn: $('nf1TabChaos'), pane: paneChaos, title: '🎲 Pusat Insiden & Chaos Event' }
+      };
 
       const closeSheet = () => {
         sheet.classList.remove('open');
         activeTab = null;
-        $('nf43TabPanel')?.classList.remove('active');
-        $('nf43TabDock')?.classList.remove('active');
+        Object.values(tabMap).forEach(t => {
+          t.btn?.classList.remove('active');
+          if (t.pane) t.pane.hidden = true;
+        });
+      };
+
+      const openTab = key => {
+        if (activeTab === key && sheet.classList.contains('open')) {
+          closeSheet();
+          return;
+        }
+        const latePanel = $('nf400Panel');
+        if (latePanel && latePanel.parentElement !== paneLog) {
+          paneLog.prepend(latePanel);
+        }
+
+        Object.entries(tabMap).forEach(([k, t]) => {
+          const on = k === key;
+          t.btn?.classList.toggle('active', on);
+          if (t.pane) t.pane.hidden = !on;
+        });
+        $('nf43SheetTitle').textContent = tabMap[key].title;
+        activeTab = key;
+        sheet.classList.add('open');
       };
 
       $('nf43SheetClose').addEventListener('click', closeSheet);
@@ -90,70 +331,62 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
         if (e.key === 'Escape' && sheet.classList.contains('open')) closeSheet();
       });
 
-      const openTab = (which) => {
-        if (activeTab === which && sheet.classList.contains('open')) {
-          closeSheet();
-          return;
-        }
-        const body = $('nf43DrawerBody');
-        const panel = $('nf400Panel');
-        const dock = $('commandDock');
-        // Move panels into drawer body once, toggle visibility cleanly
-        if (panel && panel.parentElement !== body) body.appendChild(panel);
-        if (dock && dock.parentElement !== body) body.appendChild(dock);
+      $('nf1TabTerminal').addEventListener('click', () => openTab('terminal'));
+      $('nf1TabLog').addEventListener('click', () => openTab('log'));
+      $('nf1TabChaos').addEventListener('click', () => openTab('chaos'));
 
-        if (panel) panel.style.setProperty('display', which === 'panel' ? 'block' : 'none', 'important');
-        if (dock) dock.style.setProperty('display', which === 'dock' ? 'grid' : 'none', 'important');
-
-        $('nf43SheetTitle').textContent = which === 'panel'
-          ? '📊 Log Aktivitas, Trafik, Evaluasi & Progres'
-          : '⌁ Terminal Jaringan, Log Live & Chaos Event';
-        $('nf43TabPanel')?.classList.toggle('active', which === 'panel');
-        $('nf43TabDock')?.classList.toggle('active', which === 'dock');
-        activeTab = which;
-        sheet.classList.add('open');
-      };
-
-      $('nf43TabPanel').addEventListener('click', () => openTab('panel'));
-      $('nf43TabDock').addEventListener('click', () => openTab('dock'));
+      document.querySelector('a[href="#log"]')?.addEventListener('click', e => {
+        e.preventDefault();
+        openTab('log');
+      });
     }
     return true;
   }
 
-  let tries = 0;
-  (function boot() {
-    if (ensureDrawerUI() || ++tries > 20) return;
-    setTimeout(boot, 350);
-  })();
+  function boot() {
+    syncIntroGateLock();
+    const intro = $('nf322Overlay');
+    if (intro && window.MutationObserver) {
+      new MutationObserver(syncIntroGateLock).observe(intro, {
+        attributes: true,
+        attributeFilter: ['hidden', 'style', 'class']
+      });
+    }
+    setupLeftTabs();
+    declutterRightSidebar();
+    setupFloatingIga();
+    setupUnifiedDrawer();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
 })();
-;
 
 /* === script:nf5600-streamline === */
 (function () {
   'use strict';
   if (window.__NF5600_CLEAN) return;
   window.__NF5600_CLEAN = true;
+
   function pruneRedundantUI() {
-    // Keep only "Petunjuk" & "Tunjukkan" inside Iga actions
     document.querySelectorAll('#nf4034Coach .nf4034-actions button').forEach(btn => {
       const t = (btn.textContent || '').toLowerCase();
       if (t.includes('jelaskan') || t.includes('panduan') || t.includes('sambung port')) {
         btn.style.display = 'none';
       }
     });
-    // Hide Legacy Classic Mode card in mission picker
     document.querySelectorAll('button').forEach(btn => {
       if ((btn.textContent || '').includes('Mode Klasik (Kompatibilitas)')) {
         btn.style.display = 'none';
       }
     });
   }
-  let n = 0;
-  (function run() {
-    pruneRedundantUI();
-    if (++n < 15) setTimeout(run, 400);
-  })();
-  document.addEventListener('click', () => setTimeout(pruneRedundantUI, 150), true);
+
+  document.addEventListener('DOMContentLoaded', pruneRedundantUI);
+  document.addEventListener('click', () => requestAnimationFrame(pruneRedundantUI), true);
 })();
 
 /* === script:nf5700-intro-revamp === */
@@ -170,7 +403,6 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
       adv.classList.toggle('nf57-primary-cta', noSave);
       if (noSave) adv.textContent = '▶ Mulai Petualangan Baru';
     }
-    // Move startup checkboxes into the collapsible "Pengaturan & Lainnya" drawer
     const extra = document.querySelector('#nf322Menu .nf360-menu-extra');
     if (extra && !extra.__nf57Moved) {
       extra.__nf57Moved = true;
@@ -182,22 +414,17 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
     }
   }
 
-  let k = 0;
-  (function tick() {
-    polishMainMenu();
-    if (++k < 14) setTimeout(tick, 350);
-  })();
-  document.addEventListener('click', () => setTimeout(polishMainMenu, 150), true);
+  document.addEventListener('DOMContentLoaded', polishMainMenu);
+  document.addEventListener('click', () => requestAnimationFrame(polishMainMenu), true);
 })();
 
 /* === script:nf5800-autoupdate === */
-/* NET FORGE v0.69.2 — Silent Background Update Checker & Non-Intrusive Banner */
 (function () {
   'use strict';
   if (window.__NF5800_UPDATER) return;
   window.__NF5800_UPDATER = true;
 
-  const CURRENT = (window.NETFORGE_RELEASE && window.NETFORGE_RELEASE.version) || '0.69.2';
+  const CURRENT = (window.NETFORGE_RELEASE && window.NETFORGE_RELEASE.version) || '0.69.6';
   let lastCheckAt = 0;
 
   function cmpVer(a, b) {
@@ -264,8 +491,7 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
         if (st) st.textContent = 'Update v' + remote + ' tersedia (aktif: v' + CURRENT + ')';
         ensureBanner(remote);
       } else {
-        const b = document.getElementById('nf58UpdateBanner');
-        if (b) b.classList.remove('show');
+        document.getElementById('nf58UpdateBanner')?.classList.remove('show');
         const legacy = document.getElementById('nf4039UpdateBanner');
         if (legacy) legacy.hidden = true;
         if (manual && st) st.textContent = '✓ Sudah versi terbaru (v' + CURRENT + ')';
@@ -294,12 +520,11 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden) checkSilent(false);
   });
-  setTimeout(() => { injectSettingsCheck(); checkSilent(false); }, 2500);
+  setTimeout(() => { injectSettingsCheck(); checkSilent(false); }, 2000);
   window.NetForgeUpdater = { version: CURRENT, checkNow: () => checkSilent(true) };
 })();
 
 /* === script:nf5900-profile-settings-ux === */
-/* NET FORGE v0.69.2 — Seamless Post-Google-Login Transition & Decluttered Settings Modal */
 (function () {
   'use strict';
   if (window.__NF5900_PROFILE_UX) return;
@@ -307,7 +532,6 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
 
   const $ = id => document.getElementById(id);
   let wasSignedIn = Boolean(window.NetForgeAuth?.isSignedIn?.());
-  let cameFromIntroGoogle = false;
 
   function showWelcomeToast(msg) {
     $('nf59LoginToast')?.remove();
@@ -354,7 +578,6 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
     const ov = $('nf30Overlay');
     if (!ov) return;
 
-    // 1. Add prominent "▶ Lanjut ke Permainan" button in modal header
     const head = ov.querySelector('.nf30-head');
     const closeBtn = $('nf30Close');
     if (head && closeBtn && !$('nf59PlayNowBtn')) {
@@ -369,7 +592,6 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
       wrap.append(playBtn, closeBtn);
     }
 
-    // 2. Tuck diagnostic buttons inside #nf350AuthPanel into collapsible <details>
     const authPanel = $('nf350AuthPanel');
     if (authPanel && !$('nf59AuthDiag')) {
       const verify = $('nf367Verify');
@@ -387,7 +609,6 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
       }
     }
 
-    // 3. Tuck technical server API URL, legacy duplicate profile, backup & local reset cards into collapsible Advanced drawer
     const body = ov.querySelector('.nf30-body');
     if (body && !$('nf59AdvancedPanel')) {
       const adv = document.createElement('details');
@@ -396,13 +617,11 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
       const advBody = adv.querySelector('#nf59AdvancedBody');
 
       const toMove = [];
-      // Move legacy API URL / Token card
       const apiCard = $('nf32Url')?.closest('section');
       if (apiCard) toMove.push(apiCard);
-      // Move legacy duplicate Profil Pemain (#nf30Name), Backup, and Local Data cards
       [...body.children].forEach(ch => {
         if (ch.tagName !== 'SECTION') return;
-        const h = (ch.querySelector('h3')?.textContent || '');
+        const h = ch.querySelector('h3')?.textContent || '';
         if (ch.querySelector('#nf30Name') || /Backup|Kelola Data Lokal/i.test(h)) {
           toMove.push(ch);
         }
@@ -414,7 +633,6 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
       }
     }
 
-    // 4. Smart fallback: if API URL is empty when clicking #nf350Login, auto-open Advanced drawer so admin sees #nf32Url
     const loginBtn = $('nf350Login');
     if (loginBtn && !loginBtn.__nf59Hook) {
       loginBtn.__nf59Hook = true;
@@ -431,13 +649,10 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
     }
   }
 
-  // Track if user initiated Google Login from the Intro/Menu card
   document.addEventListener('click', e => {
     if (e.target.closest?.('#nf64GoogleFromIntro')) {
-      cameFromIntroGoogle = true;
       setTimeout(() => {
         organizeSettingsModal();
-        // Auto-trigger Google sign-in mount if URL is already configured so user doesn't have to click twice!
         const urlEl = $('nf32Url');
         const loginBtn = $('nf350Login');
         if (urlEl && urlEl.value.trim() && loginBtn && !loginBtn.hidden && !window.NetForgeAuth?.isSignedIn?.()) {
@@ -447,7 +662,6 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
     }
   }, true);
 
-  // Seamless post-login transition: auto-close Settings modal & enter game right after Google Login succeeds!
   window.addEventListener('netforge:auth-change', () => {
     const nowSigned = Boolean(window.NetForgeAuth?.isSignedIn?.());
     syncMenuAuthState();
@@ -456,10 +670,7 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
       const ov = $('nf30Overlay');
       if (ov && !ov.hidden) {
         showWelcomeToast('✅ Masuk sebagai ' + name + '! Membuka permainan…');
-        setTimeout(() => {
-          closeSettingsAndPlay();
-          cameFromIntroGoogle = false;
-        }, 900);
+        setTimeout(closeSettingsAndPlay, 900);
       } else {
         showWelcomeToast('✅ Sesi Google aktif: ' + name);
       }
@@ -467,10 +678,18 @@ var tries=0;(function wait(){if(init()||++tries>40)return;setTimeout(wait,500)})
     wasSignedIn = nowSigned;
   });
 
-  let n = 0;
-  (function boot() {
+  function bindWhenReady() {
     organizeSettingsModal();
     syncMenuAuthState();
-    if (++n < 16) setTimeout(boot, 400);
-  })();
+    return Boolean($('nf59PlayNowBtn'));
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!bindWhenReady() && window.MutationObserver) {
+      const obs = new MutationObserver(() => {
+        if (bindWhenReady()) obs.disconnect();
+      });
+      obs.observe(document.body, { childList: true, subtree: true });
+      setTimeout(() => obs.disconnect(), 15000);
+    }
+  });
 })();
