@@ -1,6 +1,6 @@
 {
-  "version": "0.69.6",
+  "version": "0.69.8",
   "releaseDate": "2026-11-26",
-  "title": "Live Side Lab Inspector (ARP/MAC & Protocol) v0.69.6",
-  "notes": "v0.69.6: Paket perbaikan #3 — Live Side Inspector (ARP/MAC & Protocol Lab) non-blocking di samping kanvas, tombol mode Build | ARP/MAC | Protocol di Unified Canvas, & sinkronisasi aliran paket live."
+  "title": "Live Cable Telemetry & Port LED v0.69.8",
+  "notes": "v0.69.8: Paket perbaikan #4 — Live Cable Telemetry (UP/DOWN/VLAN/TX badges & tooltip hover), Port LED pada perangkat, dan sinkronisasi kilau trafik paket di Unified & Classic Canvas."
 }

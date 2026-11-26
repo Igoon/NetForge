@@ -1,4 +1,4 @@
-/* NET FORGE v0.69.6 — Clean Single-Screen Shell, Unified Drawer & Event-Driven UI */
+/* NET FORGE v0.69.8 — Clean Single-Screen Shell, Unified Drawer & Event-Driven UI */
 
 /* === script:nf4093-pwa-status-fade === */
 (function () {
@@ -312,8 +312,9 @@
           return;
         }
         const latePanel = $('nf400Panel');
-        if (latePanel && latePanel.parentElement !== paneLog) {
-          paneLog.prepend(latePanel);
+        if (latePanel) {
+          if (latePanel.parentElement !== paneLog) paneLog.prepend(latePanel);
+          latePanel.hidden = false;
         }
 
         Object.entries(tabMap).forEach(([k, t]) => {
@@ -424,7 +425,7 @@
   if (window.__NF5800_UPDATER) return;
   window.__NF5800_UPDATER = true;
 
-  const CURRENT = (window.NETFORGE_RELEASE && window.NETFORGE_RELEASE.version) || '0.69.6';
+  const CURRENT = (window.NETFORGE_RELEASE && window.NETFORGE_RELEASE.version) || '0.69.8';
   let lastCheckAt = 0;
 
   function cmpVer(a, b) {

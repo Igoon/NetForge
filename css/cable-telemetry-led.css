@@ -1,0 +1,202 @@
+/* NET FORGE v0.69.8 — Live Cable Telemetry & Port LED */
+
+/* 1. Tombol toggle label kabel di HUD / Modebar kanvas */
+.nf4-hud-toggle {
+  appearance: none;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  background: rgba(8, 17, 30, 0.85);
+  color: #bae6fd;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 9px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 6px;
+  transition: background 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+
+.nf4-hud-toggle:hover {
+  border-color: rgba(56, 189, 248, 0.65);
+  color: #ffffff;
+}
+
+.nf4-hud-toggle.off {
+  opacity: 0.65;
+  color: #94a3b8;
+}
+
+body.nf60-exam-active #nf4LabelToggle {
+  display: none !important;
+}
+
+/* 2. Efek visual kabel di #wires / #nf400Wires / #nf49BezierWires (UP, DOWN, & Live Packet Traffic) */
+#wires .nf4-wire-up,
+#nf400Wires .nf4-wire-up,
+#nf49BezierWires .nf4-wire-up {
+  transition: stroke 160ms ease, filter 160ms ease, stroke-width 160ms ease;
+}
+
+#wires .nf4-wire-down,
+#nf400Wires .nf4-wire-down,
+#nf49BezierWires .nf4-wire-down {
+  stroke: #ef4444 !important;
+  stroke-dasharray: 6 5 !important;
+  opacity: 0.78;
+}
+
+#wires .nf4-wire-tx,
+#nf400Wires .nf4-wire-tx,
+#nf49BezierWires .nf4-wire-tx {
+  stroke: #38bdf8 !important;
+  stroke-dasharray: 9 6 !important;
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.85));
+  animation: nf4-wire-flow 0.65s linear infinite;
+}
+
+@keyframes nf4-wire-flow {
+  from {
+    stroke-dashoffset: 30;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* 3. Badge SVG status di tengah kabel */
+#nf4WireBadges {
+  pointer-events: none;
+}
+
+body.nf4-hide-labels #nf4WireBadges {
+  display: none;
+}
+
+.nf4-badge-pill {
+  fill: rgba(7, 15, 28, 0.9);
+  stroke: rgba(52, 211, 153, 0.55);
+  stroke-width: 1;
+}
+
+.nf4-badge-pill.down {
+  stroke: rgba(239, 68, 68, 0.75);
+}
+
+.nf4-badge-pill.tx {
+  stroke: #38bdf8;
+  fill: rgba(12, 42, 68, 0.95);
+}
+
+.nf4-badge-text {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 9px;
+  font-weight: 700;
+  fill: #6ee7b7;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.nf4-badge-text.down {
+  fill: #fca5a5;
+}
+
+.nf4-badge-text.tx {
+  fill: #7dd3fc;
+}
+
+/* 4. Port LED di pojok node kanvas */
+.nf4-led-strip {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 5px;
+  border-radius: 999px;
+  background: rgba(6, 13, 24, 0.78);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  pointer-events: none;
+  z-index: 4;
+}
+
+.nf4-led {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #475569;
+  transition: background 140ms ease, box-shadow 140ms ease;
+}
+
+.nf4-led.link-up {
+  background: #22c55e;
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.85);
+}
+
+.nf4-led.link-down {
+  background: #ef4444;
+  box-shadow: 0 0 5px rgba(239, 68, 68, 0.65);
+}
+
+.nf4-led.act-tx {
+  background: #38bdf8;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.95);
+  animation: nf4-led-blink 220ms steps(2, start) infinite;
+}
+
+@keyframes nf4-led-blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.25; }
+  100% { opacity: 1; }
+}
+
+/* 5. Tooltip telemetri saat hover kabel */
+#nf4WireTip {
+  position: fixed;
+  z-index: 95;
+  pointer-events: none;
+  min-width: 175px;
+  max-width: 250px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(8, 17, 32, 0.96);
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.55);
+  color: #e2e8f0;
+  font-size: 11px;
+  line-height: 1.45;
+  backdrop-filter: blur(8px);
+}
+
+#nf4WireTip[hidden] {
+  display: none;
+}
+
+#nf4WireTip .nf4-tip-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-bottom: 4px;
+}
+
+#nf4WireTip .nf4-tip-state {
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  background: rgba(34, 197, 94, 0.2);
+  color: #86efac;
+}
+
+#nf4WireTip .nf4-tip-state.down {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+}
+
+#nf4WireTip .nf4-tip-meta {
+  color: #94a3b8;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10px;
+}
