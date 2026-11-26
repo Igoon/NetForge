@@ -1,0 +1,191 @@
+/* NET FORGE v0.69.3 — Clean Single-Screen Shell & Deduplicated Panels */
+
+/* 1. Cegah startModal & audioGate bertumpuk saat menu utama (#nf322Overlay) aktif */
+body.nf1-intro-open #startModal.open,
+body.nf1-intro-open #nf344AudioGate {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+/* 2. Ikon SVG di inventori kiri */
+aside.panel.left .device .nf1-dev-icon {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  color: #93c5fd;
+}
+aside.panel.left .device .nf1-dev-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* 3. Tab pemisah Inventori vs Lab Virtualisasi di aside.left */
+.nf1-left-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 8px 10px;
+  background: rgba(10, 18, 30, 0.72);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.16);
+}
+.nf1-left-tabs button {
+  appearance: none;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(15, 29, 46, 0.7);
+  color: #94a3b8;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 7px 8px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+.nf1-left-tabs button.active {
+  background: rgba(56, 189, 248, 0.16);
+  border-color: rgba(56, 189, 248, 0.55);
+  color: #e0f7ff;
+}
+.nf1-left-pane[hidden] {
+  display: none !important;
+}
+#nf1LeftPaneLab {
+  padding: 10px 12px 14px;
+}
+body.nf65-dock-slim .nf1-left-tabs,
+body.nf60-exam-active .nf1-left-tabs,
+body.nf60-exam-active #nf1IgaWidget {
+  display: none !important;
+}
+
+/* Sembunyikan salinan ping-panel di kiri bila sudah tampil di drawer terminal */
+aside.panel.left .ping-panel.nf1-moved-out,
+aside.right .nf1-right-dup-panel {
+  display: none !important;
+}
+
+/* 4. Blueprint kanvas lebih teknis dan tenang */
+.room-dressing .mission-whiteboard,
+.room-dressing .scene-server {
+  opacity: 0.22;
+  filter: saturate(0.75);
+}
+#board {
+  background-image:
+    linear-gradient(rgba(56, 189, 248, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* 5. Floating Iga Assistant Chip di pojok kanvas */
+#nf1IgaWidget {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 28;
+  max-width: min(340px, calc(100% - 24px));
+  font-family: inherit;
+}
+#nf1IgaToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 11px 6px 7px;
+  border-radius: 999px;
+  border: 1px solid rgba(56, 189, 248, 0.42);
+  background: rgba(11, 23, 39, 0.92);
+  color: #e2f5ff;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+}
+#nf1IgaToggle .nf1-iga-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 8px #34d399;
+}
+#nf1IgaToggle .nf1-iga-preview {
+  font-weight: 500;
+  color: #93c5fd;
+  max-width: 190px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#nf1IgaPopover {
+  margin-bottom: 8px;
+  padding: 11px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  background: rgba(11, 23, 39, 0.96);
+  color: #e8f3ff;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+}
+#nf1IgaPopover[hidden] {
+  display: none;
+}
+.nf1-iga-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: #7dd3fc;
+}
+.nf1-iga-head button {
+  background: transparent;
+  border: 0;
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 2px 5px;
+}
+#nf1IgaSlot .iga-dock {
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+}
+#nf1IgaSlot .dock-title {
+  display: none !important;
+}
+
+/* 6. Drawer bawah 3 tab tunggal */
+#nf43DrawerBar .nf43-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+#nf43DrawerBar .nf43-tabs button {
+  font-size: 12px;
+  padding: 6px 11px;
+}
+#nf43DrawerBody .command-dock {
+  display: block !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+#nf43DrawerBody .dock-card,
+#nf43DrawerBody .chaos-panel {
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+}
+.nf1-drawer-tabpane[hidden] {
+  display: none !important;
+}

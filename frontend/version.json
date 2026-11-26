@@ -1,6 +1,6 @@
 {
-  "version": "0.69.2",
+  "version": "0.69.3",
   "releaseDate": "2026-11-26",
-  "title": "Daily Challenge In Mission Control v0.69.2",
-  "notes": "v0.69.2: Tantangan Harian terintegrasi langsung ke Pilihan Misi (Mission Control & Bar Misi Unified Canvas) sehingga selalu terlihat di semua ukuran layar dan bilah bawah lebih lega."
+  "title": "Clean Shell: SVG Icons, Unified Drawer & Modal Guards v0.69.3",
+  "notes": "v0.69.3: Paket perbaikan #1 — Ikon SVG inventori + 2 tab Perangkat/Lab Virtual, deduplikasi panel Terminal/Log/Chaos ke drawer 3 tab, floating chip Iga, proteksi tumpukan modal pembuka, & sinkronisasi DOM berbasis MutationObserver."
 }
