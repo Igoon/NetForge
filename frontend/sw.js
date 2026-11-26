@@ -1,5 +1,5 @@
-/* NET FORGE v0.69.8 — Offline-Safe Modular Cache & Network-First Auto-Update */
-const RELEASE = '0.69.8';
+/* NET FORGE v0.69.9 — Offline-Safe Modular Cache & Network-First Auto-Update */
+const RELEASE = '0.69.9';
 const CACHE = 'netforge-pwa-v' + RELEASE;
 const ASSETS = [
   './index.html',
@@ -18,6 +18,7 @@ const ASSETS = [
   './css/device-inspector.css',
   './css/live-lab-inspector.css',
   './css/cable-telemetry-led.css',
+  './css/smart-fault-diagnostics.css',
   './js/core-engine.js',
   './js/alive-fun.js',
   './js/ui-shell.js',
@@ -31,6 +32,7 @@ const ASSETS = [
   './js/device-inspector.js',
   './js/live-lab-inspector.js',
   './js/cable-telemetry-led.js',
+  './js/smart-fault-diagnostics.js',
   './icons/iga-talk.svg',
   './icons/iga-celebrate.svg',
   './icons/iga-panic.svg',

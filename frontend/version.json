@@ -1,6 +1,6 @@
 {
-  "version": "0.69.8",
+  "version": "0.69.9",
   "releaseDate": "2026-11-26",
-  "title": "Live Cable Telemetry & Port LED v0.69.8",
-  "notes": "v0.69.8: Paket perbaikan #4 — Live Cable Telemetry (UP/DOWN/VLAN/TX badges & tooltip hover), Port LED pada perangkat, dan sinkronisasi kilau trafik paket di Unified & Classic Canvas."
+  "title": "Smart Fault Diagnostics & CLI Hints v0.69.9",
+  "notes": "v0.69.9: Paket perbaikan #5 — Smart Fault Diagnostics & CLI Hints real-time di Unified & Classic Canvas, badge error kiri-atas aman dari Port LED, dan otomatis nonaktif saat Mode Ujian Terkunci."
 }

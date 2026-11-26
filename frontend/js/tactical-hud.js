@@ -1,4 +1,4 @@
-/* NET FORGE v0.69.8 — Tactical Cyber HUD Controller
+/* NET FORGE v0.69.9 — Tactical Cyber HUD Controller
    (Slim Icon Dock + Instant Hover Tooltip + Live Traffic Sparkline + Tactical/Classic Theme Switcher) */
 (function () {
   'use strict';
@@ -204,7 +204,7 @@
   }
 
 
-  // 4. v0.69.8 — Node Micro-HUD IP Chips + Pop-in Micro-Interaction + Hop-by-Hop ICMP Packet Pulse
+  // 4. v0.69.9 — Node Micro-HUD IP Chips + Pop-in Micro-Interaction + Hop-by-Hop ICMP Packet Pulse
   const seenNodeIds = new Set();
 
   function syncNodeMicroHud() {
@@ -268,7 +268,7 @@
       const html = `<span class="nf66-dot"></span><span>${label}</span>`;
       if (pill.innerHTML !== html) pill.innerHTML = html;
 
-      // v0.69.8: VLAN / Trunk micro-badge on canvas device card
+      // v0.69.9: VLAN / Trunk micro-badge on canvas device card
       const vlanVal = String((n.vlan && String(n.vlan).trim()) || cfg.vlan || '').trim();
       const ifaceVal = String((n.iface && String(n.iface).trim()) || cfg.iface || '').trim().toLowerCase();
       let vpill = el.querySelector('.nf67-vlan-pill');
@@ -359,7 +359,7 @@
   }
 
 
-  // 5. v0.69.8 — Mode X-Ray Jaringan (Subnet & VLAN Color Aura Overlay)
+  // 5. v0.69.9 — Mode X-Ray Jaringan (Subnet & VLAN Color Aura Overlay)
   let xrayActive = false;
   let xrayMode = 'subnet'; // 'subnet' | 'vlan'
   const XRAY_PALETTE = [
@@ -518,7 +518,7 @@
   });
 
   window.NetForgeTacticalHUD = {
-    version: '0.69.8',
+    version: '0.69.9',
     setSlimDock: applyDockState,
     toggleDock: () => applyDockState(!document.body.classList.contains('nf65-dock-slim')),
     setTheme: applyTheme,
