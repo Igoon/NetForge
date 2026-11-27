@@ -1,6 +1,6 @@
 {
-  "version": "0.70.0",
-  "releaseDate": "2026-11-26",
-  "title": "Node Polish: Data Attributes, Highlights & Type Accents v0.70.0",
-  "notes": "v0.70.0: Fix atribut data-node untuk chip IP/VLAN & X-Ray di Unified Canvas, perbaikan highlight .sel di Tactical Dark, aksen warna per tipe perangkat, peta sudut anti-tabrakan (gear kanan-bawah), & atribut data-nf5-fault persisten."
+  "version": "0.70.1",
+  "releaseDate": "2026-11-27",
+  "title": "Quick Exam & Mission Designer Access v0.70.1",
+  "notes": "v0.70.1: Akses cepat Mode Ujian & Desainer Misi langsung di jendela Pilihan Misi (2 kartu terpisah: Peserta & Pengajar) serta tombol pintas 1-klik di Menu Utama Intro."
 }

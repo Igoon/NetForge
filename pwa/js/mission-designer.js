@@ -1,4 +1,4 @@
-/* NET FORGE v0.70.0 — Desainer Misi & Mode Ujian (Sekolah / Kampus Edition)
+/* NET FORGE v0.70.1 — Desainer Misi & Mode Ujian (Sekolah / Kampus Edition)
    - Menyembunyikan panel Objective lama saat ujian & menampilkan Panel Rubrik Ujian khusus di sidebar kanan
    - Cetak / Simpan PDF via dokumen cetak bersih (terjamin tidak pernah blank di Print Preview!)
    - Editor Aturan IP Spesifik per Perangkat (IP eksak, subnet wildcard 192.168.10.*, prefix /24, & gateway) */
@@ -609,7 +609,7 @@
 
 
   // =========================================================================
-  // v0.70.0 — PASSWORD PROTECTION FOR MISSION FILES
+  // v0.70.1 — PASSWORD PROTECTION FOR MISSION FILES
   // =========================================================================
   function xorBytes(bytes, keyStr) {
     const k = new TextEncoder().encode(keyStr || 'NF62');
@@ -1257,7 +1257,7 @@
     const customPaths = readCustomPaths();
     return {
       format: 'netforge-exam-v1',
-      version: '0.70.0',
+      version: '0.70.1',
       title: ($('nf60Title')?.value || '').trim() || 'Misi Kustom NET FORGE',
       author: ($('nf60Author')?.value || '').trim() || 'Pengajar Jaringan',
       instructions: ($('nf60Instr')?.value || '').trim() || 'Bangun topologi sesuai rubrik yang ditentukan.',
@@ -1486,7 +1486,7 @@
     const code = makeVerifyCode(session.student, session.pack, ev.score, ev.passed, ev.total);
     const reportObj = {
       format: 'netforge-exam-result-v1',
-      version: '0.70.0',
+      version: '0.70.1',
       submittedAt: new Date().toISOString(),
       verificationCode: code,
       student: session.student,
@@ -2009,7 +2009,7 @@
   }, true);
 
   window.NetForgeExamDesigner = {
-    version: '0.70.0',
+    version: '0.70.1',
     openDesigner,
     startExamSession,
     stopExam,
@@ -2018,9 +2018,71 @@
     templates: TEMPLATES
   };
 
+
+  function dismissIntroAndOpen(tabName) {
+    const dlg = $('nf372MissionDialog');
+    if (dlg) dlg.hidden = true;
+    const intro = $('nf322Overlay');
+    if (intro) intro.hidden = true;
+    const home = $('nf322Home');
+    if (home) home.hidden = false;
+    const startModal = $('startModal');
+    if (startModal) startModal.classList.remove('open');
+    try { API()?.setMode?.('mixed'); } catch (_) {}
+    openDesigner(tabName || 'exam');
+  }
+
+  function injectIntroAndPickerEntries() {
+    let okPicker = false;
+    let okIntro = false;
+
+    // 1. Two clear cards inside Mission Control Picker (#nf372MissionDialog)
+    const grid = document.querySelector('#nf372MissionDialog .nf372-mission-grid');
+    if (grid) {
+      if (!$('nf60PickerExam')) {
+        const examCard = document.createElement('button');
+        examCard.id = 'nf60PickerExam';
+        examCard.type = 'button';
+        examCard.className = 'nf372-choice nf60-picker-exam';
+        examCard.innerHTML = '<span class="nf372-chip">Ujian · Peserta</span><strong>🎓 Mode Ujian (Siswa / Mahasiswa)</strong><small>Muat file soal .json, tempel kode soal, atau masukkan password ujian dari guru/dosen dengan fokus penuh.</small>';
+        examCard.addEventListener('click', () => dismissIntroAndOpen('exam'));
+        grid.appendChild(examCard);
+      }
+      if (!$('nf60PickerDesigner')) {
+        const desCard = document.createElement('button');
+        desCard.id = 'nf60PickerDesigner';
+        desCard.type = 'button';
+        desCard.className = 'nf372-choice nf60-picker-designer';
+        desCard.innerHTML = '<span class="nf372-chip">Pengajar · Cloud</span><strong>📝 Desainer Misi &amp; Bank Soal (Guru / Dosen)</strong><small>Buat soal kustom (IP, VLAN, DHCP, DNS, Password), lalu simpan ke Browser, Folder PC, atau Google Drive.</small>';
+        desCard.addEventListener('click', () => dismissIntroAndOpen('designer'));
+        grid.appendChild(desCard);
+      }
+      okPicker = true;
+    }
+
+    // 2. One compact 1-click shortcut button in Main Menu Intro (#nf322Menu)
+    const advBtn = $('nf322Adventure');
+    if (advBtn && advBtn.parentElement) {
+      if (!$('nf60IntroExamBtn')) {
+        const b = document.createElement('button');
+        b.id = 'nf60IntroExamBtn';
+        b.type = 'button';
+        b.textContent = '🎓 Mode Ujian / Desainer Misi';
+        b.title = 'Akses cepat ke Mode Ujian Peserta atau Editor Soal Guru/Dosen';
+        b.addEventListener('click', () => dismissIntroAndOpen('exam'));
+        advBtn.insertAdjacentElement('afterend', b);
+      }
+      okIntro = true;
+    }
+
+    return okPicker && okIntro;
+  }
+
   let tries = 0;
   (function boot() {
-    if (injectLauncher() || ++tries > 20) return;
+    const a = injectLauncher();
+    const b = injectIntroAndPickerEntries();
+    if ((a && b) || ++tries > 30) return;
     setTimeout(boot, 400);
   })();
 })();

@@ -1,4 +1,4 @@
-/* NET FORGE v0.70.0 — Desainer Misi & Mode Ujian (Fixed Side Panel, Print PDF & Specific IP Rules) */
+/* NET FORGE v0.70.1 — Desainer Misi & Mode Ujian (Fixed Side Panel, Print PDF & Specific IP Rules) */
 
 #nf60OpenBtn {
   background: linear-gradient(135deg, #6366f1, #4f46e5) !important;
@@ -344,7 +344,7 @@ body.nf60-exam-active #nf60SidePanel { display: block; }
   .nf60-ip-row { grid-template-columns: 1fr 1fr; }
 }
 
-/* v0.70.0 — Bank Soal Lokal, Folder PC & Google Drive */
+/* v0.70.1 — Bank Soal Lokal, Folder PC & Google Drive */
 .nf60-bank-list {
   display: flex;
   flex-direction: column;
@@ -434,7 +434,7 @@ body.nf60-exam-active #nf60SidePanel { display: block; }
   text-align: center;
 }
 
-/* v0.70.0 — Distraction-Free Exam Mode: sembunyikan seluruh elemen game yang tidak berhubungan dengan ujian */
+/* v0.70.1 — Distraction-Free Exam Mode: sembunyikan seluruh elemen game yang tidak berhubungan dengan ujian */
 body.nf60-exam-active .xp-stat,
 body.nf60-exam-active .level-stat,
 body.nf60-exam-active .difficulty-stat,
@@ -525,7 +525,7 @@ body.nf60-exam-active #resourceText {
   margin: 7px 0 10px;
 }
 
-/* v0.70.0 — Qty on Device Chips, VLAN/Trunk Rules & Custom Paths */
+/* v0.70.1 — Qty on Device Chips, VLAN/Trunk Rules & Custom Paths */
 .nf60-chip .nf60-qty {
   width: 38px;
   padding: 2px 4px;
@@ -573,4 +573,30 @@ body.nf60-exam-active #resourceText {
 }
 @media (max-width: 640px) {
   .nf60-vlan-row { grid-template-columns: 1fr 1fr; }
+}
+
+/* v0.70.1 — Akses Cepat Mode Ujian & Desainer Misi di Intro & Pilihan Misi */
+#nf60IntroExamBtn {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px 14px;
+  border-radius: 11px;
+  border: 1px solid rgba(129, 140, 248, 0.55);
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.28), rgba(14, 116, 144, 0.3));
+  color: #e0e7ff;
+  font: 700 13px/1.25 system-ui, -apple-system, sans-serif;
+  cursor: pointer;
+  transition: filter 140ms ease, border-color 140ms ease;
+}
+#nf60IntroExamBtn:hover {
+  filter: brightness(1.16);
+  border-color: #a5b4fc;
+}
+.nf60-picker-exam {
+  border-color: rgba(52, 211, 153, 0.52) !important;
+  background: linear-gradient(145deg, rgba(6, 78, 59, 0.34), rgba(15, 23, 42, 0.92)) !important;
+}
+.nf60-picker-designer {
+  border-color: rgba(129, 140, 248, 0.55) !important;
+  background: linear-gradient(145deg, rgba(49, 46, 129, 0.36), rgba(15, 23, 42, 0.92)) !important;
 }
