@@ -1,6 +1,6 @@
 {
-  "version": "0.70.1",
+  "version": "0.70.2",
   "releaseDate": "2026-11-27",
-  "title": "Quick Exam & Mission Designer Access v0.70.1",
-  "notes": "v0.70.1: Akses cepat Mode Ujian & Desainer Misi langsung di jendela Pilihan Misi (2 kartu terpisah: Peserta & Pengajar) serta tombol pintas 1-klik di Menu Utama Intro."
+  "title": "Cleaner Intro Menu (Exam & Designer Consolidated) v0.70.2",
+  "notes": "v0.70.2: Menu Utama Intro lebih ringkas — tombol Mode Ujian/Desainer Misi dan Network Lab dihapus dari layar intro karena sudah terpusat di Pilih Misi / Petualangan Baru."
 }

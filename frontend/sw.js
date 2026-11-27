@@ -1,5 +1,5 @@
-/* NET FORGE v0.70.1 — Offline-Safe Modular Cache & Network-First Auto-Update */
-const RELEASE = '0.70.1';
+/* NET FORGE v0.70.2 — Offline-Safe Modular Cache & Network-First Auto-Update */
+const RELEASE = '0.70.2';
 const CACHE = 'netforge-pwa-v' + RELEASE;
 const ASSETS = [
   './index.html',

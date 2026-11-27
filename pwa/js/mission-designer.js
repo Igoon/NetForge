@@ -1,4 +1,4 @@
-/* NET FORGE v0.70.1 — Desainer Misi & Mode Ujian (Sekolah / Kampus Edition)
+/* NET FORGE v0.70.2 — Desainer Misi & Mode Ujian (Sekolah / Kampus Edition)
    - Menyembunyikan panel Objective lama saat ujian & menampilkan Panel Rubrik Ujian khusus di sidebar kanan
    - Cetak / Simpan PDF via dokumen cetak bersih (terjamin tidak pernah blank di Print Preview!)
    - Editor Aturan IP Spesifik per Perangkat (IP eksak, subnet wildcard 192.168.10.*, prefix /24, & gateway) */
@@ -609,7 +609,7 @@
 
 
   // =========================================================================
-  // v0.70.1 — PASSWORD PROTECTION FOR MISSION FILES
+  // v0.70.2 — PASSWORD PROTECTION FOR MISSION FILES
   // =========================================================================
   function xorBytes(bytes, keyStr) {
     const k = new TextEncoder().encode(keyStr || 'NF62');
@@ -1257,7 +1257,7 @@
     const customPaths = readCustomPaths();
     return {
       format: 'netforge-exam-v1',
-      version: '0.70.1',
+      version: '0.70.2',
       title: ($('nf60Title')?.value || '').trim() || 'Misi Kustom NET FORGE',
       author: ($('nf60Author')?.value || '').trim() || 'Pengajar Jaringan',
       instructions: ($('nf60Instr')?.value || '').trim() || 'Bangun topologi sesuai rubrik yang ditentukan.',
@@ -1486,7 +1486,7 @@
     const code = makeVerifyCode(session.student, session.pack, ev.score, ev.passed, ev.total);
     const reportObj = {
       format: 'netforge-exam-result-v1',
-      version: '0.70.1',
+      version: '0.70.2',
       submittedAt: new Date().toISOString(),
       verificationCode: code,
       student: session.student,
@@ -2009,7 +2009,7 @@
   }, true);
 
   window.NetForgeExamDesigner = {
-    version: '0.70.1',
+    version: '0.70.2',
     openDesigner,
     startExamSession,
     stopExam,
@@ -2034,7 +2034,6 @@
 
   function injectIntroAndPickerEntries() {
     let okPicker = false;
-    let okIntro = false;
 
     // 1. Two clear cards inside Mission Control Picker (#nf372MissionDialog)
     const grid = document.querySelector('#nf372MissionDialog .nf372-mission-grid');
@@ -2060,22 +2059,9 @@
       okPicker = true;
     }
 
-    // 2. One compact 1-click shortcut button in Main Menu Intro (#nf322Menu)
-    const advBtn = $('nf322Adventure');
-    if (advBtn && advBtn.parentElement) {
-      if (!$('nf60IntroExamBtn')) {
-        const b = document.createElement('button');
-        b.id = 'nf60IntroExamBtn';
-        b.type = 'button';
-        b.textContent = '🎓 Mode Ujian / Desainer Misi';
-        b.title = 'Akses cepat ke Mode Ujian Peserta atau Editor Soal Guru/Dosen';
-        b.addEventListener('click', () => dismissIntroAndOpen('exam'));
-        advBtn.insertAdjacentElement('afterend', b);
-      }
-      okIntro = true;
-    }
-
-    return okPicker && okIntro;
+    // Intro Main Menu tetap ringkas — Mode Ujian & Desainer Misi diakses lewat Pilih Misi / Petualangan Baru
+    $('nf60IntroExamBtn')?.remove();
+    return okPicker;
   }
 
   let tries = 0;
