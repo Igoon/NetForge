@@ -1,4 +1,4 @@
-/* NET FORGE v0.71.0 — Tantangan Troubleshooting Harian (Daily Challenge + Streak) */
+/* NET FORGE v0.71.1 — Tantangan Troubleshooting Harian (Daily Challenge + Streak) */
 (function () {
   'use strict';
   if (window.__NF6900_DAILY) return;
@@ -321,6 +321,7 @@
 
   function startDaily(scenario, dateKey, isToday) {
     stopDaily();
+    try { window.NetForgeCampaign?.stopLevel?.(); } catch (_) {}
     const api = API();
     if (api?.setMode) api.setMode('mixed');
     if (typeof scenario.setup === 'function') scenario.setup();
@@ -516,7 +517,7 @@
   }
 
   window.NetForgeDailyChallenge = {
-    version: '0.71.0',
+    version: '0.71.1',
     open: openDailyModal,
     stop: stopDaily
   };

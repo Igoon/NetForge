@@ -1,6 +1,6 @@
 {
-  "version": "0.71.0",
+  "version": "0.71.1",
   "releaseDate": "2026-11-28",
-  "title": "Campaign Levels 1-6 & Progressive Device Unlock v0.71.0",
-  "notes": "v0.71.0: Jalur Misi Bertingkat (Level 1-6) dengan Progressive Unlock Perangkat (LAN -> Subnet -> Smart Home -> Printer -> VLAN Trunk -> Firewall DMZ) + opsi Batasi Inventori Ujian di Desainer Misi."
+  "title": "Campaign Picker & Gemini Badge Fix v0.71.1",
+  "notes": "v0.71.1: Perbaikan bug modal Jalur Misi Bertingkat (Level 1-6) agar langsung tampil di depan Pilih Misi, anti-tabrakan antar mode aktif, dan penempatan badge Gemini sejajar di sebelah kanan tombol Dashboard Pemain."
 }

@@ -1,4 +1,4 @@
-/* NET FORGE v0.71.0 — Desainer Misi & Mode Ujian (Sekolah / Kampus Edition)
+/* NET FORGE v0.71.1 — Desainer Misi & Mode Ujian (Sekolah / Kampus Edition)
    - Menyembunyikan panel Objective lama saat ujian & menampilkan Panel Rubrik Ujian khusus di sidebar kanan
    - Cetak / Simpan PDF via dokumen cetak bersih (terjamin tidak pernah blank di Print Preview!)
    - Editor Aturan IP Spesifik per Perangkat (IP eksak, subnet wildcard 192.168.10.*, prefix /24, & gateway) */
@@ -609,7 +609,7 @@
 
 
   // =========================================================================
-  // v0.71.0 — PASSWORD PROTECTION FOR MISSION FILES
+  // v0.71.1 — PASSWORD PROTECTION FOR MISSION FILES
   // =========================================================================
   function xorBytes(bytes, keyStr) {
     const k = new TextEncoder().encode(keyStr || 'NF62');
@@ -1258,7 +1258,7 @@
     const customPaths = readCustomPaths();
     return {
       format: 'netforge-exam-v1',
-      version: '0.71.0',
+      version: '0.71.1',
       title: ($('nf60Title')?.value || '').trim() || 'Misi Kustom NET FORGE',
       author: ($('nf60Author')?.value || '').trim() || 'Pengajar Jaringan',
       instructions: ($('nf60Instr')?.value || '').trim() || 'Bangun topologi sesuai rubrik yang ditentukan.',
@@ -1453,6 +1453,7 @@
     clk.classList.remove('urgent');
     clk.textContent = totalSec > 0 ? formatMMSS(totalSec) : '∞ Bebas';
 
+    try { window.NetForgeCampaign?.stopLevel?.(); window.NetForgeDailyChallenge?.stop?.(); } catch (_) {}
     document.body.classList.add('nf60-exam-active');
     document.body.classList.toggle('nf60-no-ipcalc', pack.allowIpCalc === false);
     if (pack.restrictInventory && Array.isArray(pack.requiredDevices) && pack.requiredDevices.length) { window.NetForgeCampaign?.setAllowedDevices?.(pack.requiredDevices, `🎯 Inventori Ujian: ${pack.requiredDevices.length} perangkat soal`); } else { window.NetForgeCampaign?.setAllowedDevices?.(null, ''); }
@@ -1491,7 +1492,7 @@
     const code = makeVerifyCode(session.student, session.pack, ev.score, ev.passed, ev.total);
     const reportObj = {
       format: 'netforge-exam-result-v1',
-      version: '0.71.0',
+      version: '0.71.1',
       submittedAt: new Date().toISOString(),
       verificationCode: code,
       student: session.student,
@@ -2015,7 +2016,7 @@
   }, true);
 
   window.NetForgeExamDesigner = {
-    version: '0.71.0',
+    version: '0.71.1',
     openDesigner,
     startExamSession,
     stopExam,

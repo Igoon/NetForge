@@ -602,8 +602,18 @@
   // 2. Inject Compact Verification Badge on Intro & Main Menu + Polish Guest Mode CTA
   function applyIntroAndGuestPolish() {
     // Inject compact badge inside intro/menu footer or card
+    // 1. Place Gemini Verified Badge right next to "Dashboard Pemain" in Main Menu (.nf360-menu-secondary)
+    const secRow = document.querySelector('#nf322Menu .nf360-menu-secondary');
+    if (secRow && !$('nf50MenuBadgeSlot')) {
+      const slot = document.createElement('div');
+      slot.id = 'nf50MenuBadgeSlot';
+      slot.className = 'nf50-menu-badge-slot';
+      slot.innerHTML = '<img src="./icons/badge-verified.svg" alt="NET FORGE Verified Playable - Tested by Gemini QA Passed">';
+      secRow.appendChild(slot);
+    }
+
+    // 2. Also keep compact badge on Intro animation card & Audio Gate (avoid duplicate in footer)
     const targets = [
-      document.querySelector('.nf322-footer'),
       document.querySelector('#nf322Intro .nf322-card'),
       document.querySelector('#nf344AudioGate .nf344-card')
     ].filter(Boolean);

@@ -1,4 +1,4 @@
-/* NET FORGE v0.71.0 — Jalur Misi Bertingkat (Level 1-6) & Progressive Device Unlock */
+/* NET FORGE v0.71.1 — Jalur Misi Bertingkat (Level 1-6) & Progressive Device Unlock */
 (function () {
   'use strict';
   if (window.__NF7100_CAMPAIGN) return;
@@ -270,6 +270,7 @@
     const lv = LEVELS.find(x => x.level === levelNum);
     if (!lv) return;
     stopLevel();
+    try { window.NetForgeDailyChallenge?.stop?.(); } catch (_) {}
 
     const dlg = $('nf372MissionDialog');
     if (dlg) dlg.hidden = true;
@@ -435,7 +436,11 @@
         card.type = 'button';
         card.className = 'nf372-choice nf71-picker-card';
         card.innerHTML = `<span class="nf372-chip">Karir · Lv ${prog.unlockedLevel || 1}/6</span><strong>🎯 Jalur Misi Bertingkat (Level 1–6)</strong><small>Belajar runtut dari LAN Dasar, Subnetting, Smart Home, Printer, VLAN Trunk, hingga Firewall DMZ dengan Progressive Unlock.</small>`;
-        card.addEventListener('click', openCampaignModal);
+        card.addEventListener('click', () => {
+          const dlg = $('nf372MissionDialog');
+          if (dlg) dlg.hidden = true;
+          openCampaignModal();
+        });
         grid.prepend(card);
       }
       okPicker = true;
@@ -463,7 +468,7 @@
   }
 
   window.NetForgeCampaign = {
-    version: '0.71.0',
+    version: '0.71.1',
     open: openCampaignModal,
     startLevel,
     stopLevel,

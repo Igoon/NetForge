@@ -1,4 +1,4 @@
-/* NET FORGE v0.71.0 — Jalur Misi Bertingkat (Level 1-6) & Progressive Unlock */
+/* NET FORGE v0.71.1 — Jalur Misi Bertingkat (Level 1-6) & Progressive Unlock */
 
 #nf71ModebarBtn {
   background: linear-gradient(135deg, rgba(16, 185, 129, 0.24), rgba(14, 116, 144, 0.34)) !important;
@@ -74,7 +74,7 @@ body.nf65-dock-slim #nf71InvNotice { display: none !important; }
 #nf71Modal {
   position: fixed;
   inset: 0;
-  z-index: 99555;
+  z-index: 2147483400;
   display: none;
   align-items: center;
   justify-content: center;
