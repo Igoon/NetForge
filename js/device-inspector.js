@@ -1,4 +1,4 @@
-/* NET FORGE v0.71.1 — Contextual Device Inspector, Switch Port Strip & Mini CLI */
+/* NET FORGE v0.72.0 — Contextual Device Inspector, Switch Port Strip & Mini CLI */
 (function () {
   'use strict';
   if (window.__NF2_INSPECTOR) return;
@@ -589,7 +589,7 @@
 
 
   /* =========================================================================
-     v0.71.1 — Unified Canvas (#nf400Inspector) Live Subnet Hint & Quick CLI
+     v0.72.0 — Unified Canvas (#nf400Inspector) Live Subnet Hint & Quick CLI
      ========================================================================= */
   function enhanceUnifiedInspector() {
     const el = $('nf400Inspector');

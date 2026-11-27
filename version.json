@@ -1,6 +1,6 @@
 {
-  "version": "0.71.1",
+  "version": "0.72.0",
   "releaseDate": "2026-11-28",
-  "title": "Campaign Picker & Gemini Badge Fix v0.71.1",
-  "notes": "v0.71.1: Perbaikan bug modal Jalur Misi Bertingkat (Level 1-6) agar langsung tampil di depan Pilih Misi, anti-tabrakan antar mode aktif, dan penempatan badge Gemini sejajar di sebelah kanan tombol Dashboard Pemain."
+  "title": "Consolidated HUD & Alat Lab Menu v0.72.0 (QA 9.6/10)",
+  "notes": "v0.72.0: Konsolidasi HUD & perapian bar atas kanvas — pengelompokan alat inspeksi (ARP/MAC, Protocol, Link LED, Smart Diagnostics) ke menu 🔬 Alat Lab dengan indikator status live, plus pembaruan badge QA 9.6/10."
 }

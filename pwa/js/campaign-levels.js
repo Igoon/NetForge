@@ -1,4 +1,4 @@
-/* NET FORGE v0.71.1 — Jalur Misi Bertingkat (Level 1-6) & Progressive Device Unlock */
+/* NET FORGE v0.72.0 — Jalur Misi Bertingkat (Level 1-6) & Progressive Device Unlock */
 (function () {
   'use strict';
   if (window.__NF7100_CAMPAIGN) return;
@@ -468,7 +468,7 @@
   }
 
   window.NetForgeCampaign = {
-    version: '0.71.1',
+    version: '0.72.0',
     open: openCampaignModal,
     startLevel,
     stopLevel,

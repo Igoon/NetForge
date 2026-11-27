@@ -1,4 +1,4 @@
-/* NET FORGE v0.71.1 — Tactical Cyber HUD Controller
+/* NET FORGE v0.72.0 — Tactical Cyber HUD Controller
    (Slim Icon Dock + Instant Hover Tooltip + Live Traffic Sparkline + Tactical/Classic Theme Switcher) */
 (function () {
   'use strict';
@@ -204,7 +204,7 @@
   }
 
 
-  // 4. v0.71.1 — Node Micro-HUD IP Chips + Pop-in Micro-Interaction + Hop-by-Hop ICMP Packet Pulse
+  // 4. v0.72.0 — Node Micro-HUD IP Chips + Pop-in Micro-Interaction + Hop-by-Hop ICMP Packet Pulse
   const seenNodeIds = new Set();
 
   function syncNodeMicroHud() {
@@ -268,7 +268,7 @@
       const html = `<span class="nf66-dot"></span><span>${label}</span>`;
       if (pill.innerHTML !== html) pill.innerHTML = html;
 
-      // v0.71.1: VLAN / Trunk micro-badge on canvas device card
+      // v0.72.0: VLAN / Trunk micro-badge on canvas device card
       const vlanVal = String((n.vlan && String(n.vlan).trim()) || cfg.vlan || '').trim();
       const ifaceVal = String((n.iface && String(n.iface).trim()) || cfg.iface || '').trim().toLowerCase();
       let vpill = el.querySelector('.nf67-vlan-pill');
@@ -360,12 +360,12 @@
     });
     hudObs.observe(container, { childList: true, subtree: true });
     syncNodeMicroHud();
-    setInterval(() => { syncNodeMicroHud(); if (xrayActive) refreshXrayOverlay(); }, 1200);
+    setInterval(() => { syncNodeMicroHud(); if (xrayActive) refreshXrayOverlay(); ensureLabMenu(); }, 1200);
     return true;
   }
 
 
-  // 5. v0.71.1 — Mode X-Ray Jaringan (Subnet & VLAN Color Aura Overlay)
+  // 5. v0.72.0 — Mode X-Ray Jaringan (Subnet & VLAN Color Aura Overlay)
   let xrayActive = false;
   let xrayMode = 'subnet'; // 'subnet' | 'vlan'
   const XRAY_PALETTE = [
@@ -523,8 +523,63 @@
     }
   });
 
+
+  // 6. v0.72.0 — Group #nf400Modebar inspection tools (#nf3ModeBar, #nf4LabelToggle, #nf5DiagBtn)
+  //    into one sleek `🔬 Alat Lab ▾` popover so the top canvas bar stays airy on 1366px laptops!
+  function ensureLabMenu() {
+    const modebar = document.getElementById('nf400Modebar');
+    if (!modebar) return false;
+    let wrap = document.getElementById('nf72LabMenuWrap');
+    if (!wrap) {
+      wrap = document.createElement('div');
+      wrap.id = 'nf72LabMenuWrap';
+      wrap.innerHTML = `
+        <button type="button" id="nf72LabMenuBtn" aria-expanded="false">
+          <span id="nf72LabDot" aria-hidden="true"></span>
+          <span>🔬 Alat Lab ▾</span>
+        </button>
+        <div id="nf72LabPopover" hidden role="region" aria-label="Alat Inspeksi & Diagnostik">
+          <div class="nf72-pop-title">Mode Inspeksi &amp; Diagnostik</div>
+          <div id="nf72LabSlot" style="display:flex;flex-direction:column;gap:7px;"></div>
+        </div>`;
+      modebar.appendChild(wrap);
+      const btn = wrap.querySelector('#nf72LabMenuBtn');
+      const pop = wrap.querySelector('#nf72LabPopover');
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const open = pop.hidden;
+        pop.hidden = !open;
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      document.addEventListener('click', e => {
+        if (!pop.hidden && !wrap.contains(e.target)) {
+          pop.hidden = true;
+          btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
+    const slot = document.getElementById('nf72LabSlot');
+    if (slot) {
+      ['nf3ModeBar', 'nf4LabelToggle', 'nf5DiagBtn'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.parentElement !== slot) slot.appendChild(el);
+      });
+    }
+
+    // Mirror Smart Diagnostics health status onto the compact dot
+    const diagBtn = document.getElementById('nf5DiagBtn');
+    const dot = document.getElementById('nf72LabDot');
+    if (diagBtn && dot) {
+      dot.className = diagBtn.classList.contains('has-error')
+        ? 'err'
+        : (diagBtn.classList.contains('has-warn') ? 'warn' : '');
+    }
+    return true;
+  }
+
   window.NetForgeTacticalHUD = {
-    version: '0.71.1',
+    version: '0.72.0',
     setSlimDock: applyDockState,
     toggleDock: () => applyDockState(!document.body.classList.contains('nf65-dock-slim')),
     setTheme: applyTheme,
@@ -544,7 +599,8 @@
     const d = injectSettingsThemeCard();
     const e = attachNodeHudObserver();
     const f = injectXrayButton();
-    if ((a && b && c && d && e && f) || ++tries > 24) return;
+    const g = ensureLabMenu();
+    if ((a && b && c && d && e && f && g) || ++tries > 24) return;
     setTimeout(boot, 350);
   })();
 })();
