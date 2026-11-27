@@ -1,4 +1,4 @@
-/* NET FORGE v0.70.2 — Desainer Misi & Mode Ujian (Sekolah / Kampus Edition)
+/* NET FORGE v0.71.0 — Desainer Misi & Mode Ujian (Sekolah / Kampus Edition)
    - Menyembunyikan panel Objective lama saat ujian & menampilkan Panel Rubrik Ujian khusus di sidebar kanan
    - Cetak / Simpan PDF via dokumen cetak bersih (terjamin tidak pernah blank di Print Preview!)
    - Editor Aturan IP Spesifik per Perangkat (IP eksak, subnet wildcard 192.168.10.*, prefix /24, & gateway) */
@@ -609,7 +609,7 @@
 
 
   // =========================================================================
-  // v0.70.2 — PASSWORD PROTECTION FOR MISSION FILES
+  // v0.71.0 — PASSWORD PROTECTION FOR MISSION FILES
   // =========================================================================
   function xorBytes(bytes, keyStr) {
     const k = new TextEncoder().encode(keyStr || 'NF62');
@@ -655,6 +655,7 @@
       requirePing: clean.requirePing !== false,
       requireBudget: clean.requireBudget !== false,
       allowIpCalc: clean.allowIpCalc !== false,
+      restrictInventory: Boolean(clean.restrictInventory),
       deviceMinCounts: clean.deviceMinCounts || {},
       requiredVlans: clean.requiredVlans || [],
       requireRouterDhcp: Boolean(clean.requireRouterDhcp),
@@ -1257,7 +1258,7 @@
     const customPaths = readCustomPaths();
     return {
       format: 'netforge-exam-v1',
-      version: '0.70.2',
+      version: '0.71.0',
       title: ($('nf60Title')?.value || '').trim() || 'Misi Kustom NET FORGE',
       author: ($('nf60Author')?.value || '').trim() || 'Pengajar Jaringan',
       instructions: ($('nf60Instr')?.value || '').trim() || 'Bangun topologi sesuai rubrik yang ditentukan.',
@@ -1265,6 +1266,7 @@
       maxBudget: Math.max(200, parseInt($('nf60Budget')?.value || '1200', 10) || 1200),
       examLock: Boolean($('nf60Lock')?.checked),
       allowIpCalc: $('nf60AllowIpCalc') ? Boolean($('nf60AllowIpCalc').checked) : true,
+      restrictInventory: Boolean($('nf60RestrictInv')?.checked),
       requiredDevices: reqDevices,
       deviceMinCounts,
       requiredPaths: [...basePaths, ...customPaths],
@@ -1296,6 +1298,7 @@
     if ($('nf60Budget')) $('nf60Budget').value = String(pack.maxBudget ?? 1200);
     if ($('nf60Lock')) $('nf60Lock').checked = pack.examLock !== false;
     if ($('nf60AllowIpCalc')) $('nf60AllowIpCalc').checked = pack.allowIpCalc !== false;
+    if ($('nf60RestrictInv')) $('nf60RestrictInv').checked = Boolean(pack.restrictInventory);
     if ($('nf60Password')) $('nf60Password').value = pack._unlockedPassword || '';
     if ($('nf60ReqOnline')) $('nf60ReqOnline').checked = pack.requireAllOnline !== false;
     if ($('nf60ReqPing')) $('nf60ReqPing').checked = pack.requirePing !== false;
@@ -1386,6 +1389,7 @@
     if (current.timerId) clearInterval(current.timerId);
     activeExam = null;
     document.body.classList.remove('nf60-exam-locked', 'nf60-exam-active', 'nf60-no-ipcalc');
+    window.NetForgeCampaign?.setAllowedDevices?.(null, '');
     $('nf60ExamHud')?.classList.remove('active');
     if (showReport) renderResultModal(current);
   }
@@ -1451,6 +1455,7 @@
 
     document.body.classList.add('nf60-exam-active');
     document.body.classList.toggle('nf60-no-ipcalc', pack.allowIpCalc === false);
+    if (pack.restrictInventory && Array.isArray(pack.requiredDevices) && pack.requiredDevices.length) { window.NetForgeCampaign?.setAllowedDevices?.(pack.requiredDevices, `🎯 Inventori Ujian: ${pack.requiredDevices.length} perangkat soal`); } else { window.NetForgeCampaign?.setAllowedDevices?.(null, ''); }
     if (pack.examLock) document.body.classList.add('nf60-exam-locked');
     hud.classList.add('active');
     $('nf60Modal')?.classList.remove('open');
@@ -1486,7 +1491,7 @@
     const code = makeVerifyCode(session.student, session.pack, ev.score, ev.passed, ev.total);
     const reportObj = {
       format: 'netforge-exam-result-v1',
-      version: '0.70.2',
+      version: '0.71.0',
       submittedAt: new Date().toISOString(),
       verificationCode: code,
       student: session.student,
@@ -1614,6 +1619,7 @@
               <label><input type="checkbox" id="nf60ReqBudget" checked> Sesuai batas budget</label>
               <label><input type="checkbox" id="nf60Lock" checked> 🔒 Mode Ujian Terkunci</label>
               <label><input type="checkbox" id="nf60AllowIpCalc" checked> 🧮 Izinkan Kalkulator IP saat ujian</label>
+              <label><input type="checkbox" id="nf60RestrictInv"> 🎯 Batasi inventori ke perangkat wajib</label>
             </div>
           </div>
 
@@ -2009,7 +2015,7 @@
   }, true);
 
   window.NetForgeExamDesigner = {
-    version: '0.70.2',
+    version: '0.71.0',
     openDesigner,
     startExamSession,
     stopExam,

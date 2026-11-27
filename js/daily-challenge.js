@@ -1,4 +1,4 @@
-/* NET FORGE v0.70.2 — Tantangan Troubleshooting Harian (Daily Challenge + Streak) */
+/* NET FORGE v0.71.0 — Tantangan Troubleshooting Harian (Daily Challenge + Streak) */
 (function () {
   'use strict';
   if (window.__NF6900_DAILY) return;
@@ -516,7 +516,7 @@
   }
 
   window.NetForgeDailyChallenge = {
-    version: '0.70.2',
+    version: '0.71.0',
     open: openDailyModal,
     stop: stopDaily
   };

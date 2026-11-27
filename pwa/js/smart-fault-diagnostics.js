@@ -1,4 +1,4 @@
-/* NET FORGE v0.70.2 — Smart Fault Diagnostics & CLI Hints (Unified + Classic Canvas) */
+/* NET FORGE v0.71.0 — Smart Fault Diagnostics & CLI Hints (Unified + Classic Canvas) */
 (function () {
   'use strict';
   if (window.__NF5_DIAGNOSTICS) return;

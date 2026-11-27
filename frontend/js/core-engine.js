@@ -1,6 +1,6 @@
 /* === script:nf-release-metadata === */
 /* Version source for public app UI; module and export schema versions remain independent. */
-window.NETFORGE_RELEASE = Object.freeze({ version: "0.70.2", label: "v0.70.2", release: "Layout & Polish v0.70.2" });
+window.NETFORGE_RELEASE = Object.freeze({ version: "0.71.0", label: "v0.71.0", release: "Layout & Polish v0.71.0" });
 ;
 
 /* === script:inline === */
@@ -91,7 +91,7 @@ window.netforgeUnclipTop=function(el){try{
 }catch(_e){}};
 function toast(s){let t=$('#toast');t.textContent=s;t.classList.add('show');clearTimeout(toast.timer);/* v0.40.92: durasi tampil sebanding panjang pesan (min 2600 ms, +40 ms/karakter, maks 9000 ms) — sebelumnya tetap 2600 ms sehingga pesan panjang (mis. penolakan repair Chaos, ~165 karakter) hilang sebelum sempat dibaca (audit live v0.40.89 butir 5). Isi pesan tidak dipersingkat. */const _ms=Math.min(9000,2600+Math.max(0,String(s||'').length)*40);toast.timer=setTimeout(()=>t.classList.remove('show'),_ms)}
 function updateStats(){try{updateVirtualLab()}catch{}const _budgetEl=$('#budget'),_budgetLabel=document.querySelector('.budget-stat small');const _realBudget=(document.body.classList.contains('nf400-mixed')&&typeof budgetNow==='function')?budgetNow():budget;if(window.NetForgeLab?.active?.()){/* v0.40.92: Lab memakai budget unified (budgetNow) saat mode mixed — sebelumnya Free Lab menampilkan budget klasik $1.000.000 padahal pembelian menagih budget misi; saat bukan mixed, Lab klasik memang memakai budget klasik. */const _labBudget=document.body.classList.contains('nf400-mixed')?_realBudget:budget;_budgetEl.textContent='$'+_labBudget.toLocaleString('en-US');if(_budgetLabel)_budgetLabel.textContent='BUDGET LAB';}else if(document.body.classList.contains('nf400-mixed')){_budgetEl.textContent='$'+_realBudget.toLocaleString('en-US');if(_budgetLabel)_budgetLabel.textContent='BUDGET CANVAS';if(typeof updateBudgetUI==='function')updateBudgetUI();}else{_budgetEl.textContent='$'+budget.toLocaleString('en-US');if(_budgetLabel)_budgetLabel.textContent='BUDGET MISI';}/* v0.40.92: dana darurat — mekaniknya jalan (budget boleh minus sampai -$50 untuk kabel/perbaikan Chaos) tapi tidak pernah terlihat; hanya ada di pesan sementara. Tampilkan persisten di stat budget saat minus (tooltip + border kuning). */try{const _bs=document.querySelector('.budget-stat');if(_bs){if(_realBudget<0){_bs.title='Dana darurat aktif: budget minus $'+Math.abs(_realBudget).toLocaleString('en-US')+' (batas −$50). Kabel ($10) dan perbaikan Chaos ($25) boleh memakai dana darurat; pembelian perangkat butuh budget cukup. Jual perangkat untuk memulihkan budget.';_bs.style.borderColor='#e8a13c'}else{_bs.title='Dana darurat: budget boleh minus sampai −$50 untuk kabel ($10) dan perbaikan Chaos ($25). Pembelian perangkat butuh budget cukup.';_bs.style.borderColor=''}} }catch{}try{xp=Math.max(0,Math.min(999999,Number(localStorage.getItem('netforge.local.xp.v1'))||0))}catch{}$('#xp').textContent=xp+' XP';const level=$('.level-stat strong');if(level)level.textContent='Lv. '+(Math.floor(xp/100)+1);$('#difficultyLabel').textContent=settings[diff].label;$('#upgradeStatus').textContent=[upsInstalled?'🔋 UPS':'',cableProtected?'🛡️ Cable protector':'',acInstalled?'❄️ Server AC':''].filter(Boolean).join(' · ')||'Belum ada upgrade terpasang.';updateClimate()}
-// v0.70.2: updateStats dipakai lintas-skrip lewat guard typeof
+// v0.71.0: updateStats dipakai lintas-skrip lewat guard typeof
 // updateStats==='function', tapi ia lokal di IIFE klasik sehingga guard itu
 // selalu gagal. Ekspos ke window agar label budget diperbarui.
 window.updateStats=updateStats;
@@ -100,7 +100,7 @@ function updateClimate(){let t=$('#tempValue'),bar=$('#tempBar'),state=$('#clima
 function updateVirtualLab(){let used=guests.reduce((n,g)=>n+g.ram,0);let list=$('#virtualList');if(!list)return;list.innerHTML=guests.length?guests.map(g=>`<div style="padding:4px 0;border-bottom:1px solid #2a3b54">${g.icon} ${g.name} <span style="float:right">${g.ram} GB</span></div>`).join(''):'Belum ada guest system.';$('#hostState').textContent=hostInstalled?'Running · Proxmox VE':'Powered off';$('#ramBar').style.width=(used/32*100)+'%';$('#resourceText').textContent=`RAM terpakai: ${used} / 32 GB · ${guests.length} guest`;['vmBtn','lxcBtn','dockerBtn'].forEach(id=>$('#'+id).disabled=!hostInstalled);renderVirtualMap()}
 function deployGuest(kind){if(!hostInstalled){toast('Install Proxmox Host terlebih dahulu.');return}let cfg={vm:{name:'Virtual Machine',ram:8,cost:100,icon:'🖥️'},lxc:{name:'LXC Container',ram:2,cost:45,icon:'📦'},docker:{name:'Docker Container',ram:1,cost:25,icon:'🐳'}}[kind];let used=guests.reduce((n,g)=>n+g.ram,0);if(used+cfg.ram>32){toast('RAM host tidak cukup!');say('Kita kehabisan RAM. Hentikan atau optimalkan guest yang berjalan.');return}if(budget<cfg.cost){toast('Budget tidak cukup.');return}budget-=cfg.cost;guests.push({...cfg,id:guests.length+1,name:cfg.name+' #'+(guests.length+1)});updateStats();log(cfg.name+' berhasil dibuat. RAM +'+cfg.ram+' GB.');say(kind==='vm'?'Satu VM lagi siap dijalankan. Perhatikan alokasi RAM!':kind==='lxc'?'LXC siap! Lebih ringan daripada VM untuk banyak workload.':'Container Docker berhasil dideploy. Jangan lupa memantau resource.');toast(cfg.name+' deployed!')}
 function renderVirtualMap(){board.querySelectorAll('.infra-rack,.rack-cable').forEach(el=>el.remove());if(!hostInstalled)return;let rack=document.createElement('div');rack.className='infra-rack';rack.innerHTML=`<div class="rackicon">🗄️</div><b>PROXMOX HOST · PVE</b><small>8 vCPU · 32 GB RAM · 500 GB</small><div class="guest-grid">${guests.map(g=>`<span class="guest-chip ${g.name.includes('Virtual')?'vm':g.name.includes('Docker')?'docker':''}">${g.icon} ${g.name.replace(/ #\d+/, '')} ${g.id}</span>`).join('')||'<span class="guest-chip">No guest deployed</span>'}</div><small style="display:block;margin-top:6px;color:#53d69a">● HOST RUNNING</small>`;board.appendChild(rack);let cable=document.createElement('div');cable.className='rack-cable';board.appendChild(cable)}
-// v0.70.2 — bounded, local in-memory topology history (not official LAB scores).
+// v0.71.0 — bounded, local in-memory topology history (not official LAB scores).
 const nf364Undo=[],nf364Redo=[];
 function nf364Snapshot(){return JSON.stringify({nodes,links,nextId,budget,selected,hostInstalled,guests,upsInstalled,cableProtected,acInstalled});}
 function nf364Notify(){window.dispatchEvent(new CustomEvent('netforge:history-state',{detail:{undo:nf364Undo.length,redo:nf364Redo.length}}));}
@@ -284,7 +284,7 @@ function networkChecks(ns,ls){
 }
 window.NetForgeClassicMission={active:()=>!!missionConfig};
 function updateObjectives(){
- // v0.70.2: saat Unified Canvas aktif DAN tidak ada misi klasik berjalan,
+ // v0.71.0: saat Unified Canvas aktif DAN tidak ada misi klasik berjalan,
  // panel objective dimiliki validator unified. Bila misi klasik aktif, objektif
  // klasik dirender dari graf unified — placeholder "Memuat…" tidak boleh tertinggal.
  let c,_nodes=nodes;
@@ -325,7 +325,7 @@ function updateObjectives(){
  }
  $('#objectives').innerHTML=checks.map((v,i)=>`<div class="objective"><span>${v?'✓':'○'}</span><span style="color:${v?'#8de5bb':'#d1deee'}">${labels[i]}</span></div>`).join('');
  let done=checks.filter(Boolean).length;$('#progressBar').style.width=done/checks.length*100+'%';$('#progressText').textContent=done+' / '+checks.length+' objectives';
- // v0.70.2: di Unified Canvas tombol validasi klasik dialihkan ke validator unified,
+ // v0.71.0: di Unified Canvas tombol validasi klasik dialihkan ke validator unified,
  // jadi misi klasik diselesaikan otomatis begitu semua objective terpenuhi.
  if(document.body.classList.contains('nf400-mixed')&&missionConfig&&checks.every(Boolean))completeClassicMission();
  return checks;
@@ -372,16 +372,16 @@ function startCampaignMission(next){
  ];
  say(hints[next-1]||'Konfigurasi jaringan dan uji koneksi.');toast('MISI '+String(next).padStart(2,'0')+' DIMULAI');
 }
-// v0.70.2: penyelesaian misi klasik dipisah dari validate() agar bisa dipanggil
+// v0.71.0: penyelesaian misi klasik dipisah dari validate() agar bisa dipanggil
 // otomatis dari updateObjectives saat mode Unified Canvas aktif (tombol validasi
 // klasik dialihkan ke validator unified di mode itu).
 function completeClassicMission(){
  if(won)return;
  nfGameplaySound('mission');won=true;let reward=(diff==='easy'?250:diff==='normal'?350:500)+(mission*50);
- // v0.70.2: hadiah XP hanya untuk kelulusan PERTAMA tiap misi (anti-farming).
+ // v0.71.0: hadiah XP hanya untuk kelulusan PERTAMA tiap misi (anti-farming).
  // Flag tersimpan di localStorage; pengulangan misi memberi 0 XP.
  let firstPass=true;try{const _done=JSON.parse(localStorage.getItem('netforge.mission.completed.v1')||'{}');firstPass=!_done[String(mission)];if(firstPass){_done[String(mission)]=true;localStorage.setItem('netforge.mission.completed.v1',JSON.stringify(_done))}}catch{firstPass=true}
- // v0.70.2: XP dijumlahkan ke kunci bersama (increment), bukan ditimpa —
+ // v0.71.0: XP dijumlahkan ke kunci bersama (increment), bukan ditimpa —
  // penulisan lama menimpa +100 XP bonus validator yang sudah tersimpan.
  if(firstPass){try{xp=Math.max(0,Math.min(999999,(Number(localStorage.getItem('netforge.local.xp.v1'))||0)+reward));localStorage.setItem('netforge.local.xp.v1',String(xp))}catch{xp+=reward}}else{reward=0;try{xp=Math.max(0,Math.min(999999,Number(localStorage.getItem('netforge.local.xp.v1'))||0))}catch{}}
  updateStats();
@@ -403,10 +403,10 @@ function showChaosFx(icon,label){
  const fx=document.createElement('div');fx.className='chaos-fx';fx.innerHTML=`${icon}<span>${label}</span>`;
  stage.appendChild(fx);setTimeout(()=>{fx.remove();stage.classList.remove('chaos-active')},2200);
 }
-// v0.70.2: panel Chaos menampilkan teks statis "Chaos butuh minimal 2 perangkat
+// v0.71.0: panel Chaos menampilkan teks statis "Chaos butuh minimal 2 perangkat
 // dan 1 kabel aktif" bahkan setelah reload padahal topologi unified sudah
 // memenuhi syarat — teks itu tidak pernah disegarkan dari state aktif.
-// v0.70.2: header "INCIDENT" + ikon kucing hanya tampil saat ada insiden
+// v0.71.0: header "INCIDENT" + ikon kucing hanya tampil saat ada insiden
 // aktif — sebelumnya keduanya statis di HTML dan tetap tampil setelah
 // insiden selesai. refreshChaosStatus() yang mengatur tampil/sembunyinya.
 function syncChaosHeader(active){const panel=document.querySelector('.chaos-panel');if(!panel)return;const eyebrow=panel.querySelector('.panelhead .eyebrow'),art=panel.querySelector('.chaos-art');if(eyebrow)eyebrow.style.display=active?'':'none';if(art)art.style.display=active?'':'none';}
@@ -693,7 +693,7 @@ function nf31Resume(){
  document.querySelectorAll('[data-diff]').forEach(b=>b.classList.toggle('active',b.dataset.diff===diff));
  $('#startModal').classList.remove('open');
  updateObjectives();updateStats();render();
- // v0.70.2: "Lanjut Bermain" klasik hanya memulihkan engine klasik; canvas
+ // v0.71.0: "Lanjut Bermain" klasik hanya memulihkan engine klasik; canvas
  // unified tetap di default boot sehingga workspace aktif terakhir hilang.
  // Pulihkan juga workspace unified terakhir bila ada simpanan profilnya.
  try{const _up=localStorage.getItem('netforge.universal.active-profile.v1');if(_up&&['basics','smart','office','free'].includes(_up)&&window.NetForgeUniversalInventory?.openMission)window.NetForgeUniversalInventory.openMission(_up)}catch{}
@@ -950,17 +950,17 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  function enter(mode){
    /* v0.40.92: bersihkan toast status link dari mode sebelumnya (nf4047) — sebelumnya toast 'Link dinonaktifkan…' dari Free Lab menempel di canvas Guided Lab (audit live v0.40.88 butir 6). */
    try{if(window.NetForgeLinkToastClear)window.NetForgeLinkToastClear();}catch(_e){}
-   // v0.70.2: snapshot topologi+budget misi (unified) sebelum masuk Lab;
+   // v0.71.0: snapshot topologi+budget misi (unified) sebelum masuk Lab;
    // dipulihkan saat keluar Lab agar pekerjaan Lab tidak menimpa misi.
    // Snapshot hanya diambil bila belum ada — sebelumnya setiap enter()
    // menimpanya, sehingga ganti mode Lab atau masuk lagi saat Lab aktif
    // menimpa snapshot misi dengan graf Lab dan misi hilang saat keluar Lab.
-   // v0.70.2: cap profil pemilik ke snapshot agar openMission()
+   // v0.71.0: cap profil pemilik ke snapshot agar openMission()
    // saat boot tahu misi mana yang harus dipulihkan (snapshot lama
    // tanpa cap hanya bisa ditebak ke 'basics').
    try{if(!localStorage.getItem('netforge.lab.mission-snapshot.v1')){const _g=window.NetForgeUniversalInventory&&window.NetForgeUniversalInventory.exportGraph&&window.NetForgeUniversalInventory.exportGraph();if(_g){try{const _prof=window.NetForgeUniversalInventory.getProfile&&window.NetForgeUniversalInventory.getProfile();if(_prof&&['basics','smart','office'].includes(_prof))_g.profile=_prof}catch(_e2){}/* v0.40.92: sertakan kunci insiden Chaos aktif di snapshot (chaosKey) — sebelumnya importGraph() di leave() selalu mengosongkan chaosBrokenKey, sehingga insiden yang masih aktif hilang dari panel Chaos setelah Lab→Misi (audit live v0.40.89 butir 4: repair ditolak karena dana, kabel Laptop tetap LINK DOWN, panel menulis "Belum ada gangguan"). */try{const _ck=window.NetForgeUniversalInventory?.chaosIncident?.();if(_ck&&_ck.key){_g.chaosKey=_ck.key;if(_ck.animal)_g.chaosAnimal=_ck.animal;}}catch(_e3){}localStorage.setItem('netforge.lab.mission-snapshot.v1',JSON.stringify(_g))}}}catch(_e){}
    /* v0.40.92: simpan judul misi sebelum Lab menimpanya — leave() classic hanya memulihkan bila missionConfig ada (null di mode unified), sehingga judul + gelembung Iga tetap berlabel Lab setelah '↩ Misi'. */try{const _h={code:$('#missionCode')?.textContent,title:$('#missionTitle')?.textContent,desc:$('#missionDesc')?.textContent,meta:$('#missionMeta')?.textContent};if(_h.title)nf26SavedHeader=_h}catch(_e){}try{lab().enter(mode)}catch(err){alert('Lab gagal dibuka: '+err.message);return}
-   // v0.70.2: bila Lab sebelumnya dikosongkan (tombol Kosongkan), mulai Lab
+   // v0.71.0: bila Lab sebelumnya dikosongkan (tombol Kosongkan), mulai Lab
    // dengan canvas kosong — bukan dengan topologi misi sebagai titik awal.
    // Snapshot misi sudah diambil di atas, jadi misi tetap dipulihkan saat
    // keluar Lab.
@@ -985,10 +985,10 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
    try{sayLabStatus()}catch(_e){}
  }
   function leave(){/* v0.40.92: tangkap insiden Chaos yang masih hidup SEBELUM snapshot dipulihkan (dipakai di bawah) — snapshot ditulis saat enter(), sebelum Chaos di Lab terjadi, jadi tidak mengenal insiden ini. */const _liveChaos=(window.NetForgeUniversalInventory&&window.NetForgeUniversalInventory.chaosIncident)?window.NetForgeUniversalInventory.chaosIncident():null;/* v0.40.92: bersihkan toast status link dari Lab (lihat enter()). */try{if(window.NetForgeLinkToastClear)window.NetForgeLinkToastClear();}catch(_e){}/* v0.40.92: simpan topologi Guided Lab SEBELUM snapshot misi dipulihkan — leave() menimpa canvas dengan topologi misi, jadi ini saat terakhir graf Lab masih utuh. Tanpa ini, topologi Guided hanya tersimpan bila autosave 3 detik sempat jalan. */try{if(window.NetForgeGuidedTopologySave)window.NetForgeGuidedTopologySave();}catch(_e){}lab().leave();/* v0.40.92: pulihkan judul misi yang disimpan saat masuk Lab — SEBELUM event unified-mission-opened, agar refresh() Iga membaca judul misi (bukan label Lab). */if(nf26SavedHeader){const _h=nf26SavedHeader;nf26SavedHeader=null;if(_h.code!=null&&$('#missionCode'))$('#missionCode').textContent=_h.code;if(_h.title!=null&&$('#missionTitle'))$('#missionTitle').textContent=_h.title;if(_h.desc!=null&&$('#missionDesc'))$('#missionDesc').textContent=_h.desc;if(_h.meta!=null&&$('#missionMeta'))$('#missionMeta').textContent=_h.meta;}
-    // v0.70.2: pulihkan snapshot misi (topologi+budget) yang disimpan saat masuk Lab.
+    // v0.71.0: pulihkan snapshot misi (topologi+budget) yang disimpan saat masuk Lab.
     try{const _raw=localStorage.getItem('netforge.lab.mission-snapshot.v1');if(_raw){const _g=JSON.parse(_raw);if(window.NetForgeUniversalInventory&&window.NetForgeUniversalInventory.importGraph){window.NetForgeUniversalInventory.importGraph(_g);/* v0.40.92: pulihkan penanda insiden Chaos dari snapshot bila kabelnya masih LINK DOWN (chaosRebind) — importGraph() mengosongkan penanda itu (audit live v0.40.89 butir 4). */try{if(_g.chaosKey&&window.NetForgeUniversalInventory.chaosRebind)window.NetForgeUniversalInventory.chaosRebind(_g.chaosKey)}catch(_e2){}/* v0.40.92: bila penanda masih hilang, pulihkan insiden yang hidup saat leave() (Chaos yang dipicu DI DALAM Lab — snapshot pra-Lab tidak mengenalnya dan graf snapshot berisi kabel LINK UP; audit live v0.40.90 butir 1). chaosRestoreLive menonaktifkan lagi kabel yang sama di graf misi + menandai flag-nya, sehingga panel Chaos tetap menampilkan insiden sampai benar-benar diperbaiki. */try{if(!(window.NetForgeUniversalInventory.chaosActive&&window.NetForgeUniversalInventory.chaosActive())&&_liveChaos&&window.NetForgeUniversalInventory.chaosRestoreLive)window.NetForgeUniversalInventory.chaosRestoreLive(_liveChaos);}catch(_e4){}}localStorage.removeItem('netforge.lab.mission-snapshot.v1')}}catch(_e){}
     toolbar.hidden=true;tip.hidden=true;if(missionLink)missionLink.classList.add('active');labLink.classList.remove('active');if(labReturnMixed){labReturnMixed=false;try{if(window.NetForgeUniversalInventory?.setMode)window.NetForgeUniversalInventory.setMode('mixed')}catch{}}if(typeof updateStats==='function')updateStats();if(typeof updateBudgetUI==='function')updateBudgetUI();/* v0.40.92: beri tahu coach Iga bahwa misi kembali aktif — sebelumnya keluar Lab tidak memicu refresh() nf4034 (hanya MutationObserver judul/objective, yang tidak menulis gelembung bila misi sudah lulus), sehingga gelembung tetap menampilkan pesan Lab ('Misi Free Lab · Eksperimen Bebas'). Event yang sama dipakai openMission, jadi validator dan panel lain ikut segar. */try{window.dispatchEvent(new CustomEvent('netforge:unified-mission-opened',{detail:{profile:window.NetForgeUniversalInventory?.getProfile?.()||'basics'}}))}catch(_e){}}
- // v0.70.2: expose leave() agar openMission()/resume bisa keluar Lab lewat
+ // v0.71.0: expose leave() agar openMission()/resume bisa keluar Lab lewat
  // jalur UI (snapshot misi dipulihkan), bukan hanya classic leave().
  window.NetForgeLabLeaveUI=leave;
  labLink.href='#';labLink.addEventListener('click',e=>{e.preventDefault();if(lab().active())return;shade.hidden=false;syncGuidedBadge();/* v0.40.92: segarkan lencana tiap kali dialog Lab dibuka. */});
@@ -1036,7 +1036,7 @@ function init(){
   {name:'Uji koneksi',detail:'Jalankan PING dari salah satu Workstation ke Router/Gateway melalui Terminal Jaringan. Semua klien harus tetap punya jalur Ethernet/Wi-Fi aktif (tidak ada kabel rusak/nonaktif dan tidak ada klien OFFLINE) — bila ada klien tanpa jalur aktif, latihan tidak dapat dinilai walau PING sudah sukses. Setelah sukses, klik Periksa tahap untuk mendapatkan hasil.',hint:'Pada Terminal Jaringan pilih sumber PC, tujuan Router/Gateway, lalu klik PING. Harus muncul hasil sukses sebelum latihan dinilai. Pastikan juga semua Workstation tetap tersambung ke Switch (tidak ada kabel rusak/nonaktif).'}
  ];
  let index=0,pingSuccess=false,finished=false,startedAt=null,lastPing='';
- // v0.70.2: progres Guided Lab disimpan di localStorage agar tidak reset
+ // v0.71.0: progres Guided Lab disimpan di localStorage agar tidak reset
  // saat keluar Lab; dipulihkan saat masuk kembali. 'Ulang latihan' menghapusnya.
  const NF4075_PROGRESS_KEY='netforge.guided.progress.v1';
  function saveProgress(){try{localStorage.setItem(NF4075_PROGRESS_KEY,JSON.stringify({index,pingSuccess,finished,startedAt}))}catch{}}
@@ -1044,12 +1044,12 @@ function init(){
  function clearProgress(){try{localStorage.removeItem(NF4075_PROGRESS_KEY)}catch{}/* v0.40.92: "Ulang latihan" juga menghapus topologi Guided yang tersimpan — tanpa ini, masuk ulang Guided setelah Ulang latihan akan memulihkan topologi lama dan bertentangan dengan "mulai dari kosong". */try{localStorage.removeItem('netforge.guided.topology.v1')}catch{}}
  function data(){try{return JSON.parse(lab().export())}catch{return {nodes:[],links:[]}}}
  function nf4073UnifiedLabNodes(){const uni=window.NetForgeUniversalInventory?.getState?.();if(!uni||!Array.isArray(uni.nodes))return {nodes:[],links:[]};const maskToPrefix=m=>{if(typeof m!=='string'||!m)return '24';const bits=m.split('.').reduce((s,o)=>s+Number(o).toString(2).replace(/0/g,'').length,0);return String(bits>=0&&bits<=32?bits:24)};/* v0.40.92: Router memakai IP efektifnya (IP eksplisit atau 192.168.10.1) — sebelumnya Router DHCP tanpa IP eksplisit dipetakan ke '' sehingga tahap 3 gagal dan Router harus di-Static-kan manual. */const nodes=uni.nodes.map(n=>({id:'u'+n.id,type:n.type,x:n.x,y:n.y,config:{ip:n.type==='router'?(validIP(n.ip||'')?n.ip:'192.168.10.1'):((n.ipMode==='static'||n.ip)?(n.ip||''):''),prefix:maskToPrefix(n.mask||'255.255.255.0'),gateway:n.gateway||'',mode:n.ipMode||((n.ip||'')?'static':'dhcp'),dhcp:n.dhcp!==false,dns:n.dns||''}}));const links=(uni.edges||[]).map(e=>({a:'u'+e.a,b:'u'+e.b,broken:!!e.disabled}));return {nodes,links}}
- // v0.70.2: Guided Lab menghitung perangkat di Unified Canvas juga — sebelumnya
+ // v0.71.0: Guided Lab menghitung perangkat di Unified Canvas juga — sebelumnya
  // perangkat di canvas tidak ada di state Lab, jadi tahap 1 selalu gagal.
  function state(){const u=nf4073UnifiedLabNodes();if(document.body.classList.contains('nf400-mixed')){/* v0.40.92 B2: dalam mode mixed, "Periksa tahap" menilai HANYA graf unified — itulah canvas yang ditampilkan. Sebelumnya state klasik (lab().export()) digabung dengan unified, sehingga tautan klasik yang basi/rusak (mis. dari file Lab yang dimuat, atau snapshot misi) ikut menggagalkan tahap walau semua kabel di canvas unified sudah LINK UP — pesan gagal identik dengan sebelum perbaikan (audit live v0.40.91 B2). Di luar mode mixed (papan klasik yang tampil), gabungan lama dipertahankan. */return {ns:u.nodes,ls:u.links,router:u.nodes.find(n=>n.type==='router'),sw:u.nodes.find(n=>n.type==='switch'),pcs:u.nodes.filter(n=>['pc','laptop'].includes(n.type))};}const d=data(),ns=d.nodes||[],ls=d.links||[];const allNs=[...ns,...u.nodes],allLs=[...ls,...u.links];return {ns:allNs,ls:allLs,router:allNs.find(n=>n.type==='router'),sw:allNs.find(n=>n.type==='switch'),pcs:allNs.filter(n=>['pc','laptop'].includes(n.type))}}
  function connected(ns,ls,a,b){if(!a||!b)return false;const queue=[a.id],visited=new Set([a.id]);while(queue.length){const id=queue.shift();if(id===b.id)return true;for(const l of ls){if(l.broken)continue;const v=l.a===id?l.b:l.b===id?l.a:null;if(v!=null&&!visited.has(v)){visited.add(v);queue.push(v)}}}return false}
  function validIP(ip){if(typeof ip!=='string')return false;const p=ip.split('.');return p.length===4&&p.every(x=>/^\d{1,3}$/.test(x)&&Number(x)<=255)}
- // v0.70.2: tahap 2 menuntut KABEL LANGSUNG tiap Workstation ke Switch —
+ // v0.71.0: tahap 2 menuntut KABEL LANGSUNG tiap Workstation ke Switch —
  // sebelumnya connected() (BFS: jalur apa pun) sehingga Workstation yang
  // terkabel ke Router ikut dihitung "terhubung ke Switch" lewat Router, dan
  // tahap 2 lolos hanya dengan kabel Router→Switch bila topologi misi sudah
@@ -1104,7 +1104,7 @@ function init(){
  document.querySelectorAll('[data-nfmode]').forEach(btn=>btn.addEventListener('click',()=>setTimeout(()=>{if(lab().active()&&lab().mode()==='guided'){if(loadProgress()){render();setMessage(finished?'Latihan sudah selesai. Klik Ulang latihan untuk mulai dari awal.':'Lanjutkan dari tahap '+(index+1)+' (progres tersimpan).')}else{reset();setMessage('Mulai dari tahap pertama.')}}else coach.hidden=true},0)));
  $('nf26Back')?.addEventListener('click',()=>{coach.hidden=true});
  document.querySelector('.topnav a')?.addEventListener('click',()=>{if(!lab().active())coach.hidden=true});
- // v0.70.2: deteksi ping sukses tidak lagi hanya lewat class 'ok' pada
+ // v0.71.0: deteksi ping sukses tidak lagi hanya lewat class 'ok' pada
  // #pingResult — Terminal unified (runTerminal) tidak pernah menyetel class
  // itu, sehingga pingSuccess tidak pernah true dan tahap 5 mustahil lulus.
  // Kini: (a) event 'netforge:ping-success' dari Terminal, (b) observer juga
@@ -1366,7 +1366,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     const readLab=()=>{try{const d=JSON.parse(localStorage.getItem(save.labKey)||'null');return d?.format==='NETFORGE-LAB-AUTOSAVE'&&d.schema===1&&d.payload?d:null}catch{return null}};
     {
       const b=document.createElement('button');b.type='button';b.id='nf31LabResume';b.textContent='↩ Lanjutkan Eksperimen Lab';
-      // v0.70.2: status inline di dalam dialog — sebelumnya kegagalan hanya
+      // v0.71.0: status inline di dalam dialog — sebelumnya kegagalan hanya
       // lewat alert() (auto-dismiss di browser uji) atau diam-diam (selector
       // tidak ketemu), sehingga tombol tampak mati dan dialog tetap terbuka
       // tanpa penjelasan pada percobaan pertama. Kini penyebabnya tertulis
@@ -1435,7 +1435,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  const quality={off:{fps:0,particles:0},low:{fps:30,particles:1},medium:{fps:60,particles:2},high:{fps:60,particles:4}};
  const board=$('#board'); if(!board)return;
  let mode='medium'; try{const saved=localStorage.getItem(KEY);if(saved in quality)mode=saved;}catch{}
-  // v0.70.2: nilai 'off' tersimpan adalah warisan auto-tune lama (v0.40.75
+  // v0.71.0: nilai 'off' tersimpan adalah warisan auto-tune lama (v0.40.75
   // ke bawah menyimpan 'off'); migrasikan ke 'low' agar game tidak lagi
   // memuat dengan "FX: SVG saja" tanpa pilihan manual pemain.
   if(mode==='off'){mode='low';try{localStorage.setItem(KEY,'low')}catch{}}
@@ -1479,7 +1479,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   return document.querySelectorAll('#wires .wire:not(.down)').length;
  }catch(_e){return 0}}
  function draw(time){raf=requestAnimationFrame(draw);
- // v0.70.2: FPS diukur SELALU (termasuk saat FX mati) — dulu draw() langsung
+ // v0.71.0: FPS diukur SELALU (termasuk saat FX mati) — dulu draw() langsung
  // return saat mode 'off', sehingga HUD membeku di angka terakhir ("WebGL2 · 6
  // FPS") dan angka basi itu yang terlihat berjam-jam. Auto-tune juga tidak
  // lagi menurunkan sampai 'off' (berhenti di 'low') dan tidak lagi menyimpan
@@ -1487,7 +1487,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  // sehingga sesi berikutnya langsung mulai di "FX: SVG saja".
  if(time-lastFpsStamp>=1000){fpsAvg=frames*1000/(time-lastFpsStamp);frames=0;lastFpsStamp=time;if(fpsAvg>0&&fpsAvg<15&&mode!=='off'&&autoQuality){if(!lowFpsSince)lowFpsSince=time;else if(time-lowFpsSince>3000){const next=mode==='high'?'medium':mode==='medium'?'low':null;if(next){select.value=next;listener(true);autoTuned=' · kualitas otomatis: '+next;lowFpsSince=0;}}}else lowFpsSince=0;const _fps=fpsAvg>0?fpsAvg.toFixed(1):'—';/* v0.40.92: FPS satu desimal (Math.round menyembunyikan variasi 2.5-3.4 semua jadi '3') + hitung juga kabel unified (line.nf400-wire.nf4017-live) — wireCache hanya mengambil kabel klasik #wires, sehingga di mode unified packets selalu 0. */const _liveWires=liveWireCount();hud.textContent=mode==='off'?('FX: SVG saja · '+_fps+' FPS (lingkungan)'+autoTuned):('WebGL2 · '+_fps+' FPS · '+_liveWires*quality[mode].particles+' packets'+autoTuned);}frames++;
   if(paused||document.hidden||mode==='off')return;
-  // v0.70.2: skip WebGL2 rendering when legacy #board is hidden (Unified Canvas active)
+  // v0.71.0: skip WebGL2 rendering when legacy #board is hidden (Unified Canvas active)
   // or invisible/collapsed, preventing software-WebGL GPU stalls & 23 FPS drag.
   if(document.body.classList.contains('nf400-mixed')){
    if(time-lastFrame>=500){lastFrame=time;hud.textContent='Unified Canvas · '+Math.round(fpsAvg||60)+' FPS · '+liveWireCount()+' links';}
@@ -1497,7 +1497,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   const {box,dpr}=resize();
   if(!box||box.width<2||box.height<2)return;
   if(!ensureGL()){hud.textContent='SVG fallback · GPU tidak tersedia';return;}
- // v0.70.2: cache berisi TITIK sampel (bukan path). Refresh cache HANYA saat
+ // v0.71.0: cache berisi TITIK sampel (bukan path). Refresh cache HANYA saat
  // jumlah kabel berubah (dicek tiap 500 ms) atau tiap 10 detik untuk geometri
  // yang bergeser — refresh paksa tiap 2 detik memanggil getPointAtLength /
  // getScreenCTM (forced layout, mahal di software rendering) dan menahan FPS.
@@ -1514,7 +1514,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  gl.viewport(0,0,canvas.width,canvas.height);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);
  if(pts.length){gl.useProgram(program);gl.bindBuffer(gl.ARRAY_BUFFER,buffer);if(!ptsBuf||ptsBuf.length<pts.length)ptsBuf=new Float32Array(Math.max(pts.length,1024));ptsBuf.set(pts);gl.bufferData(gl.ARRAY_BUFFER,ptsBuf.subarray(0,pts.length),gl.DYNAMIC_DRAW);gl.enableVertexAttribArray(loc.p);gl.vertexAttribPointer(loc.p,2,gl.FLOAT,false,0,0);gl.uniform2f(loc.size,canvas.width,canvas.height);gl.uniform1f(loc.diameter,Math.min(15,7*dpr));gl.drawArrays(gl.POINTS,0,pts.length/2);}
  }
- // v0.70.2: listener(auto) — perubahan OTOMATIS (auto-tune) tidak disimpan
+ // v0.71.0: listener(auto) — perubahan OTOMATIS (auto-tune) tidak disimpan
  // ke localStorage; hanya pilihan manual pemain yang disimpan.
  const listener=(auto)=>{mode=select.value;if(!auto){try{localStorage.setItem(KEY,mode)}catch{}}canvas.style.display=(enabled&&mode!=='off')?'block':'none';hud.textContent=mode==='off'?'FX: SVG saja':enabled?'WebGL2 active':'SVG fallback';};
  select.addEventListener('change',()=>listener(false));listener(false);
@@ -1598,7 +1598,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  const clear=()=>{for(const t of timers)clearTimeout(t);timers=[];for(const a of moving)a.cancel();moving=[]};
  const later=(callback,ms)=>timers.push(setTimeout(callback,ms));
  function showMenu(){++runToken;clear();intro.hidden=true;menu.hidden=false;credits.hidden=true;skip.hidden=true;$('nf322Remember').checked=getPref();$('nf326FullIntro').checked=getBool(keyMotion,true);updateAudioUI();
-  // v0.70.2: "Lanjut Bermain" juga aktif bila ada snapshot misi
+  // v0.71.0: "Lanjut Bermain" juga aktif bila ada snapshot misi
   // Lab yang belum dikonsumsi atau profil misi berisi perangkat —
   // bukan hanya bila tombol resume nf31 sudah dibuat (regresi
   // regresi ronde lalu: tombol mati padahal topologi misi tersimpan).
@@ -1819,7 +1819,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 (()=>{'use strict';
  // Never derive installed version from remotely fetched version.json.
  // This constant is compiled into the RUNNING HTML shell.
- const current=window.NETFORGE_RELEASE?.version||'0.70.2';
+ const current=window.NETFORGE_RELEASE?.version||'0.71.0';
  const secure=location.protocol==='https:'||['localhost','127.0.0.1'].includes(location.hostname);
  let deferredInstall=null,reg=null,waiting=null,reloaded=false,remote=null,checking=false,activeNew=false;
  const $=id=>document.getElementById(id);
@@ -1853,7 +1853,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
    const ready=Boolean(reg?.waiting&&navigator.serviceWorker.controller);
    if(!remote){banner.hidden=true;return}
    if(!newer()&&!ready){banner.hidden=true;return}
-   // v0.70.2: jangan tampilkan banner "update tersedia" bila versi server sama dengan versi aktif.
+   // v0.71.0: jangan tampilkan banner "update tersedia" bila versi server sama dengan versi aktif.
    if(remote&&remote.version===current){banner.hidden=true;return}
    const target=remote?.version||'unknown';
    if(sessionStorage.getItem(deferredKey)===target){banner.hidden=true;return}
@@ -1919,7 +1919,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   }
   function found(){
    waiting=reg?.waiting&&navigator.serviceWorker.controller?reg.waiting:null;
-   // v0.70.2: SW baru aktif sendiri (skipWaiting) — tidak ada waiting worker,
+   // v0.71.0: SW baru aktif sendiri (skipWaiting) — tidak ada waiting worker,
    // tapi versi server lebih baru sudah mengontrol halaman.
    if(activeNew){update.hidden=false;update.textContent='🔄 Pembaruan siap diaktifkan';say('Pembaruan telah diunduh dan aktif di latar belakang; game masih menjalankan v'+current+'.');showBanner();return;}
    if(!waiting)return;
@@ -1942,9 +1942,9 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     onFound();
    });
   }
-  // v0.70.2: tanyakan versi SW yang sedang mengontrol lewat MessageChannel.
+  // v0.71.0: tanyakan versi SW yang sedang mengontrol lewat MessageChannel.
   function workerVersion(worker){return new Promise(resolve=>{if(!worker)return resolve(null);const ch=new MessageChannel();const timer=setTimeout(()=>resolve(null),1500);ch.port1.onmessage=e=>{clearTimeout(timer);resolve(e.data?.version||null)};try{worker.postMessage({type:'GET_VERSION'},[ch.port2])}catch{clearTimeout(timer);resolve(null)}})}
-  // v0.70.2: SW baru bisa aktif sendiri (skipWaiting saat install) sehingga
+  // v0.71.0: SW baru bisa aktif sendiri (skipWaiting saat install) sehingga
   // reg.waiting bisa kosong padahal SW baru sudah mengontrol halaman. Deteksi
   // itu lewat versi SW aktif — tanpa ini tombol update mengira belum siap.
   async function detectActiveNew(){activeNew=false;try{if(!reg?.active)return false;const v=await workerVersion(reg.active);activeNew=!!(v&&compare(v,current)>0);return activeNew}catch{return false}}
@@ -1971,7 +1971,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     }
     // Download in background; don't block the update information dialog.
     if(reg && (newer() || reg.waiting))try{await reg.update()}catch(err){console.warn('[NET FORGE] update check',err)}
-    // v0.70.2: SW baru mungkin sudah aktif sendiri (skipWaiting) — deteksi
+    // v0.71.0: SW baru mungkin sudah aktif sendiri (skipWaiting) — deteksi
     // lewat versi SW aktif sebelum memutuskan banner/tombol.
     try{await detectActiveNew()}catch(err){console.warn('[NET FORGE] cek SW aktif',err)}
     found();
@@ -1989,7 +1989,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   update.onclick=()=>checkUpdate(true);
   $('nf361UpdateApply').onclick=async()=>{
    const apply=$('nf361UpdateApply'),state=$('nf361UpdateState');
-   // v0.70.2: konfirmasi dua-klik di dalam dialog — window.confirm() auto-dismiss
+   // v0.71.0: konfirmasi dua-klik di dalam dialog — window.confirm() auto-dismiss
    // di beberapa browser sehingga tombol "Aktifkan pembaruan" tampak mati.
    const _armedAt=Number(apply.dataset.armedAt||0);
    if(apply.dataset.armed!=='1'||Date.now()-_armedAt>10000){apply.dataset.armed='1';apply.dataset.armedAt=String(Date.now());const _normal=apply.textContent;state.textContent='Progres tersimpan otomatis. Klik "Perbarui sekarang" sekali lagi dalam 10 detik untuk mengonfirmasi pembaruan.';apply.textContent='Klik lagi untuk mengonfirmasi';setTimeout(()=>{if(apply.dataset.armed==='1'){apply.dataset.armed='';apply.textContent=_normal}},10100);return;}
@@ -2005,7 +2005,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     if(compare(deployed,current)<=0){state.textContent='Tidak ditemukan versi server yang lebih baru daripada v'+current+'.';return}
     let ready=Boolean(reg?.waiting&&navigator.serviceWorker.controller);
     if(!ready)ready=await tryStageUpdate();
-    // v0.70.2: SW baru sudah aktif sendiri (skipWaiting saat install) — tidak
+    // v0.71.0: SW baru sudah aktif sendiri (skipWaiting saat install) — tidak
     // ada waiting worker; halaman lama cukup dimuat ulang.
     if(activeNew){state.textContent='Versi baru sudah aktif di latar belakang. Memuat ulang ke v'+(remote?.version||'terbaru')+'…';sessionStorage.setItem('nf4041.approved','1');sessionStorage.setItem('nf4039.justUpdated','1');location.replace('./index.html?updated='+Date.now());return;}
     if(ready&&reg?.waiting){
@@ -2045,7 +2045,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   navigator.serviceWorker.addEventListener('controllerchange',()=>{
    if(reloaded)return;
    // Do not reload on initial SW registration, tab focus, or other uncontrolled takeover.
-   // v0.70.2: SW baru bisa aktif sendiri di latar belakang (skipWaiting) — bila
+   // v0.71.0: SW baru bisa aktif sendiri di latar belakang (skipWaiting) — bila
    // dialog update sedang terbuka, segarkan tombolnya agar siap diaktifkan.
    if(sessionStorage.getItem('nf4041.approved')!=='1'){detectActiveNew().then(()=>{if(activeNew&&!$('nf361UpdateDialog').hidden)display()}).catch(()=>{});return;}
    reloaded=true;sessionStorage.removeItem('nf4041.approved');
@@ -2373,7 +2373,7 @@ function boot(){
  $('nf362Diagnose')?.addEventListener('click',diagnose); $('nf350Logout').addEventListener('click',logout);
  if(read(localStorage,REFRESH)){status('Memulihkan sesi secara otomatis…');refresh();}render();
 }
-window.NetForgeAuth={accessToken,isSignedIn:()=>sessionVerified&&Boolean(access)&&Date.now()<deadline&&Boolean(player),getPlayer:()=>player?{name:String(player.name||''),picture:String(player.picture||'')}:null,logout,refresh,version:'0.70.2'};
+window.NetForgeAuth={accessToken,isSignedIn:()=>sessionVerified&&Boolean(access)&&Date.now()<deadline&&Boolean(player),getPlayer:()=>player?{name:String(player.name||''),picture:String(player.picture||'')}:null,logout,refresh,version:'0.71.0'};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 })();
 ;
@@ -2554,11 +2554,11 @@ setTimeout(sync,900);window.NetForgeWorkspaceUI={version:'0.40.31',zoom:()=>zoom
 /* === script:nf365-recovery-center === */
 (()=>{'use strict';
 const KEYS={mission:'netforge.mission.autosave.v031',lab:'netforge.lab.autosave.v031',previousMission:'netforge.mission.previous.v0365',previousLab:'netforge.lab.previous.v0365'};
-// v0.70.2: status "armed" dua-klik disimpan di sini (per kind), bukan hanya di
+// v0.71.0: status "armed" dua-klik disimpan di sini (per kind), bukan hanya di
 // dataset tombol — render() membangun ulang semua tombol setiap dialog dibuka,
 // sehingga armed di elemen bisa hilang sebelum klik kedua.
 const $=id=>document.getElementById(id);
-// v0.70.2: clearArmed dipakai di clear()/render() tapi TIDAK PERNAH dideklarasikan,
+// v0.71.0: clearArmed dipakai di clear()/render() tapi TIDAK PERNAH dideklarasikan,
 // sehingga di 'use strict' render() throw ReferenceError dan dialog Pemulihan
 // tidak pernah terbuka (tombol "Hapus Lokal" tidak pernah ada di DOM).
 const clearArmed={};
@@ -2586,7 +2586,7 @@ function resume(kind,d,isPrevious){
  const shade=$('nf26Shade');const button=$('nf31LabResume');if(shade&&button){shade.hidden=false;shade.classList.add('open');button.click();status('Pemulihan LAB dijalankan melalui menu LAB.');close()}else{status('Buka Network LAB terlebih dahulu lalu pilih Lanjutkan Eksperimen Lab.')}
 }
 function clear(kind,btn){
- // v0.70.2: reset misi yang BENAR-BENAR berfungsi. Dua masalah lama: (1)
+ // v0.71.0: reset misi yang BENAR-BENAR berfungsi. Dua masalah lama: (1)
  // confirm() native sering auto-dismiss di browser uji sehingga hapus tidak
  // pernah jalan — diganti konfirmasi dua-klik pada tombolnya sendiri; (2)
  // clear hanya menghapus kunci klasik, sementara autosave 3-detik menulis
@@ -3514,27 +3514,27 @@ const registry=Object.fromEntries(catalog.map(d=>[d.id,d]));let mode='basic',act
 // v0.40.72: budget Unified Canvas (mode tamu). Biaya dihitung dari state, jadi
 // konsisten setelah reload: perangkat + kabel ($10) + perbaikan chaos ($25).
 const NF4072_BUDGET_START=1500,NF4072_CABLE_COST=10;
-// v0.70.2: dana darurat anti soft-lock. Budget boleh minus sampai -$50 untuk
+// v0.71.0: dana darurat anti soft-lock. Budget boleh minus sampai -$50 untuk
 // pembelian yang diperlukan agar misi bisa diselesaikan (kabel $10 dan repair
 // Chaos $25) — dicatat di log. Tanpa ini, pemain dengan sisa $5 dan tanpa
 // perangkat cadangan untuk dijual terkunci total. Pembelian perangkat tetap
 // butuh budget penuh (harganya besar dan selalu bisa dijual kembali).
 const NF4076_EMERGENCY_FLOOR=-50;
 function canAfford(cost){return budgetNow()-cost>=NF4076_EMERGENCY_FLOOR}
-// v0.70.2: angka dana darurat = sisa budget sebenarnya (budgetNow()).
+// v0.71.0: angka dana darurat = sisa budget sebenarnya (budgetNow()).
 // Rumus lama budgetNow()-cost menghitung biaya dua kali karena kedua
 // pemanggil sudah memotong biaya kabel sebelum memanggil (push dulu).
 // Kondisi: dana darurat dipakai bila budget SUDAH minus. Parameter
 // cost dipertahankan demi kompatibilitas pemanggil.
 function emergencyNote(cost){return budgetNow()<0?' ⚠ Dana darurat dipakai: budget $'+budgetNow().toLocaleString('en-US')+'. Jual perangkat untuk memulihkan budget.':''}
- // v0.70.2: wording akurat — dana darurat belum tentu habis; yang
+ // v0.71.0: wording akurat — dana darurat belum tentu habis; yang
  // melebihi batas adalah BIAYA terhadap sisa dana darurat (batas
  // −$50). Mis. budget −$45: sisa dana darurat $5, kabel $10
  // melewati batas. Bila sisa <= 0, "sudah habis" tetap akurat.
  function emergencyShort(cost,label){const rem=budgetNow()-NF4076_EMERGENCY_FLOOR;return rem>0?('Sisa dana darurat $'+rem.toLocaleString('en-US')+' — '+label+' $'+cost+' akan melewati batas −$50.'):'Dana darurat sudah habis (−$50).'}
 function budgetNow(){return NF4072_BUDGET_START-state.nodes.reduce((s,n)=>s+(registry[n.type]?.cost||0),0)-state.edges.length*NF4072_CABLE_COST-(state.spent||0)}
 function updateBudgetUI(){if(mode!=='mixed')return;const el=document.getElementById('budget');if(el)el.textContent='$'+budgetNow().toLocaleString('en-US');const lab=document.querySelector('.budget-stat small');if(lab)lab.textContent=(window.NetForgeLab?.active?.())?'BUDGET LAB':'BUDGET CANVAS';/* v0.40.92: label mengikuti mode aktif — sebelumnya selalu 'BUDGET CANVAS', padahal persist() memanggil fungsi ini tiap pembelian di Lab sehingga label 'BUDGET LAB' dari updateStats() langsung tertimpa. Dana darurat terlihat (lihat updateStats). */try{const _bs=document.querySelector('.budget-stat');if(_bs){const _b=budgetNow();if(_b<0){_bs.title='Dana darurat aktif: budget minus $'+Math.abs(_b).toLocaleString('en-US')+' (batas −$50). Kabel ($10) dan perbaikan Chaos ($25) boleh memakai dana darurat; pembelian perangkat butuh budget cukup. Jual perangkat untuk memulihkan budget.';_bs.style.borderColor='#e8a13c'}else{_bs.title='Dana darurat: budget boleh minus sampai −$50 untuk kabel ($10) dan perbaikan Chaos ($25). Pembelian perangkat butuh budget cukup.';_bs.style.borderColor=''}} }catch{}}
-// v0.70.2: budgetNow/updateBudgetUI dipakai updateStats() klasik (skrip lain)
+// v0.71.0: budgetNow/updateBudgetUI dipakai updateStats() klasik (skrip lain)
 // lewat guard typeof — tanpa diekspos ke window, guard itu selalu gagal dan
 // header menampilkan budget klasik $1.000 walau mode mixed (bug tampil di rilis sebelumnya).
 window.budgetNow=budgetNow;window.updateBudgetUI=updateBudgetUI;
@@ -3554,7 +3554,7 @@ const emptyGraph=()=>({nodes:[],edges:[],nextId:1,spent:0});
 const profileKey=p=>PROFILE_PREFIX+p;
 const sanitizeGraph=raw=>{
  if(!raw||!Array.isArray(raw.nodes)||!Array.isArray(raw.edges))return emptyGraph();
- // v0.70.2: clamp posisi saat muat — simpanan lama bisa menyimpan node di
+ // v0.71.0: clamp posisi saat muat — simpanan lama bisa menyimpan node di
  // y=90 yang terpotong di tepi bawah (kartu berpusat di titiknya, setengah
  // kartu ~60px berada di bawah titik). y dibatasi 12..84 agar kartu utuh.
  const nodes=raw.nodes.filter(n=>n&&registry[n.type]&&Number.isFinite(n.x)&&Number.isFinite(n.y)&&Number.isFinite(Number(n.id))).map(n=>({...n,x:Math.max(8,Math.min(92,n.x)),y:Math.max(12,Math.min(84,n.y))})).slice(0,80);
@@ -3671,7 +3671,7 @@ function add(type,p){const d=registry[type];if(!d||!d.mixed)return;if(budgetNow(
 function deleteSelected(){const n=node(selected);if(!n){msg('Iga: Pilih satu perangkat di canvas terlebih dahulu.');return false}const count=state.edges.filter(e=>e.a===n.id||e.b===n.id).length;state.nodes=state.nodes.filter(v=>v.id!==n.id);state.edges=state.edges.filter(e=>e.a!==n.id&&e.b!==n.id);if(chaosBrokenKey&&!state.edges.some(e=>chaosEdgeKey(e)===chaosBrokenKey))chaosBrokenKey=null;selected=null;source=null;drag=null;inspectorVisible=false;persist();draw();msg('✓ '+(n.name||registry[n.type].name)+' dihapus bersama '+count+' kabel terkait. Perangkat lain tetap ada.');return true}
 function act(n){const tool=$('nf400Tool').value;const now=Date.now();const doubleSelected=lastClickId===n.id&&now-lastClickAt<550;lastClickId=n.id;lastClickAt=now;selected=n.id;inspectorVisible=doubleSelected;if(tool==='delete'){deleteSelected();return}if(mode==='mixed'){try{if(window.NetForgeActionPanel&&window.NetForgeActionPanel.sync)window.NetForgeActionPanel.sync(n.id)}catch(e){}}
  if(tool==='disconnect'||tool==='connect'){
-  // v0.70.2: sumber "Hubungkan" dari panel TERKUNCI (nf4019
+  // v0.71.0: sumber "Hubungkan" dari panel TERKUNCI (nf4019
   // connectSource). Dulu klik sumber di canvas (mengikuti instruksi
   // Iga "klik perangkat pertama") melakukan self-connect ("Pilih
   // dua perangkat berbeda.") lalu menghapus sumber pending,
@@ -3727,7 +3727,7 @@ function routerIP(r){return validIP(r.ip||'')?r.ip:'192.168.10.1'}
 function routerMask(r){return validMask(r.mask||'')?r.mask:'255.255.255.0'}
 function firstDhcpRouter(){return state.nodes.find(r=>r.type==='router'&&r.dhcp!==false)||null}
 function dhcpLease(n,forcedRouter){const router=forcedRouter||dhcpRouter(n);if(!router)return null;
-// v0.70.2: lease harus unik se-jaringan, bukan per-router. Sebelumnya tiap
+// v0.71.0: lease harus unik se-jaringan, bukan per-router. Sebelumnya tiap
 // router memulai poolnya sendiri di net+100, sehingga dua klien yang dilayani
 // router berbeda sama-sama mendapat .100 (duplikat — terbukti pada topologi
 // dua router). Kini peta lease dibangun global: semua klien DHCP diurutkan
@@ -3780,11 +3780,11 @@ function renderInventory(){const filter=$('nf400Category').value.toLowerCase(),q
 }
 function setMode(next){if(!['basic','smart','mixed'].includes(next))return;const leavingMixed=mode==='mixed'&&next!=='mixed';if(next!=='mixed')inspectorVisible=false;if(mode==='smart'&&next!=='smart')window.NetForgeSmartHome?.close?.();if(next==='smart'){mode='smart';window.NetForgeSmartHome?.open?.();}else{mode=next;window.NetForgeMissionUI?.activate?.('basic');}document.body.classList.toggle('nf400-mixed',mode==='mixed');if($('nf4012CableTools'))$('nf4012CableTools').hidden=mode!=='mixed';$('nf400Panel').hidden=mode!=='mixed';if($('nf403MissionBanner'))$('nf403MissionBanner').hidden=mode!=='mixed';renderInventory();draw();updateBudgetUI();if(typeof updateStats==='function')updateStats();if(leavingMixed)window.dispatchEvent(new CustomEvent('netforge:unified-mode-left'));}
 function openMission(profile='free'){
- // v0.70.2: bila Lab masih aktif, keluar dulu lewat leave() UI agar snapshot
+ // v0.71.0: bila Lab masih aktif, keluar dulu lewat leave() UI agar snapshot
  // misi dipulihkan — sebelumnya openMission langsung memuat profil dan canvas
  // tetap menampilkan topologi Lab sehingga misi tampak terhapus.
  if(window.NetForgeLab?.active?.()&&typeof window.NetForgeLabLeaveUI==='function'){try{window.NetForgeLabLeaveUI()}catch{}}
-  // v0.70.2: bila ada snapshot misi yang TERSISA (Lab berakhir tanpa
+  // v0.71.0: bila ada snapshot misi yang TERSISA (Lab berakhir tanpa
   // leave(), mis. reload saat di Lab — setelah reload Lab tidak lagi
   // aktif sehingga leave() tidak pernah terpanggil), pulihkan SEBELUM
   // ganti profil. Jika tidak, switchProfile memuat profil misi yang
@@ -3792,7 +3792,7 @@ function openMission(profile='free'){
   // Snapshot hanya dibuat saat masuk Lab dan dihapus leave(); bila
   // tersisa saat Lab tidak aktif, isinya selalu keadaan misi terakhir
   // yang benar. Terbukti di jsdom (probe-82-lab-return.js).
-  // v0.70.2: snapshot Lab HANYA ditulis ke kunci profil misi
+  // v0.71.0: snapshot Lab HANYA ditulis ke kunci profil misi
   // PEMILIKNYA. Dulu snapshot diimpor lewat importGraph() yang
   // persist() ke profil AKTIF saat itu (tergantung parse()=
   // 'basics') lalu switchProfile() memuat profil yang diminta
@@ -3848,7 +3848,7 @@ function init(){if(booted||!document.querySelector('.panel.left .panelbody')||!$
  $('nf403RunMission').addEventListener('click',()=>{if(activeProfile==='free')return;const d=$('nf402Mission');if(d)d.value=activeProfile;window.NetForgeMissionValidator?.run?.();$('nf402MissionPanel')?.scrollIntoView?.({behavior:'smooth',block:'nearest'})});$('nf403ChooseMission').addEventListener('click',()=>{const opener=$('nf372Switch');opener?.click()});$('nf400Search').addEventListener('input',renderInventory);$('nf400Category').addEventListener('change',renderInventory);
  $('nf400Basic').addEventListener('click',()=>openMission('basics'));$('nf400Smart').addEventListener('click',()=>openMission('smart'));$('nf403Office').addEventListener('click',()=>openMission('office'));$('nf400Mixed').addEventListener('click',()=>openMission('free'));
  let _lockedHintFor=null;/* v0.40.92: kunci dedupe pesan panduan mode kabel (butir 5) — nilainya "tool:id-sumber-terkunci", direset saat tool kembali ke Pindah. */
- $('nf400Tool').addEventListener('change',()=>{if($('nf400Tool').value==='move')_lockedHintFor=null;source=null;if($('nf400Tool').value!=='move')inspectorVisible=false;draw();msg($('nf400Tool').value==='delete'?'Iga: Klik perangkat yang ingin dihapus, atau gunakan Hapus Terpilih.':$('nf400Tool').value==='connect'?'Iga: MODE KABEL AKTIF. '+(window.NetForgeActionPanel?.getLockedSource?.()!=null?'Sumber terkunci. Klik perangkat tujuan pada canvas.':'Pilih perangkat sumber pada canvas, lalu klik perangkat tujuan.'):'Alat diubah.');});// v0.70.2: batalkan mode kabel — tombol TERLIHAT + Escape. Sebelumnya
+ $('nf400Tool').addEventListener('change',()=>{if($('nf400Tool').value==='move')_lockedHintFor=null;source=null;if($('nf400Tool').value!=='move')inspectorVisible=false;draw();msg($('nf400Tool').value==='delete'?'Iga: Klik perangkat yang ingin dihapus, atau gunakan Hapus Terpilih.':$('nf400Tool').value==='connect'?'Iga: MODE KABEL AKTIF. '+(window.NetForgeActionPanel?.getLockedSource?.()!=null?'Sumber terkunci. Klik perangkat tujuan pada canvas.':'Pilih perangkat sumber pada canvas, lalu klik perangkat tujuan.'):'Alat diubah.');});// v0.71.0: batalkan mode kabel — tombol TERLIHAT + Escape. Sebelumnya
  // tool 'connect'/'disconnect' tidak punya jalan keluar yang terlihat:
  // Escape tidak ditangani untuk tool unified (hanya mode port yang punya),
  // dan tombol Pan tidak membatalkannya. Tombol '✕ Batal' muncul di samping
@@ -3884,7 +3884,7 @@ $('nf4014ConfigSelected').addEventListener('click',()=>{if(!node(selected)){msg(
  // Preserve the native mission picker, but make its Free Lab entry switch to the unified canvas.
  document.addEventListener('click',e=>{const b=e.target.closest('[data-nf372-select="sandbox"]');if(b)setTimeout(()=>setMode('mixed'),0)},true);
  window.addEventListener('netforge:mission-changed',e=>{const requested=e.detail?.mode;if(requested==='smart'&&mode!=='mixed'){mode='smart';document.body.classList.remove('nf400-mixed');$('nf400Panel').hidden=true;renderInventory();draw()}else if(requested==='basic'&&mode!=='mixed'){mode='basic';renderInventory();draw()}});
- renderInventory();draw();let _savedProfile='basics';try{const _p=localStorage.getItem('netforge.universal.active-profile.v1');if(['basics','smart','office','free'].includes(_p))_savedProfile=_p}catch{} // v0.70.2: bila profil tersimpan adalah 'free' (Lab) tetapi ada
+ renderInventory();draw();let _savedProfile='basics';try{const _p=localStorage.getItem('netforge.universal.active-profile.v1');if(['basics','smart','office','free'].includes(_p))_savedProfile=_p}catch{} // v0.71.0: bila profil tersimpan adalah 'free' (Lab) tetapi ada
  // snapshot misi atau profil misi berisi perangkat, boot kembali
  // ke misi terakhir — bukan Lab kosong (regresi ronde lalu: hard
  // reload berhenti di Lab kosong dengan "Lanjut Bermain" mati).
@@ -3912,7 +3912,7 @@ function nf4044ConnectPorts(aId,pa,bId,pb,medium){
  if(used(a.id,pa)||used(b.id,pb))return {ok:false,reason:'Salah satu port telah dipakai oleh kabel lain.'};
  const c=nf4031Compatible(a,pa,b,pb,medium,nf4031Difficulty()==='hard');
  if(!c.ok)return {ok:false,reason:c.reason};
- // v0.70.2: penjaga affordability seperti connect() — sebelumnya
+ // v0.71.0: penjaga affordability seperti connect() — sebelumnya
  // kabel port-connect mendorong budget di bawah lantai darurat −$50
  // tanpa pemeriksaan. Pesan sama persis dengan jalur connect().
  if(!canAfford(NF4072_CABLE_COST))return {ok:false,reason:'Budget tidak cukup untuk kabel ($'+NF4072_CABLE_COST+'). Sisa budget $'+budgetNow().toLocaleString('en-US')+'. '+emergencyShort(NF4072_CABLE_COST,'kabel')+' Jual perangkat untuk memulihkan budget.'};
@@ -3922,7 +3922,7 @@ function nf4044ConnectPorts(aId,pa,bId,pb,medium){
  return {ok:true,reason:c.reason};
 }
 
-// v0.70.2: controlled link maintenance; mutations use normal persistence/history.
+// v0.71.0: controlled link maintenance; mutations use normal persistence/history.
 function nf4046LinkDetails(index){
  const e=state.edges[Number(index)];if(!e)return null;
  const a=node(e.a),b=node(e.b);if(!a||!b)return null;
@@ -3936,7 +3936,7 @@ function nf4046LinkDetails(index){
 function nf4046ManageLink(index,action){
  if(mode!=='mixed')return {ok:false,reason:'Buka workspace jaringan terlebih dahulu.'};
  const e=state.edges[Number(index)];if(!e)return {ok:false,reason:'Kabel tidak ditemukan; pilih ulang kabel.'};
- // v0.70.2: catat apakah toggle ini memulihkan kabel Chaos SEBELUM
+ // v0.71.0: catat apakah toggle ini memulihkan kabel Chaos SEBELUM
  // kunci dibersihkan — konfirmasi 'Insiden selesai...' harus tampil
  // seperti jalur repair $25 (sebelumnya panel langsung menampilkan
  // 'Belum ada gangguan...' tanpa konfirmasi).
@@ -3948,7 +3948,7 @@ function nf4046ManageLink(index,action){
  const reason=action==='remove'?'Kabel dihapus.':'Link '+(e.disabled?'dinonaktifkan untuk simulasi gangguan.':'diaktifkan kembali.');
  msg('Iga: '+reason);
  window.dispatchEvent(new CustomEvent('netforge:link-changed',{detail:{action,index:Number(index),reason}}));
- // v0.70.2: konfirmasi ditulis ke #eventArea secara sinkron dan ke
+ // v0.71.0: konfirmasi ditulis ke #eventArea secara sinkron dan ke
  // #eventRightContent via queueMicrotask — diantre SETELAH refresh
  // sinkron dari link-changed dan refresh dari microtask persist(),
  // jadi teks konfirmasi bertahan (pola yang sama seperti repair $25).
@@ -4037,7 +4037,7 @@ function render(commit=false,viaChange=false){const select=$('nf402Mission'),out
   }
  }
  if(commit===true){window.NetForgeMissionProgress?.record?.(report);autoRecorded[report.profile]=true;}
- // v0.70.2: auto-record dulu jalan di SETIAP render() — termasuk preview saat
+ // v0.71.0: auto-record dulu jalan di SETIAP render() — termasuk preview saat
  // muat ulang — sehingga satu evaluasi eksplisit tercatat 2x (commit + auto)
  // dan setiap reload dengan topologi lulus menambah "evaluasi" serta bisa
  // mencap stempel "Pertama lulus" di waktu muat. Kini auto-record hanya saat
@@ -4068,7 +4068,7 @@ function load(){try{const raw=localStorage.getItem(KEY);memory=raw?sanitise(JSON
 function save(){try{localStorage.setItem(KEY,JSON.stringify(memory));stored=true}catch{stored=false}}
 function snapshot(){return JSON.parse(JSON.stringify(memory))}
 const XP_KEY='netforge.local.xp.v1';
-// v0.70.2: bonus +100 XP validator hanya untuk kelulusan pertama PER PROFIL
+// v0.71.0: bonus +100 XP validator hanya untuk kelulusan pertama PER PROFIL
 // yang tercatat permanen (netforge.validator.completed.v1). Dulu firstComplete
 // hanya melihat memori riwayat (memory[k]) — setelah riwayat dihapus lewat
 // "Hapus Catatan Lokal", kelulusan berikutnya memberi +100 lagi (farming lewat
@@ -4079,8 +4079,8 @@ function markEverCompleted(profile){try{const d=JSON.parse(localStorage.getItem(
 function syncXP(){let xp=0;try{xp=Math.max(0,Math.min(999999,Number(localStorage.getItem(XP_KEY))||0))}catch{}const el=$('xp');if(el)el.textContent=xp+' XP';const lv=document.querySelector('.level-stat strong');if(lv)lv.textContent='Lv. '+(Math.floor(xp/100)+1);}
 function render(){const root=$('nf404Progress');if(!root)return;syncXP();root.querySelector('.nf404-grid').replaceChildren();let finished=0;for(const k of PROFILES){const v=memory[k]||{attempts:0,best:0,completed:false};if(v.completed)finished++;const card=document.createElement('div');card.className='nf404-card';const label=document.createElement('strong');label.textContent=NAMES[k];const detail=document.createElement('span');detail.textContent=(v.completed?'✓ Selesai':'Belum selesai')+' · Skor terbaik '+v.best+'/100 · '+v.attempts+' evaluasi';const time=document.createElement('span');time.textContent=v.firstCompleted?'Pertama lulus: '+new Date(v.firstCompleted).toLocaleString('id-ID'):'Belum ada kelulusan';card.append(label,detail,time);root.querySelector('.nf404-grid').append(card)}root.querySelector('.nf404-summary').textContent=finished+' / 3 misi pernah diselesaikan (catatan lokal, tanpa XP resmi)';root.querySelector('.nf404-storage').textContent=stored?'Riwayat tersimpan di browser ini.':'Penyimpanan browser tidak tersedia; riwayat hanya bertahan selama sesi aktif.';window.dispatchEvent(new CustomEvent('netforge:unified-local-update',{detail:snapshot()}))}
 function record(report){if(!report||!PROFILES.includes(report.profile)||!Array.isArray(report.results)||!report.results.length)return false;const k=report.profile;const counted=report.results.filter(r=>r&&!r.na);const total=counted.length,passes=counted.filter(r=>r&&r.ok===true).length;const score=total?Math.round(passes/total*100):0;const complete=total>0&&passes===total;const now=new Date().toISOString();const prev=memory[k]||{attempts:0,best:0,completed:false,firstCompleted:null,lastRun:null};const firstComplete=complete&&!prev.completed&&!everCompleted(k);memory[k]={attempts:Math.min(999999,prev.attempts+1),best:Math.max(prev.best,score),completed:prev.completed||complete,firstCompleted:prev.firstCompleted||(complete?now:null),lastRun:now};save();render();if(firstComplete){markEverCompleted(k);try{const xk='netforge.local.xp.v1';localStorage.setItem(xk,String(Math.max(0,Number(localStorage.getItem(xk))||0)+100));}catch{}}syncXP();return true}
-function exportProgress(){const data={format:'netforge-local-progress-v1',version:'0.40.31',exportedAt:new Date().toISOString(),official:false,profiles:snapshot()};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='netforge-unified-progress-v0.70.2.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
- // v0.70.2: "Hapus Catatan Lokal" dulunya hanya memanggil confirm() native
+function exportProgress(){const data={format:'netforge-local-progress-v1',version:'0.40.31',exportedAt:new Date().toISOString(),official:false,profiles:snapshot()};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='netforge-unified-progress-v0.71.0.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+ // v0.71.0: "Hapus Catatan Lokal" dulunya hanya memanggil confirm() native
  // (sering auto-dismiss di browser uji sehingga tombol tampak tidak berfungsi)
  // DAN hanya menghapus memori riwayat validator — topologi, objektif, dan
  // budget misi tidak ikut direset. Kini tombol ini memakai konfirmasi dua-klik
@@ -4120,7 +4120,7 @@ async function retry(){if(busy||!pending.length)return;busy=true;show();let done
 async function bindLegacy(){if(busy||!pending.some(x=>!x.accountId))return status('Tidak ada antrean lama yang perlu diverifikasi.');busy=true;show();try{const id=await getAccount(false);if(!window.confirm(`Antrean dari rilis lama tidak menyimpan identitas server. Tidak mungkin membuktikan akun asalnya. HANYA jika Anda yakin semua percobaan lama dibuat memakai akun #${id}, pilih OK untuk menandainya. Lainnya pilih Cancel.`))return;pending.forEach(x=>{if(!x.accountId)x.accountId=id});persist();status('Antrean lama ditandai untuk akun yang Anda konfirmasi. Belum dikirim; tekan Kirim Ulang.')}catch(e){status('Gagal memverifikasi akun: '+e.message)}finally{busy=false;show()}}
 async function history(){const epoch=identityEpoch;try{const id=await getAccount(false),result=await call('GET','/unified-missions');if(epoch!==identityEpoch)return;const rows=Object.entries(result.missions||{}).map(([k,v])=>`${labels[k]||k}: terbaik ${v.bestScore}/100 · ${v.attempts} percobaan · ${v.completed?'LULUS':'belum lulus'}`);const el=$('nf407History');if(el)el.textContent=`Akun #${id}: `+(rows.join(' | ')||'Belum ada evaluasi server.');window.dispatchEvent(new CustomEvent('netforge:unified-server-history',{detail:{accountId:id,missions:result.missions||{},updatedAt:new Date().toISOString()}}));return result}catch(e){if(epoch!==identityEpoch)return;const el=$('nf407History');if(el)el.textContent='Riwayat tidak dapat dimuat: '+e.message;window.dispatchEvent(new CustomEvent('netforge:unified-server-error',{detail:{message:e.message}}))}}
 function clearQueue(){if(busy||!pending.length||!window.confirm('Hapus antrean yang belum tersinkron? Data server dan progres lokal lain tidak dihapus.'))return;pending=[];persist();show();status('Antrean lokal dihapus.')}
-function init(){const old=$('nf406Panel'),parent=$('nf402MissionPanel');if(old)old.remove();if(!parent||$('nf407Panel'))return;pending=load();const panel=document.createElement('section');panel.id='nf407Panel';panel.style.cssText='margin:12px 0;padding:14px;background:#0d2b40;border:1px solid #488eae;border-radius:10px;color:#e8f8ff;font:12px/1.6 system-ui';panel.innerHTML='<strong style="font-size:14px;color:#9ceafd">☁ Sinkronisasi Misi Aman — v0.70.2</strong><p>Setiap percobaan terikat pada ID akun server. Kirim ulang ditolak bila akun berbeda. XP resmi tetap 0.</p><div style="display:flex;flex-wrap:wrap;gap:7px"><button id="nf407Submit" type="button">Kirim Evaluasi</button><button id="nf407Retry" type="button">Kirim Ulang Antrean</button><button id="nf407Bind" type="button">Verifikasi Antrean Lama</button><button id="nf407Refresh" type="button">Muat Riwayat</button><button id="nf407Clear" type="button">Hapus Antrean</button></div><p id="nf407Status" role="status" aria-live="polite">Siap. Pastikan login Google aktif.</p><div id="nf407Queue" aria-live="polite"></div><p id="nf407History"></p><p style="color:#aacedd">Saat offline, pengiriman baru hanya dapat diantrikan setelah identitas server diverifikasi setidaknya sekali pada sesi login saat ini. Antrean v0.70.2 tidak memiliki pengenal akun dan perlu dikonfirmasi manual.</p>';parent.after(panel);panel.querySelectorAll('button').forEach(b=>b.style.cssText='padding:9px;background:#12567a;border:1px solid #63bcdb;border-radius:7px;color:white;cursor:pointer');$('nf407Submit').addEventListener('click',submit);$('nf407Retry').addEventListener('click',retry);$('nf407Bind').addEventListener('click',bindLegacy);$('nf407Refresh').addEventListener('click',history);$('nf407Clear').addEventListener('click',clearQueue);window.addEventListener('netforge:auth-change',()=>{verifiedAccount=null;identityEpoch++;const historyEl=$('nf407History');if(historyEl)historyEl.textContent='Akun berubah. Muat kembali riwayat server.';window.dispatchEvent(new Event('netforge:unified-server-clear'));status('Akun berubah. Identitas server harus diverifikasi ulang sebelum sinkronisasi.')});show()}
+function init(){const old=$('nf406Panel'),parent=$('nf402MissionPanel');if(old)old.remove();if(!parent||$('nf407Panel'))return;pending=load();const panel=document.createElement('section');panel.id='nf407Panel';panel.style.cssText='margin:12px 0;padding:14px;background:#0d2b40;border:1px solid #488eae;border-radius:10px;color:#e8f8ff;font:12px/1.6 system-ui';panel.innerHTML='<strong style="font-size:14px;color:#9ceafd">☁ Sinkronisasi Misi Aman — v0.71.0</strong><p>Setiap percobaan terikat pada ID akun server. Kirim ulang ditolak bila akun berbeda. XP resmi tetap 0.</p><div style="display:flex;flex-wrap:wrap;gap:7px"><button id="nf407Submit" type="button">Kirim Evaluasi</button><button id="nf407Retry" type="button">Kirim Ulang Antrean</button><button id="nf407Bind" type="button">Verifikasi Antrean Lama</button><button id="nf407Refresh" type="button">Muat Riwayat</button><button id="nf407Clear" type="button">Hapus Antrean</button></div><p id="nf407Status" role="status" aria-live="polite">Siap. Pastikan login Google aktif.</p><div id="nf407Queue" aria-live="polite"></div><p id="nf407History"></p><p style="color:#aacedd">Saat offline, pengiriman baru hanya dapat diantrikan setelah identitas server diverifikasi setidaknya sekali pada sesi login saat ini. Antrean v0.71.0 tidak memiliki pengenal akun dan perlu dikonfirmasi manual.</p>';parent.after(panel);panel.querySelectorAll('button').forEach(b=>b.style.cssText='padding:9px;background:#12567a;border:1px solid #63bcdb;border-radius:7px;color:white;cursor:pointer');$('nf407Submit').addEventListener('click',submit);$('nf407Retry').addEventListener('click',retry);$('nf407Bind').addEventListener('click',bindLegacy);$('nf407Refresh').addEventListener('click',history);$('nf407Clear').addEventListener('click',clearQueue);window.addEventListener('netforge:auth-change',()=>{verifiedAccount=null;identityEpoch++;const historyEl=$('nf407History');if(historyEl)historyEl.textContent='Akun berubah. Muat kembali riwayat server.';window.dispatchEvent(new Event('netforge:unified-server-clear'));status('Akun berubah. Identitas server harus diverifikasi ulang sebelum sinkronisasi.')});show()}
 window.NetForgeUnifiedServer={version:'0.40.31',topology:evidence,submit,history,retry,pending:()=>pending.length};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 ;
@@ -4246,7 +4246,7 @@ const help=document.createElement('button');help.id='nf4019GlobalHelp';help.type
 let selected=null,phase='idle',connectSource=null;
 function tool(mode){const el=$('nf400Tool');if(!el)return;el.value=mode;el.dispatchEvent(new Event('change',{bubbles:true}));}
 function reset(hide=false){phase='idle';connectSource=null;const _cb=$('nf4019Cancel');if(_cb)_cb.style.display='none';$('nf4019MediaMenu').hidden=true;tool('move');$('nf4019Tip').textContent='Pilih Hubungkan, atau klik ⚙ pada kartu perangkat untuk konfigurasi.';if(hide){selected=null;actions.hidden=true;}}
- // v0.70.2: panel aksi TIDAK lagi menyimpan pilihan sendiri yang bisa usang.
+ // v0.71.0: panel aksi TIDAK lagi menyimpan pilihan sendiri yang bisa usang.
  // Dulu nf4019 punya `selected` sendiri yang hanya disinkronkan lewat klik
  // canvas — jalur lain (gear, dblclick, selectNode dari tempat lain) mengubah
  // pilihan unified tanpa memperbarui panel, sehingga label "Dipilih: Router
@@ -4266,19 +4266,19 @@ $('nf4019Audit').addEventListener('click',()=>$('nf400Audit')?.click());
 $('nf4019Close').addEventListener('click',()=>reset(true));
 $('nf4019Collapse').addEventListener('click',()=>{const c=actions.classList.toggle('nf4019-collapsed');$('nf4019Collapse').textContent=c?'▸':'▾';$('nf4019Collapse').setAttribute('aria-label',c?'Kembangkan panel aksi':'Ciutkan panel aksi');});
 help.addEventListener('click',()=>{const old=document.getElementById('nf4019GuideOverlay');old?.remove();const overlay=document.createElement('div');overlay.id='nf4019GuideOverlay';overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');overlay.setAttribute('aria-label','Cara menghubungkan perangkat');overlay.innerHTML='<div class="nf4019-guide-card"><div class="nf4019-guide-head"><strong>ⓘ Cara menghubungkan perangkat</strong><button type="button" id="nf4019GuideClose" aria-label="Tutup panduan">✕</button></div><ol><li><b>Pilih perangkat sumber</b> — klik kartu perangkat pada canvas (atau tambahkan dari inventori kiri).</li><li><b>Klik tombol 🔗 Hubungkan</b> pada panel aksi, lalu pilih media: <b>Ethernet</b>, <b>PoE</b>, <b>Fiber</b>, atau <b>Wi-Fi</b>.</li><li><b>Klik perangkat tujuan</b> pada canvas. Mode Easy: port dipilih otomatis. Mode Normal/Hard: pilih port sumber dan tujuan pada dialog.</li><li><b>Atau pakai 🔗 Sambung port</b> (tombol di panel Iga): klik port sumber lalu port tujuan langsung pada kartu perangkat — port yang cocok berwarna hijau.</li><li><b>Periksa hasilnya</b>: kabel muncul di canvas dan di log aktivitas; klik garis kabel untuk membuka <b>Pemeriksaan Kabel</b>. Putuskan lewat tombol <b>✂ Putuskan</b>.</li></ol><p>Tips: port yang sudah terpakai berwarna hijau pada kartu perangkat. Satu kabel berharga $10; dana darurat mengizinkan budget sampai −$50.</p><button type="button" id="nf4019GuideOk" class="primary">Mengerti</button></div>';document.body.append(overlay);const close=()=>overlay.remove();overlay.querySelector('#nf4019GuideClose').onclick=close;overlay.querySelector('#nf4019GuideOk').onclick=close;overlay.addEventListener('click',e=>{if(e.target===overlay)close()});document.addEventListener('keydown',function esc(e){if(e.key==='Escape'){close();document.removeEventListener('keydown',esc)}});overlay.querySelector('#nf4019GuideOk').focus();});
-// v0.70.2: sinkronisasi panel diekspos agar act() unified bisa memanggilnya
+// v0.71.0: sinkronisasi panel diekspos agar act() unified bisa memanggilnya
 // langsung — klik tunggal terbukti memilih node tapi panel tidak selalu ikut.
- // v0.70.2: kunci sumber Hubungkan/Putuskan diekspos agar act()
+ // v0.71.0: kunci sumber Hubungkan/Putuskan diekspos agar act()
  // unified bisa memakainya — klik sumber di canvas tidak lagi
  // self-connect dan menghapus sumber pending.
  /* v0.40.92: reset diekspos agar Escape/tombol Batal bisa membatalkan mode kabel dari luar. */window.NetForgeActionPanel={sync:select,getLockedSource:()=>((phase==='connect'||phase==='disconnect')?connectSource:null),reset};
 canvas.addEventListener('click',e=>{const b=e.target.closest('[data-node]');if(!b||!document.body.classList.contains('nf400-mixed'))return;const id=b.dataset.node;
- // v0.70.2: sinkron, bukan queueMicrotask — handler canvas unified sudah
+ // v0.71.0: sinkron, bukan queueMicrotask — handler canvas unified sudah
  // berjalan lebih dulu (terdaftar lebih awal pada elemen yang sama), jadi
  // pilihan unified sudah mutakhir. Microtask dulu membuat panel bisa
  // tertinggal satu langkah dan tidak terbuka lagi setelah ditutup.
  {if(phase==='connect'||phase==='disconnect'){
-   // v0.70.2: bandingkan terhadap SUMBER (connectSource), bukan
+   // v0.71.0: bandingkan terhadap SUMBER (connectSource), bukan
    // `selected` — handler nf400 sudah berjalan lebih dulu dan
    // act()->sync() sudah mengisi `selected` dengan node tujuan,
    // sehingga `id!==selected` tidak pernah benar dan reset()
@@ -4479,7 +4479,7 @@ function init(){
   get('nf4034Presence').textContent=s.complete?(s.lab?'● LATIHAN SELESAI':'● MISI TUNTAS'):'● SIAP MEMBANTU';
   get('nf4034Foot').textContent=s.complete?(s.lab?(s.labMode==='guided'?'Latihan selesai — skor tersimpan di browser ini':'Pemeriksaan dasar Lab lulus — lanjutkan eksperimen.'):'Periksa validasi, lalu lanjutkan misi'):'Klik Petunjuk untuk bantuan bertingkat';
   coach.classList.toggle('nf4034-complete',s.complete);
-  // v0.70.2: cabang ketiga — saat ganti misi ke misi yang BELUM lulus,
+  // v0.71.0: cabang ketiga — saat ganti misi ke misi yang BELUM lulus,
   // bubble Iga juga harus menampilkan status misi BARU. Sebelumnya hanya
   // kotak/panel yang diperbarui: cabang 'progres direset' tidak pernah jalan
   // saat ganti misi karena wasComplete di-reset lebih dulu pada
@@ -4519,7 +4519,7 @@ function init(){
  new MutationObserver(schedule).observe(objectives,{childList:true,subtree:true,characterData:true});
  new MutationObserver(schedule).observe(missionTitle,{childList:true,subtree:true,characterData:true});
  if(get('startModal'))new MutationObserver(schedule).observe(get('startModal'),{attributes:true,attributeFilter:['class']});
- // v0.70.2: segarkan coach SINKRON saat misi dibuka. refresh() lewat
+ // v0.71.0: segarkan coach SINKRON saat misi dibuka. refresh() lewat
  // rAF memberi jendela basi: buka pemilih misi menutup startModal lalu
  // refresh() rAF merayakan misi lama yang masih 3/3 di DOM sebelum
  // openMission mengganti objective — terbukti di jsdom (probe-switch2).
@@ -4551,7 +4551,7 @@ function compact(){
  // Preserve the live mission label via observation, not by removing its source element.
  if(label&&!label.dataset.nf4036Watched){label.dataset.nf4036Watched='1';new MutationObserver(()=>{caption.textContent=label.textContent}).observe(label,{subtree:true,characterData:true,childList:true})}
  // Hide deprecated duplicate marketing/version badge while retaining the mission caption.
- const eye=head.querySelector('.eyebrow');if(eye)eye.textContent=window.NETFORGE_RELEASE?.label||'v0.70.2';
+ const eye=head.querySelector('.eyebrow');if(eye)eye.textContent=window.NETFORGE_RELEASE?.label||'v0.71.0';
 }
 function init(){compact();requestAnimationFrame(compact);setTimeout(compact,500);setTimeout(compact,1700)}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
@@ -4693,11 +4693,11 @@ function init(){
  });
  function sync(){const st=snapshot(),key=st.name+'|'+st.done+'|'+st.goal;
   if(key!==lastKey){const previous=lastKey;const switched=previous&&lastName!==st.name;lastKey=key;lastName=st.name;lastActivity=now();hintShownFor='';setMode();
-   // v0.70.2: baris diagnostik selalu disegarkan saat progres berubah —
+   // v0.71.0: baris diagnostik selalu disegarkan saat progres berubah —
    // sebelumnya hanya cabang "belum selesai" yang menulisnya, sehingga
    // setelah ganti misi baris bisa menampilkan objective misi lama.
    $('nf4040Meta').textContent=st.lab?('Lab aktif · Mode '+currentMode.toUpperCase()+' · Bantuan tidak mengubah konfigurasi.'):(st.complete?`Misi ${st.name}: semua objective selesai.`:`Objective aktif: ${st.goal||'—'}. Bantuan disesuaikan dengan ${currentMode.toUpperCase()}.`);/* v0.40.92: Meta Lab tidak lagi menduplikasi baris progres (butir 8) — sebelumnya Meta = diagText(st) yang sama persis dengan Message di cabang switched/complete (dan versi panjangnya di cabang !complete), sehingga kalimat progres muncul 2x di dalam kotak diagnostik yang sama (3x di halaman bila dihitung gelembung Iga). Kini Message satu-satunya baris progres di kotak ini; Meta hanya sub-baris konteks. */
-   // v0.70.2: jangan rayakan dari snapshot transisi saat ganti misi — judul
+   // v0.71.0: jangan rayakan dari snapshot transisi saat ganti misi — judul
    // dan baris objective diperbarui dalam langkah terpisah, sehingga snapshot
    // sesaat bisa membaca "misi baru + objective lama yang sudah selesai" dan
    // menampilkan banner "Semua objective selesai" padahal misi baru 0/6.
@@ -4814,7 +4814,7 @@ function boot(){const canvas=$('nf400Canvas'),coach=$('nf4034Coach'),actions=coa
  const btn=document.createElement('button');btn.id='nf4044Connect';btn.type='button';btn.textContent='🔗 Sambung port';btn.title='Klik port sumber dan port tujuan secara langsung';actions.append(btn);
  const bar=document.createElement('div');bar.id='nf4044Toolbar';bar.innerHTML='<strong>🔌 MODE PORT</strong><span class="nf4044-status" id="nf4044Status" role="status" aria-live="polite">Pilih port sumber, lalu port tujuan.</span><label>Kabel <select id="nf4044Media"><option value="auto">Otomatis</option><option value="ethernet">Ethernet RJ45</option><option value="poe">PoE RJ45</option><option value="fiber">Fiber/SFP</option></select></label><button type="button" id="nf4044Cancel">Selesai</button><button type="button" id="nf4044Batal">✕ Batal</button>';canvas.parentElement.insertBefore(bar,canvas);
  let active=false,first=null;const status=$('nf4044Status');window.NetForgePortConnect={isActive:()=>active,exit:()=>toggle(false)};/* v0.40.92: ekspos status mode port agar tombol Batal utama bisa tampil + membatalkan mode port. */
- // v0.70.2: bila alur Hubungkan/Putuskan unified sedang berjalan
+ // v0.71.0: bila alur Hubungkan/Putuskan unified sedang berjalan
  // (tool connect/disconnect), klik pada chip port adalah klik
  // perangkat tujuan — JANGAN ditelan mode port. Sebelumnya klik
  // itu hilang tanpa jejak (tanpa kabel/log/budget) bila mode port
@@ -4941,7 +4941,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   }
   $('nf4046Test').addEventListener('click',()=>{refresh();animate();const d=current();if(d)els.tips.textContent=(d.up?'✓ Uji link fisik berhasil. ':'⚠ Uji link fisik gagal. ')+explain(d)});
   $('nf4046Toggle').addEventListener('click',()=>{const result=api()?.manageLink?.(activeIndex,'toggle');if(!result?.ok){els.status.textContent=result?.reason||'Gagal mengubah link';return}refresh()});
-  // v0.70.2: Hapus Kabel dulunya memakai window.confirm() — auto-dismiss di
+  // v0.71.0: Hapus Kabel dulunya memakai window.confirm() — auto-dismiss di
   // browser uji sehingga handler berhenti sebelum manageLink('remove')
   // (kabel tetap ada, tanpa log/status). Kini konfirmasi dua-klik 10 detik
   // pada tombolnya sendiri, seperti tombol reset. Refund: budget dihitung
@@ -5056,7 +5056,7 @@ $('nf48RateNav')?.addEventListener('click',open);$('nf48Close').addEventListener
 modal.addEventListener('click',e=>{if(e.target===modal)close()});
 modal.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();close()}else if(e.key==='Tab'){const nodes=[...modal.querySelectorAll('button,select,textarea,a[href]')].filter(n=>!n.disabled);const first=nodes[0],last=nodes[nodes.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});
 stars.forEach(button=>button.addEventListener('click',()=>{rating=Number(button.dataset.rating);update()}));
-$('nf48Save').addEventListener('click',()=>{if(rating<1||rating>5){status('Pilih 1–5 bintang dahulu.');return}const c=$('nf48Category');const data={schema:1,rating,category:c.value,categoryLabel:c.options[c.selectedIndex].text,comment:$('nf48Comment').value.trim().slice(0,600),createdAt:new Date().toISOString(),appVersion:window.NETFORGE_RELEASE?.version||'0.70.2',scope:'local'};try{localStorage.setItem(KEY,JSON.stringify(data));render();status('✓ Rating tersimpan pada browser ini. Belum dikirim ke server.') }catch{status('Gagal menyimpan. Periksa izin penyimpanan browser.')} });
+$('nf48Save').addEventListener('click',()=>{if(rating<1||rating>5){status('Pilih 1–5 bintang dahulu.');return}const c=$('nf48Category');const data={schema:1,rating,category:c.value,categoryLabel:c.options[c.selectedIndex].text,comment:$('nf48Comment').value.trim().slice(0,600),createdAt:new Date().toISOString(),appVersion:window.NETFORGE_RELEASE?.version||'0.71.0',scope:'local'};try{localStorage.setItem(KEY,JSON.stringify(data));render();status('✓ Rating tersimpan pada browser ini. Belum dikirim ke server.') }catch{status('Gagal menyimpan. Periksa izin penyimpanan browser.')} });
 $('nf48Export').addEventListener('click',()=>{const d=parse();if(!d){status('Belum ada rating untuk diekspor.');return}const blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='netforge-rating-'+d.appVersion+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);status('Rating diekspor. Ekspor tidak mengirim data ke server.');});
 window.NetForgeRatings={open,read:parse};
 })();
@@ -5128,7 +5128,7 @@ window.NetForgeRatings={open,read:parse};
  function distribution(d){const root=$('nf50Distribution');root.replaceChildren();const total=d.count||0;for(let i=5;i>=1;i--){const n=Number(d.distribution?.[String(i)]??0);const line=document.createElement('div');line.className='nf50-dist';const label=document.createElement('span');label.textContent=i+' ★';const meter=document.createElement('div');meter.className='nf50-meter';const fill=document.createElement('span');fill.style.width=(total?Math.max(0,Math.min(100,100*n/total)):0)+'%';meter.append(fill);const val=document.createElement('span');val.textContent=String(n);line.append(label,meter,val);root.append(line)}}
  async function stats(){const button=$('nf50Reload');button.disabled=true;msg('nf50SummaryMessage','Mengambil ringkasan dari server…');try{const d=await request('/ratings/summary');if(!d||!Number.isFinite(Number(d.average))||!Number.isInteger(d.count)||d.count<0||Number(d.average)<0||Number(d.average)>5)throw Error('Format respons statistik tidak valid.');$('nf50Avg').textContent=Number(d.average).toFixed(2)+' / 5';$('nf50Count').textContent=d.count.toLocaleString('id-ID');$('nf50Online').textContent='Terhubung';distribution(d);msg('nf50SummaryMessage','Statistik berasal dari backend resmi NET FORGE.')}catch(e){$('nf50Avg').textContent='—';$('nf50Count').textContent='—';$('nf50Online').textContent='Offline';$('nf50Distribution').textContent='Belum ada data server.';msg('nf50SummaryMessage','Tidak dapat memuat statistik komunitas: '+e.message)}finally{button.disabled=false}}
  $('nf50Reload').addEventListener('click',stats);$('nf50OpenRating').addEventListener('click',()=>{close();window.NetForgeRatings?.open?.()});
- function readForm(){return {kind:$('nf50Kind').value,title:$('nf50Title').value.trim(),description:$('nf50Description').value.trim(),severity:$('nf50Severity').value,app_version:window.NETFORGE_RELEASE?.version||'0.70.2'}}
+ function readForm(){return {kind:$('nf50Kind').value,title:$('nf50Title').value.trim(),description:$('nf50Description').value.trim(),severity:$('nf50Severity').value,app_version:window.NETFORGE_RELEASE?.version||'0.71.0'}}
  function restoreDraft(){try{const d=JSON.parse(localStorage.getItem(DRAFT)||'null');if(!d)return;$('nf50Kind').value=d.kind||'other';$('nf50Title').value=d.title||'';$('nf50Description').value=d.description||'';$('nf50Severity').value=d.severity||'medium'}catch{}}
  function save(){try{localStorage.setItem(DRAFT,JSON.stringify(readForm()));msg('nf50ReportMessage','✓ Draf disimpan di browser ini; belum dikirim ke server.')}catch{msg('nf50ReportMessage','Tidak dapat menyimpan draf pada browser ini.')}}
  $('nf50Draft').addEventListener('click',save);
@@ -5201,7 +5201,7 @@ function invalidate(){compared=null;const el=$('nf53-diff');if(el)el.replaceChil
 function init(){const settings=document.querySelector('#nf30Overlay .nf30-body');if(!settings||$('nf52-panel'))return;const panel=document.createElement('section');panel.id='nf52-panel';panel.innerHTML='<h3>☁️ Player Cloud Save</h3><p>Sinkronisasi manual antarperangkat melalui akun resmi. Bandingkan lebih dahulu, lalu pilih unggah atau pulihkan. Tidak ada sinkronisasi otomatis. Endpoint /player-sync harus tersedia di backend.</p><span id="nf53-state" role="status" aria-live="polite">Memeriksa koneksi…</span><div class="nf52-actions"><button id="nf52-check" type="button">🔍 Bandingkan Progres</button><button id="nf52-upload" type="button">☁ Unggah Progres Lokal</button><button id="nf52-restore" type="button">⬇ Pulihkan dari Server</button></div><div id="nf53-diff" class="nf53-diff" aria-label="Perbedaan progres tiap kategori"></div><label><input id="nf53-allow" type="checkbox"> Saya sudah membandingkan data dan mengizinkan penggantian progres server yang berbeda saat mengunggah.</label><pre id="nf52-status" role="status" aria-live="polite">Progres tetap tersimpan secara lokal. Masuk dengan akun resmi untuk membandingkan data di server.</pre><p>Cadangkan progres sebelum berpindah perangkat. XP dan hasil resmi tetap harus diverifikasi backend. Jangan unggah token atau kata sandi.</p>';settings.append(panel);
  $('nf52-check').addEventListener('click',()=>run(compare));$('nf52-upload').addEventListener('click',()=>run(upload));$('nf52-restore').addEventListener('click',()=>run(restore));
  window.addEventListener('netforge:auth-change',()=>{server=null;verifiedAccount=null;invalidate();status('Akun berubah. Bandingkan ulang progres server.')});window.addEventListener('online',refreshConnection);window.addEventListener('offline',refreshConnection);window.addEventListener('storage',e=>{if(e.key&&KEYS.includes(e.key)){invalidate();state('conflict','Progres tab lain berubah');status('Progres lokal diubah dari tab lain. Bandingkan ulang sebelum sinkronisasi.')}});refreshConnection()}
-window.NetForgePlayerSync={version:'0.70.2',collect,keys:KEYS.slice()};
+window.NetForgePlayerSync={version:'0.71.0',collect,keys:KEYS.slice()};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 ;
@@ -5272,7 +5272,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  function close(){$('nf57Overlay').hidden=true;}
  function draw(){const q=BANK[current][index];$('nf57Step').textContent=(current==='foundation'?'Network Fundamentals':'Troubleshooting & Routing')+' · Soal '+(index+1)+'/6';$('nf57Question').textContent=q[0];const root=$('nf57Options');root.replaceChildren();q[1].forEach((opt,i)=>{const label=document.createElement('label');const radio=document.createElement('input');radio.type='radio';radio.name='nf57Answer';radio.value=String(i);radio.checked=answers[index]===i;radio.addEventListener('change',()=>{answers[index]=i;$('nf57Next').disabled=false;$('nf57Answered').textContent='Jawaban dipilih'});label.append(radio,document.createTextNode(opt));root.append(label)});$('nf57Previous').disabled=index===0;$('nf57Next').disabled=!Number.isInteger(answers[index]);$('nf57Next').textContent=index===5?'Nilai Jawaban':'Berikutnya →';$('nf57Answered').textContent=Number.isInteger(answers[index])?'Jawaban dipilih':'Pilih satu jawaban';}
  function start(){current=document.querySelector('input[name="nf57Track"]:checked')?.value==='troubleshoot'?'troubleshoot':'foundation';index=0;answers=[];view('Quiz');draw()}
- function finish(){const data=BANK[current];const correct=data.reduce((n,q,i)=>n+(answers[i]===q[2]?1:0),0);const history=read();history.push({track:current,correct,total:6,date:new Date().toISOString(),version:'0.70.2'});try{localStorage.setItem(KEY,JSON.stringify(history.slice(-30)))}catch{$('nf57Advice').textContent='Penyimpanan browser tidak tersedia. Hasil hanya berlaku untuk sesi ini.'}
+ function finish(){const data=BANK[current];const correct=data.reduce((n,q,i)=>n+(answers[i]===q[2]?1:0),0);const history=read();history.push({track:current,correct,total:6,date:new Date().toISOString(),version:'0.71.0'});try{localStorage.setItem(KEY,JSON.stringify(history.slice(-30)))}catch{$('nf57Advice').textContent='Penyimpanan browser tidak tersedia. Hasil hanya berlaku untuk sesi ini.'}
  $('nf57Score').textContent=(correct>=5?'✓ Lulus latihan':'Perlu latihan ulang')+' · '+correct+'/6 ('+Math.round(correct/6*100)+'%)';$('nf57Advice').textContent=correct>=5?'Iga: Bagus! Kamu memahami sebagian besar konsep pada tantangan ini. Terapkan lagi pada topologi dan misi nyata dalam game.':'Iga: Pelajari penjelasan pada jawaban yang belum tepat, lalu praktikkan konsepnya di Lab sebelum mengulang.';const root=$('nf57Details');root.replaceChildren();data.forEach((q,i)=>{const item=document.createElement('div');item.className='nf57-result-item'+(answers[i]!==q[2]?' bad':'');const strong=document.createElement('strong');strong.textContent=(answers[i]===q[2]?'✓ ':'✕ ')+(i+1)+'. '+q[4];const desc=document.createElement('div');desc.textContent=q[3]+' Jawaban benar: '+q[1][q[2]]+'.';item.append(strong,desc);root.append(item)});summary();view('Results');$('nf57Results').scrollIntoView({block:'nearest'});window.dispatchEvent(new CustomEvent('netforge:assessment-complete',{detail:{track:current,correct,total:6,passed:correct>=5}}));}
  function init(){if(!$('nf57Open'))return;$('nf57Open').addEventListener('click',open);$('nf57Exit').addEventListener('click',close);$('nf57Overlay').addEventListener('click',e=>{if(e.target===$('nf57Overlay'))close()});$('nf57Start').addEventListener('click',start);$('nf57Previous').addEventListener('click',()=>{if(index>0){index--;draw()}});$('nf57Next').addEventListener('click',()=>{if(!Number.isInteger(answers[index]))return;if(index<5){index++;draw()}else finish()});$('nf57Retry').addEventListener('click',start);$('nf57Back').addEventListener('click',()=>{summary();view('Picker')});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('nf57Overlay').hidden)close()});window.addEventListener('storage',e=>{if(e.key===KEY)summary()});summary();}
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
@@ -5320,7 +5320,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     try{document.getElementById('board')?.scrollIntoView({behavior:'smooth',block:'center'})}catch{};
   });
   $('nf58Check').addEventListener('click',render);
-  $('nf58Finish').addEventListener('click',()=>{if(!started||recorded)return;const r=render();const score=r.ok.filter(Boolean).length;const entry={at:new Date().toISOString(),score,passed:score===5,checks:r.ok,version:'0.70.2'};
+  $('nf58Finish').addEventListener('click',()=>{if(!started||recorded)return;const r=render();const score=r.ok.filter(Boolean).length;const entry={at:new Date().toISOString(),score,passed:score===5,checks:r.ok,version:'0.71.0'};
     try{const h=history();h.unshift(entry);localStorage.setItem(KEY,JSON.stringify(h.slice(0,30)))}catch{$('nf58Status').textContent='Tidak dapat menyimpan riwayat: penyimpanan browser dibatasi.';return}
     recorded=true;started=false;$('nf58Status').textContent=`Hasil disimpan: ${score}/5. ${entry.passed?'Lulus! Iga menyarankan lanjut ke latihan routing.':'Iga menyarankan memperbaiki langkah yang belum terpenuhi dan mencoba kembali.'}`;render();showHistory();
   });
@@ -5367,7 +5367,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     window.NetForgeLab.enter('challenge');window.NetForgeLab.template('broken');started=true;recorded=false;pingProof=null;session++;baseline=stamp(labData());close();window.dispatchEvent(new CustomEvent('netforge:troubleshooting-start',{detail:{session}}));try{$('board')?.scrollIntoView({block:'center',behavior:'smooth'})}catch{}
   });
   $('nf59Check').addEventListener('click',render);
-  $('nf59Save').addEventListener('click',()=>{if(!started||recorded)return;const r=render();const score=r.ok.filter(Boolean).length;const entry={at:new Date().toISOString(),version:'0.70.2',score,passed:score===5,checks:r.ok,challenge:'broken-link-and-subnet'};
+  $('nf59Save').addEventListener('click',()=>{if(!started||recorded)return;const r=render();const score=r.ok.filter(Boolean).length;const entry={at:new Date().toISOString(),version:'0.71.0',score,passed:score===5,checks:r.ok,challenge:'broken-link-and-subnet'};
     try{const h=history();h.unshift(entry);localStorage.setItem(KEY,JSON.stringify(h.slice(0,40)))}catch{$('nf59Status').textContent='Penyimpanan riwayat tidak tersedia.';return}recorded=true;started=false;$('nf59Status').textContent=`Hasil tersimpan: ${score}/5 — ${entry.passed?'LULUS':'PERLU PERBAIKAN'}.`;renderHistory();render();
   });
   window.addEventListener('netforge:network-test',e=>{if(!started||!e.detail?.ok||e.detail?.trace)return;const d=labData();if(!d)return;const pcs=new Set(d.nodes.filter(n=>n.type==='pc').map(n=>String(n.id))),ids=[String(e.detail.source),String(e.detail.target)];if(ids[0]===ids[1]||!ids.every(id=>pcs.has(id)))return;const g=grade();if(!g.ok.slice(0,4).every(Boolean))return;pingProof={hash:stamp(d),session};if(!$('nf59Overlay').hidden)render()});
@@ -5415,7 +5415,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  try{window.NetForgeLab.import(d)}catch(e){$('nf60Status').textContent='Tidak dapat memuat skenario: '+e.message;return}active=true;saved=false;ping=null;session++;hintIndex=0;close();try{$('board')?.scrollIntoView({block:'center',behavior:'smooth'})}catch{}
  });
  $('nf60Check').addEventListener('click',render);$('nf60Hint').addEventListener('click',()=>{const hints=defs[scenario].hints;$('nf60Iga').textContent='Iga · Petunjuk '+(Math.min(hintIndex+1,hints.length))+'/'+hints.length+': '+hints[Math.min(hintIndex++,hints.length-1)]});
- $('nf60Save').addEventListener('click',()=>{if(!active||saved)return;const z=grade();const entry={at:new Date().toISOString(),version:'0.70.2',scenario,title:defs[scenario].title,score:z.score,passed:z.score===4,checks:z.checks};try{const h=history();h.unshift(entry);localStorage.setItem(KEY,JSON.stringify(h.slice(0,50)))}catch{$('nf60Status').textContent='Penyimpanan lokal gagal.';return}saved=true;active=false;showHistory();render();$('nf60Status').textContent=`Tersimpan: ${entry.score}/4 — ${entry.passed?'LULUS':'PERLU PERBAIKAN'}`});
+ $('nf60Save').addEventListener('click',()=>{if(!active||saved)return;const z=grade();const entry={at:new Date().toISOString(),version:'0.71.0',scenario,title:defs[scenario].title,score:z.score,passed:z.score===4,checks:z.checks};try{const h=history();h.unshift(entry);localStorage.setItem(KEY,JSON.stringify(h.slice(0,50)))}catch{$('nf60Status').textContent='Penyimpanan lokal gagal.';return}saved=true;active=false;showHistory();render();$('nf60Status').textContent=`Tersimpan: ${entry.score}/4 — ${entry.passed?'LULUS':'PERLU PERBAIKAN'}`});
  window.addEventListener('netforge:network-test',e=>{if(!active||!e.detail?.ok||e.detail?.trace)return;const d=lab();if(!d)return;const pcs=new Set(d.nodes.filter(n=>n.type==='pc').map(n=>String(n.id))),src=String(e.detail.source),dst=String(e.detail.target);if(src===dst||!pcs.has(src)||!pcs.has(dst))return;const g=grade();if(!g.checks.slice(0,3).every(Boolean))return;ping={session,sig:sig(d)};if(!$('nf60Overlay').hidden)render()});
  window.addEventListener('netforge:mission-changed',()=>{if(active&&!lab()){active=false;ping=null;if(!$('nf60Overlay').hidden)render()}});showHistory();render();
  }
@@ -5510,14 +5510,14 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
      note.textContent='Google Login memerlukan backend yang menyediakan /api/v1/auth/config, /auth/google, /me, dan refresh session. ZIP PWA saja tidak menyediakan API tersebut. Bila tombol login gagal, jalankan Diagnostik Google Login di panel ini.';
      auth.insertBefore(note,auth.children[2]||null);
    }
-   window.NetForgeAccountUI={open:openAccount,version:'0.70.2'};
+   window.NetForgeAccountUI={open:openAccount,version:'0.71.0'};
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 })();
 ;
 
 /* === script:nf65-auth-help === */
-(()=>{'use strict';function init(){const p=document.getElementById('nf350AuthPanel');if(!p||document.getElementById('nf65AuthHelp'))return;const e=document.createElement('div');e.id='nf65AuthHelp';e.innerHTML='<strong>Login Google v0.70.2:</strong> autentikasi memerlukan backend Laravel HTTPS yang dikonfigurasi. Token akses sekarang kompatibel dengan Laravel Sanctum. Bila belum tersedia, tetap gunakan Mode Tamu; progres lokal tetap aman.';p.insertBefore(e,p.children[2]||null)}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init()})();
+(()=>{'use strict';function init(){const p=document.getElementById('nf350AuthPanel');if(!p||document.getElementById('nf65AuthHelp'))return;const e=document.createElement('div');e.id='nf65AuthHelp';e.innerHTML='<strong>Login Google v0.71.0:</strong> autentikasi memerlukan backend Laravel HTTPS yang dikonfigurasi. Token akses sekarang kompatibel dengan Laravel Sanctum. Bila belum tersedia, tetap gunakan Mode Tamu; progres lokal tetap aman.';p.insertBefore(e,p.children[2]||null)}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init()})();
 ;
 
 /* === script:nf4066-profile-account-layout === */
@@ -5546,7 +5546,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   setTimeout(()=>observer.disconnect(),10000);
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
- window.NetForgeAccountLayout={version:'0.70.2',refresh:arrange};
+ window.NetForgeAccountLayout={version:'0.71.0',refresh:arrange};
 })();
 ;
 
@@ -5566,7 +5566,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  }
  const start=()=>{if(boot())return;let attempts=0;const timer=setInterval(()=>{if(boot()||++attempts>=20)clearInterval(timer)},150)};
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
- window.NetForgeWorkspaceStability={version:'0.70.2'};
+ window.NetForgeWorkspaceStability={version:'0.71.0'};
 })();
 ;
 
@@ -5608,7 +5608,7 @@ $('nf69Steps').innerHTML=steps.join('');$('nf69Status').textContent=steps.some(s
 function init(){if(!$('nf69Overlay')||!$('nf61Open'))return;const btn=document.createElement('button');btn.type='button';btn.id='nf69Open';btn.className=$('nf61Open').className;btn.textContent='📡 Frame Lab';$('nf61Open').insertAdjacentElement('afterend',btn);
 const open=()=>{focus=document.activeElement;$('nf69Overlay').hidden=false;refresh();$('nf69Close').focus();},close=()=>{$('nf69Overlay').hidden=true;focus?.focus?.();};btn.addEventListener('click',open);$('nf69Close').addEventListener('click',close);$('nf69Overlay').addEventListener('click',e=>{if(e.target===$('nf69Overlay'))close();});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('nf69Overlay').hidden)close();});$('nf69Refresh').addEventListener('click',refresh);$('nf69Run').addEventListener('click',run);$('nf69Clear').addEventListener('click',()=>{arpCache.clear();macTables.clear();$('nf69Steps').innerHTML='';$('nf69Status').textContent='Cache simulasi dibersihkan.';renderTables();});
 }
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();window.NetForgeFrameLab={version:'0.70.2',reset(){arpCache.clear();macTables.clear();lastKey=null;}};
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();window.NetForgeFrameLab={version:'0.71.0',reset(){arpCache.clear();macTables.clear();lastKey=null;}};
 })();
 ;
 
@@ -5662,12 +5662,12 @@ saySegment(running,0);raf=requestAnimationFrame(frame);
 }
 function init(){if(!$('nf70Play')||!$('nf70Stop'))return;$('nf70Play').addEventListener('click',play);$('nf70Stop').addEventListener('click',()=>stop());window.addEventListener('pagehide',()=>stop());document.addEventListener('keydown',e=>{if(e.key==='Escape'&&running)stop();});}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-window.NetForgePacketFlow={version:'0.70.2',stop,isRunning:()=>!!running};
+window.NetForgePacketFlow={version:'0.71.0',stop,isRunning:()=>!!running};
 })();
 ;
 
 /* === script:nf71-version-label-fix === */
-(()=>{'use strict';function sync(){const label=window.NETFORGE_RELEASE?.label||'v0.70.2';document.querySelectorAll('[data-nf-intro-version]').forEach(el=>{if(el.textContent!==label)el.textContent=label})}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',sync,{once:true});else sync();window.NetForgeReleaseLabels={sync};})();
+(()=>{'use strict';function sync(){const label=window.NETFORGE_RELEASE?.label||'v0.71.0';document.querySelectorAll('[data-nf-intro-version]').forEach(el=>{if(el.textContent!==label)el.textContent=label})}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',sync,{once:true});else sync();window.NetForgeReleaseLabels={sync};})();
 ;
 
 /* === script:nf4074-fab-cluster === */
@@ -5676,7 +5676,7 @@ window.NetForgePacketFlow={version:'0.70.2',stop,isRunning:()=>!!running};
 function collect(){if(!fab){fab=document.createElement('div');fab.id='nf4074Fab';menu=document.createElement('div');menu.id='nf4074FabMenu';var t=document.createElement('button');t.type='button';t.id='nf4074FabToggle';t.textContent='⋮ Menu';t.setAttribute('aria-label','Menu aksi');t.setAttribute('aria-expanded','false');t.addEventListener('click',function(){var open=fab.classList.toggle('open');t.setAttribute('aria-expanded',open?'true':'false')});fab.append(menu,t);document.body.append(fab);}
 for(var i=0;i<IDS.length;i++){var el=document.getElementById(IDS[i]);if(el&&el.parentNode!==menu)menu.append(el);}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',collect);else collect();
-// v0.70.2: menu menutup sendiri saat klik di luar atau tekan Escape, agar
+// v0.71.0: menu menutup sendiri saat klik di luar atau tekan Escape, agar
 // menu yang terbuka tidak terus menutupi panel OBJECTIVE / tombol lain.
 document.addEventListener('click',function(e){if(fab&&fab.classList.contains('open')&&!fab.contains(e.target)){fab.classList.remove('open');var t=document.getElementById('nf4074FabToggle');if(t)t.setAttribute('aria-expanded','false')}},true);
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&fab&&fab.classList.contains('open')){fab.classList.remove('open');var t=document.getElementById('nf4074FabToggle');if(t)t.setAttribute('aria-expanded','false')}});

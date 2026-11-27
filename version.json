@@ -1,6 +1,6 @@
 {
-  "version": "0.70.2",
-  "releaseDate": "2026-11-27",
-  "title": "Cleaner Intro Menu (Exam & Designer Consolidated) v0.70.2",
-  "notes": "v0.70.2: Menu Utama Intro lebih ringkas — tombol Mode Ujian/Desainer Misi dan Network Lab dihapus dari layar intro karena sudah terpusat di Pilih Misi / Petualangan Baru."
+  "version": "0.71.0",
+  "releaseDate": "2026-11-28",
+  "title": "Campaign Levels 1-6 & Progressive Device Unlock v0.71.0",
+  "notes": "v0.71.0: Jalur Misi Bertingkat (Level 1-6) dengan Progressive Unlock Perangkat (LAN -> Subnet -> Smart Home -> Printer -> VLAN Trunk -> Firewall DMZ) + opsi Batasi Inventori Ujian di Desainer Misi."
 }

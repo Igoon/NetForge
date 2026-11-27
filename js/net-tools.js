@@ -1,4 +1,4 @@
-/* NET FORGE v0.70.2 — Utilitas Jaringan: Kalkulator IP/Subnet & Terminal CLI Ringan */
+/* NET FORGE v0.71.0 — Utilitas Jaringan: Kalkulator IP/Subnet & Terminal CLI Ringan */
 (function () {
   'use strict';
   if (window.__NF6400_NETTOOLS) return;
@@ -169,7 +169,7 @@
 
   // --- Modal UI ---
 
-  // --- v0.70.2 Firewall ACL State & Port Filter Helpers ---
+  // --- v0.71.0 Firewall ACL State & Port Filter Helpers ---
   const FW_KEY = 'netforge.firewallAcl.v1';
   const DEFAULT_FW = { 80: 'allow', 443: 'allow', 22: 'deny', 53: 'allow' };
   const FW_SERVICES = [
@@ -789,7 +789,7 @@ Trace complete.`
       b.addEventListener('click', () => runCliCommand(b.dataset.cliCmd));
     });
 
-    $('nf64CliScreen').innerHTML = `<span class="dim">NET FORGE Network CLI v0.70.2 — Terhubung langsung ke topologi kanvas.
+    $('nf64CliScreen').innerHTML = `<span class="dim">NET FORGE Network CLI v0.71.0 — Terhubung langsung ke topologi kanvas.
 Ketik "help", "ipconfig", "devices", "ping &lt;ip&gt;", atau "tracert &lt;ip&gt;".</span>
 `;
     renderCalc();
@@ -835,7 +835,7 @@ Ketik "help", "ipconfig", "devices", "ping &lt;ip&gt;", atau "tracert &lt;ip&gt;
   }
 
   window.NetForgeNetTools = {
-    version: '0.70.2',
+    version: '0.71.0',
     open: openNetTools,
     calcSubnet
   };
