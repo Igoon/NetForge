@@ -1,4 +1,4 @@
-/* NET FORGE v0.72.0 — Clean Single-Screen Shell & Deduplicated Panels */
+/* NET FORGE v0.72.1 — Clean Single-Screen Shell & Deduplicated Panels */
 
 /* 1. Cegah startModal & audioGate bertumpuk saat menu utama (#nf322Overlay) aktif */
 body.nf1-intro-open #startModal.open {
@@ -189,7 +189,7 @@ aside.right .nf1-right-dup-panel {
   display: none !important;
 }
 
-/* v0.72.0 — Fix #nf400Panel tersembunyi di dalam #nf1PaneLog akibat aturan child selector lama */
+/* v0.72.1 — Fix #nf400Panel tersembunyi di dalam #nf1PaneLog akibat aturan child selector lama */
 body.nf43-shell-active #nf43DrawerBody .nf1-drawer-tabpane:not([hidden]) #nf400Panel,
 body.nf43-shell-active #nf43DrawerBody #nf400Panel {
   display: block !important;

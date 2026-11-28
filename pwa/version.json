@@ -1,6 +1,6 @@
 {
-  "version": "0.72.0",
+  "version": "0.72.1",
   "releaseDate": "2026-11-28",
-  "title": "Consolidated HUD & Alat Lab Menu v0.72.0 (QA 9.6/10)",
-  "notes": "v0.72.0: Konsolidasi HUD & perapian bar atas kanvas — pengelompokan alat inspeksi (ARP/MAC, Protocol, Link LED, Smart Diagnostics) ke menu 🔬 Alat Lab dengan indikator status live, plus pembaruan badge QA 9.6/10."
+  "title": "Petualangan Picker Symmetric Layout v0.72.1",
+  "notes": "v0.72.1: Penataan simetris modal Pilih Petualangan Jaringan — Tantangan Harian kini sejajar tepat di sebelah kanan Jalur Misi Bertingkat (Level 1-6) pada baris teratas."
 }

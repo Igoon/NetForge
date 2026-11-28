@@ -1,4 +1,4 @@
-/* NET FORGE v0.72.0 — Tantangan Troubleshooting Harian (Daily Challenge + Streak) */
+/* NET FORGE v0.72.1 — Tantangan Troubleshooting Harian (Daily Challenge + Streak) */
 (function () {
   'use strict';
   if (window.__NF6900_DAILY) return;
@@ -509,7 +509,9 @@
           if (home) home.hidden = false;
           openDailyModal();
         });
-        grid.appendChild(card);
+        const campCard = $('nf71PickerCampaign');
+        if (campCard && campCard.parentElement === grid) campCard.insertAdjacentElement('afterend', card);
+        else grid.prepend(card);
       }
       okPicker = true;
     }
@@ -517,7 +519,7 @@
   }
 
   window.NetForgeDailyChallenge = {
-    version: '0.72.0',
+    version: '0.72.1',
     open: openDailyModal,
     stop: stopDaily
   };

@@ -1,4 +1,4 @@
-/* NET FORGE v0.72.0 — Utilitas Jaringan: Kalkulator IP/Subnet & Terminal CLI Ringan */
+/* NET FORGE v0.72.1 — Utilitas Jaringan: Kalkulator IP/Subnet & Terminal CLI Ringan */
 
 #nf64IpCalcBtn {
   background: linear-gradient(135deg, #0284c7, #0369a1) !important;
@@ -209,7 +209,7 @@ body.nf60-exam-active.nf60-no-ipcalc #nf64IpCalcBtn {
   .nf64-grid { grid-template-columns: 1fr; }
 }
 
-/* v0.72.0 — Mini Web Browser & Firewall ACL Rules */
+/* v0.72.1 — Mini Web Browser & Firewall ACL Rules */
 .nf68-browser-bar {
   display: flex;
   gap: 6px;
